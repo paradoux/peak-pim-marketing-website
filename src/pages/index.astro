@@ -55,6 +55,37 @@ const deployMarker = 'Test deploy v1 - 2026-07-02';
           </div>
         </aside>
       </section>
+
+      <section class="features" aria-label="Main features">
+        <p class="eyebrow">Why Peak PIM</p>
+        <h2>Everything your product data needs, in one place.</h2>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <span class="feature-icon" aria-hidden="true">◆</span>
+            <h3>Centralize product data</h3>
+            <p>
+              Bring every specification, image, and description into a single source of truth so your
+              catalog stays accurate and up to date.
+            </p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-icon" aria-hidden="true">↗</span>
+            <h3>Syndicate to any channel</h3>
+            <p>
+              Publish enriched product content to your storefront, marketplaces, and partners in a
+              few clicks — no copy-paste, no drift.
+            </p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-icon" aria-hidden="true">◎</span>
+            <h3>Collaborate with your team</h3>
+            <p>
+              Give marketing, merchandising, and suppliers a shared workspace with roles, reviews,
+              and history you can trust.
+            </p>
+          </article>
+        </div>
+      </section>
     </main>
   </body>
 </html>
@@ -129,7 +160,57 @@ const deployMarker = 'Test deploy v1 - 2026-07-02';
     gap: clamp(28px, 6vw, 72px);
     align-items: center;
     min-height: calc(100svh - 76px);
-    padding: 44px 0 72px;
+    padding: 44px 0 40px;
+  }
+
+  .features {
+    padding: 8px 0 96px;
+  }
+
+  .features h2 {
+    max-width: 620px;
+    margin: 0 0 40px;
+    font-size: clamp(1.9rem, 4vw, 2.8rem);
+    line-height: 1.1;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .feature-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 28px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--panel);
+    box-shadow: 0 24px 60px rgba(23, 32, 29, 0.08);
+  }
+
+  .feature-icon {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--teal);
+    font-size: 1.2rem;
+  }
+
+  .feature-card h3 {
+    margin: 4px 0 0;
+    font-size: 1.25rem;
+    font-weight: 850;
+  }
+
+  .feature-card p {
+    font-size: 1rem;
+    line-height: 1.55;
   }
 
   .eyebrow {
@@ -235,6 +316,10 @@ const deployMarker = 'Test deploy v1 - 2026-07-02';
     .button,
     .deploy-marker {
       width: 100%;
+    }
+
+    .feature-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>
