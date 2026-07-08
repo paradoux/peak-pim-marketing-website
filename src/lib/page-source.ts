@@ -39,7 +39,7 @@ export function getPageDocument(page: PageDefinition) {
   return {
     html,
     headHtml: cleanHead(innerMatch(html, /<head[^>]*>([\s\S]*?)<\/head>/i)),
-    mainHtml: extractMain(html),
+    mainHtml: ensurePrimaryHeading(extractMain(html), page),
     htmlClass: innerMatch(html, /<html[^>]*class="([^"]*)"/i),
     wfPage: innerMatch(html, /<html[^>]*data-wf-page="([^"]*)"/i),
     wfSite: innerMatch(html, /<html[^>]*data-wf-site="([^"]*)"/i),
@@ -74,4 +74,12 @@ function cleanHead(headHtml: string) {
   return headHtml
     .replace(/<style>html\{font-family:[\s\S]*?<\/style>/, "")
     .replace(/<link href="\/mirror\/local-fonts\.css" rel="stylesheet" type="text\/css">/, "");
+}
+
+function ensurePrimaryHeading(mainHtml: string, page: PageDefinition) {
+  if (!page.h1 || /<h1\b/i.test(mainHtml)) {
+    return mainHtml;
+  }
+
+  return mainHtml.replace(/<h2\b([^>]*)>([\s\S]*?)<\/h2>/i, "<h1$1>$2</h1>");
 }

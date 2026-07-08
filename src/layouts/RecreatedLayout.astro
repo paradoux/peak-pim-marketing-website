@@ -16,6 +16,27 @@ type Props = {
 };
 
 const { page, headHtml, mainHtml, htmlClass, wfPage, wfSite } = Astro.props;
+const canonicalUrl = page.slug ? `https://peak-pim.com/${page.slug}` : "https://peak-pim.com/";
+const hasMetaDescription = /<meta\b(?=[^>]*\bname=["']description["'])/i.test(headHtml);
+const hasJsonLd = /<script\b(?=[^>]*\btype=["']application\/ld\+json["'])/i.test(headHtml);
+const fallbackJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: page.title,
+  description: page.description,
+  url: canonicalUrl,
+  isPartOf: {
+    "@type": "WebSite",
+    name: "Peak PIM",
+    url: "https://peak-pim.com/",
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "Peak PIM",
+    url: "https://peak-pim.com/",
+    logo: "https://peak-pim.com/assets/logo/peak-logo-large.png",
+  },
+};
 ---
 
 <!doctype html>
@@ -28,6 +49,9 @@ const { page, headHtml, mainHtml, htmlClass, wfPage, wfSite } = Astro.props;
 >
   <head>
     <Fragment set:html={headHtml} />
+    {!hasMetaDescription && page.description && <meta name="description" content={page.description} />}
+    <link rel="canonical" href={canonicalUrl} />
+    {!hasJsonLd && <script type="application/ld+json" set:html={JSON.stringify(fallbackJsonLd)} />}
     <link href="/mirror/local-fonts.css" rel="stylesheet" type="text/css" />
     <meta name="peak-page-slug" content={page.slug || "home"} />
   </head>

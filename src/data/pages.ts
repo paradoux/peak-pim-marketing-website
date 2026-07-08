@@ -42,9 +42,10 @@ export const pages: PageDefinition[] = [
   {
     slug: "legals/privacy",
     source: "legals_privacy.html",
-    title: "Privacy Policy",
-    description: "",
-    h1: "",
+    title: "Privacy Policy | Peak PIM",
+    description:
+      "Read the Peak PIM privacy policy to understand how we collect, use, and protect data for Shopify merchants using our product information management app.",
+    h1: "Privacy Policy",
   },
   {
     slug: "mission",
@@ -52,7 +53,7 @@ export const pages: PageDefinition[] = [
     title: "Our Mission | Peak PIM",
     description:
       "Peak PIM is fixing the missing piece in Shopify — product data management. One place to manage, enrich, and sync your entire catalog across every store.",
-    h1: "",
+    h1: "We are on a mission",
   },
   {
     slug: "pricing",
@@ -147,4 +148,3 @@ export const pages: PageDefinition[] = [
 export const pageSlugs = pages.map((page) => page.slug);
 
 export const pagesBySlug = new Map(pages.map((page) => [page.slug, page]));
-
