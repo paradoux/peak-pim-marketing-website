@@ -1,0 +1,19 @@
+---
+import { pageSlugs, readRecreatedPage } from "../lib/recreated-site";
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return pageSlugs.map((slug) => ({
+    params: { slug: slug || undefined },
+  }));
+}
+
+const html = await readRecreatedPage(Astro.params.slug ?? "");
+
+if (!html) {
+  return Astro.redirect("/404");
+}
+---
+
+<Fragment set:html={html} />
