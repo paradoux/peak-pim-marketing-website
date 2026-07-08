@@ -1,0 +1,8 @@
+---
+import { getSharedHeaderHtml } from "../lib/page-source";
+
+const headerHtml = getSharedHeaderHtml();
+---
+
+<div class="site-header" set:html={headerHtml} />
+

@@ -1,4 +1,4 @@
-import { pageSlugs } from "../lib/recreated-site";
+import { pageSlugs } from "../data/pages";
 
 export const prerender = true;
 
@@ -19,4 +19,3 @@ ${urls.map((url) => `  <url><loc>${url}</loc></url>`).join("\n")}
     },
   });
 }
-

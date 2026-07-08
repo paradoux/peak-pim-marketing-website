@@ -1,0 +1,7 @@
+---
+import { getSharedGlobalStylesHtml } from "../lib/page-source";
+
+const globalStylesHtml = getSharedGlobalStylesHtml();
+---
+
+<div class="site-webflow-globals" set:html={globalStylesHtml} />

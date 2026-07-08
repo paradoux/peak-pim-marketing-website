@@ -1,5 +1,7 @@
 ---
-import { pageSlugs, readRecreatedPage } from "../lib/recreated-site";
+import RecreatedLayout from "../layouts/RecreatedLayout.astro";
+import { pageSlugs } from "../data/pages";
+import { getPage, getPageDocument } from "../lib/page-source";
 
 export const prerender = true;
 
@@ -9,11 +11,13 @@ export function getStaticPaths() {
   }));
 }
 
-const html = await readRecreatedPage(Astro.params.slug ?? "");
+const page = getPage(Astro.params.slug ?? "");
 
-if (!html) {
+if (!page) {
   return Astro.redirect("/404");
 }
+
+const document = getPageDocument(page);
 ---
 
-<Fragment set:html={html} />
+<RecreatedLayout page={page} {...document} />

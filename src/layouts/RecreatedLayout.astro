@@ -1,0 +1,41 @@
+---
+import GlobalWebflowStyles from "../components/GlobalWebflowStyles.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import type { PageDefinition } from "../data/pages";
+import "../styles/global.css";
+
+type Props = {
+  page: PageDefinition;
+  headHtml: string;
+  mainHtml: string;
+  htmlClass?: string;
+  wfPage?: string;
+  wfSite?: string;
+};
+
+const { page, headHtml, mainHtml, htmlClass, wfPage, wfSite } = Astro.props;
+---
+
+<!doctype html>
+<html
+  lang="en"
+  data-wf-domain="peak-pim.com"
+  data-wf-page={wfPage}
+  data-wf-site={wfSite}
+  class={htmlClass}
+>
+  <head>
+    <Fragment set:html={headHtml} />
+    <link href="/mirror/local-fonts.css" rel="stylesheet" type="text/css" />
+    <meta name="peak-page-slug" content={page.slug || "home"} />
+  </head>
+  <body>
+    <div class="page-wrapper site-page">
+      <GlobalWebflowStyles />
+      <SiteHeader />
+      <div class="site-main" set:html={mainHtml} />
+      <SiteFooter />
+    </div>
+  </body>
+</html>

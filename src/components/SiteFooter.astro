@@ -1,0 +1,8 @@
+---
+import { getSharedFooterHtml } from "../lib/page-source";
+
+const footerHtml = getSharedFooterHtml();
+---
+
+<div class="site-footer" set:html={footerHtml} />
+

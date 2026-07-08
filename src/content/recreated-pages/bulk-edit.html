@@ -1,0 +1,1027 @@
+<!DOCTYPE html><html data-wf-domain="peak-pim.com" data-wf-page="69c50ce23e932975556aef1b" data-wf-site="69a4bc7fc87eb11155ad5e5f" lang="en" class="w-mod-js w-mod-ix wf-spacegrotesk-n3-active wf-spacegrotesk-n4-active wf-spacegrotesk-n5-active wf-spacegrotesk-n6-active wf-spacegrotesk-n7-active wf-active"><head><style>.wf-force-outline-none[tabindex="-1"]:focus{outline:none;}</style><meta charset="utf-8"><title>Bulk Edit Shopify Catalog &amp; Metafields | Peak PIM</title><meta content="Bulk edit products, variants, metafields, images, collections and SEO data across your entire Shopify catalog. No CSV. No limits. Built for multi-store merchants." name="description"><meta content="Bulk Edit Shopify Catalog &amp; Metafields | Peak PIM" property="og:title"><meta content="Bulk edit products, variants, metafields, images, collections and SEO data across your entire Shopify catalog. No CSV. No limits. Built for multi-store merchants." property="og:description"><meta content="Bulk Edit Shopify Catalog &amp; Metafields | Peak PIM" name="twitter:title"><meta content="Bulk edit products, variants, metafields, images, collections and SEO data across your entire Shopify catalog. No CSV. No limits. Built for multi-store merchants." name="twitter:description"><meta property="og:type" content="website"><meta content="summary_large_image" name="twitter:card"><meta content="width=device-width, initial-scale=1" name="viewport"><link href="/mirror/peak-pim-landing.webflow.shared.c3ebbebc2-825ab19cb5.css" rel="stylesheet" type="text/css"><script src="/mirror/webfont-9f87595f89.js" type="text/javascript"></script><script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script><link href="/assets/logo/favicon-peak-pim.png" rel="shortcut icon" type="image/x-icon"><link href="/assets/logo/peak-webclip.png" rel="apple-touch-icon"><script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Peak PIM Bulk Edit",
+  "url": "/bulk-edit",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "availability": "https://schema.org/InStock",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "description": "Bulk edit products, variants, metafields, images, collections and SEO data across your entire Shopify catalog. No CSV. No limits. Built for multi-store merchants.",
+  "featureList": [
+    "Bulk edit unlimited products at once",
+    "Metafield bulk editing",
+    "Multi-store sync",
+    "Edit titles and descriptions",
+    "Bulk price updates",
+    "Image bulk editing with alt text",
+    "Collection management",
+    "SEO metadata bulk editing",
+    "Variant metafield editing",
+    "Preview before publishing",
+    "No CSV import/export needed"
+  ],
+  "provider": {
+    "@type": "Organization",
+    "name": "Peak PIM",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/assets/logo/peak-logo-large.png"
+    },
+    "sameAs": [
+      "https://www.linkedin.com/company/peak-pim/",
+      "https://x.com/peak_pim",
+      "https://www.youtube.com/@peak-pim",
+      "https://www.reddit.com/user/peak-pim/"
+    ]
+  },
+  "review": {
+    "@type": "Review",
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": "5"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Amélie Samson",
+      "jobTitle": "COO",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Du Bruit dans la Cuisine"
+      }
+    },
+    "reviewBody": "Bulk editing metafields across hundreds of products was simply not possible before. Now it takes a few clicks."
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5",
+    "reviewCount": "1"
+  }
+}
+</script><!-- Keep this css code to improve the font quality-->
+<style>
+  * {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -o-font-smoothing: antialiased;
+}
+</style><style>html{font-family:"Space Grotesk",Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}</style><link href="/mirror/local-fonts.css" rel="stylesheet" type="text/css"></head><body><div class="page-wrapper"><div class="global-styles"><div class="style-overrides w-embed"><style>
+
+/* Ensure all elements inherit the color from its parent */
+a,
+.w-input,
+.w-select,
+.w-tab-link,
+.w-nav-link,
+.w-nav-brand,
+.w-dropdown-btn,
+.w-dropdown-toggle,
+.w-slider-arrow-left,
+.w-slider-arrow-right,
+.w-dropdown-link {
+  color: inherit;
+  text-decoration: inherit;
+  font-size: inherit;
+}
+
+/* Focus state style for keyboard navigation for the focusable elements */
+*[tabindex]:focus-visible,
+  input[type="file"]:focus-visible {
+   outline: 0.125rem solid #4d65ff;
+   outline-offset: 0.125rem;
+}
+
+/* Get rid of top margin on first element in any rich text element */
+.w-richtext > :not(div):first-child, .w-richtext > div:first-child > :first-child {
+  margin-top: 0 !important;
+}
+
+/* Get rid of bottom margin on last element in any rich text element */
+.w-richtext>:last-child, .w-richtext ol li:last-child, .w-richtext ul li:last-child {
+	margin-bottom: 0 !important;
+}
+
+/* Prevent all click and hover interaction with an element */
+.pointer-events-off {
+	pointer-events: none;
+}
+
+/* Enables all click and hover interaction with an element */
+.pointer-events-on {
+  pointer-events: auto;
+}
+
+/* Create a class of .div-square which maintains a 1:1 dimension of a div */
+.div-square::after {
+	content: "";
+	display: block;
+	padding-bottom: 100%;
+}
+
+/* Make sure containers never lose their center alignment */
+.container-medium,.container-small, .container-large {
+	margin-right: auto !important;
+  margin-left: auto !important;
+}
+
+
+/* Apply "..." after 3 lines of text */
+.text-style-3lines {
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+}
+
+/* Apply "..." after 2 lines of text */
+.text-style-2lines {
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+/* Adds inline flex display */
+.display-inlineflex {
+  display: inline-flex;
+}
+
+/* These classes are never overwritten */
+.hide {
+  display: none !important;
+}
+
+/* Remove default Webflow chevron from form select */
+select{
+  -webkit-appearance:none;
+}
+
+
+@media screen and (max-width: 991px) {
+    .hide, .hide-tablet {
+        display: none !important;
+    }
+}
+  @media screen and (max-width: 767px) {
+    .hide-mobile-landscape{
+      display: none !important;
+    }
+}
+  @media screen and (max-width: 479px) {
+    .hide-mobile{
+      display: none !important;
+    }
+}
+ 
+.margin-0 {
+  margin: 0rem !important;
+}
+  
+.padding-0 {
+  padding: 0rem !important;
+}
+
+.spacing-clean {
+padding: 0rem !important;
+margin: 0rem !important;
+}
+
+.margin-top {
+  margin-right: 0rem !important;
+  margin-bottom: 0rem !important;
+  margin-left: 0rem !important;
+}
+
+.padding-top {
+  padding-right: 0rem !important;
+  padding-bottom: 0rem !important;
+  padding-left: 0rem !important;
+}
+  
+.margin-right {
+  margin-top: 0rem !important;
+  margin-bottom: 0rem !important;
+  margin-left: 0rem !important;
+}
+
+.padding-right {
+  padding-top: 0rem !important;
+  padding-bottom: 0rem !important;
+  padding-left: 0rem !important;
+}
+
+.margin-bottom {
+  margin-top: 0rem !important;
+  margin-right: 0rem !important;
+  margin-left: 0rem !important;
+}
+
+.padding-bottom {
+  padding-top: 0rem !important;
+  padding-right: 0rem !important;
+  padding-left: 0rem !important;
+}
+
+.margin-left {
+  margin-top: 0rem !important;
+  margin-right: 0rem !important;
+  margin-bottom: 0rem !important;
+}
+  
+.padding-left {
+  padding-top: 0rem !important;
+  padding-right: 0rem !important;
+  padding-bottom: 0rem !important;
+}
+  
+.margin-horizontal {
+  margin-top: 0rem !important;
+  margin-bottom: 0rem !important;
+}
+
+.padding-horizontal {
+  padding-top: 0rem !important;
+  padding-bottom: 0rem !important;
+}
+
+.margin-vertical {
+  margin-right: 0rem !important;
+  margin-left: 0rem !important;
+}
+  
+.padding-vertical {
+  padding-right: 0rem !important;
+  padding-left: 0rem !important;
+}
+
+/* Apply "..." at 100% width */
+.truncate-width { 
+		width: 100%; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+}
+/* Removes native scrollbar */
+.no-scrollbar {
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none; 
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+</style></div><div class="fonts w-embed">
+</div><div class="color-schemes w-embed"><style>
+.color-scheme-1 {}
+
+  .color-scheme-2 {
+    --color-scheme-1--text: var(--color-scheme-2--text);
+    --color-scheme-1--background: var(--color-scheme-2--background);
+    --color-scheme-1--foreground: var(--color-scheme-2--foreground);
+    --color-scheme-1--border: var(--color-scheme-2--border);
+    --color-scheme-1--accent: var(--color-scheme-2--accent);
+  }
+
+
+  .color-scheme-3 {
+    --color-scheme-1--text: var(--color-scheme-3--text);
+    --color-scheme-1--background: var(--color-scheme-3--background);
+    --color-scheme-1--foreground: var(--color-scheme-3--foreground);
+    --color-scheme-1--border: var(--color-scheme-3--border);
+    --color-scheme-1--accent: var(--color-scheme-3--accent);
+  }
+
+
+  .color-scheme-4 {
+    --color-scheme-1--text: var(--color-scheme-4--text);
+    --color-scheme-1--background: var(--color-scheme-4--background);
+    --color-scheme-1--foreground: var(--color-scheme-4--foreground);
+    --color-scheme-1--border: var(--color-scheme-4--border);
+    --color-scheme-1--accent: var(--color-scheme-4--accent);
+  }
+
+  
+
+.w-slider-dot {
+  background-color: var(--color-scheme-1--text);
+  opacity: 0.20;
+}
+
+.w-slider-dot.w-active {
+  background-color: var(--color-scheme-1--text);
+  opacity: 1;
+}
+
+/* Override .w-slider-nav-invert styles */
+.w-slider-nav-invert .w-slider-dot {
+  background-color: var(--color-scheme-1--text) !important;
+  opacity: 0.20 !important;
+}
+
+.w-slider-nav-invert .w-slider-dot.w-active {
+  background-color: var(--color-scheme-1--text) !important;
+  opacity: 1 !important;
+}
+
+</style></div></div><div data-collapse="medium" data-animation="default" data-duration="400" fs-scrolldisable-element="smart-nav" data-easing="ease" data-easing2="ease" role="banner" class="navbar12_component w-nav"><div class="navbar10_container"><a href="/" class="navbar10_logo-link w-nav-brand" aria-label="home"><img width="132" sizes="132px" alt="Shopify-native PIM - Peak PIM logo large" src="/assets/logo/peak-logo-large.png" loading="lazy" srcset="/assets/logo/peak-logo-large-500.png 500w, /assets/logo/peak-logo-large.png 680w" class="navbar12_logo"></a><nav role="navigation" class="navbar10_menu w-nav-menu"><div class="navbar10_menu-left"><div data-delay="300" data-hover="true" data-w-id="5ee59646-8ce7-bb4f-cf66-ff2c5fd58df9" class="navbar10_menu-dropdown w-dropdown"><div class="navbar10_dropdown-toggle w-dropdown-toggle" id="w-dropdown-toggle-0" aria-controls="w-dropdown-list-0" aria-haspopup="menu" aria-expanded="false" role="button" tabindex="0"><div>Features</div><div class="dropdown-chevron w-embed"><svg width=" 100%" height=" 100%" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M2.55806 6.29544C2.46043 6.19781 2.46043 6.03952 2.55806 5.94189L3.44195 5.058C3.53958 4.96037 3.69787 4.96037 3.7955 5.058L8.00001 9.26251L12.2045 5.058C12.3021 4.96037 12.4604 4.96037 12.5581 5.058L13.4419 5.94189C13.5396 6.03952 13.5396 6.19781 13.4419 6.29544L8.17678 11.5606C8.07915 11.6582 7.92086 11.6582 7.82323 11.5606L2.55806 6.29544Z" fill="currentColor"></path>
+</svg></div></div><nav class="navbar10_dropdown-list w-dropdown-list" id="w-dropdown-list-0" aria-labelledby="w-dropdown-toggle-0" style="opacity: 0;"><div class="navbar10_container"><div class="navbar10_dropdown-content"><div class="navbar10_dropdown-content-right"><div class="navbar10_blog-list-wrapper"><div class="navbar10_blog-list"><a id="w-node-_5ee59646-8ce7-bb4f-cf66-ff2c5fd58e19-6c2308de" href="/shopify-multi-store-pim" class="navbar10_blog-item w-inline-block" tabindex="0"><div class="navbar10_blog-item-image-wrapper"><div class="w-embed"><style>
+.ppim-nav-multi-wrap { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 12px; box-sizing: border-box; font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif; }
+.ppim-nav-multi-card { background: white; box-shadow: 0 1px 2px rgba(13,26,99,0.04), 0 4px 12px rgba(13,26,99,0.10); border-radius: 10px; width: 184px; height: 92px; box-sizing: border-box; padding: 9px 11px; display: flex; flex-direction: column; gap: 4px; }
+.ppim-nav-multi-row { display: flex; align-items: center; gap: 6px; padding: 4px 7px; background: #F8F7F3; border-radius: 5px; border: 1px solid transparent; animation: ppim-nav-multi-pulse 3.6s infinite; }
+.ppim-nav-multi-row:nth-child(1) { animation-delay: 0s; }
+.ppim-nav-multi-row:nth-child(2) { animation-delay: 1.2s; }
+.ppim-nav-multi-row:nth-child(3) { animation-delay: 2.4s; }
+.ppim-nav-multi-mono { width: 14px; height: 14px; border-radius: 3px; color: white; font-size: 7px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ppim-nav-multi-bar { flex: 1; height: 4px; background: #E8E6DE; border-radius: 2px; }
+.ppim-nav-multi-dot { width: 4px; height: 4px; border-radius: 50%; background: #1D9E75; flex-shrink: 0; }
+@keyframes ppim-nav-multi-pulse {
+  0%, 100% { background: #F8F7F3; border-color: transparent; }
+  18%, 28% { background: #EEF1FE; border-color: #C5CFF2; }
+}
+</style>
+<div class="ppim-nav-multi-wrap">
+  <div class="ppim-nav-multi-card">
+    <div class="ppim-nav-multi-row">
+      <div class="ppim-nav-multi-mono" style="background: #1A2CA3;">US</div>
+      <div class="ppim-nav-multi-bar"></div>
+      <div class="ppim-nav-multi-dot"></div>
+    </div>
+    <div class="ppim-nav-multi-row">
+      <div class="ppim-nav-multi-mono" style="background: #534AB7;">FR</div>
+      <div class="ppim-nav-multi-bar"></div>
+      <div class="ppim-nav-multi-dot"></div>
+    </div>
+    <div class="ppim-nav-multi-row">
+      <div class="ppim-nav-multi-mono" style="background: #993C1D;">GB</div>
+      <div class="ppim-nav-multi-bar"></div>
+      <div class="ppim-nav-multi-dot"></div>
+    </div>
+  </div>
+</div></div></div><div id="w-node-_5ee59646-8ce7-bb4f-cf66-ff2c5fd58e1c-6c2308de" class="navbar10_blog-item-content"><div class="margin-bottom margin-tiny"><div class="text-weight-semibold">Multi-store</div></div><p class="text-size-small-2">Run 2 to 50 Shopify stores from a single catalog and keep products, metafields, and media in sync across all of them.<br></p></div></a><a id="w-node-_5ee59646-8ce7-bb4f-cf66-ff2c5fd58e26-6c2308de" href="/shopify-media-management" class="navbar10_blog-item w-inline-block" tabindex="0"><div class="navbar10_blog-item-image-wrapper"><div class="w-embed"><style>
+.ppim-nav-media-wrap { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 12px; box-sizing: border-box; font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif; }
+.ppim-nav-media-card { background: white; box-shadow: 0 1px 2px rgba(13,26,99,0.04), 0 4px 12px rgba(13,26,99,0.10); border-radius: 10px; width: 184px; height: 92px; box-sizing: border-box; padding: 18px 32px; display: flex; align-items: center; gap: 12px; }
+.ppim-nav-media-img { width: 56px; height: 56px; border-radius: 6px; background: linear-gradient(135deg, #D9CCB1, #BBA88B); display: flex; align-items: center; justify-content: center; flex-shrink: 0; animation: ppim-nav-media-pulse 2.8s infinite; }
+.ppim-nav-media-monos { display: flex; flex-direction: column; gap: 4px; }
+.ppim-nav-media-mono { width: 16px; height: 16px; border-radius: 3px; color: white; font-size: 7px; font-weight: 600; display: flex; align-items: center; justify-content: center; }
+@keyframes ppim-nav-media-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(40,69,214, 0); }
+  50% { box-shadow: 0 0 0 5px rgba(40,69,214, 0.20); }
+}
+@keyframes ppim-nav-media-dash { to { stroke-dashoffset: -8; } }
+</style>
+<div class="ppim-nav-media-wrap">
+  <div class="ppim-nav-media-card">
+    <div class="ppim-nav-media-img">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FAF8F2" stroke-width="1.5">
+        <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+        <circle cx="8.5" cy="8.5" r="1.5" fill="#FAF8F2"></circle>
+        <path d="M21 15l-5-5L5 21"></path>
+      </svg>
+    </div>
+    <svg width="20" height="56" viewBox="0 0 20 56" style="overflow: visible; flex-shrink: 0;">
+      <line x1="0" y1="8" x2="20" y2="8" stroke="#2845D6" stroke-width="1" stroke-dasharray="2 2" stroke-linecap="round" style="animation: ppim-nav-media-dash 1.5s linear infinite;"></line>
+      <line x1="0" y1="28" x2="20" y2="28" stroke="#2845D6" stroke-width="1" stroke-dasharray="2 2" stroke-linecap="round" style="animation: ppim-nav-media-dash 1.5s linear infinite; animation-delay: 0.3s;"></line>
+      <line x1="0" y1="48" x2="20" y2="48" stroke="#2845D6" stroke-width="1" stroke-dasharray="2 2" stroke-linecap="round" style="animation: ppim-nav-media-dash 1.5s linear infinite; animation-delay: 0.6s;"></line>
+    </svg>
+    <div class="ppim-nav-media-monos">
+      <div class="ppim-nav-media-mono" style="background: #1A2CA3;">US</div>
+      <div class="ppim-nav-media-mono" style="background: #534AB7;">FR</div>
+      <div class="ppim-nav-media-mono" style="background: #993C1D;">GB</div>
+    </div>
+  </div>
+</div></div></div><div id="w-node-_5ee59646-8ce7-bb4f-cf66-ff2c5fd58e29-6c2308de" class="navbar10_blog-item-content"><div class="margin-bottom margin-tiny"><div class="text-weight-semibold">Media Management</div></div><p class="text-size-small-2">Centralize every Shopify product image, video, and file in one DAM, then reuse them across products, variants, and stores.<br></p></div></a><a id="w-node-_5ee59646-8ce7-bb4f-cf66-ff2c5fd58e33-6c2308de" href="/1-click-setup" class="navbar10_blog-item w-inline-block" tabindex="0"><div class="navbar10_blog-item-image-wrapper"><div class="w-embed"><style>
+.ppim-nav-1c-wrap { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 12px; box-sizing: border-box; font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif; }
+.ppim-nav-1c-card { background: white; box-shadow: 0 1px 2px rgba(13,26,99,0.04), 0 4px 12px rgba(13,26,99,0.10); border-radius: 10px; width: 184px; height: 92px; box-sizing: border-box; position: relative; display: flex; align-items: center; justify-content: center; }
+.ppim-nav-1c-button { padding: 8px 18px; background: #2845D6; color: white; border-radius: 999px; font-size: 12px; font-weight: 600; animation: ppim-nav-1c-state-a 3.6s infinite; }
+.ppim-nav-1c-connected { position: absolute; display: flex; align-items: center; gap: 9px; animation: ppim-nav-1c-state-b 3.6s infinite; }
+.ppim-nav-1c-check { width: 24px; height: 24px; border-radius: 50%; background: #1D9E75; display: flex; align-items: center; justify-content: center; }
+.ppim-nav-1c-label { font-size: 12px; color: #0F6E56; font-weight: 600; }
+@keyframes ppim-nav-1c-state-a {
+  0%, 42% { opacity: 1; transform: scale(1); }
+  50%, 92% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes ppim-nav-1c-state-b {
+  0%, 42% { opacity: 0; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.06); }
+  60%, 90% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.85); }
+}
+</style>
+<div class="ppim-nav-1c-wrap">
+  <div class="ppim-nav-1c-card">
+    <div class="ppim-nav-1c-button">Install app</div>
+    <div class="ppim-nav-1c-connected">
+      <div class="ppim-nav-1c-check">
+        <svg width="13" height="13" viewBox="0 0 12 12" fill="none">
+          <path d="M2.5 6L5 8.5L9.5 4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </div>
+      <span class="ppim-nav-1c-label">Connected</span>
+    </div>
+  </div>
+</div></div></div><div id="w-node-_5ee59646-8ce7-bb4f-cf66-ff2c5fd58e36-6c2308de" class="navbar10_blog-item-content"><div class="margin-bottom margin-tiny"><div class="text-weight-semibold">1-click setup</div></div><p class="text-size-small-2">Connect your Shopify store to Peak PIM from the App Store in under 5 minutes and start editing your full catalog right away.<br></p></div></a><a id="w-node-_5ee59646-8ce7-bb4f-cf66-ff2c5fd58e40-6c2308de" href="/shopify-sync" class="navbar10_blog-item w-inline-block" tabindex="0"><div class="navbar10_blog-item-image-wrapper"><div class="w-embed"><style>
+.ppim-nav-sync-wrap { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 12px; box-sizing: border-box; font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif; }
+.ppim-nav-sync-card { background: white; box-shadow: 0 1px 2px rgba(13,26,99,0.04), 0 4px 12px rgba(13,26,99,0.10); border-radius: 10px; width: 184px; height: 92px; box-sizing: border-box; padding: 24px 10px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+.ppim-nav-sync-tile-dark { width: 44px; height: 44px; background: #1a1a1a; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ppim-nav-sync-tile-shopify { width: 44px; height: 44px; background: #F0F8E8; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+@keyframes ppim-nav-sync-dash { to { stroke-dashoffset: -14; } }
+@keyframes ppim-nav-sync-dot {
+  0% { transform: translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateX(56px); opacity: 0; }
+}
+</style>
+<div class="ppim-nav-sync-wrap">
+  <div class="ppim-nav-sync-card">
+    <div class="ppim-nav-sync-tile-dark">
+      <svg viewBox="511 481 556 425" width="22" height="16"><path fill-rule="nonzero" fill="#F2F3F5" d="M 713.535156 751.597656 L 860.074219 634.671875 L 826.027344 721.976562 L 1066.578125 905.730469 L 789.171875 481.910156 L 511.765625 905.730469 L 713.535156 751.597656 Z"></path></svg>
+    </div>
+    <svg width="56" height="20" viewBox="0 0 56 20" style="overflow: visible; flex-shrink: 0;">
+      <defs>
+        <radialGradient id="ppim-nav-sync-glow">
+          <stop offset="0%" stop-color="#2845D6" stop-opacity="0.5"></stop>
+          <stop offset="100%" stop-color="#2845D6" stop-opacity="0"></stop>
+        </radialGradient>
+      </defs>
+      <line x1="0" y1="10" x2="56" y2="10" stroke="#2845D6" stroke-width="1.5" stroke-dasharray="3 4" stroke-linecap="round" style="animation: ppim-nav-sync-dash 1.4s linear infinite;"></line>
+      <circle cx="0" cy="10" r="9" fill="url(#ppim-nav-sync-glow)" style="animation: ppim-nav-sync-dot 2.2s linear infinite;"></circle>
+      <circle cx="0" cy="10" r="3" fill="#2845D6" style="animation: ppim-nav-sync-dot 2.2s linear infinite;"></circle>
+    </svg>
+    <div class="ppim-nav-sync-tile-shopify">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" style="color: #95BF47;">
+        <path d="M20.919 4.546c-0.025 0-0.075 0.026-0.097 0.026s-0.361 0.094-0.892 0.262c-0.529-1.541-1.47-2.962-3.134-2.962h-0.144c-0.356-0.5-0.921-0.832-1.564-0.868l-0.005-0c-3.881 0-5.736 4.845-6.317 7.305-1.492 0.456-2.578 0.795-2.699 0.842-0.844 0.266-0.867 0.29-0.965 1.087-0.094 0.577-2.287 17.574-2.287 17.574l16.946 3.183zM17.18 2.935c0.867 0.092 1.426 1.083 1.786 2.193-0.436 0.142-0.919 0.289-1.447 0.457v-0.315c0.001-0.049 0.002-0.107 0.002-0.165 0-0.777-0.125-1.524-0.355-2.224l0.014 0.050zM16.506 5.727v0.169c-0.942 0.29-1.978 0.605-2.992 0.92 0.264-1.607 1.237-2.944 2.58-3.699l0.026-0.013c0.248 0.705 0.391 1.518 0.391 2.365 0 0.091-0.002 0.182-0.005 0.273l0-0.013zM14.963 2.042c0 0 0.001 0 0.001 0 0.19 0 0.366 0.063 0.507 0.17l-0.002-0.002c-1.749 1.048-2.947 2.861-3.132 4.964l-0.002 0.024c-0.82 0.266-1.616 0.506-2.361 0.722 0.648-2.231 2.216-5.867 4.988-5.867zM15.638 15.132c-0.648-0.32-1.408-0.514-2.211-0.530l-0.005-0c-1.808 0-1.879 1.132-1.879 1.426 0 1.54 4.049 2.143 4.049 5.785 0.014 0.128 0.021 0.277 0.021 0.427 0 2.359-1.912 4.271-4.271 4.271-0.002 0-0.005 0-0.007 0h0c-0.050 0.002-0.108 0.002-0.166 0.002-1.676 0-3.187-0.703-4.255-1.830l-0.003-0.003 0.807-2.607c0.774 0.68 1.745 1.154 2.817 1.328l0.033 0.004c0.012 0 0.025 0.001 0.039 0.001 0.646 0 1.171-0.520 1.180-1.165v-0.001c0-2.023-3.317-2.117-3.317-5.447-0-0.020-0-0.044-0-0.068 0-3.026 2.453-5.478 5.478-5.478 0.195 0 0.388 0.010 0.578 0.030l-0.024-0.002c0.077-0.004 0.167-0.007 0.258-0.007 0.756 0 1.474 0.169 2.116 0.471l-0.030-0.013-1.181 3.393zM20.170 30.970l9.017-1.951s-3.254-22.010-3.280-22.156c-0.018-0.133-0.128-0.235-0.263-0.240h-0c-0.121 0-2.411-0.170-2.411-0.170s-1.593-1.592-1.798-1.763c-0.043-0.039-0.093-0.070-0.148-0.091l-0.003-0.001-1.142 26.372z" fill="currentColor"></path>
+      </svg>
+    </div>
+  </div>
+</div></div></div><div id="w-node-_5ee59646-8ce7-bb4f-cf66-ff2c5fd58e43-6c2308de" class="navbar10_blog-item-content"><div class="margin-bottom margin-tiny"><div class="text-weight-semibold">Shopify-native Sync</div></div><p class="text-size-small-2">Push every catalog change to Shopify in real time, no CSVs, no exports, no reload.<br></p></div></a><a id="w-node-_5ee59646-8ce7-bb4f-cf66-ff2c5fd58e4d-6c2308de" href="/bulk-edit" aria-current="page" class="navbar10_blog-item w-inline-block w--current" tabindex="0"><div class="navbar10_blog-item-image-wrapper"><div class="w-embed"><style>
+.ppim-nav-bulk-wrap { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 12px; box-sizing: border-box; font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif; }
+.ppim-nav-bulk-card { background: white; box-shadow: 0 1px 2px rgba(13,26,99,0.04), 0 4px 12px rgba(13,26,99,0.10); border-radius: 10px; width: 184px; height: 92px; box-sizing: border-box; padding: 13px 14px; display: flex; align-items: center; justify-content: center; }
+.ppim-nav-bulk-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(4, 14px); gap: 3px; width: 156px; }
+.ppim-nav-bulk-cell { background: #F8F7F3; border-radius: 2px; display: flex; align-items: center; padding: 0 4px; box-sizing: border-box; animation: ppim-nav-bulk-cell 3.2s infinite; }
+.ppim-nav-bulk-bar { width: 100%; height: 3px; background: #D4D2CB; border-radius: 1px; animation: ppim-nav-bulk-bar 3.2s infinite; }
+.ppim-nav-bulk-cell:nth-child(4n+1), .ppim-nav-bulk-cell:nth-child(4n+1) .ppim-nav-bulk-bar { animation-delay: 0s; }
+.ppim-nav-bulk-cell:nth-child(4n+2), .ppim-nav-bulk-cell:nth-child(4n+2) .ppim-nav-bulk-bar { animation-delay: 0.4s; }
+.ppim-nav-bulk-cell:nth-child(4n+3), .ppim-nav-bulk-cell:nth-child(4n+3) .ppim-nav-bulk-bar { animation-delay: 0.8s; }
+.ppim-nav-bulk-cell:nth-child(4n+4), .ppim-nav-bulk-cell:nth-child(4n+4) .ppim-nav-bulk-bar { animation-delay: 1.2s; }
+@keyframes ppim-nav-bulk-cell {
+  0%, 100% { background: #F8F7F3; }
+  18%, 28% { background: #EEF1FE; }
+}
+@keyframes ppim-nav-bulk-bar {
+  0%, 100% { background: #D4D2CB; }
+  18%, 28% { background: #2845D6; }
+}
+</style>
+<div class="ppim-nav-bulk-wrap">
+  <div class="ppim-nav-bulk-card">
+    <div class="ppim-nav-bulk-grid">
+      <div class="ppim-nav-bulk-cell"><div class="ppim-nav-bulk-bar"></div></div>
+      <div class="ppim-nav-bulk-cell"><div class="ppim-nav-bulk-bar"></div></div>
+      <div class="ppim-nav-bulk-cell"><div class="ppim-nav-bulk-bar"></div></div>
+      <div class="ppim-nav-bulk-cell"><div class="ppim-nav-bulk-bar"></div></div>
+      <div class="ppim-nav-bulk-cell"><div class="ppim-nav-bulk-bar"></div></div>
+      <div class="ppim-nav-bulk-cell"><div class="ppim-nav-bulk-bar"></div></div>
+      <div class="ppim-nav-bulk-cell"><div class="ppim-nav-bulk-bar"></div></div>
+      <div class="ppim-nav-bulk-cell"><div class="ppim-nav-bulk-bar"></div></div>
+      <div class="ppim-nav-bulk-cell"><div class="ppim-nav-bulk-bar"></div></div>
+      <div class="ppim-nav-bulk-cell"><div class="ppim-nav-bulk-bar"></div></div>
+      <div class="ppim-nav-bulk-cell"><div class="ppim-nav-bulk-bar"></div></div>
+      <div class="ppim-nav-bulk-cell"><div class="ppim-nav-bulk-bar"></div></div>
+      <div class="ppim-nav-bulk-cell"><div class="ppim-nav-bulk-bar"></div></div>
+      <div class="ppim-nav-bulk-cell"><div class="ppim-nav-bulk-bar"></div></div>
+      <div class="ppim-nav-bulk-cell"><div class="ppim-nav-bulk-bar"></div></div>
+      <div class="ppim-nav-bulk-cell"><div class="ppim-nav-bulk-bar"></div></div>
+    </div>
+  </div>
+</div></div></div><div id="w-node-_5ee59646-8ce7-bb4f-cf66-ff2c5fd58e50-6c2308de" class="navbar10_blog-item-content"><div class="margin-bottom margin-tiny"><div class="text-weight-semibold">Bulk Edit</div></div><p class="text-size-small-2">Edit thousands of Shopify products, variants, and metafields at once in a spreadsheet-style grid built for large catalogs.<br></p></div></a><a id="w-node-_322fc4a7-6d88-35d2-a826-4df5cfd5a15a-6c2308de" href="/shopify-sync" class="navbar10_blog-item w-inline-block" tabindex="0"><div class="navbar10_blog-item-image-wrapper"><div class="w-embed"><style>
+.ppim-nav-more-wrap { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 12px; box-sizing: border-box; font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif; }
+.ppim-nav-more-card { background: white; box-shadow: 0 1px 2px rgba(13,26,99,0.04), 0 4px 12px rgba(13,26,99,0.10); border-radius: 10px; width: 184px; height: 92px; box-sizing: border-box; padding: 8px 11px; display: flex; flex-direction: column; gap: 6px; justify-content: center; }
+.ppim-nav-more-row { padding: 8px 12px; background: #F8F7F3; border-radius: 5px; display: flex; align-items: center; gap: 8px; }
+.ppim-nav-more-row-new { border: 1px solid #C5CFF2; animation: ppim-nav-more-pulse 2.4s infinite; }
+.ppim-nav-more-row-old { opacity: 0.65; }
+.ppim-nav-more-version { font-family: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace; font-size: 9px; font-weight: 500; flex-shrink: 0; min-width: 20px; }
+.ppim-nav-more-version-new { color: #1A2CA3; font-weight: 600; }
+.ppim-nav-more-version-old { color: #6B6B6B; }
+.ppim-nav-more-bar { flex: 1; height: 6px; background: #E8E6DE; border-radius: 2px; }
+.ppim-nav-more-pill { font-size: 9px; padding: 2.5px 6px; background: #EEF1FE; color: #1A2CA3; border-radius: 99px; font-weight: 600; letter-spacing: 0.04em; }
+@keyframes ppim-nav-more-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(40,69,214, 0); }
+  50% { box-shadow: 0 0 0 4px rgba(40,69,214, 0.20); }
+}
+</style>
+<div class="ppim-nav-more-wrap">
+  <div class="ppim-nav-more-card">
+    <div class="ppim-nav-more-row ppim-nav-more-row-new">
+      <span class="ppim-nav-more-version ppim-nav-more-version-new">v1.4</span>
+      <div class="ppim-nav-more-bar"></div>
+      <span class="ppim-nav-more-pill">NEW</span>
+    </div>
+    <div class="ppim-nav-more-row ppim-nav-more-row-old">
+      <span class="ppim-nav-more-version ppim-nav-more-version-old">v1.3</span>
+      <div class="ppim-nav-more-bar"></div>
+    </div>
+  </div>
+</div></div></div><div id="w-node-_322fc4a7-6d88-35d2-a826-4df5cfd5a15d-6c2308de" class="navbar10_blog-item-content"><div class="margin-bottom margin-tiny"><div class="text-weight-semibold">And more</div></div><p class="text-size-small-2">Follow all our product releases on our LinkedIn page.<br></p></div></a></div></div></div></div></div></nav></div><a href="/pricing" class="navbar10_link w-nav-link">Pricing</a><a href="https://apps.shopify.com/peak-pim/reviews" target="_blank" class="navbar10_link w-nav-link">Reviews</a></div><div class="navbar10_menu-right"><a data-open-crisp="" href="#" class="button is-secondary w-button">Book demo</a><a href="https://apps.shopify.com/peak-pim" target="_blank" class="button w-button">Get Peak PIM</a></div></nav><div class="navbar10_menu-button w-nav-button" style="-webkit-user-select: text;" aria-label="menu" role="button" tabindex="0" aria-controls="w-nav-overlay-0" aria-haspopup="menu" aria-expanded="false"><div class="menu-icon5"><div class="menu-icon1_line-top"></div><div class="menu-icon1_line-middle"><div class="menu-icon1_line-middle-inner"></div></div><div class="menu-icon1_line-bottom"></div></div></div></div><div class="w-nav-overlay" data-wf-ignore="" id="w-nav-overlay-0"></div></div><main class="main-wrapper"><header class="section_header26"><div class="padding-global"><div class="container-large"><div class="padding-section-large"><div class="header26_component"><div class="margin-bottom margin-xxlarge"><div class="text-align-center"><div class="max-width-large align-center"><div class="margin-bottom margin-small"><h1 class="heading-style-h1">Edit your entire Shopify catalog in minutes</h1></div><p class="text-size-medium">Prices, images, collections, tags, metafields, variants, SEO... Update your entire Shopify catalog at once. No spreadsheets. No CSV imports. No data loss.</p><div class="margin-top margin-medium"><div class="button-group is-center"><a href="https://apps.shopify.com/peak-pim" target="_blank" class="button w-button">Get Peak PIM</a><a href="#" class="button is-secondary w-button">See how it works</a></div></div></div></div></div><div class="w-embed"><style>
+.ppim-be-hero-mobile { display: none; }
+@media (max-width: 768px) {
+  .ppim-be-hero-desktop { display: none !important; }
+  .ppim-be-hero-mobile { display: flex !important; }
+}
+@keyframes ppim-be-hero-d-blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+@keyframes ppim-be-hero-d-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(40,69,214,0); } 50% { box-shadow: 0 0 0 5px rgba(40,69,214,0.20); } }
+@keyframes ppim-be-hero-d-dot { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+@keyframes ppim-be-hero-m-blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+@keyframes ppim-be-hero-m-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(40,69,214,0); } 50% { box-shadow: 0 0 0 4px rgba(40,69,214,0.20); } }
+@keyframes ppim-be-hero-m-dot { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+</style>
+
+<div class="ppim-be-hero-desktop" style="padding:48px;box-sizing:border-box;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;width:100%;font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:#2C2C2A;">
+  <div style="background:white;border-radius:14px;box-shadow:0 4px 12px rgba(13,26,99,0.06),0 24px 60px rgba(13,26,99,0.12);overflow:hidden;width:100%;max-width:920px;">
+
+    <div style="background:#1a1a1a;color:white;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:11px;">
+        <svg width="17" height="13" viewBox="511 481 556 425"><path fill-rule="nonzero" fill="#F2F3F5" d="M 713.535156 751.597656 L 860.074219 634.671875 L 826.027344 721.976562 L 1066.578125 905.730469 L 789.171875 481.910156 L 511.765625 905.730469 L 713.535156 751.597656 Z"></path></svg>
+        <div style="font-size:13.5px;font-weight:500;letter-spacing:-0.005em;">Peak PIM · Catalog</div>
+      </div>
+      <div style="font-size:10px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.06em;font-weight:500;">one source · 3 stores</div>
+    </div>
+
+    <div style="background:#FAF8F2;border-bottom:1px solid #EEEAE0;padding:11px 18px;display:flex;align-items:center;gap:7px;font-size:11.5px;">
+      <span style="color:#8A8983;text-transform:uppercase;letter-spacing:0.05em;font-weight:500;font-size:10px;margin-right:3px;">Filter</span>
+      <span style="background:white;border:1px solid #E8E6DE;color:#2C2C2A;padding:3px 9px;border-radius:4px;font-size:11.5px;">Status: Active</span>
+      <span style="background:white;border:1px solid #E8E6DE;color:#2C2C2A;padding:3px 9px;border-radius:4px;font-size:11.5px;">Spring 25</span>
+      <span style="background:white;border:1px solid #E8E6DE;color:#2C2C2A;padding:3px 9px;border-radius:4px;font-size:11.5px;">Outdoor</span>
+      <span style="margin-left:auto;color:#8A8983;font-size:11.5px;margin-right:6px;">247 of 1,247</span>
+      <button style="background:white;border:1px solid #D8D4C8;color:#2C2C2A;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:500;font-family:inherit;cursor:pointer;">Save</button>
+      <button style="background:#2845D6;color:white;border:none;padding:6px 16px;border-radius:6px;font-size:12px;font-weight:500;font-family:inherit;cursor:pointer;animation:ppim-be-hero-d-pulse 2.6s ease-in-out infinite;">Sync to 3 stores</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 96px 96px 116px 188px 90px;gap:0;border-bottom:1px solid #EEEAE0;font-size:9.5px;color:#8A8983;text-transform:uppercase;letter-spacing:0.05em;font-weight:500;background:#FAF8F2;">
+      <div style="padding:10px 18px 9px;border-right:1px solid #F8F6EE;">Product</div>
+      <div style="padding:10px 12px 9px;text-align:right;border-right:1px solid #F8F6EE;">Price</div>
+      <div style="padding:10px 12px 9px;text-align:right;border-right:1px solid #F8F6EE;">Compare</div>
+      <div style="padding:10px 12px 9px;border-right:1px solid #F8F6EE;">Tags</div>
+      <div style="padding:10px 12px 9px;border-right:1px solid #F8F6EE;display:flex;align-items:center;gap:6px;">Material<span style="background:#EEF1FE;color:#1A2CA3;padding:1px 5px;border-radius:3px;font-size:8.5px;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;text-transform:none;letter-spacing:0;font-weight:500;line-height:1.5;">metafield</span></div>
+      <div style="padding:10px 12px 9px;">Status</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 96px 96px 116px 188px 90px;gap:0;border-bottom:1px solid #F4F1EA;align-items:stretch;">
+      <div style="padding:9px 18px;display:flex;align-items:center;gap:11px;border-right:1px solid #F8F6EE;">
+        <div style="width:32px;height:32px;border-radius:5px;flex-shrink:0;background:url('/assets/product-ui/summit-gear-shell-jacket-red.png') center/cover no-repeat,#F4F1EA;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.04);"></div>
+        <div style="min-width:0;flex:1;">
+          <div style="font-size:13px;font-weight:500;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Summit Gear Shell Jacket</div>
+          <div style="font-size:10.5px;color:#8A8983;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;line-height:1.3;margin-top:2px;">SG-SJ-RED</div>
+        </div>
+      </div>
+      <div style="padding:9px 12px;text-align:right;font-size:13px;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;border-right:1px solid #F8F6EE;display:flex;align-items:center;justify-content:flex-end;gap:6px;background:#F4F8FE;">
+        <span style="width:5px;height:5px;border-radius:50%;background:#2845D6;flex-shrink:0;"></span>
+        $219.00
+      </div>
+      <div style="padding:9px 12px;text-align:right;font-size:13px;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;color:#8A8983;border-right:1px solid #F8F6EE;display:flex;align-items:center;justify-content:flex-end;">$239.00</div>
+      <div style="padding:9px 12px;font-size:11.5px;border-right:1px solid #F8F6EE;display:flex;align-items:center;">
+        <span style="background:#F1EFE8;color:#5F5E5A;padding:2px 7px;border-radius:4px;font-size:10.5px;">spring-25</span>
+      </div>
+      <div style="padding:9px 12px;font-size:12px;border-right:1px solid #F8F6EE;display:flex;align-items:center;">Gore-Tex Pro 3L</div>
+      <div style="padding:9px 12px;display:flex;align-items:center;gap:6px;">
+        <span style="width:6px;height:6px;border-radius:50%;background:#1D9E75;flex-shrink:0;"></span>
+        <span style="font-size:11.5px;color:#0F6E56;font-weight:500;">Active</span>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 96px 96px 116px 188px 90px;gap:0;border-bottom:1px solid #F4F1EA;align-items:stretch;">
+      <div style="padding:9px 18px;display:flex;align-items:center;gap:11px;border-right:1px solid #F8F6EE;">
+        <div style="width:32px;height:32px;border-radius:5px;flex-shrink:0;background:url('/assets/product-ui/peakpro-freeride-x-red.png') center/cover no-repeat,#F4F1EA;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.04);"></div>
+        <div style="min-width:0;flex:1;">
+          <div style="font-size:13px;font-weight:500;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">PeakPro Freeride X</div>
+          <div style="font-size:10.5px;color:#8A8983;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;line-height:1.3;margin-top:2px;">PP-FRX-RED</div>
+        </div>
+      </div>
+      <div style="padding:9px 12px;text-align:right;font-size:13px;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;border-right:1px solid #F8F6EE;display:flex;align-items:center;justify-content:flex-end;">$189.00</div>
+      <div style="padding:9px 12px;text-align:right;font-size:13px;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;color:#8A8983;border-right:1px solid #F8F6EE;display:flex;align-items:center;justify-content:flex-end;">$209.00</div>
+      <div style="padding:9px 12px;font-size:11.5px;border-right:1px solid #F8F6EE;display:flex;align-items:center;">
+        <span style="background:#F1EFE8;color:#5F5E5A;padding:2px 7px;border-radius:4px;font-size:10.5px;">new</span>
+      </div>
+      <div style="padding:9px 12px;font-size:12px;border-right:1px solid #F8F6EE;display:flex;align-items:center;">Polycarbonate lens</div>
+      <div style="padding:9px 12px;display:flex;align-items:center;gap:6px;">
+        <span style="width:6px;height:6px;border-radius:50%;background:#1D9E75;flex-shrink:0;"></span>
+        <span style="font-size:11.5px;color:#0F6E56;font-weight:500;">Active</span>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 96px 96px 116px 188px 90px;gap:0;border-bottom:1px solid #F4F1EA;align-items:stretch;background:#F4F8FE;">
+      <div style="padding:9px 18px;display:flex;align-items:center;gap:11px;border-right:1px solid #F8F6EE;">
+        <div style="width:32px;height:32px;border-radius:5px;flex-shrink:0;background:url('/assets/product-ui/ski-traverse-30l-backpack-black.png') center/cover no-repeat,#F4F1EA;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.04);"></div>
+        <div style="min-width:0;flex:1;">
+          <div style="font-size:13px;font-weight:500;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Ski Traverse 30L Backpack</div>
+          <div style="font-size:10.5px;color:#8A8983;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;line-height:1.3;margin-top:2px;">ST-30L-BLK</div>
+        </div>
+      </div>
+      <div style="padding:9px 12px;text-align:right;font-size:13px;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;border-right:1px solid #F8F6EE;display:flex;align-items:center;justify-content:flex-end;">$89.00</div>
+      <div style="padding:9px 12px;text-align:right;font-size:13px;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;color:#8A8983;border-right:1px solid #F8F6EE;display:flex;align-items:center;justify-content:flex-end;">$99.00</div>
+      <div style="padding:9px 12px;font-size:11.5px;border-right:1px solid #F8F6EE;display:flex;align-items:center;">
+        <span style="background:#F1EFE8;color:#5F5E5A;padding:2px 7px;border-radius:4px;font-size:10.5px;">tech</span>
+      </div>
+      <div style="padding:4px 6px;border-right:1px solid #F8F6EE;display:flex;align-items:center;">
+        <div style="background:#EEF1FE;border:1.5px solid #2845D6;border-radius:5px;padding:5px 9px;width:100%;box-sizing:border-box;">
+          <div style="font-size:12px;color:#1A2CA3;font-weight:500;display:flex;align-items:center;line-height:1.3;">Cordura 500D<span style="display:inline-block;width:1.5px;height:14px;background:#2845D6;margin-left:1px;animation:ppim-be-hero-d-blink 1s infinite;"></span></div>
+          <div style="font-size:9px;color:#1A2CA3;opacity:0.55;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;line-height:1.2;margin-top:2px;">spec.material</div>
+        </div>
+      </div>
+      <div style="padding:9px 12px;display:flex;align-items:center;gap:6px;">
+        <span style="width:6px;height:6px;border-radius:50%;background:#1D9E75;flex-shrink:0;"></span>
+        <span style="font-size:11.5px;color:#0F6E56;font-weight:500;">Active</span>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 96px 96px 116px 188px 90px;gap:0;align-items:stretch;">
+      <div style="padding:9px 18px;display:flex;align-items:center;gap:11px;border-right:1px solid #F8F6EE;">
+        <div style="width:32px;height:32px;border-radius:5px;flex-shrink:0;background:url('/assets/product-ui/nordic-flr-boot-black.png') center/cover no-repeat,#F4F1EA;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.04);"></div>
+        <div style="min-width:0;flex:1;">
+          <div style="font-size:13px;font-weight:500;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Nordic FLR Boot</div>
+          <div style="font-size:10.5px;color:#8A8983;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;line-height:1.3;margin-top:2px;">NF-BT-BLK</div>
+        </div>
+      </div>
+      <div style="padding:9px 12px;text-align:right;font-size:13px;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;border-right:1px solid #F8F6EE;display:flex;align-items:center;justify-content:flex-end;">$329.00</div>
+      <div style="padding:9px 12px;text-align:right;font-size:13px;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;color:#8A8983;border-right:1px solid #F8F6EE;display:flex;align-items:center;justify-content:flex-end;">$359.00</div>
+      <div style="padding:9px 12px;font-size:11.5px;border-right:1px solid #F8F6EE;display:flex;align-items:center;">
+        <span style="background:#F1EFE8;color:#5F5E5A;padding:2px 7px;border-radius:4px;font-size:10.5px;">ski</span>
+      </div>
+      <div style="padding:9px 12px;font-size:12px;border-right:1px solid #F8F6EE;display:flex;align-items:center;">Pebax shell</div>
+      <div style="padding:9px 12px;display:flex;align-items:center;gap:6px;">
+        <span style="width:6px;height:6px;border-radius:50%;background:#1D9E75;flex-shrink:0;"></span>
+        <span style="font-size:11.5px;color:#0F6E56;font-weight:500;">Active</span>
+      </div>
+    </div>
+
+    <div style="padding:11px 20px;background:#FAF8F2;border-top:1px solid #EEEAE0;display:flex;align-items:center;gap:14px;">
+      <span style="font-size:10px;color:#8A8983;text-transform:uppercase;letter-spacing:0.05em;font-weight:500;">Sync to</span>
+      <div style="display:flex;align-items:center;gap:7px;">
+        <div style="width:17px;height:17px;border-radius:3px;background:#1A2CA3;color:white;font-size:8.5px;font-weight:600;display:flex;align-items:center;justify-content:center;">US</div>
+        <span style="font-size:12px;font-weight:500;">Heritage</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:7px;">
+        <div style="width:17px;height:17px;border-radius:3px;background:#534AB7;color:white;font-size:8.5px;font-weight:600;display:flex;align-items:center;justify-content:center;">FR</div>
+        <span style="font-size:12px;font-weight:500;">Maison</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:7px;">
+        <div style="width:17px;height:17px;border-radius:3px;background:#993C1D;color:white;font-size:8.5px;font-weight:600;display:flex;align-items:center;justify-content:center;">GB</div>
+        <span style="font-size:12px;font-weight:500;">Atelier</span>
+      </div>
+      <span style="margin-left:auto;font-size:11.5px;color:#0F6E56;display:flex;align-items:center;gap:7px;font-weight:500;">
+        <span style="width:7px;height:7px;border-radius:50%;background:#1D9E75;animation:ppim-be-hero-d-dot 2.4s ease-in-out infinite;"></span>
+        ready to sync · 3 stores
+      </span>
+    </div>
+
+  </div>
+</div>
+
+<div class="ppim-be-hero-mobile" style="padding:28px 20px;box-sizing:border-box;width:100%;max-width:380px;margin:0 auto;flex-direction:column;align-items:stretch;font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:#2C2C2A;">
+  <div style="background:white;border-radius:12px;box-shadow:0 4px 12px rgba(13,26,99,0.06),0 18px 40px rgba(13,26,99,0.10);overflow:hidden;">
+
+    <div style="background:#1a1a1a;color:white;padding:11px 14px;display:flex;align-items:center;gap:9px;">
+      <svg width="13" height="10" viewBox="511 481 556 425"><path fill-rule="nonzero" fill="#F2F3F5" d="M 713.535156 751.597656 L 860.074219 634.671875 L 826.027344 721.976562 L 1066.578125 905.730469 L 789.171875 481.910156 L 511.765625 905.730469 L 713.535156 751.597656 Z"></path></svg>
+      <div style="font-size:11.5px;font-weight:500;flex:1;">Peak PIM · Catalog</div>
+      <div style="font-size:8px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.05em;font-weight:500;">3 stores</div>
+    </div>
+
+    <div style="background:#FAF8F2;border-bottom:1px solid #EEEAE0;padding:8px 14px;display:flex;align-items:center;justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span style="color:#8A8983;text-transform:uppercase;letter-spacing:0.05em;font-weight:500;font-size:8.5px;">Filter</span>
+        <span style="background:white;border:1px solid #E8E6DE;color:#2C2C2A;padding:2px 6px;border-radius:3px;font-size:10px;">Active · Spring 25</span>
+      </div>
+      <span style="color:#8A8983;font-size:10px;">247 of 1,247</span>
+    </div>
+
+    <div style="padding:9px 14px;border-bottom:1px solid #EEEAE0;display:flex;gap:8px;">
+      <button style="flex:1;background:white;border:1px solid #D8D4C8;color:#2C2C2A;padding:7px 0;border-radius:6px;font-size:11.5px;font-weight:500;font-family:inherit;cursor:pointer;">Save</button>
+      <button style="flex:2;background:#2845D6;color:white;border:none;padding:7px 0;border-radius:6px;font-size:11.5px;font-weight:500;font-family:inherit;cursor:pointer;animation:ppim-be-hero-m-pulse 2.6s ease-in-out infinite;">Sync to 3 stores</button>
+    </div>
+
+    <div style="padding:12px 14px 11px;">
+      <div style="display:flex;align-items:center;gap:11px;margin-bottom:10px;">
+        <div style="width:40px;height:40px;border-radius:6px;flex-shrink:0;background:url('/assets/product-ui/ski-traverse-30l-backpack-black.png') center/cover no-repeat,#F4F1EA;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.04);"></div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:12px;font-weight:500;line-height:1.2;">Ski Traverse 30L Backpack</div>
+          <div style="font-size:9.5px;color:#8A8983;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;line-height:1.3;margin-top:2px;">ST-30L-BLK</div>
+        </div>
+        <span style="display:flex;align-items:center;gap:4px;flex-shrink:0;">
+          <span style="width:6px;height:6px;border-radius:50%;background:#1D9E75;"></span>
+          <span style="font-size:10px;color:#0F6E56;font-weight:500;">Active</span>
+        </span>
+      </div>
+
+      <div style="border-top:1px solid #F4F1EA;padding-top:9px;display:flex;flex-direction:column;gap:7px;">
+        <div style="display:grid;grid-template-columns:80px 1fr;gap:10px;align-items:center;">
+          <div style="font-size:9px;color:#8A8983;text-transform:uppercase;letter-spacing:0.05em;font-weight:500;">Price</div>
+          <div style="font-size:11.5px;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;text-align:right;">$89.00</div>
+        </div>
+        <div style="display:grid;grid-template-columns:80px 1fr;gap:10px;align-items:center;">
+          <div style="font-size:9px;color:#8A8983;text-transform:uppercase;letter-spacing:0.05em;font-weight:500;">Compare</div>
+          <div style="font-size:11.5px;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;text-align:right;color:#8A8983;">$99.00</div>
+        </div>
+        <div style="display:grid;grid-template-columns:80px 1fr;gap:10px;align-items:center;">
+          <div style="font-size:9px;color:#8A8983;text-transform:uppercase;letter-spacing:0.05em;font-weight:500;">Tags</div>
+          <div style="display:flex;justify-content:flex-end;">
+            <span style="background:#F1EFE8;color:#5F5E5A;padding:2px 7px;border-radius:3px;font-size:10px;">tech</span>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:80px 1fr;gap:10px;align-items:flex-start;">
+          <div style="display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding-top:2px;">
+            <div style="font-size:9px;color:#8A8983;text-transform:uppercase;letter-spacing:0.05em;font-weight:500;">Material</div>
+            <span style="background:#EEF1FE;color:#1A2CA3;padding:0 4px;border-radius:2px;font-size:7.5px;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;font-weight:500;letter-spacing:0;text-transform:none;line-height:1.5;">metafield</span>
+          </div>
+          <div style="background:#EEF1FE;border:1.5px solid #2845D6;border-radius:5px;padding:5px 8px;">
+            <div style="font-size:11px;color:#1A2CA3;font-weight:500;display:flex;align-items:center;line-height:1.3;">Cordura 500D<span style="display:inline-block;width:1.5px;height:12px;background:#2845D6;margin-left:1px;animation:ppim-be-hero-m-blink 1s infinite;"></span></div>
+            <div style="font-size:8px;color:#1A2CA3;opacity:0.55;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;line-height:1.2;margin-top:1px;">spec.material</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:8px 14px;background:#FAF8F2;border-top:1px solid #EEEAE0;border-bottom:1px solid #EEEAE0;text-align:center;">
+      <span style="font-size:10px;color:#8A8983;font-weight:500;">+ 246 more products in catalog</span>
+    </div>
+
+    <div style="padding:10px 14px;background:#FAF8F2;display:flex;align-items:center;justify-content:space-between;gap:10px;">
+      <span style="font-size:8.5px;color:#8A8983;text-transform:uppercase;letter-spacing:0.05em;font-weight:500;">Sync to</span>
+      <div style="display:flex;align-items:center;gap:5px;">
+        <div style="width:14px;height:14px;border-radius:3px;background:#1A2CA3;color:white;font-size:7px;font-weight:600;display:flex;align-items:center;justify-content:center;">US</div>
+        <div style="width:14px;height:14px;border-radius:3px;background:#534AB7;color:white;font-size:7px;font-weight:600;display:flex;align-items:center;justify-content:center;">FR</div>
+        <div style="width:14px;height:14px;border-radius:3px;background:#993C1D;color:white;font-size:7px;font-weight:600;display:flex;align-items:center;justify-content:center;">GB</div>
+      </div>
+      <span style="font-size:10px;color:#0F6E56;display:flex;align-items:center;gap:5px;font-weight:500;">
+        <span style="width:6px;height:6px;border-radius:50%;background:#1D9E75;animation:ppim-be-hero-m-dot 2.4s ease-in-out infinite;"></span>
+        ready
+      </span>
+    </div>
+
+  </div>
+</div></div></div></div></div></div></header><section class="section_layout237 color-scheme-1"><div class="padding-global"><div class="container-large"><div class="padding-section-large"><div class="layout237_component"><div class="margin-bottom margin-xxlarge"><div class="text-align-center"><div class="max-width-large align-center"><div class="margin-bottom margin-small"><h2 class="heading-style-h2">One by one takes forever</h2></div><p class="text-size-medium">Editing products individually in Shopify wastes hours. A merchant with 500 SKUs can spend a full day on changes that should take minutes.</p></div></div></div><div class="w-layout-grid layout237_list"><div class="layout237_item"><div class="margin-bottom margin-small"><div class="layout237_item-icon-wrapper"><div class="icon-1x1-medium w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 -960 960 960"><path fill="currentColor" d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Zm-40-280v-240h80v206l129 129-57 57-152-152Z"></path></svg></div></div></div><div class="margin-bottom margin-small"><h3 class="heading-style-h4"><strong class="heading-style-h4">Manual edits don't scale.</strong></h3></div><p>The more products you have, the longer it takes, and the more chances there are for a wrong price or missing description to slip through unnoticed.</p></div><div class="layout237_item"><div class="margin-bottom margin-small"><div class="layout237_item-icon-wrapper"><div class="icon-1x1-medium w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 -960 960 960"><path fill="currentColor" d="M224.35-357h102q10.59 0 17.8-7.12 7.2-7.11 7.2-18 0-10.88-7.2-17.88-7.21-7-17.8-7h-85v-146h85q10.59 0 17.8-7.12 7.2-7.11 7.2-18 0-10.88-7.2-17.88-7.21-7-17.8-7h-102q-14.27 0-23.63 9.78-9.37 9.77-9.37 24.22v179q0 14.02 9.37 23.51 9.36 9.49 23.63 9.49Zm189.08 0h112q14.03 0 23.52-9.49 9.48-9.49 9.48-23.51v-78q0-13-9.48-21.88-9.49-8.88-23.52-8.88h-87v-54.32h95q10.84 0 17.92-7.08 7.08-7.07 7.08-17.96 0-10.88-7.08-17.88-7.08-7-17.92-7h-112q-14.02 0-23.51 9.49-9.49 9.48-9.49 23.51v78q0 14 9.49 23.5t23.51 9.5h87v52h-95q-10.83 0-17.91 7.12-7.09 7.11-7.09 18 0 10.88 7.09 17.88 7.08 7 17.91 7Zm272.61-63-42-165q-2.24-8-8.46-13-6.23-5-14.75-5-11.93 0-19.48 10-7.55 10-4.31 21l54 195q2 9 9.88 14.5 7.88 5.5 17.57 5.5h15.11q9.44 0 16.82-5.5 7.38-5.5 9.62-13.5l60-197q3.76-11.35-3.62-20.68-7.38-9.32-19-9.32-8.62 0-15.02 4.5t-8.36 12.5l-48 166ZM142.15-154.02q-27.6 0-47.86-20.27-20.27-20.26-20.27-47.86v-515.7q0-27.7 20.27-48.03 20.26-20.34 47.86-20.34h675.7q27.7 0 48.03 20.34 20.34 20.33 20.34 48.03v515.7q0 27.6-20.34 47.86-20.33 20.27-48.03 20.27h-675.7Zm0-68.13h675.7v-515.7h-675.7v515.7Zm0 0v-515.7 515.7Z"></path></svg></div></div></div><div class="margin-bottom margin-small"><h3 class="heading-style-h4"><strong class="heading-style-h4">CSV works. <br>Until it doesn't.</strong></h3></div><p>Export, edit, re-import. Then discover a blank column wiped 300 descriptions, or a misplaced comma corrupted your image URLs. There's no rollback.</p></div><div class="layout237_item"><div class="margin-bottom margin-small"><div class="layout237_item-icon-wrapper"><div class="icon-1x1-medium w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 -960 960 960"><path fill="currentColor" d="M160-720v-80h640v80H160Zm0 560v-240h-40v-80l40-200h640l40 200v80h-40v240h-80v-240H560v240H160Zm80-80h240v-160H240v160Zm-38-240h556-556Zm0 0h556l-28-140H230l-28 140Z"></path></svg></div></div></div><div class="margin-bottom margin-small"><h3 class="heading-style-h4"><strong class="heading-style-h4">More stores, more repetition.</strong></h3></div><p>No way to push changes across storefronts at once. Every update gets repeated, manually, per store.</p></div></div><div class="margin-top margin-xxlarge"><div class="button-group is-center"><a href="#" class="button is-link is-icon w-inline-block"><div>Discover how to take control</div><div class="icon-embed-xxsmall w-embed"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 3L11 8L6 13" stroke="CurrentColor" stroke-width="1.5"></path>
+</svg></div></a></div></div></div></div></div></div></section><section class="section_testimonial4 color-scheme-1"><div class="padding-global"><div class="container-large"><div class="padding-section-large"><div class="max-width-large align-center"><div class="testimonial4_component"><div class="testimonial4_content"><div class="margin-bottom margin-medium"><div class="testimonial4_rating-wrapper"><div class="testimonial4_rating-icon"><div class="icon-embed-xsmall w-embed"><svg width="100%" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M8.16379 0.551109C8.47316 -0.183704 9.52684 -0.183703 9.83621 0.551111L11.6621 4.88811C11.7926 5.19789 12.0875 5.40955 12.426 5.43636L17.1654 5.81173C17.9684 5.87533 18.294 6.86532 17.6822 7.38306L14.0713 10.4388C13.8134 10.6571 13.7007 10.9996 13.7795 11.3259L14.8827 15.8949C15.0696 16.669 14.2172 17.2809 13.5297 16.8661L9.47208 14.4176C9.18225 14.2427 8.81775 14.2427 8.52793 14.4176L4.47029 16.8661C3.7828 17.2809 2.93036 16.669 3.11727 15.8949L4.22048 11.3259C4.29928 10.9996 4.18664 10.6571 3.92873 10.4388L0.317756 7.38306C-0.294046 6.86532 0.0315611 5.87533 0.834562 5.81173L5.57402 5.43636C5.91255 5.40955 6.20744 5.19789 6.33786 4.88811L8.16379 0.551109Z" fill="currentColor"></path>
+</svg></div></div><div class="testimonial4_rating-icon"><div class="icon-embed-xsmall w-embed"><svg width="100%" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M8.16379 0.551109C8.47316 -0.183704 9.52684 -0.183703 9.83621 0.551111L11.6621 4.88811C11.7926 5.19789 12.0875 5.40955 12.426 5.43636L17.1654 5.81173C17.9684 5.87533 18.294 6.86532 17.6822 7.38306L14.0713 10.4388C13.8134 10.6571 13.7007 10.9996 13.7795 11.3259L14.8827 15.8949C15.0696 16.669 14.2172 17.2809 13.5297 16.8661L9.47208 14.4176C9.18225 14.2427 8.81775 14.2427 8.52793 14.4176L4.47029 16.8661C3.7828 17.2809 2.93036 16.669 3.11727 15.8949L4.22048 11.3259C4.29928 10.9996 4.18664 10.6571 3.92873 10.4388L0.317756 7.38306C-0.294046 6.86532 0.0315611 5.87533 0.834562 5.81173L5.57402 5.43636C5.91255 5.40955 6.20744 5.19789 6.33786 4.88811L8.16379 0.551109Z" fill="currentColor"></path>
+</svg></div></div><div class="testimonial4_rating-icon"><div class="icon-embed-xsmall w-embed"><svg width="100%" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M8.16379 0.551109C8.47316 -0.183704 9.52684 -0.183703 9.83621 0.551111L11.6621 4.88811C11.7926 5.19789 12.0875 5.40955 12.426 5.43636L17.1654 5.81173C17.9684 5.87533 18.294 6.86532 17.6822 7.38306L14.0713 10.4388C13.8134 10.6571 13.7007 10.9996 13.7795 11.3259L14.8827 15.8949C15.0696 16.669 14.2172 17.2809 13.5297 16.8661L9.47208 14.4176C9.18225 14.2427 8.81775 14.2427 8.52793 14.4176L4.47029 16.8661C3.7828 17.2809 2.93036 16.669 3.11727 15.8949L4.22048 11.3259C4.29928 10.9996 4.18664 10.6571 3.92873 10.4388L0.317756 7.38306C-0.294046 6.86532 0.0315611 5.87533 0.834562 5.81173L5.57402 5.43636C5.91255 5.40955 6.20744 5.19789 6.33786 4.88811L8.16379 0.551109Z" fill="currentColor"></path>
+</svg></div></div><div class="testimonial4_rating-icon"><div class="icon-embed-xsmall w-embed"><svg width="100%" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M8.16379 0.551109C8.47316 -0.183704 9.52684 -0.183703 9.83621 0.551111L11.6621 4.88811C11.7926 5.19789 12.0875 5.40955 12.426 5.43636L17.1654 5.81173C17.9684 5.87533 18.294 6.86532 17.6822 7.38306L14.0713 10.4388C13.8134 10.6571 13.7007 10.9996 13.7795 11.3259L14.8827 15.8949C15.0696 16.669 14.2172 17.2809 13.5297 16.8661L9.47208 14.4176C9.18225 14.2427 8.81775 14.2427 8.52793 14.4176L4.47029 16.8661C3.7828 17.2809 2.93036 16.669 3.11727 15.8949L4.22048 11.3259C4.29928 10.9996 4.18664 10.6571 3.92873 10.4388L0.317756 7.38306C-0.294046 6.86532 0.0315611 5.87533 0.834562 5.81173L5.57402 5.43636C5.91255 5.40955 6.20744 5.19789 6.33786 4.88811L8.16379 0.551109Z" fill="currentColor"></path>
+</svg></div></div><div class="testimonial4_rating-icon"><div class="icon-embed-xsmall w-embed"><svg width="100%" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M8.16379 0.551109C8.47316 -0.183704 9.52684 -0.183703 9.83621 0.551111L11.6621 4.88811C11.7926 5.19789 12.0875 5.40955 12.426 5.43636L17.1654 5.81173C17.9684 5.87533 18.294 6.86532 17.6822 7.38306L14.0713 10.4388C13.8134 10.6571 13.7007 10.9996 13.7795 11.3259L14.8827 15.8949C15.0696 16.669 14.2172 17.2809 13.5297 16.8661L9.47208 14.4176C9.18225 14.2427 8.81775 14.2427 8.52793 14.4176L4.47029 16.8661C3.7828 17.2809 2.93036 16.669 3.11727 15.8949L4.22048 11.3259C4.29928 10.9996 4.18664 10.6571 3.92873 10.4388L0.317756 7.38306C-0.294046 6.86532 0.0315611 5.87533 0.834562 5.81173L5.57402 5.43636C5.91255 5.40955 6.20744 5.19789 6.33786 4.88811L8.16379 0.551109Z" fill="currentColor"></path>
+</svg></div></div></div></div><h3 class="heading-style-h5"><em>Bulk editing metafields across hundreds of products was simply not possible before. Now it takes a few clicks.</em></h3><div class="margin-top margin-medium"><div class="testimonial4_client"><div class="testimonial4_client-image-wrapper"><img sizes="100vw" srcset="/mirror/6a02fbe03939b2bab67a0648_Simon-Tordjman-Du-Bruit-Dans-La-Cuisine-p-500-e7b409f3ac.png 500w, /assets/testimonials/simon-tordjman-du-bruit-dans-la-cuisine.png 512w" alt="" src="/assets/testimonials/simon-tordjman-du-bruit-dans-la-cuisine.png" loading="lazy" class="testimonial4_client-image"></div><div class="testimonial4_client-info"><div class="text-weight-semibold">Simon Tordjman</div><div>COO, Du Bruit dans la Cuisine</div></div><div class="divider-vertical"></div><div class="testimonial4_logo-wrapper"><img sizes="100vw" srcset="/mirror/6a02fb70081b921fb9432b84_Du-Bruit-Dans-La-Cuisine-Black-logo-p-500-7270d310bc.png 500w, /mirror/6a02fb70081b921fb9432b84_Du-Bruit-Dans-La-Cuisine-Black-logo-7899ce298c.png 680w" alt="" src="/mirror/6a02fb70081b921fb9432b84_Du-Bruit-Dans-La-Cuisine-Black-logo-7899ce298c.png" loading="lazy" class="testimonial4_logo"></div></div></div></div></div></div></div></div></div></section><section id="how-it-works" class="section_layout239 color-scheme-1"><div class="padding-global"><div class="container-large"><div class="padding-section-large"><div class="layout239_component"><div class="margin-bottom margin-xxlarge"><div class="text-align-center"><div class="max-width-large align-center"><div class="margin-bottom margin-small"><h2 class="heading-style-h2">How Bulk Edit works</h2></div><p class="text-size-medium">Filter, edit, and sync. That's all it takes to move fast.</p></div></div></div><div class="w-layout-grid layout239_list"><div class="layout239_item"><div class="margin-bottom margin-medium"><div class="layout239_image-wrapper"><div class="w-embed"><div style="aspect-ratio:16/9;padding:10px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:#2C2C2A;">
+  <div style="background:white;border-radius:10px;box-shadow:0 4px 12px rgba(13,26,99,0.06),0 18px 40px rgba(13,26,99,0.10);overflow:hidden;width:100%;max-width:360px;">
+
+    <div style="padding:10px 14px 9px;border-bottom:1px solid #EEEAE0;background:#FAF8F2;display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-size:11px;font-weight:600;letter-spacing:-0.005em;">Filter products</div>
+      <div style="font-size:8.5px;color:#8A8983;text-transform:uppercase;letter-spacing:0.06em;font-weight:500;">Step 1</div>
+    </div>
+
+    <div style="padding:11px 14px;display:flex;flex-direction:column;gap:6px;">
+      <div style="display:grid;grid-template-columns:74px 1fr;align-items:center;gap:9px;">
+        <div style="font-size:8.5px;color:#8A8983;text-transform:uppercase;letter-spacing:0.05em;font-weight:500;">Type</div>
+        <div style="background:#FAF8F2;border:1px solid #EEEAE0;color:#2C2C2A;padding:3px 8px;border-radius:4px;font-size:10px;display:flex;align-items:center;justify-content:space-between;">
+          <span>Apparel</span>
+          <svg width="8" height="6" viewBox="0 0 8 6" fill="none"><path d="M1 1L4 4L7 1" stroke="#8A8983" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:74px 1fr;align-items:center;gap:9px;">
+        <div style="font-size:8.5px;color:#8A8983;text-transform:uppercase;letter-spacing:0.05em;font-weight:500;">Status</div>
+        <div style="background:#FAF8F2;border:1px solid #EEEAE0;color:#2C2C2A;padding:3px 8px;border-radius:4px;font-size:10px;display:flex;align-items:center;justify-content:space-between;">
+          <span>Active</span>
+          <svg width="8" height="6" viewBox="0 0 8 6" fill="none"><path d="M1 1L4 4L7 1" stroke="#8A8983" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:74px 1fr;align-items:center;gap:9px;">
+        <div style="font-size:8.5px;color:#8A8983;text-transform:uppercase;letter-spacing:0.05em;font-weight:500;">Collection</div>
+        <div style="background:#FAF8F2;border:1px solid #EEEAE0;color:#2C2C2A;padding:3px 8px;border-radius:4px;font-size:10px;display:flex;align-items:center;justify-content:space-between;">
+          <span>Spring 25</span>
+          <svg width="8" height="6" viewBox="0 0 8 6" fill="none"><path d="M1 1L4 4L7 1" stroke="#8A8983" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:74px 1fr;align-items:center;gap:9px;">
+        <div style="font-size:8.5px;color:#8A8983;text-transform:uppercase;letter-spacing:0.05em;font-weight:500;">Custom</div>
+        <div style="color:#2845D6;font-size:10px;font-weight:500;">+ Add field</div>
+      </div>
+    </div>
+
+    <div style="padding:9px 14px 11px;background:#FAF8F2;border-top:1px solid #EEEAE0;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+        <div style="font-size:10.5px;font-weight:500;">247 of 1,247 products</div>
+        <div style="font-size:9px;color:#1A2CA3;font-weight:500;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;">19.8%</div>
+      </div>
+      <div style="height:4px;background:#EEEAE0;border-radius:2px;overflow:hidden;">
+        <div style="height:100%;width:19.8%;background:#2845D6;border-radius:2px;box-shadow:0 0 6px rgba(40,69,214,0.35);"></div>
+      </div>
+    </div>
+
+  </div>
+</div></div></div></div><div class="margin-bottom margin-small"><h3 class="heading-style-h4">Filter and short your catalog</h3></div><p>Select exactly what you need. Filter by type, tag, vendor, status, collection, or any custom field you've built.</p></div><div class="layout239_item"><div class="margin-bottom margin-medium"><div class="layout239_image-wrapper"><div class="w-embed"><style>
+@keyframes ppim-be-step2-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(40,69,214,0); } 50% { box-shadow: 0 0 0 4px rgba(40,69,214,0.20); } }
+</style>
+<div style="aspect-ratio:16/9;padding:10px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:#2C2C2A;">
+  <div style="background:white;border-radius:10px;box-shadow:0 4px 12px rgba(13,26,99,0.06),0 18px 40px rgba(13,26,99,0.10);overflow:hidden;width:100%;max-width:360px;">
+
+    <div style="padding:10px 14px 9px;border-bottom:1px solid #EEEAE0;background:#FAF8F2;display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-size:11px;font-weight:600;letter-spacing:-0.005em;">Bulk edit · 247 products</div>
+      <div style="font-size:8.5px;color:#8A8983;text-transform:uppercase;letter-spacing:0.06em;font-weight:500;">Step 2</div>
+    </div>
+
+    <div style="padding:11px 14px;display:flex;flex-direction:column;gap:6px;">
+      <div style="display:grid;grid-template-columns:110px 1fr;align-items:center;gap:9px;">
+        <div style="font-size:8.5px;color:#8A8983;text-transform:uppercase;letter-spacing:0.05em;font-weight:500;">Price</div>
+        <div style="display:flex;align-items:center;gap:5px;">
+          <span style="color:#8A8983;font-size:10px;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;">$189</span>
+          <span style="color:#B0AFAB;font-size:9px;">→</span>
+          <span style="color:#2C2C2A;font-size:10px;font-weight:500;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;">$199</span>
+          <span style="color:#0F6E56;font-size:8.5px;background:#E8F5EE;padding:1px 5px;border-radius:3px;font-weight:500;display:inline-flex;align-items:center;gap:3px;"><svg width="6" height="5" viewBox="0 0 6 5" fill="none"><path d="M3 0L6 5H0L3 0Z" fill="#0F6E56"></path></svg>5.3%</span>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:110px 1fr;align-items:center;gap:9px;">
+        <div style="font-size:8.5px;color:#8A8983;text-transform:uppercase;letter-spacing:0.05em;font-weight:500;">Tag</div>
+        <div style="display:flex;align-items:center;gap:5px;">
+          <span style="color:#2845D6;font-size:11px;font-weight:600;line-height:1;">+</span>
+          <span style="background:#F1EFE8;color:#5F5E5A;padding:1px 6px;border-radius:3px;font-size:9px;">spring-26</span>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:110px 1fr;align-items:center;gap:9px;">
+        <div style="display:flex;align-items:center;gap:5px;">
+          <div style="font-size:8.5px;color:#8A8983;text-transform:uppercase;letter-spacing:0.05em;font-weight:500;">Material</div>
+          <span style="background:#EEF1FE;color:#1A2CA3;padding:1px 4px;border-radius:2px;font-size:7px;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;font-weight:500;text-transform:none;letter-spacing:0;line-height:1.4;">metafield</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:5px;">
+          <span style="color:#B0AFAB;font-size:9px;">→</span>
+          <span style="color:#2C2C2A;font-size:10px;font-weight:500;">Cordura 500D</span>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:110px 1fr;align-items:center;gap:9px;">
+        <div style="display:flex;align-items:center;gap:5px;">
+          <div style="font-size:8.5px;color:#8A8983;text-transform:uppercase;letter-spacing:0.05em;font-weight:500;">Spec card</div>
+          <span style="background:#EEF1FE;color:#1A2CA3;padding:1px 4px;border-radius:2px;font-size:7px;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;font-weight:500;text-transform:none;letter-spacing:0;line-height:1.4;">metaobject</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:5px;">
+          <span style="color:#B0AFAB;font-size:9px;">→</span>
+          <span style="color:#2C2C2A;font-size:10px;font-weight:500;">Trail-ready</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:9px 14px 11px;background:#FAF8F2;border-top:1px solid #EEEAE0;">
+      <button style="width:100%;background:#2845D6;color:white;border:none;padding:7px 0;border-radius:6px;font-size:10.5px;font-weight:500;font-family:inherit;cursor:pointer;animation:ppim-be-step2-pulse 2.6s ease-in-out infinite;">Apply to 247 products</button>
+    </div>
+
+  </div>
+</div></div></div></div><div class="margin-bottom margin-small"><h3 class="heading-style-h4">Edit everything at once</h3></div><p>Update any field across all selected products simultaneously. Prices, descriptions, tags, metafields, metaobjects. All at once.</p></div><div class="layout239_item"><div class="margin-bottom margin-medium"><div class="layout239_image-wrapper"><div class="w-embed"><style>
+@keyframes ppim-be-step3-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(40,69,214,0); } 50% { box-shadow: 0 0 0 4px rgba(40,69,214,0.20); } }
+@keyframes ppim-be-step3-dot { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+</style>
+<div style="aspect-ratio:16/9;padding:10px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:#2C2C2A;">
+  <div style="background:white;border-radius:10px;box-shadow:0 4px 12px rgba(13,26,99,0.06),0 18px 40px rgba(13,26,99,0.10);overflow:hidden;width:100%;max-width:360px;">
+
+    <div style="padding:10px 14px 9px;border-bottom:1px solid #EEEAE0;background:#FAF8F2;display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-size:11px;font-weight:600;letter-spacing:-0.005em;">Review &amp; sync</div>
+      <div style="font-size:8.5px;color:#8A8983;text-transform:uppercase;letter-spacing:0.06em;font-weight:500;">Step 3</div>
+    </div>
+
+    <div style="padding:11px 14px;display:flex;flex-direction:column;gap:5px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:3px 0;">
+        <div style="display:flex;align-items:center;gap:7px;">
+          <div style="width:14px;height:14px;border-radius:3px;background:#1A2CA3;color:white;font-size:7px;font-weight:600;display:flex;align-items:center;justify-content:center;">US</div>
+          <span style="font-size:10.5px;font-weight:500;">Heritage</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="font-size:9.5px;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;color:#2C2C2A;">247</span>
+          <span style="font-size:8.5px;color:#0F6E56;background:#E8F5EE;padding:1px 6px;border-radius:3px;font-weight:500;">ready</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:3px 0;">
+        <div style="display:flex;align-items:center;gap:7px;">
+          <div style="width:14px;height:14px;border-radius:3px;background:#534AB7;color:white;font-size:7px;font-weight:600;display:flex;align-items:center;justify-content:center;">FR</div>
+          <span style="font-size:10.5px;font-weight:500;">Maison</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="font-size:9.5px;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;color:#2C2C2A;">247</span>
+          <span style="font-size:8.5px;color:#0F6E56;background:#E8F5EE;padding:1px 6px;border-radius:3px;font-weight:500;">ready</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:3px 0;">
+        <div style="display:flex;align-items:center;gap:7px;">
+          <div style="width:14px;height:14px;border-radius:3px;background:#993C1D;color:white;font-size:7px;font-weight:600;display:flex;align-items:center;justify-content:center;">GB</div>
+          <span style="font-size:10.5px;font-weight:500;">Atelier</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="font-size:9.5px;font-family:'JetBrains Mono','SF Mono',ui-monospace,monospace;color:#2C2C2A;">247</span>
+          <span style="font-size:8.5px;color:#0F6E56;background:#E8F5EE;padding:1px 6px;border-radius:3px;font-weight:500;">ready</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:9px 14px 11px;background:#FAF8F2;border-top:1px solid #EEEAE0;display:flex;flex-direction:column;gap:7px;">
+      <div style="display:flex;gap:6px;">
+        <button style="flex:1;background:white;border:1px solid #D8D4C8;color:#2C2C2A;padding:6px 0;border-radius:5px;font-size:10.5px;font-weight:500;font-family:inherit;cursor:pointer;">Save</button>
+        <button style="flex:2;background:#2845D6;color:white;border:none;padding:6px 0;border-radius:5px;font-size:10.5px;font-weight:500;font-family:inherit;cursor:pointer;animation:ppim-be-step3-pulse 2.6s ease-in-out infinite;">Sync to 3 stores</button>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:6px;font-size:9.5px;color:#0F6E56;font-weight:600;">
+        <span style="width:6px;height:6px;border-radius:50%;background:#1D9E75;animation:ppim-be-step3-dot 2.4s ease-in-out infinite;"></span>
+        741 product updates ready
+      </div>
+    </div>
+
+  </div>
+</div></div></div></div><div class="margin-bottom margin-small"><h3 class="heading-style-h4">Preview, save &amp; sync</h3></div><p>Review your changes before anything goes live. Save them in Peak PIM first, or publish directly to Shopify. Across every store you manage, all at once.</p></div></div><div class="margin-top margin-xxlarge"><div class="button-group is-center"><a rel="noopener" target="_blank" href="https://apps.shopify.com/peak-pim" class="button is-secondary-copy w-button">Get Peak PIM</a></div></div></div></div></div></div></section><section class="section_layout353"><div class="padding-global"><div class="container-large"><div class="padding-section-large"><div class="w-layout-grid layout353_component"><div class="layout353_content-left"><div class="margin-bottom margin-small"><h2 class="heading-style-h2">Bulk edit everything</h2></div><p class="text-size-medium">Update titles, prices, variants, tags, metafields, images, SEO data and more. All at once, across your entire catalog.</p><div class="margin-top margin-medium"><div class="button-group"><a href="https://apps.shopify.com/peak-pim" target="_blank" class="button is-secondary w-button">Get Peak PIM</a><a href="/pricing" class="button is-link is-icon w-inline-block"><div>See pricing</div><div class="icon-embed-xxsmall w-embed"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 3L11 8L6 13" stroke="CurrentColor" stroke-width="1.5"></path>
+</svg></div></a></div></div></div><div id="w-node-befbc1e5-d644-16ec-12c0-05bf29ec161e-556aef1b" class="layout353_content-right"><div class="layout353_content-item content-item-1"><div class="margin-bottom margin-xsmall"><div class="layout353_icon-wrapper"><div class="icon-1x1-medium w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 -960 960 960"><path fill="currentColor" d="M160-400v-80h280v80H160Zm0-160v-80h440v80H160Zm0-160v-80h440v80H160Zm360 560v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8 9 12.5 20t4.5 23q0 11-4 22.5T863-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z"></path></svg></div></div></div><div class="margin-bottom margin-xsmall"><h3 class="heading-style-h5"><strong>Titles &amp; Descriptions</strong></h3></div><p>Rewrite product copy across your entire catalog in one go. Fix inconsistencies, update naming conventions, or refresh content for a new season.</p></div><div class="layout353_content-item content-item-2"><div class="margin-bottom margin-xsmall"><div class="layout353_icon-wrapper"><div class="icon-1x1-medium w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 -960 960 960"><path fill="currentColor" d="M160-120q-33 0-56.5-23.5T80-200v-560q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v560q0 33-23.5 56.5T800-120H160Zm0-80h640v-560H160v560Zm0 0v-560 560Zm440-120q33 0 56.5-23.5T680-400q0-33-23.5-56.5T600-480q-33 0-56.5 23.5T520-400q0 33 23.5 56.5T600-320Zm-440 80v-480 480Z"></path></svg></div></div></div><div class="margin-bottom margin-xsmall"><h3 class="heading-style-h5">Prices</h3></div><p>Apply discounts, markups, or corrections to every product at once. No more opening products one by one before a sale.</p></div><div class="layout353_content-item content-item-3"><div class="margin-bottom margin-xsmall"><div class="layout353_icon-wrapper"><div class="icon-1x1-medium w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 -960 960 960"><path fill="currentColor" d="M320-240 80-480l240-240 57 57-184 183 184 183-57 57Zm320 0-57-57 184-183-184-183 57-57 240 240-240 240Z"></path></svg></div></div></div><div class="margin-bottom margin-xsmall"><h3 class="heading-style-h5">Metafields</h3></div><p>Edit metafields across hundreds of products simultaneously. The one thing Shopify's native editor simply can't do at scale.</p></div><div class="layout353_content-item content-item-4"><div class="margin-bottom margin-xsmall"><div class="layout353_icon-wrapper"><div class="icon-1x1-medium w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 -960 960 960"><path fill="currentColor" d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm40-80h480L570-480 450-320l-90-120-120 160Zm-40 80v-560 560Z"></path></svg></div></div></div><div class="margin-bottom margin-xsmall"><h3 class="heading-style-h5">Images</h3></div><p>Bulk update alt texts, reorder images, and assign media across hundreds of products at once. Things Shopify's native editor doesn't let you do at scale.</p></div><div class="layout353_content-item content-item-4"><div class="margin-bottom margin-xsmall"><div class="layout353_icon-wrapper"><div class="icon-1x1-medium w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 -960 960 960"><path fill="currentColor" d="M120-520v-320h320v320H120Zm0 400v-320h320v320H120Zm400-400v-320h320v320H520Zm0 400v-320h320v320H520ZM200-600h160v-160H200v160Zm400 0h160v-160H600v160Zm0 400h160v-160H600v160Zm-400 0h160v-160H200v160Zm400-400Zm0 240Zm-400 0Zm0-240Z"></path></svg></div></div></div><div class="margin-bottom margin-xsmall"><h3 class="heading-style-h5"><strong>Collections</strong></h3></div><p>Edit collection titles, descriptions, and featured images in bulk. Add or remove products from collections at scale. All in one place.</p></div><div class="layout353_content-item content-item-4"><div class="margin-bottom margin-xsmall"><div class="layout353_icon-wrapper"><div class="icon-1x1-medium w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 -960 960 960"><path fill="currentColor" d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"></path></svg></div></div></div><div class="margin-bottom margin-xsmall"><h3 class="heading-style-h5"><strong>SEO metadata</strong></h3></div><p>Update meta titles and descriptions across your entire catalog at once. Keep your Shopify store optimized without editing products one by one.</p></div></div></div></div></div></div></section><section class="section_comparison12 color-scheme-1"><div class="padding-global"><div class="container-large"><div class="padding-section-large"><div class="comparison12_component"><div class="margin-bottom margin-xxlarge"><div class="text-align-center"><div class="max-width-large align-center"><div class="margin-bottom margin-small"><h2 class="heading-style-h2">Why merchants switch to Peak PIM</h2></div><p class="text-size-medium">See how Peak PIM compares to editing products natively in Shopify or managing data through spreadsheets.</p></div></div></div><div class="comparison12_content"><div class="w-layout-grid comparison12_top-row"><div class="comparison12_top-row-title"><div class="heading-style-h6">Editing features</div></div><div class="comparison12_top-row-content"><div class="code-embed-5 w-embed"><svg width="100%" height="100%" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="32" height="32" rx="6" fill="#0a0a0a"></rect>
+  <svg x="6" y="6" width="20" height="20" viewBox="511 481 556 425" preserveAspectRatio="xMidYMid meet">
+    <path fill="#FFFFFF" d="M 713.535156 751.597656 L 860.074219 634.671875 L 826.027344 721.976562 L 1066.578125 905.730469 L 789.171875 481.910156 L 511.765625 905.730469 L 713.535156 751.597656 Z"></path>
+  </svg>
+</svg></div></div><div class="comparison12_top-row-content"><div class="code-embed-5 w-embed"><svg width="100%" height="100%" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M20.919 4.546c-0.025 0-0.075 0.026-0.097 0.026s-0.361 0.094-0.892 0.262c-0.529-1.541-1.47-2.962-3.134-2.962h-0.144c-0.356-0.5-0.921-0.832-1.564-0.868l-0.005-0c-3.881 0-5.736 4.845-6.317 7.305-1.492 0.456-2.578 0.795-2.699 0.842-0.844 0.266-0.867 0.29-0.965 1.087-0.094 0.577-2.287 17.574-2.287 17.574l16.946 3.183zM17.18 2.935c0.867 0.092 1.426 1.083 1.786 2.193-0.436 0.142-0.919 0.289-1.447 0.457v-0.315c0.001-0.049 0.002-0.107 0.002-0.165 0-0.777-0.125-1.524-0.355-2.224l0.014 0.050zM16.506 5.727v0.169c-0.942 0.29-1.978 0.605-2.992 0.92 0.264-1.607 1.237-2.944 2.58-3.699l0.026-0.013c0.248 0.705 0.391 1.518 0.391 2.365 0 0.091-0.002 0.182-0.005 0.273l0-0.013zM14.963 2.042c0 0 0.001 0 0.001 0 0.19 0 0.366 0.063 0.507 0.17l-0.002-0.002c-1.749 1.048-2.947 2.861-3.132 4.964l-0.002 0.024c-0.82 0.266-1.616 0.506-2.361 0.722 0.648-2.231 2.216-5.867 4.988-5.867zM15.638 15.132c-0.648-0.32-1.408-0.514-2.211-0.53l-0.005-0c-1.808 0-1.879 1.132-1.879 1.426 0 1.54 4.049 2.143 4.049 5.785 0.014 0.128 0.021 0.277 0.021 0.427 0 2.359-1.912 4.271-4.271 4.271-0.002 0-0.005 0-0.007 0h0c-0.050 0.002-0.108 0.002-0.166 0.002-1.676 0-3.187-0.703-4.255-1.83l-0.003-0.003 0.807-2.607c0.774 0.68 1.745 1.154 2.817 1.328l0.033 0.004c0.012 0 0.025 0.001 0.039 0.001 0.646 0 1.171-0.52 1.18-1.165v-0.001c0-2.023-3.317-2.117-3.317-5.447-0-0.020-0-0.044-0-0.068 0-3.026 2.453-5.478 5.478-5.478 0.195 0 0.388 0.010 0.578 0.030l-0.024-0.002c0.077-0.004 0.167-0.007 0.258-0.007 0.756 0 1.474 0.169 2.116 0.471l-0.030-0.013-1.181 3.393zM20.17 30.97l9.017-1.951s-3.254-22.010-3.28-22.156c-0.018-0.133-0.128-0.235-0.263-0.24h-0c-0.121 0-2.411-0.17-2.411-0.17s-1.593-1.592-1.798-1.763c-0.043-0.039-0.093-0.070-0.148-0.091l-0.003-0.001-1.142 26.372z" fill="#95BF47"></path>
+</svg></div></div><div class="comparison12_top-row-content"><div class="code-embed-5 w-embed"><svg width="100%" height="100%" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M7.333 2C6.229 2 5.333 2.896 5.333 4V28C5.333 29.105 6.229 30 7.333 30H24.667C25.771 30 26.667 29.105 26.667 28V8.667L20 2H7.333ZM19.333 4V9.333H24.667L19.333 4ZM10 15.333H22V24.667H10V15.333ZM11.333 16.667V18H14V16.667H11.333ZM15.333 16.667V18H20.667V16.667H15.333ZM11.333 19.333V20.667H14V19.333H11.333ZM15.333 19.333V20.667H20.667V19.333H15.333ZM11.333 22V23.333H14V22H11.333ZM15.333 22V23.333H20.667V22H15.333Z" fill="#43A047"></path>
+</svg></div></div></div><div class="comparison12_list-row"><div class="w-layout-grid comparison12_row background-color-secondary"><div id="w-node-befbc1e5-d644-16ec-12c0-05bf29ec1660-556aef1b" class="comparison12_feature"><div>Products editable at once</div></div><div class="comparison12_row-content"><div>Unlimited</div></div><div class="comparison12_row-content"><div>50&nbsp;per page</div></div><div class="comparison12_row-content"><div>Unlimited</div></div></div><div class="w-layout-grid comparison12_row"><div id="w-node-befbc1e5-d644-16ec-12c0-05bf29ec166d-556aef1b" class="comparison12_feature"><div>Metafield bulk edit</div></div><div class="comparison12_row-content"><div class="comparison12_icon-wrapper"><div class="code-embed-6 w-embed"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M20.3479 7.56384L9.7479 18.1638C9.65402 18.2585 9.52622 18.3117 9.3929 18.3117C9.25958 18.3117 9.13178 18.2585 9.0379 18.1638L3.6479 12.7738C3.55324 12.68 3.5 12.5522 3.5 12.4188C3.5 12.2855 3.55324 12.1577 3.6479 12.0638L4.3479 11.3638C4.44178 11.2692 4.56958 11.2159 4.7029 11.2159C4.83622 11.2159 4.96402 11.2692 5.0579 11.3638L9.3879 15.6938L18.9379 6.14384C19.1357 5.95205 19.4501 5.95205 19.6479 6.14384L20.3479 6.85384C20.4426 6.94772 20.4958 7.07552 20.4958 7.20884C20.4958 7.34216 20.4426 7.46995 20.3479 7.56384Z" fill="currentColor"></path>
+</svg></div></div></div><div class="comparison12_row-content"><div class="comparison12_icon-wrapper"><div class="code-embed-7 w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 25 24" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+<path d="M16.8585 6.34424L12.6155 10.5862L8.37347 6.34424L6.95947 7.75824L11.2015 12.0002L6.95947 16.2422L8.37347 17.6562L12.6155 13.4142L16.8585 17.6562L18.2725 16.2422L14.0305 12.0002L18.2725 7.75824L16.8585 6.34424Z" fill="currentColor"></path>
+</svg></div></div></div><div class="comparison12_row-content"><div class="comparison12_icon-wrapper"><div class="icon-embed-xsmall w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 25 24" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+<path d="M16.8585 6.34424L12.6155 10.5862L8.37347 6.34424L6.95947 7.75824L11.2015 12.0002L6.95947 16.2422L8.37347 17.6562L12.6155 13.4142L16.8585 17.6562L18.2725 16.2422L14.0305 12.0002L18.2725 7.75824L16.8585 6.34424Z" fill="currentColor"></path>
+</svg></div></div></div></div><div class="w-layout-grid comparison12_row"><div id="w-node-_7661654c-1b90-43d4-0a84-6fa10f49ed85-556aef1b" class="comparison12_feature"><div>Media edit</div></div><div class="comparison12_row-content"><div class="comparison12_icon-wrapper"><div class="code-embed-6 w-embed"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M20.3479 7.56384L9.7479 18.1638C9.65402 18.2585 9.52622 18.3117 9.3929 18.3117C9.25958 18.3117 9.13178 18.2585 9.0379 18.1638L3.6479 12.7738C3.55324 12.68 3.5 12.5522 3.5 12.4188C3.5 12.2855 3.55324 12.1577 3.6479 12.0638L4.3479 11.3638C4.44178 11.2692 4.56958 11.2159 4.7029 11.2159C4.83622 11.2159 4.96402 11.2692 5.0579 11.3638L9.3879 15.6938L18.9379 6.14384C19.1357 5.95205 19.4501 5.95205 19.6479 6.14384L20.3479 6.85384C20.4426 6.94772 20.4958 7.07552 20.4958 7.20884C20.4958 7.34216 20.4426 7.46995 20.3479 7.56384Z" fill="currentColor"></path>
+</svg></div></div></div><div class="comparison12_row-content"><div class="comparison12_icon-wrapper"><div class="icon-embed-xsmall w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 25 24" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+<path d="M16.8585 6.34424L12.6155 10.5862L8.37347 6.34424L6.95947 7.75824L11.2015 12.0002L6.95947 16.2422L8.37347 17.6562L12.6155 13.4142L16.8585 17.6562L18.2725 16.2422L14.0305 12.0002L18.2725 7.75824L16.8585 6.34424Z" fill="currentColor"></path>
+</svg></div></div></div><div class="comparison12_row-content"><div class="comparison12_icon-wrapper"><div class="icon-embed-xsmall w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 25 24" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+<path d="M16.8585 6.34424L12.6155 10.5862L8.37347 6.34424L6.95947 7.75824L11.2015 12.0002L6.95947 16.2422L8.37347 17.6562L12.6155 13.4142L16.8585 17.6562L18.2725 16.2422L14.0305 12.0002L18.2725 7.75824L16.8585 6.34424Z" fill="currentColor"></path>
+</svg></div></div></div></div><div class="w-layout-grid comparison12_row background-color-secondary"><div id="w-node-befbc1e5-d644-16ec-12c0-05bf29ec1694-556aef1b" class="comparison12_feature"><div>Users advanced permissions</div></div><div class="comparison12_row-content"><div class="comparison12_icon-wrapper"><div class="code-embed-6 w-embed"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M20.3479 7.56384L9.7479 18.1638C9.65402 18.2585 9.52622 18.3117 9.3929 18.3117C9.25958 18.3117 9.13178 18.2585 9.0379 18.1638L3.6479 12.7738C3.55324 12.68 3.5 12.5522 3.5 12.4188C3.5 12.2855 3.55324 12.1577 3.6479 12.0638L4.3479 11.3638C4.44178 11.2692 4.56958 11.2159 4.7029 11.2159C4.83622 11.2159 4.96402 11.2692 5.0579 11.3638L9.3879 15.6938L18.9379 6.14384C19.1357 5.95205 19.4501 5.95205 19.6479 6.14384L20.3479 6.85384C20.4426 6.94772 20.4958 7.07552 20.4958 7.20884C20.4958 7.34216 20.4426 7.46995 20.3479 7.56384Z" fill="currentColor"></path>
+</svg></div></div></div><div class="comparison12_row-content"><div class="comparison12_icon-wrapper"><div class="icon-embed-xsmall w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 25 24" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+<path d="M16.8585 6.34424L12.6155 10.5862L8.37347 6.34424L6.95947 7.75824L11.2015 12.0002L6.95947 16.2422L8.37347 17.6562L12.6155 13.4142L16.8585 17.6562L18.2725 16.2422L14.0305 12.0002L18.2725 7.75824L16.8585 6.34424Z" fill="currentColor"></path>
+</svg></div></div></div><div class="comparison12_row-content"><div class="comparison12_icon-wrapper"><div class="icon-embed-xsmall w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 25 24" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+<path d="M16.8585 6.34424L12.6155 10.5862L8.37347 6.34424L6.95947 7.75824L11.2015 12.0002L6.95947 16.2422L8.37347 17.6562L12.6155 13.4142L16.8585 17.6562L18.2725 16.2422L14.0305 12.0002L18.2725 7.75824L16.8585 6.34424Z" fill="currentColor"></path>
+</svg></div></div></div></div><div class="w-layout-grid comparison12_row background-color-secondary"><div id="w-node-befbc1e5-d644-16ec-12c0-05bf29ec167a-556aef1b" class="comparison12_feature"><div>Multi-store sync</div></div><div class="comparison12_row-content"><div class="comparison12_icon-wrapper"><div class="code-embed-6 w-embed"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M20.3479 7.56384L9.7479 18.1638C9.65402 18.2585 9.52622 18.3117 9.3929 18.3117C9.25958 18.3117 9.13178 18.2585 9.0379 18.1638L3.6479 12.7738C3.55324 12.68 3.5 12.5522 3.5 12.4188C3.5 12.2855 3.55324 12.1577 3.6479 12.0638L4.3479 11.3638C4.44178 11.2692 4.56958 11.2159 4.7029 11.2159C4.83622 11.2159 4.96402 11.2692 5.0579 11.3638L9.3879 15.6938L18.9379 6.14384C19.1357 5.95205 19.4501 5.95205 19.6479 6.14384L20.3479 6.85384C20.4426 6.94772 20.4958 7.07552 20.4958 7.20884C20.4958 7.34216 20.4426 7.46995 20.3479 7.56384Z" fill="currentColor"></path>
+</svg></div></div></div><div class="comparison12_row-content"><div class="comparison12_icon-wrapper"><div class="icon-embed-xsmall w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 25 24" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+<path d="M16.8585 6.34424L12.6155 10.5862L8.37347 6.34424L6.95947 7.75824L11.2015 12.0002L6.95947 16.2422L8.37347 17.6562L12.6155 13.4142L16.8585 17.6562L18.2725 16.2422L14.0305 12.0002L18.2725 7.75824L16.8585 6.34424Z" fill="currentColor"></path>
+</svg></div></div></div><div class="comparison12_row-content"><div class="comparison12_icon-wrapper"><div class="icon-embed-xsmall w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 25 24" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+<path d="M16.8585 6.34424L12.6155 10.5862L8.37347 6.34424L6.95947 7.75824L11.2015 12.0002L6.95947 16.2422L8.37347 17.6562L12.6155 13.4142L16.8585 17.6562L18.2725 16.2422L14.0305 12.0002L18.2725 7.75824L16.8585 6.34424Z" fill="currentColor"></path>
+</svg></div></div></div></div><div class="w-layout-grid comparison12_row"><div id="w-node-befbc1e5-d644-16ec-12c0-05bf29ec1687-556aef1b" class="comparison12_feature"><div>Undo / rollback</div></div><div class="comparison12_row-content"><div class="comparison12_icon-wrapper"><div>Coming soon</div></div></div><div class="comparison12_row-content"><div class="comparison12_icon-wrapper"><div class="icon-embed-xsmall w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 25 24" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+<path d="M16.8585 6.34424L12.6155 10.5862L8.37347 6.34424L6.95947 7.75824L11.2015 12.0002L6.95947 16.2422L8.37347 17.6562L12.6155 13.4142L16.8585 17.6562L18.2725 16.2422L14.0305 12.0002L18.2725 7.75824L16.8585 6.34424Z" fill="currentColor"></path>
+</svg></div></div></div><div class="comparison12_row-content"><div class="comparison12_icon-wrapper"><div class="icon-embed-xsmall w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 25 24" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+<path d="M16.8585 6.34424L12.6155 10.5862L8.37347 6.34424L6.95947 7.75824L11.2015 12.0002L6.95947 16.2422L8.37347 17.6562L12.6155 13.4142L16.8585 17.6562L18.2725 16.2422L14.0305 12.0002L18.2725 7.75824L16.8585 6.34424Z" fill="currentColor"></path>
+</svg></div></div></div></div><div class="w-layout-grid comparison12_row background-color-secondary"><div id="w-node-_10811298-e517-a16d-f1b0-093f29cfce11-556aef1b" class="comparison12_feature"><div>No import or export needed</div></div><div class="comparison12_row-content"><div class="comparison12_icon-wrapper"><div class="code-embed-6 w-embed"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M20.3479 7.56384L9.7479 18.1638C9.65402 18.2585 9.52622 18.3117 9.3929 18.3117C9.25958 18.3117 9.13178 18.2585 9.0379 18.1638L3.6479 12.7738C3.55324 12.68 3.5 12.5522 3.5 12.4188C3.5 12.2855 3.55324 12.1577 3.6479 12.0638L4.3479 11.3638C4.44178 11.2692 4.56958 11.2159 4.7029 11.2159C4.83622 11.2159 4.96402 11.2692 5.0579 11.3638L9.3879 15.6938L18.9379 6.14384C19.1357 5.95205 19.4501 5.95205 19.6479 6.14384L20.3479 6.85384C20.4426 6.94772 20.4958 7.07552 20.4958 7.20884C20.4958 7.34216 20.4426 7.46995 20.3479 7.56384Z" fill="currentColor"></path>
+</svg></div></div></div><div class="comparison12_row-content"><div class="comparison12_icon-wrapper"><div class="icon-embed-xsmall w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 25 24" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+<path d="M16.8585 6.34424L12.6155 10.5862L8.37347 6.34424L6.95947 7.75824L11.2015 12.0002L6.95947 16.2422L8.37347 17.6562L12.6155 13.4142L16.8585 17.6562L18.2725 16.2422L14.0305 12.0002L18.2725 7.75824L16.8585 6.34424Z" fill="currentColor"></path>
+</svg></div></div></div><div class="comparison12_row-content"><div class="comparison12_icon-wrapper"><div class="icon-embed-xsmall w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 25 24" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+<path d="M16.8585 6.34424L12.6155 10.5862L8.37347 6.34424L6.95947 7.75824L11.2015 12.0002L6.95947 16.2422L8.37347 17.6562L12.6155 13.4142L16.8585 17.6562L18.2725 16.2422L14.0305 12.0002L18.2725 7.75824L16.8585 6.34424Z" fill="currentColor"></path>
+</svg></div></div></div></div></div></div><div class="margin-top margin-xxlarge"><div class="button-group is-center"><a href="https://apps.shopify.com/peak-pim" target="_blank" class="button is-secondary w-button">Try for free</a></div></div></div></div></div></div></section><section class="section_faq1"><div class="padding-global"><div class="container-large"><div class="padding-section-large"><div class="faq1_component"><div class="margin-bottom margin-xxlarge"><div class="text-align-center"><div class="max-width-large align-center"><div class="margin-bottom margin-small"><h2 class="heading-style-h2">Questions</h2></div><p class="text-size-medium">Everything you need to know about bulk editing in Peak PIM.</p></div></div></div><div class="max-width-large align-center"><div class="faq1_list"><div class="faq1_accordion"><div data-w-id="befbc1e5-d644-16ec-12c0-05bf29ec16b8" class="faq1_question"><div class="text-size-medium">What can I bulk edit?</div><div class="faq1_icon-wrapper"><div class="icon-embed-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+<path d="M7.08691 9.02344C7.18774 9.02344 7.26471 9.05385 7.34277 9.13184L11.6455 13.459L11.999 13.8145L16.6816 9.13184C16.7593 9.05424 16.8257 9.03227 16.9062 9.03516C17.0005 9.0386 17.0819 9.07117 17.168 9.15723C17.246 9.23531 17.2764 9.31223 17.2764 9.41309C17.2763 9.51371 17.2458 9.59001 17.168 9.66797L12.249 14.5869C12.1949 14.6411 12.1522 14.667 12.124 14.6787C12.0885 14.6935 12.0486 14.7021 12 14.7021C11.9755 14.7021 11.9532 14.6993 11.9326 14.6953L11.875 14.6787L11.8223 14.6484C11.8015 14.634 11.7779 14.6138 11.751 14.5869L6.80664 9.64355C6.7328 9.56972 6.70662 9.50009 6.70996 9.40527C6.71375 9.29797 6.74977 9.2141 6.83203 9.13184C6.90996 9.05403 6.98632 9.02351 7.08691 9.02344Z" fill="currentColor" stroke="currentColor"></path>
+</svg></div></div></div><div style="width: 100%; height: 0px;" class="faq1_answer"><div class="margin-bottom margin-small"><p>Pretty much everything. Products, variants, prices, collections, images, files, SEO metadata, translations and more. All editable at once across your entire Shopify catalog. Filter by type, tag, vendor, status, or metafields to target exactly what you need, then apply your changes in one go.</p></div></div></div><div class="faq1_accordion"><div data-w-id="befbc1e5-d644-16ec-12c0-05bf29ec16c2" class="faq1_question"><div class="text-size-medium">Does bulk edit work across stores?</div><div class="faq1_icon-wrapper"><div class="icon-embed-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+<path d="M7.08691 9.02344C7.18774 9.02344 7.26471 9.05385 7.34277 9.13184L11.6455 13.459L11.999 13.8145L16.6816 9.13184C16.7593 9.05424 16.8257 9.03227 16.9062 9.03516C17.0005 9.0386 17.0819 9.07117 17.168 9.15723C17.246 9.23531 17.2764 9.31223 17.2764 9.41309C17.2763 9.51371 17.2458 9.59001 17.168 9.66797L12.249 14.5869C12.1949 14.6411 12.1522 14.667 12.124 14.6787C12.0885 14.6935 12.0486 14.7021 12 14.7021C11.9755 14.7021 11.9532 14.6993 11.9326 14.6953L11.875 14.6787L11.8223 14.6484C11.8015 14.634 11.7779 14.6138 11.751 14.5869L6.80664 9.64355C6.7328 9.56972 6.70662 9.50009 6.70996 9.40527C6.71375 9.29797 6.74977 9.2141 6.83203 9.13184C6.90996 9.05403 6.98632 9.02351 7.08691 9.02344Z" fill="currentColor" stroke="currentColor"></path>
+</svg></div></div></div><div style="width: 100%; height: 0px;" class="faq1_answer"><div class="margin-bottom margin-small"><p>Yes. If you manage multiple Shopify stores, Peak PIM syncs changes across all of them simultaneously. One edit, every store updated.</p></div></div></div><div class="faq1_accordion"><div data-w-id="befbc1e5-d644-16ec-12c0-05bf29ec16cc" class="faq1_question"><div class="text-size-medium">Can I edit metafields in bulk?</div><div class="faq1_icon-wrapper"><div class="icon-embed-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+<path d="M7.08691 9.02344C7.18774 9.02344 7.26471 9.05385 7.34277 9.13184L11.6455 13.459L11.999 13.8145L16.6816 9.13184C16.7593 9.05424 16.8257 9.03227 16.9062 9.03516C17.0005 9.0386 17.0819 9.07117 17.168 9.15723C17.246 9.23531 17.2764 9.31223 17.2764 9.41309C17.2763 9.51371 17.2458 9.59001 17.168 9.66797L12.249 14.5869C12.1949 14.6411 12.1522 14.667 12.124 14.6787C12.0885 14.6935 12.0486 14.7021 12 14.7021C11.9755 14.7021 11.9532 14.6993 11.9326 14.6953L11.875 14.6787L11.8223 14.6484C11.8015 14.634 11.7779 14.6138 11.751 14.5869L6.80664 9.64355C6.7328 9.56972 6.70662 9.50009 6.70996 9.40527C6.71375 9.29797 6.74977 9.2141 6.83203 9.13184C6.90996 9.05403 6.98632 9.02351 7.08691 9.02344Z" fill="currentColor" stroke="currentColor"></path>
+</svg></div></div></div><div style="width: 100%; height: 0px;" class="faq1_answer"><div class="margin-bottom margin-small"><p>Yes. Update metafields and metaobjects across your entire catalog without leaving Peak PIM. Changes sync to Shopify instantly.</p></div></div></div><div class="faq1_accordion"><div data-w-id="cd25b3dc-fc4f-6c87-4a86-7f9244eea7bc" class="faq1_question"><div class="text-size-medium">Can I bulk edit variant metafields?</div><div class="faq1_icon-wrapper"><div class="icon-embed-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+<path d="M7.08691 9.02344C7.18774 9.02344 7.26471 9.05385 7.34277 9.13184L11.6455 13.459L11.999 13.8145L16.6816 9.13184C16.7593 9.05424 16.8257 9.03227 16.9062 9.03516C17.0005 9.0386 17.0819 9.07117 17.168 9.15723C17.246 9.23531 17.2764 9.31223 17.2764 9.41309C17.2763 9.51371 17.2458 9.59001 17.168 9.66797L12.249 14.5869C12.1949 14.6411 12.1522 14.667 12.124 14.6787C12.0885 14.6935 12.0486 14.7021 12 14.7021C11.9755 14.7021 11.9532 14.6993 11.9326 14.6953L11.875 14.6787L11.8223 14.6484C11.8015 14.634 11.7779 14.6138 11.751 14.5869L6.80664 9.64355C6.7328 9.56972 6.70662 9.50009 6.70996 9.40527C6.71375 9.29797 6.74977 9.2141 6.83203 9.13184C6.90996 9.05403 6.98632 9.02351 7.08691 9.02344Z" fill="currentColor" stroke="currentColor"></path>
+</svg></div></div></div><div style="width: 100%; height: 0px;" class="faq1_answer"><div class="margin-bottom margin-small"><p>Yes. Peak PIM supports bulk editing of variant metafields across your entire catalog. This is one of the most common gaps in Shopify's native editor, which only handles product-level metafields in bulk.</p></div></div></div><div class="faq1_accordion"><div data-w-id="d92eda81-14d4-e9b3-3942-8a00c363346c" class="faq1_question"><div class="text-size-medium">Can I bulk update SEO meta titles and descriptions?</div><div class="faq1_icon-wrapper"><div class="icon-embed-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+<path d="M7.08691 9.02344C7.18774 9.02344 7.26471 9.05385 7.34277 9.13184L11.6455 13.459L11.999 13.8145L16.6816 9.13184C16.7593 9.05424 16.8257 9.03227 16.9062 9.03516C17.0005 9.0386 17.0819 9.07117 17.168 9.15723C17.246 9.23531 17.2764 9.31223 17.2764 9.41309C17.2763 9.51371 17.2458 9.59001 17.168 9.66797L12.249 14.5869C12.1949 14.6411 12.1522 14.667 12.124 14.6787C12.0885 14.6935 12.0486 14.7021 12 14.7021C11.9755 14.7021 11.9532 14.6993 11.9326 14.6953L11.875 14.6787L11.8223 14.6484C11.8015 14.634 11.7779 14.6138 11.751 14.5869L6.80664 9.64355C6.7328 9.56972 6.70662 9.50009 6.70996 9.40527C6.71375 9.29797 6.74977 9.2141 6.83203 9.13184C6.90996 9.05403 6.98632 9.02351 7.08691 9.02344Z" fill="currentColor" stroke="currentColor"></path>
+</svg></div></div></div><div style="width: 100%; height: 0px;" class="faq1_answer"><div class="margin-bottom margin-small"><p>Yes. Peak PIM lets you bulk edit SEO metadata across all your products and collections at once. Not just products, collections too, which most tools overlook entirely.</p></div></div></div><div class="faq1_accordion"><div data-w-id="befbc1e5-d644-16ec-12c0-05bf29ec16d6" class="faq1_question"><div class="text-size-medium">Is there a limit on how many products I can edit at once?</div><div class="faq1_icon-wrapper"><div class="icon-embed-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+<path d="M7.08691 9.02344C7.18774 9.02344 7.26471 9.05385 7.34277 9.13184L11.6455 13.459L11.999 13.8145L16.6816 9.13184C16.7593 9.05424 16.8257 9.03227 16.9062 9.03516C17.0005 9.0386 17.0819 9.07117 17.168 9.15723C17.246 9.23531 17.2764 9.31223 17.2764 9.41309C17.2763 9.51371 17.2458 9.59001 17.168 9.66797L12.249 14.5869C12.1949 14.6411 12.1522 14.667 12.124 14.6787C12.0885 14.6935 12.0486 14.7021 12 14.7021C11.9755 14.7021 11.9532 14.6993 11.9326 14.6953L11.875 14.6787L11.8223 14.6484C11.8015 14.634 11.7779 14.6138 11.751 14.5869L6.80664 9.64355C6.7328 9.56972 6.70662 9.50009 6.70996 9.40527C6.71375 9.29797 6.74977 9.2141 6.83203 9.13184C6.90996 9.05403 6.98632 9.02351 7.08691 9.02344Z" fill="currentColor" stroke="currentColor"></path>
+</svg></div></div></div><div style="width: 100%; height: 0px;" class="faq1_answer"><div class="margin-bottom margin-small"><p>No hard limit. Whether you have 100 or 10,000 products, Peak PIM handles the whole catalog.</p></div></div></div><div class="faq1_accordion"><div data-w-id="befbc1e5-d644-16ec-12c0-05bf29ec16e0" class="faq1_question"><div class="text-size-medium">Will changes go live immediately or can I preview first?</div><div class="faq1_icon-wrapper"><div class="icon-embed-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+<path d="M7.08691 9.02344C7.18774 9.02344 7.26471 9.05385 7.34277 9.13184L11.6455 13.459L11.999 13.8145L16.6816 9.13184C16.7593 9.05424 16.8257 9.03227 16.9062 9.03516C17.0005 9.0386 17.0819 9.07117 17.168 9.15723C17.246 9.23531 17.2764 9.31223 17.2764 9.41309C17.2763 9.51371 17.2458 9.59001 17.168 9.66797L12.249 14.5869C12.1949 14.6411 12.1522 14.667 12.124 14.6787C12.0885 14.6935 12.0486 14.7021 12 14.7021C11.9755 14.7021 11.9532 14.6993 11.9326 14.6953L11.875 14.6787L11.8223 14.6484C11.8015 14.634 11.7779 14.6138 11.751 14.5869L6.80664 9.64355C6.7328 9.56972 6.70662 9.50009 6.70996 9.40527C6.71375 9.29797 6.74977 9.2141 6.83203 9.13184C6.90996 9.05403 6.98632 9.02351 7.08691 9.02344Z" fill="currentColor" stroke="currentColor"></path>
+</svg></div></div></div><div style="width: 100%; height: 0px;" class="faq1_answer"><div class="margin-bottom margin-small"><p>You can preview all changes before anything is published. Save your edits in Peak PIM first, review them, and publish to Shopify when you're ready. No surprises, no live mistakes.</p></div></div></div><div class="faq1_accordion"><div data-w-id="35f134d2-bc7c-83ef-8494-08b60219197b" class="faq1_question"><div class="text-size-medium">Can I schedule bulk edits?</div><div class="faq1_icon-wrapper"><div class="icon-embed-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+<path d="M7.08691 9.02344C7.18774 9.02344 7.26471 9.05385 7.34277 9.13184L11.6455 13.459L11.999 13.8145L16.6816 9.13184C16.7593 9.05424 16.8257 9.03227 16.9062 9.03516C17.0005 9.0386 17.0819 9.07117 17.168 9.15723C17.246 9.23531 17.2764 9.31223 17.2764 9.41309C17.2763 9.51371 17.2458 9.59001 17.168 9.66797L12.249 14.5869C12.1949 14.6411 12.1522 14.667 12.124 14.6787C12.0885 14.6935 12.0486 14.7021 12 14.7021C11.9755 14.7021 11.9532 14.6993 11.9326 14.6953L11.875 14.6787L11.8223 14.6484C11.8015 14.634 11.7779 14.6138 11.751 14.5869L6.80664 9.64355C6.7328 9.56972 6.70662 9.50009 6.70996 9.40527C6.71375 9.29797 6.74977 9.2141 6.83203 9.13184C6.90996 9.05403 6.98632 9.02351 7.08691 9.02344Z" fill="currentColor" stroke="currentColor"></path>
+</svg></div></div></div><div style="width: 100%; height: 0px;" class="faq1_answer"><div class="margin-bottom margin-small"><p>Bulk edits apply immediately. Scheduled edits are on our roadmap. If it's a priority for you, let us know and we'll bump it up.</p></div></div></div></div></div><div class="margin-top margin-xxlarge"><div class="text-align-center"><div class="max-width-medium align-center"><div class="margin-bottom margin-xsmall"><h3 class="heading-style-h4">Anything else on your mind?</h3></div><div class="margin-top margin-medium"><div class="button-group is-center"><a data-open-crisp="" href="#" class="button is-secondary w-button">Ask your question</a></div></div></div></div></div></div></div></div></div></section></main><footer class="footer1_component"><div class="padding-global"><div class="container-large"><div class="padding-vertical padding-xxlarge"><div class="padding-bottom padding-xxlarge"><div class="w-layout-grid footer1_top-wrapper"><div class="footer1_left-wrapper"><div class="margin-bottom margin-small"><a href="#" class="footer1_logo-link w-nav-brand"><img width="195" sizes="(max-width: 479px) 186px, (max-width: 767px) 39vw, 195px" alt="Shopify-native PIM - Peak PIM logo large" src="/assets/logo/peak-logo-large.png" loading="lazy" srcset="/assets/logo/peak-logo-large-500.png 500w, /assets/logo/peak-logo-large.png 680w" class="footer1_logo"></a></div></div><div class="w-layout-grid footer1_menu-wrapper"><div class="footer1_link-column"><div class="margin-bottom margin-xsmall"><div class="text-weight-semibold">⚡️ Features</div></div><div class="footer1_link-list"><a href="/shopify-multi-store-pim" class="footer1_link">Multi-store</a><a href="/1-click-setup" class="footer1_link">1-click setup</a><a href="/bulk-edit" aria-current="page" class="footer1_link w--current">Bulk edit</a><a href="/shopify-media-management" class="footer1_link">Media Management</a><a href="/shopify-sync" class="footer1_link">Shopify-native sync</a></div></div><div class="footer1_link-column"><div class="margin-bottom margin-xsmall"><div class="text-weight-semibold">💎 Solutions</div></div><div class="footer1_link-list"><a href="/industry/fashion" class="footer1_social-link w-inline-block"><div>Fashion</div></a></div></div><div class="footer1_link-column"><div class="margin-bottom margin-xsmall"><div class="text-weight-semibold">⛰️ Peak</div></div><div class="footer1_link-list"><a href="/pricing" class="footer1_link">Pricing</a><a href="#" target="_blank" class="footer1_link">Help Center</a><a href="https://www.linkedin.com/company/peak-pim/posts/" target="_blank" class="footer1_link">Product Updates</a><a href="/mission" class="footer1_link">Mission</a><a data-open-crisp="" href="#" class="footer1_link">Contact</a></div></div><div class="footer1_link-column"><div class="margin-bottom margin-xsmall"><div class="text-weight-semibold">🔍 Compare</div></div><div class="footer1_link-list"><a href="/shopify-pim-alternatives" class="footer1_link">PIM alternatives</a><a href="/vs/akeneo" class="footer1_link">Peak vs Akeneo</a><a href="/vs/plytix" class="footer1_link">Peak vs Plytix</a><a href="/vs/catsy" class="footer1_link">Peak vs Catsy</a><a href="/vs/quable" class="footer1_link">Peak vs Quable</a><a href="/replace-your-shopify-app-stack" class="footer1_link">Peak vs Shopify Apps</a><a href="/vs/shopify-admin" class="footer1_link">Peak vs Shopify Admin</a></div></div><div class="footer1_link-column"><div class="margin-bottom margin-xsmall"><div class="text-weight-semibold">🤙 Connect</div></div><div class="footer1_link-list"><a href="https://apps.shopify.com/peak-pim" target="_blank" class="footer1_social-link w-inline-block"><div class="icon-embed-xsmall w-embed"><svg width="100%" height="100%" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M20.919 4.546c-0.025 0-0.075 0.026-0.097 0.026s-0.361 0.094-0.892 0.262c-0.529-1.541-1.47-2.962-3.134-2.962h-0.144c-0.356-0.5-0.921-0.832-1.564-0.868l-0.005-0c-3.881 0-5.736 4.845-6.317 7.305-1.492 0.456-2.578 0.795-2.699 0.842-0.844 0.266-0.867 0.29-0.965 1.087-0.094 0.577-2.287 17.574-2.287 17.574l16.946 3.183zM17.18 2.935c0.867 0.092 1.426 1.083 1.786 2.193-0.436 0.142-0.919 0.289-1.447 0.457v-0.315c0.001-0.049 0.002-0.107 0.002-0.165 0-0.777-0.125-1.524-0.355-2.224l0.014 0.050zM16.506 5.727v0.169c-0.942 0.29-1.978 0.605-2.992 0.92 0.264-1.607 1.237-2.944 2.58-3.699l0.026-0.013c0.248 0.705 0.391 1.518 0.391 2.365 0 0.091-0.002 0.182-0.005 0.273l0-0.013zM14.963 2.042c0 0 0.001 0 0.001 0 0.19 0 0.366 0.063 0.507 0.17l-0.002-0.002c-1.749 1.048-2.947 2.861-3.132 4.964l-0.002 0.024c-0.82 0.266-1.616 0.506-2.361 0.722 0.648-2.231 2.216-5.867 4.988-5.867zM15.638 15.132c-0.648-0.32-1.408-0.514-2.211-0.53l-0.005-0c-1.808 0-1.879 1.132-1.879 1.426 0 1.54 4.049 2.143 4.049 5.785 0.014 0.128 0.021 0.277 0.021 0.427 0 2.359-1.912 4.271-4.271 4.271-0.002 0-0.005 0-0.007 0h0c-0.050 0.002-0.108 0.002-0.166 0.002-1.676 0-3.187-0.703-4.255-1.83l-0.003-0.003 0.807-2.607c0.774 0.68 1.745 1.154 2.817 1.328l0.033 0.004c0.012 0 0.025 0.001 0.039 0.001 0.646 0 1.171-0.52 1.18-1.165v-0.001c0-2.023-3.317-2.117-3.317-5.447-0-0.020-0-0.044-0-0.068 0-3.026 2.453-5.478 5.478-5.478 0.195 0 0.388 0.010 0.578 0.030l-0.024-0.002c0.077-0.004 0.167-0.007 0.258-0.007 0.756 0 1.474 0.169 2.116 0.471l-0.030-0.013-1.181 3.393zM20.17 30.97l9.017-1.951s-3.254-22.010-3.28-22.156c-0.018-0.133-0.128-0.235-0.263-0.24h-0c-0.121 0-2.411-0.17-2.411-0.17s-1.593-1.592-1.798-1.763c-0.043-0.039-0.093-0.070-0.148-0.091l-0.003-0.001-1.142 26.372z" fill="#000000"></path>
+</svg>
+</div><div>Shopify</div></a><a href="https://www.linkedin.com/company/peak-pim/" target="_blank" class="footer1_social-link w-inline-block"><div class="icon-embed-xsmall w-embed"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M4.5 3C3.67157 3 3 3.67157 3 4.5V19.5C3 20.3284 3.67157 21 4.5 21H19.5C20.3284 21 21 20.3284 21 19.5V4.5C21 3.67157 20.3284 3 19.5 3H4.5ZM8.52076 7.00272C8.52639 7.95897 7.81061 8.54819 6.96123 8.54397C6.16107 8.53975 5.46357 7.90272 5.46779 7.00413C5.47201 6.15897 6.13998 5.47975 7.00764 5.49944C7.88795 5.51913 8.52639 6.1646 8.52076 7.00272ZM12.2797 9.76176H9.75971H9.7583V18.3216H12.4217V18.1219C12.4217 17.742 12.4214 17.362 12.4211 16.9819V16.9818V16.9816V16.9815V16.9812C12.4203 15.9674 12.4194 14.9532 12.4246 13.9397C12.426 13.6936 12.4372 13.4377 12.5005 13.2028C12.7381 12.3253 13.5271 11.7586 14.4074 11.8979C14.9727 11.9864 15.3467 12.3141 15.5042 12.8471C15.6013 13.1803 15.6449 13.5389 15.6491 13.8863C15.6605 14.9339 15.6589 15.9815 15.6573 17.0292V17.0294C15.6567 17.3992 15.6561 17.769 15.6561 18.1388V18.3202H18.328V18.1149C18.328 17.6629 18.3278 17.211 18.3275 16.7591V16.759V16.7588C18.327 15.6293 18.3264 14.5001 18.3294 13.3702C18.3308 12.8597 18.276 12.3563 18.1508 11.8627C17.9638 11.1286 17.5771 10.5211 16.9485 10.0824C16.5027 9.77019 16.0133 9.5691 15.4663 9.5466C15.404 9.54401 15.3412 9.54062 15.2781 9.53721L15.2781 9.53721L15.2781 9.53721C14.9984 9.52209 14.7141 9.50673 14.4467 9.56066C13.6817 9.71394 13.0096 10.0641 12.5019 10.6814C12.4429 10.7522 12.3852 10.8241 12.2991 10.9314L12.2991 10.9315L12.2797 10.9557V9.76176ZM5.68164 18.3244H8.33242V9.76733H5.68164V18.3244Z" fill="#000000"></path>
+</svg></div><div>LinkedIn</div></a><a href="https://x.com/peak_pim" target="_blank" class="footer1_social-link w-inline-block"><div class="icon-embed-xsmall w-embed"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.932zm-1.294 19.497h2.039L6.486 3.24H4.298l13.31 17.41z" fill="currentColor"></path>
+</svg></div><div>X / Twitter</div></a><a href="https://www.youtube.com/@peak-pim" target="_blank" class="footer1_social-link w-inline-block"><div class="icon-embed-xsmall w-embed"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M20.5686 4.77345C21.5163 5.02692 22.2555 5.76903 22.5118 6.71673C23.1821 9.42042 23.1385 14.5321 22.5259 17.278C22.2724 18.2257 21.5303 18.965 20.5826 19.2213C17.9071 19.8831 5.92356 19.8015 3.40294 19.2213C2.45524 18.9678 1.71595 18.2257 1.45966 17.278C0.827391 14.7011 0.871044 9.25144 1.44558 6.73081C1.69905 5.78311 2.44116 5.04382 3.38886 4.78753C6.96561 4.0412 19.2956 4.282 20.5686 4.77345ZM9.86682 8.70227L15.6122 11.9974L9.86682 15.2925V8.70227Z" fill="#000000"></path>
+</svg></div><div>YouTube</div></a><a href="https://share.google/gj5Ju0RrU4EGvE4HS" target="_blank" class="footer1_social-link w-inline-block"><div class="icon-embed-xsmall w-embed"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#000000"></path>
+  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#000000"></path>
+  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#000000"></path>
+  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 12-4.53z" fill="#000000"></path>
+</svg></div><div>Google</div></a><a href="https://www.reddit.com/user/peak-pim/" target="_blank" class="footer1_social-link w-inline-block"><div class="icon-embed-xsmall w-embed"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12.0003 21.0001C6.47743 21.0001 2.00031 16.5229 2.00031 11.0001C2.00031 5.47721 6.47743 1.00006 12.0003 1.00006C17.5232 1.00006 22.0003 5.47721 22.0003 11.0001C22.0003 16.5229 17.5232 21.0001 12.0003 21.0001ZM15.8617 10.375C15.8617 9.89169 15.4697 9.5 14.9863 9.5C14.7171 9.5 14.478 9.62017 14.3201 9.8087C13.6264 9.38712 12.723 9.10842 11.7289 9.0734L12.394 6.13635L14.383 6.64333C14.4237 7.10651 14.8101 7.47217 15.2863 7.47217C15.7697 7.47217 16.1617 7.08051 16.1617 6.59717C16.1617 6.11383 15.7697 5.72217 15.2863 5.72217C14.9082 5.72217 14.5878 5.96167 14.4698 6.297L12.1866 5.7145C12.0628 5.683 11.934 5.751 11.9 5.87L11.1396 9.07849C10.1343 9.11059 9.21731 9.3905 8.51469 9.8188C8.35825 9.62617 8.11584 9.5 7.84234 9.5C7.359 9.5 6.96703 9.89169 6.96703 10.375C6.96703 10.7412 7.19522 11.053 7.51403 11.1818C7.4699 11.3918 7.44703 11.6083 7.44703 11.83C7.44703 13.9118 9.48937 15.5997 12 15.5997C14.5106 15.5997 16.553 13.9118 16.553 11.83C16.553 11.611 16.5303 11.3973 16.4868 11.1897C16.7977 11.0583 17.022 10.7482 17.022 10.385C17.022 9.89169 16.63 9.5 16.1467 9.5C16.0353 9.5 15.9327 9.5218 15.8378 9.5583L15.8617 10.375ZM13.847 11.83C13.847 12.3133 13.455 12.705 12.9717 12.705C12.4883 12.705 12.0967 12.3133 12.0967 11.83C12.0967 11.3467 12.4883 10.955 12.9717 10.955C13.455 10.955 13.847 11.3467 13.847 11.83ZM9.85172 11.83C9.85172 12.3133 9.45972 12.705 8.97637 12.705C8.49303 12.705 8.10137 12.3133 8.10137 11.83C8.10137 11.3467 8.49303 10.955 8.97637 10.955C9.45972 10.955 9.85172 11.3467 9.85172 11.83Z" fill="#000000"></path>
+</svg></div><div>Reddit</div></a></div></div></div></div></div><div class="divider-horizontal"></div><div class="padding-top padding-medium"><div class="footer1_bottom-wrapper"><div class="footer1_credit-text">© 2026 Peak PIM. All rights reserved.</div><div class="w-layout-grid footer1_legal-list"><a href="/legals/privacy" class="footer1_legal-link">Privacy policy</a></div></div></div></div></div></div></footer></div><script src="/mirror/jquery-3.5.1.min.dc5e7f18c8-dbaf5b50e8.js" type="text/javascript"></script><script src="/mirror/webflow.schunk.36b8fb49256177c8-7aefd42474.js" type="text/javascript"></script><script src="/mirror/webflow.schunk.18ebff6feaf7e19e-e3fe506371.js" type="text/javascript"></script><script src="/mirror/webflow.90364d71.7586d0db2426091d-31948c08dc.js" type="text/javascript"></script>
+
+<script>
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('[data-open-crisp]')) {
+      $crisp.push(['do', 'chat:open']);
+    }
+  });
+</script></body></html>
