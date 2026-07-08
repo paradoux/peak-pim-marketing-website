@@ -3,13 +3,23 @@
 </script>
 
 <script is:inline>
+  function openCrispChat(attempt) {
+    window.$crisp = window.$crisp || [];
+    window.$crisp.push(['do', 'chat:open']);
+
+    if (attempt < 10 && !document.querySelector('iframe[src*="crisp.chat"], [class*="crisp-client"]')) {
+      setTimeout(function() {
+        openCrispChat(attempt + 1);
+      }, 300);
+    }
+  }
+
   document.addEventListener('click', function(e) {
     var trigger = e.target.closest("[data-open-crisp]");
 
     if (trigger) {
       e.preventDefault();
-      window.$crisp = window.$crisp || [];
-      window.$crisp.push(['do', 'chat:open']);
+      openCrispChat(0);
     }
   });
 </script>

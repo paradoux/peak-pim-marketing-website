@@ -30,7 +30,6 @@ const { page, headHtml, mainHtml, htmlClass, wfPage, wfSite } = Astro.props;
     <Fragment set:html={headHtml} />
     <link href="/mirror/local-fonts.css" rel="stylesheet" type="text/css" />
     <meta name="peak-page-slug" content={page.slug || "home"} />
-    <CrispChat />
   </head>
   <body>
     <div class="page-wrapper site-page">
@@ -38,6 +37,7 @@ const { page, headHtml, mainHtml, htmlClass, wfPage, wfSite } = Astro.props;
       <SiteHeader />
       <div class="site-main" set:html={mainHtml} />
       <SiteFooter />
+      <CrispChat />
     </div>
   </body>
 </html>
