@@ -1,0 +1,27 @@
+---
+const crispWebsiteId = "5d573a39-3d86-4529-84ff-db612ac593d1";
+---
+
+<script is:inline define:vars={{ crispWebsiteId }}>
+  window.$crisp = window.$crisp || [];
+  window.CRISP_WEBSITE_ID = crispWebsiteId;
+
+  (function () {
+    var documentRef = document;
+    var script = documentRef.createElement("script");
+    script.src = "https://client.crisp.chat/l.js";
+    script.async = true;
+    documentRef.getElementsByTagName("head")[0].appendChild(script);
+  })();
+
+  document.addEventListener("click", function (event) {
+    var trigger = event.target.closest("[data-open-crisp]");
+
+    if (!trigger) {
+      return;
+    }
+
+    event.preventDefault();
+    window.$crisp.push(["do", "chat:open"]);
+  });
+</script>

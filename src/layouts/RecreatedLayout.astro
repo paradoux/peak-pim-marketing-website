@@ -1,4 +1,5 @@
 ---
+import CrispChat from "../components/CrispChat.astro";
 import GlobalWebflowStyles from "../components/GlobalWebflowStyles.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
@@ -36,6 +37,7 @@ const { page, headHtml, mainHtml, htmlClass, wfPage, wfSite } = Astro.props;
       <SiteHeader />
       <div class="site-main" set:html={mainHtml} />
       <SiteFooter />
+      <CrispChat />
     </div>
   </body>
 </html>
