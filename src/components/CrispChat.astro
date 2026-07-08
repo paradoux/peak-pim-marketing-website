@@ -1,19 +1,11 @@
 <script is:inline>
-  window.$crisp = window.$crisp || [];
-  window.CRISP_WEBSITE_ID = "5d573a39-3d86-4529-84ff-db612ac593d1";
+  window.$crisp=[];window.CRISP_WEBSITE_ID="5d573a39-3d86-4529-84ff-db612ac593d1";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
+</script>
 
-  (function () {
-    d = document;
-    s = d.createElement("script");
-    s.src = "https://client.crisp.chat/l.js";
-    s.async = 1;
-    d.getElementsByTagName("head")[0].appendChild(s);
-  })();
-
-  document.addEventListener("click", function (e) {
+<script is:inline>
+  document.addEventListener('click', function(e) {
     if (e.target.closest("[data-open-crisp]")) {
-      e.preventDefault();
-      $crisp.push(["do", "chat:open"]);
+      $crisp.push(['do', 'chat:open']);
     }
   });
 </script>

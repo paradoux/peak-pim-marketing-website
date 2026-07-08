@@ -30,6 +30,7 @@ const { page, headHtml, mainHtml, htmlClass, wfPage, wfSite } = Astro.props;
     <Fragment set:html={headHtml} />
     <link href="/mirror/local-fonts.css" rel="stylesheet" type="text/css" />
     <meta name="peak-page-slug" content={page.slug || "home"} />
+    <script src="https://client.crisp.chat/l.js" async></script>
   </head>
   <body>
     <div class="page-wrapper site-page">
