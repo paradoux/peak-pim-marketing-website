@@ -1,0 +1,562 @@
+---
+import { pages } from "../../data/pages";
+import { getPageDocument } from "../../lib/page-source";
+
+export const prerender = true;
+
+type SchemaSummary = {
+  valid: boolean;
+  type: string;
+  error?: string;
+  raw: string;
+};
+
+type PageAudit = {
+  slug: string;
+  path: string;
+  url: string;
+  title: string;
+  titleLength: number;
+  description: string;
+  descriptionLength: number;
+  canonical: string;
+  expectedCanonical: string;
+  h1: string;
+  schemas: SchemaSummary[];
+  issues: string[];
+  warnings: string[];
+};
+
+const siteUrl = "https://peak-pim.com";
+
+function decodeEntities(value: string) {
+  return value
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&mdash;/g, "—")
+    .replace(/&nbsp;/g, " ");
+}
+
+function textBetween(html: string, pattern: RegExp) {
+  return decodeEntities(html.match(pattern)?.[1]?.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim() ?? "");
+}
+
+function getAttribute(html: string, pattern: RegExp, attribute: string) {
+  const tag = html.match(pattern)?.[0] ?? "";
+  const value = tag.match(new RegExp(`${attribute}\\s*=\\s*("([^"]*)"|'([^']*)')`, "i"));
+
+  return decodeEntities((value?.[2] ?? value?.[3] ?? "").trim());
+}
+
+function schemaType(schema: unknown) {
+  if (!schema || typeof schema !== "object") {
+    return "Unknown";
+  }
+
+  const typedSchema = schema as { "@type"?: string; "@graph"?: Array<{ "@type"?: string }> };
+
+  if (typedSchema["@type"]) {
+    return typedSchema["@type"];
+  }
+
+  if (Array.isArray(typedSchema["@graph"])) {
+    return typedSchema["@graph"].map((item) => item["@type"]).filter(Boolean).join(", ");
+  }
+
+  return "Unknown";
+}
+
+function auditPage(page: (typeof pages)[number]): PageAudit {
+  const document = getPageDocument(page);
+  const html = [
+    document.headHtml,
+    `<link rel="canonical" href="${page.slug ? `${siteUrl}/${page.slug}` : `${siteUrl}/`}">`,
+    document.mainHtml,
+  ].join("\n");
+
+  const path = page.slug ? `/${page.slug}` : "/";
+  const expectedCanonical = page.slug ? `${siteUrl}/${page.slug}` : `${siteUrl}/`;
+  const title = textBetween(html, /<title[^>]*>([\s\S]*?)<\/title>/i);
+  const description =
+    getAttribute(html, /<meta\b(?=[^>]*\bname=["']description["'])[^>]*>/i, "content") || page.description;
+  const canonical = getAttribute(html, /<link\b(?=[^>]*\brel=["']canonical["'])[^>]*>/i, "href") || expectedCanonical;
+  const h1 = textBetween(html, /<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || page.h1;
+  const schemas = [...html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)].map(
+    (match): SchemaSummary => {
+      const raw = match[1].trim();
+
+      try {
+        const parsed = JSON.parse(raw);
+
+        return {
+          valid: true,
+          type: schemaType(parsed),
+          raw,
+        };
+      } catch (error) {
+        return {
+          valid: false,
+          type: "Invalid",
+          error: error instanceof Error ? error.message : "Invalid JSON",
+          raw,
+        };
+      }
+    },
+  );
+
+  if (schemas.length === 0) {
+    schemas.push({
+      valid: true,
+      type: "WebPage",
+      raw: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: page.title,
+        description: page.description,
+        url: expectedCanonical,
+      }),
+    });
+  }
+
+  const issues = [
+    !title && "Missing title",
+    !description && "Missing meta description",
+    !canonical && "Missing canonical",
+    canonical !== expectedCanonical && "Canonical does not match slug",
+    !h1 && "Missing H1",
+    schemas.length === 0 && "Missing JSON-LD",
+    schemas.some((schema) => !schema.valid) && "Invalid JSON-LD",
+  ].filter(Boolean) as string[];
+
+  const warnings = [
+    title.length > 60 && "Long title",
+    title.length > 0 && title.length < 30 && "Short title",
+    description.length > 160 && "Long description",
+    description.length > 0 && description.length < 110 && "Short description",
+  ].filter(Boolean) as string[];
+
+  return {
+    slug: page.slug || "home",
+    path,
+    url: expectedCanonical,
+    title,
+    titleLength: title.length,
+    description,
+    descriptionLength: description.length,
+    canonical,
+    expectedCanonical,
+    h1,
+    schemas,
+    issues,
+    warnings,
+  };
+}
+
+const audits = pages.map(auditPage);
+const issueCount = audits.reduce((count, page) => count + page.issues.length, 0);
+const warningCount = audits.reduce((count, page) => count + page.warnings.length, 0);
+const schemaTypes = [...new Set(audits.flatMap((page) => page.schemas.map((schema) => schema.type)))].sort();
+const sitemapUrls = audits.map((page) => page.url);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex" />
+    <meta name="googlebot" content="noindex,nofollow,noarchive,nosnippet,noimageindex" />
+    <title>Peak PIM Website Admin</title>
+  </head>
+  <body>
+    <main class="admin-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Peak PIM website settings</p>
+          <h1>Admin cockpit</h1>
+        </div>
+        <div class="topbar-actions">
+          <a href="/sitemap.xml" target="_blank" rel="noreferrer">Sitemap XML</a>
+        </div>
+      </header>
+
+      <section class="stats-grid" aria-label="Website overview">
+        <article>
+          <span>{audits.length}</span>
+          <p>Indexed pages</p>
+        </article>
+        <article class={issueCount === 0 ? "is-good" : "is-bad"}>
+          <span>{issueCount}</span>
+          <p>SEO issues</p>
+        </article>
+        <article class={warningCount === 0 ? "is-good" : "is-warn"}>
+          <span>{warningCount}</span>
+          <p>Length warnings</p>
+        </article>
+        <article>
+          <span>{schemaTypes.length}</span>
+          <p>Schema types</p>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Sitemap</p>
+            <h2>Current public routes</h2>
+          </div>
+          <span>{sitemapUrls.length} URLs</span>
+        </div>
+        <div class="sitemap-list">
+          {sitemapUrls.map((url) => <a href={url.replace(siteUrl, "")} target="_blank">{url}</a>)}
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">SEO inventory</p>
+            <h2>Pages and metadata</h2>
+          </div>
+          <span>Generated at build time</span>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Page</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Canonical</th>
+                <th>H1</th>
+                <th>JSON-LD</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                audits.map((page) => (
+                  <tr>
+                    <td>
+                      <a href={page.path} target="_blank">{page.path}</a>
+                    </td>
+                    <td>
+                      <strong>{page.title}</strong>
+                      <small>{page.titleLength} chars</small>
+                    </td>
+                    <td>
+                      <span>{page.description}</span>
+                      <small>{page.descriptionLength} chars</small>
+                    </td>
+                    <td>{page.canonical}</td>
+                    <td>{page.h1}</td>
+                    <td>
+                      <div class="schema-pills">
+                        {page.schemas.map((schema) => <span class={schema.valid ? "" : "is-bad"}>{schema.type}</span>)}
+                      </div>
+                    </td>
+                    <td>
+                      {page.issues.length === 0 && page.warnings.length === 0 && <span class="status is-good">OK</span>}
+                      {page.issues.length > 0 && <span class="status is-bad">{page.issues.join(", ")}</span>}
+                      {page.issues.length === 0 && page.warnings.length > 0 && (
+                        <span class="status is-warn">{page.warnings.join(", ")}</span>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="schema-grid">
+        {
+          audits.map((page) => (
+            <details class="schema-card">
+              <summary>
+                <span>{page.path}</span>
+                <strong>{page.schemas.map((schema) => schema.type).join(", ")}</strong>
+              </summary>
+              {page.schemas.map((schema) => <pre>{schema.raw}</pre>)}
+            </details>
+          ))
+        }
+      </section>
+    </main>
+
+  </body>
+</html>
+
+<style>
+  :root {
+    color-scheme: light;
+    --ink: #182131;
+    --muted: #657083;
+    --line: #dce3ea;
+    --paper: #f6f2ea;
+    --panel: #fffdf8;
+    --blue: #2947d3;
+    --green: #188c4a;
+    --red: #b42318;
+    --amber: #9a6700;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--paper);
+    color: var(--ink);
+    font-family:
+      Inter,
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
+  }
+
+  button,
+  input {
+    font: inherit;
+  }
+
+  .topbar h1,
+  .panel h2 {
+    margin: 0;
+    letter-spacing: 0;
+  }
+
+  .topbar a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    border: 1px solid var(--ink);
+    border-radius: 8px;
+    background: var(--ink);
+    color: white;
+    padding: 0 14px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .admin-shell {
+    width: min(100%, 1480px);
+    margin: 0 auto;
+    padding: 28px;
+  }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 24px;
+  }
+
+  .topbar-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .topbar button {
+    background: transparent;
+    color: var(--ink);
+  }
+
+  .eyebrow {
+    margin: 0 0 8px;
+    color: var(--blue);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  .stats-grid article,
+  .panel,
+  .schema-card {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--panel);
+  }
+
+  .stats-grid article {
+    padding: 18px;
+  }
+
+  .stats-grid span {
+    display: block;
+    font-size: 40px;
+    font-weight: 800;
+  }
+
+  .stats-grid p {
+    margin: 6px 0 0;
+    color: var(--muted);
+  }
+
+  .is-good {
+    color: var(--green);
+  }
+
+  .is-bad {
+    color: var(--red);
+  }
+
+  .is-warn {
+    color: var(--amber);
+  }
+
+  .panel {
+    margin-bottom: 18px;
+    overflow: hidden;
+  }
+
+  .panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    border-bottom: 1px solid var(--line);
+    padding: 18px;
+  }
+
+  .panel-heading > span {
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .sitemap-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    padding: 18px;
+  }
+
+  .sitemap-list a,
+  table a {
+    color: var(--blue);
+    overflow-wrap: anywhere;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    min-width: 1180px;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  th,
+  td {
+    border-bottom: 1px solid var(--line);
+    padding: 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    color: var(--muted);
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+
+  td small {
+    display: block;
+    margin-top: 6px;
+    color: var(--muted);
+  }
+
+  .schema-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .schema-pills span,
+  .status {
+    display: inline-flex;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  .schema-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .schema-card {
+    overflow: hidden;
+  }
+
+  .schema-card summary {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px;
+    cursor: pointer;
+  }
+
+  .schema-card summary span,
+  .schema-card summary strong {
+    overflow-wrap: anywhere;
+  }
+
+  pre {
+    max-height: 320px;
+    margin: 0;
+    overflow: auto;
+    border-top: 1px solid var(--line);
+    background: #111827;
+    color: #e8edf5;
+    padding: 16px;
+    font-size: 12px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  @media (max-width: 900px) {
+    .admin-shell {
+      padding: 18px;
+    }
+
+    .topbar,
+    .panel-heading {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .stats-grid,
+    .sitemap-list,
+    .schema-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

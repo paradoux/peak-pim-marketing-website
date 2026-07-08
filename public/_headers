@@ -1,0 +1,5 @@
+/admin/*
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet, noimageindex
+
+/admin
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet, noimageindex
