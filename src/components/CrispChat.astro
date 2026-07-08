@@ -4,8 +4,12 @@
 
 <script is:inline>
   document.addEventListener('click', function(e) {
-    if (e.target.closest("[data-open-crisp]")) {
-      $crisp.push(['do', 'chat:open']);
+    var trigger = e.target.closest("[data-open-crisp]");
+
+    if (trigger) {
+      e.preventDefault();
+      window.$crisp = window.$crisp || [];
+      window.$crisp.push(['do', 'chat:open']);
     }
   });
 </script>
