@@ -33,3 +33,35 @@ html {
 .site-footer {
   position: relative;
 }
+
+@media screen and (max-width: 991px) {
+  .site-header .navbar10_menu[data-nav-menu-open] {
+    display: flex !important;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    width: 100%;
+    margin-left: 0;
+    padding: 1rem 5% 1.5rem;
+    text-align: left;
+  }
+
+  .site-header .navbar10_menu-left,
+  .site-header .navbar10_menu-right {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.25rem;
+    width: 100%;
+  }
+
+  .site-header .navbar10_link,
+  .site-header .navbar10_dropdown-toggle {
+    width: 100%;
+  }
+
+  .site-header .navbar10_menu-right {
+    gap: 1rem;
+    padding-top: 0.5rem;
+  }
+}
