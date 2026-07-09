@@ -11,6 +11,31 @@ const noIndexHeaders = {
   "X-Robots-Tag": "noindex, nofollow, noarchive, nosnippet, noimageindex",
 };
 
+const productionHosts = new Set(["peak-pim.com", "www.peak-pim.com"]);
+
+function isProductionHost(request: Request) {
+  return productionHosts.has(new URL(request.url).hostname);
+}
+
+function robotsTxt(body: string) {
+  return new Response(body, {
+    headers: {
+      "content-type": "text/plain; charset=utf-8",
+      ...noIndexHeaders,
+    },
+  });
+}
+
+function withNoIndex(response: Response) {
+  const protectedResponse = new Response(response.body, response);
+
+  Object.entries(noIndexHeaders).forEach(([key, value]) => {
+    protectedResponse.headers.set(key, value);
+  });
+
+  return protectedResponse;
+}
+
 function unauthorized() {
   return new Response("Authentication required.", {
     status: 401,
@@ -57,9 +82,16 @@ function parseBasicAuth(header: string | null) {
 
 export const onRequest = async (context: PagesContext) => {
   const url = new URL(context.request.url);
+  const productionHost = isProductionHost(context.request);
+
+  if (!productionHost && url.pathname === "/robots.txt") {
+    return robotsTxt("User-agent: *\nDisallow: /\n");
+  }
 
   if (!url.pathname.startsWith("/admin")) {
-    return context.next();
+    const response = await context.next();
+
+    return productionHost ? response : withNoIndex(response);
   }
 
   const username = context.env.ADMIN_USERNAME ?? "theau";
@@ -83,11 +115,5 @@ export const onRequest = async (context: PagesContext) => {
   }
 
   const response = await context.next();
-  const protectedResponse = new Response(response.body, response);
-
-  Object.entries(noIndexHeaders).forEach(([key, value]) => {
-    protectedResponse.headers.set(key, value);
-  });
-
-  return protectedResponse;
+  return withNoIndex(response);
 };
