@@ -63,5 +63,62 @@ const fallbackJsonLd = {
       <SiteFooter />
       <CrispChat />
     </div>
+    <script is:inline>
+      function setupTimelineProgress() {
+        const timelines = Array.from(document.querySelectorAll(".layout121_timeline-wrapper"));
+
+        if (!timelines.length) {
+          return;
+        }
+
+        let ticking = false;
+
+        function clamp(value) {
+          return Math.max(0, Math.min(1, value));
+        }
+
+        function update() {
+          const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+          timelines.forEach((timeline) => {
+            const bar = timeline.querySelector(".layout121_progress-bar");
+            const track = timeline.querySelector(".layout121_progress-bar-wrapper");
+
+            if (!bar || !track) {
+              return;
+            }
+
+            const rect = track.getBoundingClientRect();
+            const start = viewportHeight * 0.72;
+            const end = viewportHeight * 0.34;
+            const distance = rect.height + start - end;
+            const progress = distance > 0 ? clamp((start - rect.top) / distance) : 0;
+
+            bar.style.height = `${progress * 100}%`;
+          });
+
+          ticking = false;
+        }
+
+        function requestUpdate() {
+          if (ticking) {
+            return;
+          }
+
+          ticking = true;
+          window.requestAnimationFrame(update);
+        }
+
+        update();
+        window.addEventListener("scroll", requestUpdate, { passive: true });
+        window.addEventListener("resize", requestUpdate);
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", setupTimelineProgress);
+      } else {
+        setupTimelineProgress();
+      }
+    </script>
   </body>
 </html>
