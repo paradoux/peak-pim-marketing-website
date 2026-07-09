@@ -52,6 +52,8 @@ const fallbackJsonLd = {
     {!hasMetaDescription && page.description && <meta name="description" content={page.description} />}
     <link rel="canonical" href={canonicalUrl} />
     {!hasJsonLd && <script type="application/ld+json" set:html={JSON.stringify(fallbackJsonLd)} />}
+    <link rel="preload" href="/mirror/fonts/V8mDoQDjQSkFtoMM3T6r8E7mPbF4Cw-4ecc7e89b7.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/mirror/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7-6ab57b19c6.woff2" as="font" type="font/woff2" crossorigin />
     <link href="/mirror/local-fonts.css" rel="stylesheet" type="text/css" />
     <meta name="peak-page-slug" content={page.slug || "home"} />
   </head>
@@ -64,6 +66,67 @@ const fallbackJsonLd = {
       <CrispChat />
     </div>
     <script is:inline>
+      function setupFaqAccordions() {
+        const questions = Array.from(document.querySelectorAll(".faq1_question"));
+
+        questions.forEach((question) => {
+          if (question.dataset.faqReady === "true") {
+            return;
+          }
+
+          const item = question.closest(".faq1_accordion");
+          const answer = item && item.querySelector(".faq1_answer");
+          const icon = question.querySelector(".faq1_icon-wrapper");
+
+          if (!answer) {
+            return;
+          }
+
+          question.dataset.faqReady = "true";
+          question.setAttribute("role", "button");
+          question.setAttribute("tabindex", question.getAttribute("tabindex") || "0");
+          question.setAttribute("aria-expanded", "false");
+          answer.style.overflow = "hidden";
+          answer.style.height = "0px";
+
+          function setOpen(open) {
+            question.setAttribute("aria-expanded", String(open));
+            answer.style.height = open ? `${answer.scrollHeight}px` : "0px";
+
+            if (icon) {
+              icon.style.transform = open ? "rotate(180deg)" : "";
+            }
+          }
+
+          function toggle() {
+            setOpen(question.getAttribute("aria-expanded") !== "true");
+          }
+
+          question.addEventListener("click", toggle);
+          question.addEventListener("keydown", function(event) {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              toggle();
+            }
+          });
+        });
+
+        window.addEventListener("resize", function() {
+          questions.forEach((question) => {
+            if (question.getAttribute("aria-expanded") !== "true") {
+              return;
+            }
+
+            const item = question.closest(".faq1_accordion");
+            const answer = item && item.querySelector(".faq1_answer");
+
+            if (answer) {
+              answer.style.height = `${answer.scrollHeight}px`;
+            }
+          });
+        });
+      }
+
       function setupTimelineProgress() {
         const timelines = Array.from(document.querySelectorAll(".layout121_timeline-wrapper"));
 
@@ -115,8 +178,12 @@ const fallbackJsonLd = {
       }
 
       if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", setupTimelineProgress);
+        document.addEventListener("DOMContentLoaded", function() {
+          setupFaqAccordions();
+          setupTimelineProgress();
+        });
       } else {
+        setupFaqAccordions();
         setupTimelineProgress();
       }
     </script>

@@ -73,7 +73,8 @@ function extractMain(html: string) {
 function cleanHead(headHtml: string) {
   return headHtml
     .replace(/<style>html\{font-family:[\s\S]*?<\/style>/, "")
-    .replace(/<link href="\/mirror\/local-fonts\.css" rel="stylesheet" type="text\/css">/, "");
+    .replace(/<link href="\/mirror\/local-fonts\.css" rel="stylesheet" type="text\/css">/, "")
+    .replace(/<script\b[^>]*\bsrc=["']\/mirror\/webfont-[^"']+\.js["'][^>]*><\/script>/i, "");
 }
 
 function ensurePrimaryHeading(mainHtml: string, page: PageDefinition) {

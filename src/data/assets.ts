@@ -6,14 +6,14 @@ export const assets = {
     webclip: "/assets/logo/peak-webclip.png",
   },
   productUi: {
-    summitJacketRed: "/assets/product-ui/summit-gear-shell-jacket-red.png",
-    freerideRed: "/assets/product-ui/peakpro-freeride-x-red.png",
-    skiBackpackBlack: "/assets/product-ui/ski-traverse-30l-backpack-black.png",
-    nordicBootBlack: "/assets/product-ui/nordic-flr-boot-black.png",
+    summitJacketRed: "/assets/product-ui/summit-gear-shell-jacket-red.webp",
+    freerideRed: "/assets/product-ui/peakpro-freeride-x-red.webp",
+    skiBackpackBlack: "/assets/product-ui/ski-traverse-30l-backpack-black.webp",
+    nordicBootBlack: "/assets/product-ui/nordic-flr-boot-black.webp",
   },
   testimonials: {
     amelieSamson: "/assets/testimonials/amelie-samson.jpg",
-    simonTordjman: "/assets/testimonials/simon-tordjman-du-bruit-dans-la-cuisine.png",
+    simonTordjman: "/assets/testimonials/simon-tordjman-du-bruit-dans-la-cuisine.webp",
   },
 } as const;
 
