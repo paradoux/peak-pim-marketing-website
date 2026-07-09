@@ -1,0 +1,49 @@
+# Peak PIM
+
+> Peak PIM is a Shopify-native product information management platform for merchants that need to manage product data, metafields, media, variants, and multiple Shopify stores from one place.
+
+Peak PIM helps Shopify teams:
+
+- Manage one central product catalog across multiple Shopify stores.
+- Bulk edit products, variants, metafields, collections, SEO fields, and media.
+- Sync product data back to Shopify without CSV exports.
+- Organize product images, videos, and files in a shared media library.
+- Set up from the Shopify App Store with a one-click connection.
+
+## Primary Pages
+
+- [Home](https://peak-pim.com/)
+- [Pricing](https://peak-pim.com/pricing/)
+- [1-click setup](https://peak-pim.com/1-click-setup/)
+- [Bulk edit](https://peak-pim.com/bulk-edit/)
+- [Shopify-native sync](https://peak-pim.com/shopify-sync/)
+- [Shopify multi-store PIM](https://peak-pim.com/shopify-multi-store-pim/)
+- [Shopify media management](https://peak-pim.com/shopify-media-management/)
+- [Shopify PIM alternatives](https://peak-pim.com/shopify-pim-alternatives/)
+
+## Industry Pages
+
+- [PIM for Shopify fashion brands](https://peak-pim.com/industry/fashion/)
+
+## Comparisons
+
+- [Peak PIM vs Akeneo](https://peak-pim.com/vs/akeneo/)
+- [Peak PIM vs Catsy](https://peak-pim.com/vs/catsy/)
+- [Peak PIM vs Plytix](https://peak-pim.com/vs/plytix/)
+- [Peak PIM vs Quable](https://peak-pim.com/vs/quable/)
+- [Peak PIM vs Shopify Admin](https://peak-pim.com/vs/shopify-admin/)
+- [Peak PIM vs Shopify app stack](https://peak-pim.com/replace-your-shopify-app-stack/)
+
+## Company
+
+- [Mission](https://peak-pim.com/mission/)
+- [Privacy policy](https://peak-pim.com/legals/privacy/)
+- [Shopify App Store listing](https://apps.shopify.com/peak-pim)
+
+## Crawling Notes
+
+- Canonical production domain: https://peak-pim.com/
+- Sitemap: https://peak-pim.com/sitemap.xml
+- Robots: https://peak-pim.com/robots.txt
+- Admin area: https://peak-pim.com/admin/ is private and should not be indexed or summarized.
+- Staging and Pages preview domains are non-production and should not be indexed.
