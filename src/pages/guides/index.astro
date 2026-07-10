@@ -1,0 +1,21 @@
+---
+import ContentIndexLayout from "../../layouts/ContentIndexLayout.astro";
+import { entryPath, getPublishedGuides } from "../../lib/content";
+
+export const prerender = true;
+
+const guides = await getPublishedGuides();
+const entries = guides.map((entry) => ({
+  path: entryPath("guides", entry),
+  entry,
+}));
+---
+
+<ContentIndexLayout
+  title="Peak PIM Guides"
+  description="Practical guides for managing Shopify products, metafields, media, and catalog workflows."
+  canonicalPath="/guides"
+  eyebrow="Guides"
+  emptyMessage="No guides are published yet."
+  entries={entries}
+/>

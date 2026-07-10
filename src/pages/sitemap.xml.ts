@@ -1,11 +1,16 @@
 import { pageSlugs } from "../data/pages";
+import { entryUrl, getPublishedArticles, getPublishedGuides } from "../lib/content";
 
 export const prerender = true;
 
-export function GET() {
-  const urls = pageSlugs
+export async function GET() {
+  const [articles, guides] = await Promise.all([getPublishedArticles(), getPublishedGuides()]);
+  const staticUrls = pageSlugs
     .map((slug) => `https://peak-pim.com/${slug}`)
     .map((url) => url.replace(/\/$/, "/"));
+  const articleUrls = articles.map((entry) => entryUrl("articles", entry));
+  const guideUrls = guides.map((entry) => entryUrl("guides", entry));
+  const urls = [...staticUrls, ...articleUrls, ...guideUrls];
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

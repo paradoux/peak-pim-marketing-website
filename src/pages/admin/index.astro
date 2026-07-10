@@ -1,5 +1,6 @@
 ---
 import { pages } from "../../data/pages";
+import { contentRoutes, entryPath, getAllContentEntries, isPublished } from "../../lib/content";
 import { getPageDocument } from "../../lib/page-source";
 
 export const prerender = true;
@@ -154,10 +155,15 @@ function auditPage(page: (typeof pages)[number]): PageAudit {
 }
 
 const audits = pages.map(auditPage);
+const contentEntries = await getAllContentEntries();
+const publishedContentEntries = contentEntries.filter(({ entry }) => isPublished(entry));
 const issueCount = audits.reduce((count, page) => count + page.issues.length, 0);
 const warningCount = audits.reduce((count, page) => count + page.warnings.length, 0);
 const schemaTypes = [...new Set(audits.flatMap((page) => page.schemas.map((schema) => schema.type)))].sort();
-const sitemapUrls = audits.map((page) => page.url);
+const sitemapUrls = [
+  ...audits.map((page) => page.url),
+  ...publishedContentEntries.map(({ kind, entry }) => `${siteUrl}${entryPath(kind, entry)}`),
+];
 ---
 
 <!doctype html>
@@ -197,6 +203,10 @@ const sitemapUrls = audits.map((page) => page.url);
         <article>
           <span>{schemaTypes.length}</span>
           <p>Schema types</p>
+        </article>
+        <article>
+          <span>{contentEntries.length}</span>
+          <p>Content entries</p>
         </article>
       </section>
 
@@ -266,6 +276,73 @@ const sitemapUrls = audits.map((page) => page.url);
                     </td>
                   </tr>
                 ))
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Content collections</p>
+            <h2>Articles and guides</h2>
+          </div>
+          <span>{publishedContentEntries.length} published / {contentEntries.length} total</span>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Collection</th>
+                <th>Entry</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Publish date</th>
+                <th>JSON-LD</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                contentEntries.map(({ kind, entry }) => {
+                  const published = isPublished(entry);
+                  const route = contentRoutes[kind];
+                  const path = entryPath(kind, entry);
+                  const description = entry.data.seoDescription ?? entry.data.description;
+
+                  return (
+                    <tr>
+                      <td>{route.label}</td>
+                      <td>
+                        {published ? <a href={path} target="_blank">{path}</a> : <span>{path}</span>}
+                        <small>{entry.id}</small>
+                      </td>
+                      <td>
+                        <strong>{entry.data.seoTitle ?? entry.data.title}</strong>
+                        <small>{(entry.data.seoTitle ?? entry.data.title).length} chars</small>
+                      </td>
+                      <td>
+                        <span>{description}</span>
+                        <small>{description.length} chars</small>
+                      </td>
+                      <td>{entry.data.publishDate.toISOString().slice(0, 10)}</td>
+                      <td>
+                        <div class="schema-pills">
+                          <span>{route.schemaType}</span>
+                        </div>
+                      </td>
+                      <td>
+                        {published ? (
+                          <span class="status is-good">Published</span>
+                        ) : (
+                          <span class="status is-warn">Draft / noindex</span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })
               }
             </tbody>
           </table>
@@ -383,7 +460,7 @@ const sitemapUrls = audits.map((page) => page.url);
 
   .stats-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 14px;
     margin-bottom: 18px;
   }

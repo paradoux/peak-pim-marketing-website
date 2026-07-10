@@ -1,0 +1,162 @@
+---
+import CrispChat from "../components/CrispChat.astro";
+import GlobalWebflowStyles from "../components/GlobalWebflowStyles.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import { contentJsonLd, entryPath, entryUrl, formatDate, type ContentEntry, type ContentKind } from "../lib/content";
+import "../styles/global.css";
+
+type Props = {
+  kind: ContentKind;
+  entry: ContentEntry;
+};
+
+const { kind, entry } = Astro.props;
+const title = entry.data.seoTitle ?? entry.data.title;
+const description = entry.data.seoDescription ?? entry.data.description;
+const canonicalUrl = entry.data.canonicalPath ? `https://peak-pim.com${entry.data.canonicalPath}` : entryUrl(kind, entry);
+const jsonLd = contentJsonLd(kind, entry);
+const eyebrow = kind === "articles" ? "Article" : "Guide";
+---
+
+<!doctype html>
+<html lang="en" data-wf-domain="peak-pim.com">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {entry.data.noindex && <meta name="robots" content="noindex,nofollow" />}
+    <link rel="canonical" href={canonicalUrl} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <link rel="preload" href="/mirror/fonts/V8mDoQDjQSkFtoMM3T6r8E7mPbF4Cw-4ecc7e89b7.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/mirror/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7-6ab57b19c6.woff2" as="font" type="font/woff2" crossorigin />
+    <link href="/mirror/local-fonts.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div class="page-wrapper site-page">
+      <GlobalWebflowStyles />
+      <SiteHeader />
+      <main class="content-shell">
+        <a class="content-back" href={kind === "articles" ? "/blog" : "/guides"}>{kind === "articles" ? "All articles" : "All guides"}</a>
+        <article class="content-article">
+          <header class="content-hero">
+            <p class="content-eyebrow">{eyebrow}</p>
+            <h1>{entry.data.title}</h1>
+            <p>{entry.data.description}</p>
+            <div class="content-meta">
+              <span>{formatDate(entry.data.publishDate)}</span>
+              <span>{entry.data.author}</span>
+              {"readingTime" in entry.data && entry.data.readingTime && <span>{entry.data.readingTime}</span>}
+              {"estimatedReadTime" in entry.data && entry.data.estimatedReadTime && <span>{entry.data.estimatedReadTime}</span>}
+            </div>
+          </header>
+          <div class="content-body">
+            <slot />
+          </div>
+        </article>
+      </main>
+      <SiteFooter />
+      <CrispChat />
+    </div>
+  </body>
+</html>
+
+<style>
+  .content-shell {
+    background: #f6f2ea;
+    color: #1d1d1b;
+    padding: 7rem 1.25rem 5rem;
+  }
+
+  .content-back,
+  .content-article {
+    width: min(100%, 860px);
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .content-back {
+    display: block;
+    color: #1d1d1b;
+    font-size: 0.95rem;
+    text-decoration: none;
+  }
+
+  .content-article {
+    margin-top: 2rem;
+  }
+
+  .content-hero {
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid rgba(29, 29, 27, 0.18);
+  }
+
+  .content-eyebrow {
+    margin: 0 0 1rem;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .content-hero h1 {
+    margin: 0;
+    max-width: 820px;
+    font-size: clamp(2.5rem, 7vw, 5.25rem);
+    line-height: 0.95;
+    letter-spacing: 0;
+  }
+
+  .content-hero > p {
+    max-width: 680px;
+    margin: 1.25rem 0 0;
+    font-size: 1.2rem;
+    line-height: 1.5;
+  }
+
+  .content-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    margin-top: 1.5rem;
+    color: rgba(29, 29, 27, 0.72);
+    font-size: 0.95rem;
+  }
+
+  .content-body {
+    max-width: 720px;
+    padding-top: 2.5rem;
+    font-size: 1.08rem;
+    line-height: 1.75;
+  }
+
+  .content-body :global(h2),
+  .content-body :global(h3) {
+    margin: 2.5rem 0 1rem;
+    letter-spacing: 0;
+    line-height: 1.08;
+  }
+
+  .content-body :global(p),
+  .content-body :global(ul),
+  .content-body :global(ol) {
+    margin: 0 0 1.25rem;
+  }
+
+  .content-body :global(a) {
+    color: inherit;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+  }
+
+  @media (max-width: 767px) {
+    .content-shell {
+      padding-top: 5rem;
+    }
+
+    .content-hero h1 {
+      font-size: clamp(2.25rem, 12vw, 3.5rem);
+    }
+  }
+</style>

@@ -1,0 +1,21 @@
+---
+import ContentIndexLayout from "../../layouts/ContentIndexLayout.astro";
+import { entryPath, getPublishedArticles } from "../../lib/content";
+
+export const prerender = true;
+
+const articles = await getPublishedArticles();
+const entries = articles.map((entry) => ({
+  path: entryPath("articles", entry),
+  entry,
+}));
+---
+
+<ContentIndexLayout
+  title="Peak PIM Blog"
+  description="Articles about Shopify product data, PIM workflows, catalog operations, and multi-store product management."
+  canonicalPath="/blog"
+  eyebrow="Articles"
+  emptyMessage="No articles are published yet."
+  entries={entries}
+/>
