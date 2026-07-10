@@ -36,6 +36,40 @@ function withNoIndex(response: Response) {
   return protectedResponse;
 }
 
+function notFound() {
+  return new Response("Not found.", {
+    status: 404,
+    headers: {
+      "content-type": "text/plain; charset=utf-8",
+      ...noIndexHeaders,
+    },
+  });
+}
+
+function isContentDetailPath(pathname: string) {
+  return /^\/(?:blog|guides)\/[^/]+\/?$/.test(pathname);
+}
+
+async function protectMissingContentDetail(response: Response) {
+  if (response.status !== 200) {
+    return response;
+  }
+
+  const contentType = response.headers.get("content-type") ?? "";
+
+  if (!contentType.includes("text/html")) {
+    return response;
+  }
+
+  const body = await response.text();
+
+  if (!body.includes('name="peak-content-entry"')) {
+    return notFound();
+  }
+
+  return new Response(body, response);
+}
+
 function unauthorized() {
   return new Response("Authentication required.", {
     status: 401,
@@ -90,8 +124,11 @@ export const onRequest = async (context: PagesContext) => {
 
   if (!url.pathname.startsWith("/admin")) {
     const response = await context.next();
+    const contentResponse = isContentDetailPath(url.pathname)
+      ? await protectMissingContentDetail(response)
+      : response;
 
-    return productionHost ? response : withNoIndex(response);
+    return productionHost ? contentResponse : withNoIndex(contentResponse);
   }
 
   const username = context.env.ADMIN_USERNAME ?? "theau";

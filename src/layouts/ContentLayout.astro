@@ -26,6 +26,7 @@ const eyebrow = kind === "articles" ? "Article" : "Guide";
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="peak-content-entry" content={entryPath(kind, entry)} />
     {entry.data.noindex && <meta name="robots" content="noindex,nofollow" />}
     <link rel="canonical" href={canonicalUrl} />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
