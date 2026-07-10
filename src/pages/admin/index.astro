@@ -26,6 +26,18 @@ type PageAudit = {
   schemas: SchemaSummary[];
   issues: string[];
   warnings: string[];
+  completeness: {
+    wordCount: number;
+    sectionCount: number;
+    imageCount: number;
+    backgroundImageCount: number;
+    emptyAltCount: number;
+    placeholderImageCount: number;
+    deadHashLinks: string[];
+    copyFlags: string[];
+    status: "good" | "warn" | "bad";
+    notes: string[];
+  };
 };
 
 const siteUrl = "https://peak-pim.com";
@@ -66,6 +78,78 @@ function schemaType(schema: unknown) {
   }
 
   return "Unknown";
+}
+
+function stripMarkup(html: string) {
+  return decodeEntities(
+    html
+      .replace(/<script[\s\S]*?<\/script>/gi, " ")
+      .replace(/<style[\s\S]*?<\/style>/gi, " ")
+      .replace(/<svg[\s\S]*?<\/svg>/gi, " ")
+      .replace(/<[^>]+>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim(),
+  );
+}
+
+function getTagAttribute(tag: string, attribute: string) {
+  const value = tag.match(new RegExp(`${attribute}\\s*=\\s*("([^"]*)"|'([^']*)')`, "i"));
+
+  return decodeEntities((value?.[2] ?? value?.[3] ?? "").trim());
+}
+
+function summarizeLink(html: string) {
+  return stripMarkup(html).slice(0, 80) || "Empty link";
+}
+
+function auditCompleteness(mainHtml: string): PageAudit["completeness"] {
+  const text = stripMarkup(mainHtml);
+  const wordCount = text ? text.split(/\s+/).length : 0;
+  const sectionCount = [...mainHtml.matchAll(/<section\b/gi)].length;
+  const imageTags = [...mainHtml.matchAll(/<img\b[^>]*>/gi)].map((match) => match[0]);
+  const backgroundImageCount = [...mainHtml.matchAll(/url\((['"]?)(.*?)\1\)/gi)].filter((match) =>
+    match[2]?.startsWith("/"),
+  ).length;
+  const emptyAltCount = imageTags.filter((tag) => getTagAttribute(tag, "alt") === "").length;
+  const placeholderImageCount = imageTags.filter((tag) => /placeholder|69a4bc81c87eb11155ad5ed7/i.test(tag)).length;
+  const deadHashLinks = [...mainHtml.matchAll(/<a\b[^>]*>[\s\S]*?<\/a>/gi)]
+    .filter((match) => {
+      const tag = match[0].match(/<a\b[^>]*>/i)?.[0] ?? "";
+      return getTagAttribute(tag, "href") === "#" && !/data-open-crisp/i.test(tag);
+    })
+    .map((match) => summarizeLink(match[0]));
+  const copyFlags = [
+    mainHtml.includes("Coming soon") && "Contains `Coming soon`",
+    mainHtml.includes("Join the beta") && "Contains `Join the beta`",
+    mainHtml.includes("Ask for advices") && "Typo: `Ask for advices`",
+    mainHtml.includes("final_v3_FINAL") && "Contains draft-file joke copy",
+    mainHtml.includes("Help Center") && "Mentions Help Center",
+  ].filter(Boolean) as string[];
+  const mediaCount = imageTags.length + backgroundImageCount;
+  const notes = [
+    wordCount < 700 && "Thin page content",
+    mediaCount === 0 && "No page-level media",
+    placeholderImageCount > 0 && `${placeholderImageCount} placeholder image(s)`,
+    deadHashLinks.length > 0 && `${deadHashLinks.length} non-functional # link(s)`,
+    emptyAltCount > 0 && `${emptyAltCount} image(s) with empty alt text`,
+    ...copyFlags,
+  ].filter(Boolean) as string[];
+  const severeIssueCount =
+    placeholderImageCount + deadHashLinks.length + (wordCount < 700 ? 1 : 0) + (mediaCount === 0 ? 1 : 0);
+  const status = severeIssueCount >= 3 ? "bad" : notes.length > 0 ? "warn" : "good";
+
+  return {
+    wordCount,
+    sectionCount,
+    imageCount: imageTags.length,
+    backgroundImageCount,
+    emptyAltCount,
+    placeholderImageCount,
+    deadHashLinks,
+    copyFlags,
+    status,
+    notes,
+  };
 }
 
 function auditPage(page: (typeof pages)[number]): PageAudit {
@@ -151,6 +235,7 @@ function auditPage(page: (typeof pages)[number]): PageAudit {
     schemas,
     issues,
     warnings,
+    completeness: auditCompleteness(document.mainHtml),
   };
 }
 
@@ -160,6 +245,9 @@ const publishedContentEntries = contentEntries.filter(({ entry }) => isPublished
 const issueCount = audits.reduce((count, page) => count + page.issues.length, 0);
 const warningCount = audits.reduce((count, page) => count + page.warnings.length, 0);
 const schemaTypes = [...new Set(audits.flatMap((page) => page.schemas.map((schema) => schema.type)))].sort();
+const incompleteAudits = audits
+  .filter((page) => page.completeness.status !== "good")
+  .sort((left, right) => right.completeness.notes.length - left.completeness.notes.length);
 const sitemapUrls = [
   ...audits.map((page) => page.url),
   ...publishedContentEntries.map(({ kind, entry }) => `${siteUrl}${entryPath(kind, entry)}`),
@@ -208,6 +296,10 @@ const sitemapUrls = [
           <span>{contentEntries.length}</span>
           <p>Content entries</p>
         </article>
+        <article class={incompleteAudits.length === 0 ? "is-good" : "is-warn"}>
+          <span>{incompleteAudits.length}</span>
+          <p>Content gaps</p>
+        </article>
       </section>
 
       <section class="panel">
@@ -220,6 +312,70 @@ const sitemapUrls = [
         </div>
         <div class="sitemap-list">
           {sitemapUrls.map((url) => <a href={url.replace(siteUrl, "")} target="_blank">{url}</a>)}
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Content completeness</p>
+            <h2>Pages needing content or media review</h2>
+          </div>
+          <span>Excludes blog and guides</span>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Priority</th>
+                <th>Page</th>
+                <th>Content</th>
+                <th>Media</th>
+                <th>Issues to review</th>
+                <th>Broken # links</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                incompleteAudits.map((page) => (
+                  <tr>
+                    <td>
+                      <span class={`status ${page.completeness.status === "bad" ? "is-bad" : "is-warn"}`}>
+                        {page.completeness.status === "bad" ? "High" : "Medium"}
+                      </span>
+                    </td>
+                    <td>
+                      <a href={page.path} target="_blank">{page.path}</a>
+                      <small>{page.h1}</small>
+                    </td>
+                    <td>
+                      <strong>{page.completeness.wordCount}</strong> words
+                      <small>{page.completeness.sectionCount} sections</small>
+                    </td>
+                    <td>
+                      <strong>{page.completeness.imageCount + page.completeness.backgroundImageCount}</strong> assets
+                      <small>{page.completeness.emptyAltCount} empty alt / {page.completeness.placeholderImageCount} placeholders</small>
+                    </td>
+                    <td>
+                      <div class="issue-list">
+                        {page.completeness.notes.map((note) => <span>{note}</span>)}
+                      </div>
+                    </td>
+                    <td>
+                      {page.completeness.deadHashLinks.length === 0 ? (
+                        <span class="muted">None</span>
+                      ) : (
+                        <ul class="compact-list">
+                          {page.completeness.deadHashLinks.slice(0, 6).map((link) => <li>{link}</li>)}
+                        </ul>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
         </div>
       </section>
 
@@ -577,6 +733,38 @@ const sitemapUrls = [
     padding: 4px 8px;
     font-size: 12px;
     font-weight: 800;
+  }
+
+  .issue-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    max-width: 520px;
+  }
+
+  .issue-list span {
+    display: inline-flex;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: #fff8e8;
+    color: var(--amber);
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .compact-list {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--muted);
+  }
+
+  .compact-list li + li {
+    margin-top: 4px;
+  }
+
+  .muted {
+    color: var(--muted);
   }
 
   .schema-grid {
