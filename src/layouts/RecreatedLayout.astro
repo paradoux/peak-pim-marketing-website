@@ -177,14 +177,55 @@ const fallbackJsonLd = {
         window.addEventListener("resize", requestUpdate);
       }
 
+      function setupPricingBilling() {
+        const billingButtons = Array.from(document.querySelectorAll("[data-billing-toggle]"));
+
+        if (!billingButtons.length) {
+          return;
+        }
+
+        function setBilling(mode) {
+          billingButtons.forEach((button) => {
+            const isActive = button.getAttribute("data-billing-toggle") === mode;
+            button.classList.toggle("is-active", isActive);
+            button.setAttribute("aria-pressed", isActive ? "true" : "false");
+          });
+
+          Array.from(document.querySelectorAll("[data-pricing-price], [data-pricing-unit], [data-pricing-billing]")).forEach(
+            (element) => {
+              const nextValue = element.getAttribute(`data-${mode}`);
+
+              if (nextValue) {
+                element.textContent = nextValue;
+              }
+            },
+          );
+        }
+
+        billingButtons.forEach((button) => {
+          if (button.dataset.billingReady === "true") {
+            return;
+          }
+
+          button.dataset.billingReady = "true";
+          button.addEventListener("click", () => {
+            setBilling(button.getAttribute("data-billing-toggle") || "monthly");
+          });
+        });
+
+        setBilling("monthly");
+      }
+
       if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", function() {
           setupFaqAccordions();
           setupTimelineProgress();
+          setupPricingBilling();
         });
       } else {
         setupFaqAccordions();
         setupTimelineProgress();
+        setupPricingBilling();
       }
     </script>
   </body>
