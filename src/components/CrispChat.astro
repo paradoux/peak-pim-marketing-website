@@ -1,6 +1,8 @@
 <script is:inline>
   window.$crisp = window.$crisp || [];
   window.CRISP_WEBSITE_ID = "5d573a39-3d86-4529-84ff-db612ac593d1";
+  window.$crisp.push(["set", "session:segments", [["Website"]]]);
+
   window.__loadPeakCrisp = function() {
     if (window.__peakCrispLoaded) {
       return;
@@ -29,6 +31,7 @@
   function openCrispChat(attempt) {
     window.$crisp = window.$crisp || [];
     window.__loadPeakCrisp && window.__loadPeakCrisp();
+    window.$crisp.push(["set", "session:segments", [["Website"]]]);
     window.$crisp.push(['do', 'chat:open']);
 
     if (attempt < 10 && !document.querySelector('iframe[src*="crisp.chat"], [class*="crisp-client"]')) {
