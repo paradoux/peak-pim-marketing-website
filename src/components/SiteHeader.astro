@@ -1,7 +1,10 @@
 ---
 import { getSharedHeaderHtml } from "../lib/page-source";
 
-const headerHtml = getSharedHeaderHtml();
+const headerHtml = getSharedHeaderHtml().replace(
+  '<a href="https://apps.shopify.com/peak-pim/reviews" target="_blank" class="navbar10_link w-nav-link">Reviews</a>',
+  '<a href="https://apps.shopify.com/peak-pim/reviews" target="_blank" class="navbar10_link w-nav-link">Reviews</a><a href="https://help.peak-pim.com/en/" target="_blank" rel="noopener" class="navbar10_link w-nav-link">Help Center</a>',
+);
 ---
 
 <div class="site-header" set:html={headerHtml} />
