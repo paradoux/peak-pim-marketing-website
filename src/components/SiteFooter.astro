@@ -1,8 +1,10 @@
 ---
 import { getSharedFooterHtml } from "../lib/page-source";
 
-const footerHtml = getSharedFooterHtml();
+const footerHtml = getSharedFooterHtml().replace(
+  '<a href="#" target="_blank" class="footer1_link">Help Center</a>',
+  '<a href="https://help.peak-pim.com/en/" target="_blank" rel="noopener" class="footer1_link">Help Center</a>',
+);
 ---
 
 <div class="site-footer" set:html={footerHtml} />
-
