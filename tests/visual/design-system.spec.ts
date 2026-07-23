@@ -55,6 +55,43 @@ test("translations · semantic component API preserves legacy styling hooks", as
   }
 });
 
+test("multi-store · retired Scale plan is absent at every breakpoint", async ({ page }) => {
+  for (const width of [1440, 768, 375]) {
+    await prepare(page, "/shopify-multi-store-pim", width, 1000);
+    const pricing = page.locator(".section_pricing29");
+    const plans = pricing.locator(".pricing29_plan");
+    await expect(plans).toHaveCount(3);
+    await expect(plans.locator(".heading-style-h6")).toHaveText(["Core", "Elite", "Enterprise"]);
+    await expect(plans.nth(0)).toContainText("$99/mo");
+    await expect(plans.nth(0)).toContainText("1,500 SKUs");
+    await expect(plans.nth(0)).toContainText("Up to 2 Shopify stores");
+    await expect(plans.nth(0)).toContainText("100GB files");
+    await expect(plans.nth(1)).toContainText("$249/mo");
+    await expect(plans.nth(1)).toContainText("5,000 SKUs");
+    await expect(plans.nth(1)).toContainText("Up to 3 Shopify stores");
+    await expect(plans.nth(1)).toContainText("500GB files");
+    await expect(plans.nth(2)).toContainText("Custom Shopify stores");
+    await expect(plans.nth(2)).toContainText("Custom SKU limits");
+    await expect(plans.nth(2)).toContainText("Custom file storage");
+    await expect(plans.nth(2)).toContainText("Dedicated support");
+    await expect(plans.nth(2)).not.toContainText("Metaobjects");
+    await expect(plans.nth(2)).not.toContainText("Translations");
+    await expect(pricing).not.toContainText("$499");
+    expect((await plans.allTextContents()).join(" ")).not.toMatch(/\bScale\b/);
+    await expect(page.locator(".section_faq1")).toContainText("Core supports 2 stores and Elite supports 3");
+    await expect(page.locator(".section_faq1")).toContainText("Core includes 2 stores and Elite includes 3");
+    await expect(page.locator(".section_faq1")).not.toContainText("Scale supports 8");
+    await expect(page.locator(".section_faq1")).not.toContainText("unlimited on Enterprise");
+    expect(await page.locator('script[type="application/ld+json"]').evaluateAll((scripts) =>
+      scripts.some((script) => /"name"\s*:\s*"Scale"|Scale supports 8/.test(script.textContent ?? "")),
+    )).toBe(false);
+    expect(await plans.evaluateAll((items) => Math.max(...items.map((item) => {
+      const rect = item.getBoundingClientRect();
+      return Math.max(0, -rect.left, rect.right - window.innerWidth);
+    })))).toBeLessThanOrEqual(1);
+  }
+});
+
 test("translations · complete workflow cards match the finished homepage", async ({ page }) => {
   const selectors = [".section_layout395 .heading-style-h2", ".section_layout395 .heading-style-h4", ".layout395_grid-list", ".layout395_row", ".layout395_card", ".layout395_card-content"];
   const readStyles = (selectorsToRead: string[]) => selectorsToRead.map((selector) => {

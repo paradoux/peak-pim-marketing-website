@@ -30,11 +30,13 @@ export function getPage(slug = "") {
 }
 
 export function getPageDocument(page: PageDefinition) {
-  const html = pageModules[`../content/recreated-pages/${page.source}`];
+  const sourceHtml = pageModules[`../content/recreated-pages/${page.source}`];
 
-  if (!html) {
+  if (!sourceHtml) {
     throw new Error(`Missing recreated page source: ${page.source}`);
   }
+
+  const html = applyContentCorrections(sourceHtml, page);
 
   return {
     html,
@@ -44,6 +46,65 @@ export function getPageDocument(page: PageDefinition) {
     wfPage: innerMatch(html, /<html[^>]*data-wf-page="([^"]*)"/i),
     wfSite: innerMatch(html, /<html[^>]*data-wf-site="([^"]*)"/i),
   };
+}
+
+function applyContentCorrections(html: string, page: PageDefinition) {
+  if (page.slug !== "shopify-multi-store-pim") {
+    return html;
+  }
+
+  const scalePlanCardStart = '<div class="pricing29_plan"><div class="pricing29_content-top"><div class="margin-bottom margin-xxsmall"><div class="pricing29_content-title"><div class="heading-style-h6">Scale</div>';
+  const enterprisePlanCardStart = '<div class="pricing29_plan"><div class="pricing29_content-top"><div class="margin-bottom margin-xxsmall"><div class="pricing29_content-title"><div class="heading-style-h6">Enterprise</div>';
+  const scalePlanOffer = `
+      {
+        "@type": "Offer",
+        "name": "Scale",
+        "description": "Up to 8 Shopify stores, Up to 30,000 SKUs, 500 GB media library",
+        "url": "/pricing"
+      },`;
+  const scalePlanFaqAnswer = "It depends on your plan. Core supports 2 stores, Elite supports 5, Scale supports 8, and Enterprise supports unlimited stores. You can connect additional stores at any time from your Peak PIM dashboard.";
+  const currentPlanFaqAnswer = "Core supports 2 stores and Elite supports 3. Need more? Contact us about an Enterprise plan.";
+  const outdatedMultiStorePlanAnswer = "Yes. Every Peak PIM plan supports multiple stores. The number of stores you can connect scales with your plan — from 2 stores on Core up to unlimited on Enterprise.";
+  const outdatedVisibleMultiStorePlanAnswer = "Yes. Every Peak PIM plan supports multiple stores. The number of stores you can connect scales with your plan. From 2 stores on Core up to unlimited on Enterprise.";
+  const currentMultiStorePlanAnswer = "Yes. Every Peak PIM plan supports multiple stores. Core includes 2 stores and Elite includes 3. For additional stores, contact us about an Enterprise plan.";
+  const scalePlanCardIndex = html.indexOf(scalePlanCardStart);
+  const enterprisePlanCardIndex = html.indexOf(enterprisePlanCardStart, scalePlanCardIndex);
+
+  if (scalePlanCardIndex === -1 || enterprisePlanCardIndex === -1 || !html.includes(scalePlanOffer) || !html.includes(scalePlanFaqAnswer)) {
+    throw new Error("The retired Scale plan content could not be removed from the multi-store page.");
+  }
+
+  const withoutScalePlanCard = html.slice(0, scalePlanCardIndex) + html.slice(enterprisePlanCardIndex);
+  const withCurrentLimits = withoutScalePlanCard
+    .replace(scalePlanOffer, "")
+    .replaceAll(scalePlanFaqAnswer, currentPlanFaqAnswer)
+    .replaceAll(outdatedMultiStorePlanAnswer, currentMultiStorePlanAnswer)
+    .replaceAll(outdatedVisibleMultiStorePlanAnswer, currentMultiStorePlanAnswer)
+    .replace('"description": "Up to 2 Shopify stores, Up to 1,500 SKUs, 20 GB media library"', '"description": "Up to 2 Shopify stores, Up to 1,500 SKUs, 100GB files"')
+    .replace('"description": "Up to 5 Shopify stores, Up to 5,000 SKUs, 150 GB media library"', '"description": "Up to 3 Shopify stores, Up to 5,000 SKUs, 500GB files"')
+    .replace('"description": "Unlimited Shopify stores, Custom SKU limits, Custom media storage, Metaobjects, Translations, Account manager"', '"description": "Custom Shopify stores, Custom SKU limits, Custom file storage, Dedicated support"')
+    .replaceAll("20 GB media library", "100GB files")
+    .replaceAll("Up to 5 Shopify stores", "Up to 3 Shopify stores")
+    .replaceAll("150 GB media library", "500GB files")
+    .replaceAll("Unlimited Shopify stores", "Custom Shopify stores")
+    .replaceAll("Custom media storage", "Custom file storage")
+    .replaceAll("Account manager", "Dedicated support");
+
+  return removePricingFeature(removePricingFeature(withCurrentLimits, enterprisePlanCardStart, "Metaobjects"), enterprisePlanCardStart, "Translations");
+}
+
+function removePricingFeature(html: string, planCardStart: string, label: string) {
+  const planIndex = html.indexOf(planCardStart);
+  const labelHtml = `<div>${label}</div></div>`;
+  const labelIndex = html.indexOf(labelHtml, planIndex);
+  const featureIndex = html.lastIndexOf('<div id="', labelIndex);
+  const featureOpeningTagEnd = html.indexOf(">", featureIndex);
+
+  if (planIndex === -1 || labelIndex === -1 || featureIndex < planIndex || !html.slice(featureIndex, featureOpeningTagEnd).includes('class="pricing29_feature"')) {
+    throw new Error(`The outdated Enterprise feature could not be removed: ${label}`);
+  }
+
+  return html.slice(0, featureIndex) + html.slice(labelIndex + labelHtml.length);
 }
 
 export function getSharedHeaderHtml() {

@@ -88,6 +88,23 @@ if (existsSync(translationFile)) {
   if (!html.includes('rel="canonical" href="https://peak-pim.com/shopify-pim-translations"')) failures.push("Translations canonical URL is incorrect");
 }
 
+const multiStoreFile = resolve(projectRoot, "dist/shopify-multi-store-pim/index.html");
+if (existsSync(multiStoreFile)) {
+  const html = readFileSync(multiStoreFile, "utf8");
+  const planCount = (html.match(/class="pricing29_plan"/g) ?? []).length;
+  for (const retiredPlanContent of ['>Scale</div>', '"name": "Scale"', "Scale supports 8", "$499"]) {
+    if (html.includes(retiredPlanContent)) failures.push(`Multi-store page still contains retired Scale plan content: ${retiredPlanContent}`);
+  }
+  if (planCount !== 3) failures.push(`Multi-store pricing teaser has ${planCount} plans; expected three after removing Scale`);
+  if (!html.includes("Scale as you grow.")) failures.push("Generic non-plan Scale copy was removed from the multi-store page");
+  for (const currentPlanContent of ["100GB files", "Up to 3 Shopify stores", "500GB files", "Custom Shopify stores", "Custom file storage", "Dedicated support", "Core supports 2 stores and Elite supports 3"]) {
+    if (!html.includes(currentPlanContent)) failures.push(`Multi-store page is missing current pricing content: ${currentPlanContent}`);
+  }
+  for (const outdatedPlanContent of ["20 GB media library", "Up to 5 Shopify stores", "150 GB media library", "Unlimited Shopify stores", "unlimited on Enterprise", "Custom media storage", ">Metaobjects</div>", ">Translations</div>", "Account manager", "Elite supports 5"]) {
+    if (html.includes(outdatedPlanContent)) failures.push(`Multi-store page still contains outdated pricing content: ${outdatedPlanContent}`);
+  }
+}
+
 if (failures.length) {
   console.error(failures.map((failure) => `- ${failure}`).join("\n"));
   process.exit(1);
