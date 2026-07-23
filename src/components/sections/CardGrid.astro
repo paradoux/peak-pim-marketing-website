@@ -1,0 +1,48 @@
+---
+import SectionHeading from "../ui/SectionHeading.astro";
+
+type Card = { tagline?: string; title: string; description: string };
+type Props = {
+  id?: string;
+  tagline?: string;
+  title: string;
+  description?: string;
+  cards: Card[];
+};
+
+const { id, tagline, title, description, cards } = Astro.props;
+---
+
+<section id={id} class="section_layout395 peak-card-grid color-scheme-1">
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="padding-section-large">
+        <div class="layout395_component peak-card-grid__component">
+          <div class="margin-bottom margin-xxlarge">
+            <SectionHeading tagline={tagline} title={title} description={description} />
+          </div>
+          <div class="w-layout-grid layout395_grid-list peak-card-grid__grid">
+            <div class="w-layout-grid layout395_row peak-card-grid__list">
+              {cards.map((card, index) => (
+                <article class="layout395_card peak-card-grid__card">
+                  <div class="layout395_card-image-wrapper peak-card-grid__visual">
+                    {index === 0 && <slot name="visual-1" />}
+                    {index === 1 && <slot name="visual-2" />}
+                    {index === 2 && <slot name="visual-3" />}
+                  </div>
+                  <div class="layout395_card-content peak-card-grid__content">
+                    <div class="layout395_card-content-top">
+                      {card.tagline && <div class="margin-bottom margin-xxsmall"><div class="tag is-text">{card.tagline}</div></div>}
+                      <div class="margin-bottom margin-xsmall"><h3 class="heading-style-h4">{card.title}</h3></div>
+                      <p>{card.description}</p>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

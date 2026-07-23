@@ -1,0 +1,24 @@
+---
+type Props = { step: 1 | 2 | 3; card?: boolean };
+const { step, card = false } = Astro.props;
+const content = {
+  1: { label: "Source record", title: "Summit Gear Shell Jacket", rows: ["Title", "Description", "SEO title"] },
+  2: { label: "Locale review", title: "French · Ready", rows: ["12 translated", "0 missing", "Ready to publish"] },
+  3: { label: "Store sync", title: "Shopify France", rows: ["Products", "Metafields", "Metaobjects"] },
+}[step];
+---
+
+<div class:list={["w-embed", { "peak-translation-step-embed": card }]}>
+  <div class:list={["peak-translation-step", `is-step-${step}`, { "is-card-visual": card }]} aria-hidden="true">
+    <div class="peak-step-bar"><span></span><span></span><span></span><i></i></div>
+    <div class="peak-step-content">
+      <small>{content.label}</small><strong>{content.title}</strong>
+      <div class="peak-step-rows">
+        {content.rows.map((row, index) => <span><i></i><b>{row}</b><em>{step === 1 ? "FR" : index === 2 ? "Ready" : "✓"}</em></span>)}
+      </div>
+    </div>
+  </div>
+  <style>
+    .peak-translation-step-embed{width:100%}.peak-translation-step{border:1px solid #ddd;border-radius:9px;background:#fff;box-shadow:0 14px 35px #00000012;overflow:hidden;text-align:left}.peak-translation-step.is-card-visual{aspect-ratio:1;width:100%;border:0;border-radius:0;box-shadow:none}.peak-step-bar{display:flex;height:31px;align-items:center;gap:5px;padding:0 10px;background:#191919}.peak-step-bar span{width:5px;height:5px;border-radius:50%;background:#666}.peak-step-bar i{width:55px;height:5px;margin-left:auto;border-radius:4px;background:#363636}.peak-step-content{display:flex;min-height:190px;flex-direction:column;padding:23px;background:#f6f3ec}.is-card-visual .peak-step-content{height:calc(100% - 31px);min-height:0}.peak-step-content>small{color:#707070;font-size:9px}.peak-step-content>strong{margin-top:4px;font-size:13px}.peak-step-rows{display:flex;flex-direction:column;gap:7px;margin-top:19px}.peak-step-rows>span{display:grid;align-items:center;gap:8px;padding:9px;border:1px solid #e2e2e2;border-radius:5px;background:#fff;grid-template-columns:8px 1fr auto;font-size:9px}.peak-step-rows i{width:7px;height:7px;border-radius:2px;background:#dce2ff}.peak-step-rows b{font-weight:500}.peak-step-rows em{color:#2845d6;font-size:8px;font-style:normal;font-weight:600}.is-step-2 .peak-step-rows em,.is-step-3 .peak-step-rows em{color:#26854a}
+  </style>
+</div>

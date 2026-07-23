@@ -1,0 +1,67 @@
+---
+import CtaBanner from "../components/sections/CtaBanner.astro";
+import CardGrid from "../components/sections/CardGrid.astro";
+import Faq from "../components/sections/Faq.astro";
+import FeatureGrid from "../components/sections/FeatureGrid.astro";
+import Hero from "../components/sections/Hero.astro";
+import LogoCloud from "../components/sections/LogoCloud.astro";
+import ProblemGrid from "../components/sections/ProblemGrid.astro";
+import Testimonial from "../components/sections/Testimonial.astro";
+import TranslationStepVisual from "../components/visuals/TranslationStepVisual.astro";
+import TranslationWorkflowDemo from "../components/visuals/TranslationWorkflowDemo.astro";
+import { assets } from "../data/assets";
+import LandingPageLayout from "../layouts/LandingPageLayout.astro";
+
+const principles = [
+  { icon: "file", title: "Use the original structure", description: "Components expose readable peak-* aliases while preserving the Webflow classes, wrappers, spacing utilities, and heading styles that control the approved design." },
+  { icon: "edit", title: "Change content, not design logic", description: "New landing pages compose proven sections. Typography, buttons, cards, and interaction behavior are not recreated per page." },
+  { icon: "review", title: "Review at desktop and mobile", description: "Every new route is compared against the approved pages and checked for responsive, interaction, and visual regressions." },
+];
+
+const steps = [
+  { tagline: "Reference", title: "Start with the existing page archetype", description: "Choose the closest complete Peak page based on the story and conversion goal." },
+  { tagline: "Compose", title: "Compose canonical sections", description: "Use the original hero, content grid, workflow, proof, CTA, and FAQ components shown here." },
+  { tagline: "Illustrate", title: "Add only content-specific visuals", description: "Product illustrations may change to explain the feature, while their framing and section layout remain consistent." },
+];
+
+const features = [
+  { icon: "grid", title: "Hero and problem framing", description: "peak-hero and peak-problem-grid preserve the approved hierarchy, actions, and three-item problem grid." },
+  { icon: "edit", title: "Workflow and capability cards", description: "peak-card-grid provides three complete cards; peak-feature-grid provides exactly four sticky capability cards." },
+  { icon: "review", title: "Customer proof", description: "peak-logo-cloud and peak-testimonial preserve approved customer logos, quotes, portraits, and attribution." },
+  { icon: "publish", title: "Conversion and questions", description: "peak-cta-banner and peak-faq retain the original CTA and accessible accordion behavior." },
+];
+
+const faqItems = [
+  { question: "Can a landing page introduce a new heading size?", answer: "No. Use the existing heading-style-h1 through heading-style-h6 classes according to the approved section structure." },
+  { question: "Can a button be restyled for a new page?", answer: "No. Use the existing button variants so hover, motion, spacing, and contrast remain identical across the site." },
+  { question: "Is the partners page a design reference?", answer: "No. The partners landing page is unfinished and is explicitly excluded from the approved reference set." },
+];
+---
+
+<LandingPageLayout
+  title="Peak PIM Design System"
+  description="Internal catalogue of the exact components and landing-page patterns used across Peak PIM."
+  canonicalPath="/design-system"
+  noindex
+>
+  <Hero
+    title="The Peak PIM design system"
+    description="This catalogue renders the actual production components. New pages reuse these exact structures, typography classes, buttons, spacing rules, and interactions."
+    primaryCta={{ label: "View the components", href: "#components" }}
+    secondaryCta={{ label: "View a finished example", href: "/shopify-pim-translations" }}
+  >
+    <TranslationWorkflowDemo />
+  </Hero>
+
+  <LogoCloud title="Approved customer-logo section" />
+  <ProblemGrid tagline="Core rule" title="Reuse before creating" description="The system is a component layer over the website’s original design—not a second design language." items={principles} />
+  <CardGrid id="components" tagline="Page-building workflow" title="How every new landing page is assembled" description="The same process protects consistency while leaving room for feature-specific copy and product visuals." cards={steps}>
+    <TranslationStepVisual slot="visual-1" step={1} card />
+    <TranslationStepVisual slot="visual-2" step={2} card />
+    <TranslationStepVisual slot="visual-3" step={3} card />
+  </CardGrid>
+  <FeatureGrid tagline="Canonical sections" title="The approved component inventory" description="Use the semantic peak-* names; each wrapper preserves the exact HTML hierarchy and legacy Webflow classes underneath." features={features} />
+  <Testimonial quote="Peak PIM changed how we work. Shopify handles our storefront and Peak PIM runs everything about our catalog on top of it." name="Amélie Samson" role="Founder, Maéli Paris" image={assets.testimonials.amelieSamson} companyLogo={assets.customerLogos.light.maeli} />
+  <CtaBanner title="Build the next page from the system" description="Keep the original Peak PIM hierarchy and interactions, then adapt only the story and product demonstration." primaryLabel="View translation example" primaryHref="/shopify-pim-translations" />
+  <Faq title="Design-system rules" description="The non-negotiable rules for creating new Peak PIM landing pages." items={faqItems} />
+</LandingPageLayout>

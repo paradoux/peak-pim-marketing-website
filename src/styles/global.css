@@ -13,6 +13,13 @@
   --h2-size: clamp(2.25rem, 4vw, 4rem);
 }
 
+/* Match the font rendering used by the original Webflow pages. */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -o-font-smoothing: antialiased;
+}
+
 html {
   font-family: var(--font-body);
 }

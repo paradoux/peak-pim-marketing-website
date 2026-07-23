@@ -8,14 +8,17 @@
   "scripts": {
     "dev": "astro dev",
     "build": "rm -rf dist && astro build",
+    "check:design-system": "node tests/design-system-contract.mjs",
     "deploy": "npm run build && wrangler pages deploy dist --project-name peak-pim-marketing-website",
     "preview": "astro preview",
+    "test:visual": "playwright test tests/visual",
     "astro": "astro"
   },
   "dependencies": {
     "astro": "^7.0.5"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "wrangler": "^4.106.0"
   }
 }

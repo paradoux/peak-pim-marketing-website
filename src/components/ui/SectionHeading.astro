@@ -1,0 +1,25 @@
+---
+type Props = {
+  title: string;
+  description?: string;
+  tagline?: string;
+  align?: "left" | "center";
+  heading?: "h1" | "h2";
+};
+
+const { title, description, tagline, align = "center", heading: Heading = "h2" } = Astro.props;
+---
+
+<div class:list={["text-align-center", { "text-align-left": align === "left" }]}>
+  <div class:list={["max-width-large", { "align-center": align === "center" }]}>
+    {tagline && (
+      <div class="margin-bottom margin-xsmall">
+        <div class="text-style-tagline">{tagline}</div>
+      </div>
+    )}
+    <div class="margin-bottom margin-small">
+      <Heading class={Heading === "h1" ? "heading-style-h1" : "heading-style-h2"}>{title}</Heading>
+    </div>
+    {description && <p class="text-size-medium">{description}</p>}
+  </div>
+</div>

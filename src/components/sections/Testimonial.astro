@@ -1,0 +1,38 @@
+---
+type Props = {
+  quote: string;
+  name: string;
+  role: string;
+  image?: string;
+  companyLogo?: string;
+};
+
+const { quote, name, role, image, companyLogo } = Astro.props;
+const starPath = "M9 0.5L11.0206 6.71885H17.5595L12.2694 10.5623L14.2901 16.7812L9 12.9377L3.70993 16.7812L5.73056 10.5623L0.440492 6.71885H6.97937L9 0.5Z";
+---
+
+<section class="section_testimonial4 peak-testimonial color-scheme-1">
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="padding-section-large">
+        <div class="max-width-large align-center">
+          <div class="testimonial4_component peak-testimonial__component">
+            <div class="testimonial4_content peak-testimonial__content">
+              <div class="testimonial4_rating-wrapper peak-testimonial__rating" aria-label="5 out of 5 stars">
+                {[1, 2, 3, 4, 5].map(() => (
+                  <div class="testimonial4_rating-icon"><div class="icon-embed-xsmall w-embed"><svg width="100%" viewBox="0 0 18 17" aria-hidden="true"><path fill="currentColor" d={starPath}></path></svg></div></div>
+                ))}
+              </div>
+              <div class="margin-vertical margin-medium"><h3 class="heading-style-h5"><em>“{quote}”</em></h3></div>
+              <div class="testimonial4_client peak-testimonial__client">
+                {image && <div class="testimonial4_client-image-wrapper peak-testimonial__avatar"><img class="testimonial4_client-image" src={image} alt="" loading="lazy" /></div>}
+                <div class="testimonial4_client-info"><div class="text-weight-semibold">{name}</div><div>{role}</div></div>
+                {companyLogo && <><div class="divider-vertical"></div><div class="testimonial4_logo-wrapper peak-testimonial__logo"><img class="testimonial4_logo" src={companyLogo} alt="" loading="lazy" /></div></>}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

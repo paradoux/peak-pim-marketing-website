@@ -1,0 +1,111 @@
+---
+import CrispChat from "../components/CrispChat.astro";
+import GlobalWebflowStyles from "../components/GlobalWebflowStyles.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import "../styles/global.css";
+
+type Props = {
+  title: string;
+  description: string;
+  canonicalPath: string;
+  noindex?: boolean;
+  schemaType?: "WebPage" | "SoftwareApplication";
+};
+
+const {
+  title,
+  description,
+  canonicalPath,
+  noindex = false,
+  schemaType = "WebPage",
+} = Astro.props;
+const canonicalUrl = new URL(canonicalPath, "https://peak-pim.com").toString();
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": schemaType,
+  name: title,
+  description,
+  url: canonicalUrl,
+  isPartOf: {
+    "@type": "WebSite",
+    name: "Peak PIM",
+    url: "https://peak-pim.com/",
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "Peak PIM",
+    url: "https://peak-pim.com/",
+    logo: "https://peak-pim.com/assets/logo/peak-logo-large.png",
+  },
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    {noindex && <meta name="robots" content="noindex,nofollow" />}
+    <link rel="icon" href="/assets/logo/favicon-peak-pim.png" />
+    <link rel="apple-touch-icon" href="/assets/logo/peak-webclip.png" />
+    <link rel="preload" href="/mirror/fonts/V8mDoQDjQSkFtoMM3T6r8E7mPbF4Cw-4ecc7e89b7.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/mirror/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7-6ab57b19c6.woff2" as="font" type="font/woff2" crossorigin />
+    <link href="/mirror/local-fonts.css" rel="stylesheet" />
+    <link href="/mirror/peak-pim-landing.webflow.shared.c3ebbebc2-825ab19cb5.css" rel="stylesheet" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <div class="page-wrapper site-page">
+      <GlobalWebflowStyles />
+      <SiteHeader />
+      <main class="main-wrapper"><slot /></main>
+      <SiteFooter />
+      <CrispChat />
+    </div>
+    <script is:inline>
+      function setupFaqAccordions() {
+        const questions = Array.from(document.querySelectorAll(".faq1_question"));
+
+        questions.forEach((question) => {
+          if (question.dataset.faqReady === "true") return;
+          const item = question.closest(".faq1_accordion");
+          const answer = item && item.querySelector(".faq1_answer");
+          const icon = question.querySelector(".faq1_icon-wrapper");
+          if (!answer) return;
+
+          question.dataset.faqReady = "true";
+          answer.style.overflow = "hidden";
+          answer.style.height = "0px";
+
+          function setOpen(open) {
+            question.setAttribute("aria-expanded", String(open));
+            answer.style.height = open ? `${answer.scrollHeight}px` : "0px";
+            if (icon) icon.style.transform = open ? "rotate(180deg)" : "";
+          }
+
+          function toggle() {
+            setOpen(question.getAttribute("aria-expanded") !== "true");
+          }
+
+          question.addEventListener("click", toggle);
+          question.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              toggle();
+            }
+          });
+        });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", setupFaqAccordions);
+      } else {
+        setupFaqAccordions();
+      }
+    </script>
+  </body>
+</html>

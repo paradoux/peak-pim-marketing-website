@@ -1,0 +1,77 @@
+---
+import Button from "../ui/Button.astro";
+import PeakIcon from "../ui/PeakIcon.astro";
+
+type IconName = "clock" | "file" | "store" | "edit" | "code" | "image" | "grid" | "search" | "review" | "publish";
+type Feature = { icon: IconName; title: string; description: string };
+type Props = {
+  tagline?: string;
+  title: string;
+  description?: string;
+  features: Feature[];
+  cta?: { label: string; href: string; crisp?: boolean };
+};
+
+const { tagline, title, description, features, cta } = Astro.props;
+
+if (features.length !== 4) {
+  throw new Error(`FeatureGrid requires exactly four features; received ${features.length}.`);
+}
+---
+
+<section class="section_layout353 peak-feature-grid color-scheme-1">
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="padding-section-large">
+        <div class="w-layout-grid layout353_component peak-feature-grid__component">
+          <div class="layout353_content-left peak-feature-grid__narrative">
+            {tagline && <div class="margin-bottom margin-xsmall"><div class="text-style-tagline">{tagline}</div></div>}
+            <div class="margin-bottom margin-small"><h2 class="heading-style-h2">{title}</h2></div>
+            {description && <p class="text-size-medium">{description}</p>}
+            {cta && (
+              <div class="margin-top margin-medium">
+                <div class="button-group"><Button href={cta.href} variant="secondary" crisp={cta.crisp}>{cta.label}</Button></div>
+              </div>
+            )}
+          </div>
+          <div class="layout353_content-right peak-feature-grid__list" data-feature-grid-cards>
+            {features.map((feature, index) => (
+              <div class:list={["layout353_content-item", "peak-feature-grid__card", `content-item-${index + 1}`]}>
+                <div class="margin-bottom margin-xsmall">
+                  <div class="layout353_icon-wrapper peak-feature-grid__icon"><PeakIcon name={feature.icon} /></div>
+                </div>
+                <div class="margin-bottom margin-xsmall"><h3 class="heading-style-h5">{feature.title}</h3></div>
+                <p>{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const initializeFeatureGrid = (root: Element) => {
+    const cards = Array.from(root.querySelectorAll<HTMLElement>(".peak-feature-grid__card"));
+    let animationFrame = 0;
+
+    const synchronizeCardHeights = () => {
+      cards.forEach((card) => card.style.removeProperty("min-height"));
+      void (root as HTMLElement).offsetHeight;
+      const tallestCard = Math.ceil(Math.max(...cards.map((card) => card.getBoundingClientRect().height)));
+      cards.forEach((card) => card.style.setProperty("min-height", `${tallestCard}px`));
+    };
+
+    const scheduleSynchronization = () => {
+      window.cancelAnimationFrame(animationFrame);
+      animationFrame = window.requestAnimationFrame(synchronizeCardHeights);
+    };
+
+    scheduleSynchronization();
+    document.fonts?.ready.then(scheduleSynchronization);
+    window.addEventListener("resize", scheduleSynchronization, { passive: true });
+  };
+
+  document.querySelectorAll("[data-feature-grid-cards]").forEach(initializeFeatureGrid);
+</script>

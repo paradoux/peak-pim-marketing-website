@@ -1,0 +1,44 @@
+---
+import Button from "../ui/Button.astro";
+
+type Props = {
+  title?: string;
+  description?: string;
+  primaryLabel?: string;
+  primaryHref?: string;
+  secondaryLabel?: string;
+};
+
+const {
+  title = "Ready to take control of your catalog?",
+  description = "See how Peak PIM simplifies product management across all your Shopify stores.",
+  primaryLabel = "Try for free",
+  primaryHref = "https://apps.shopify.com/peak-pim",
+  secondaryLabel = "Ask for a demo",
+} = Astro.props;
+---
+
+<section class="section_cta51 peak-cta-banner color-scheme-1">
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="padding-section-large">
+        <div class="cta51_component peak-cta-banner__component">
+          <div class="cta51_card peak-cta-banner__card color-scheme-2">
+            <div class="text-align-center">
+              <div class="max-width-large">
+                <div class="margin-bottom margin-small"><h2 class="heading-style-h2">{title}</h2></div>
+                <p class="text-size-medium">{description}</p>
+              </div>
+            </div>
+            <div class="margin-top margin-medium">
+              <div class="button-group is-center">
+                <Button href={primaryHref} variant="alternate" external>{primaryLabel}</Button>
+                <Button href="#" variant="secondary-alternate" crisp>{secondaryLabel}</Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

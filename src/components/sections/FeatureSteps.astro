@@ -1,0 +1,43 @@
+---
+import SectionHeading from "../ui/SectionHeading.astro";
+
+type Step = { title: string; description: string };
+type Props = {
+  id?: string;
+  tagline?: string;
+  title: string;
+  description?: string;
+  steps: Step[];
+};
+
+const { id, tagline, title, description, steps } = Astro.props;
+---
+
+<section id={id} class="section_layout239 peak-feature-steps color-scheme-1">
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="padding-section-large">
+        <div class="layout239_component peak-feature-steps__component">
+          <div class="margin-bottom margin-xxlarge">
+            <SectionHeading tagline={tagline} title={title} description={description} />
+          </div>
+          <div class="w-layout-grid layout239_list peak-feature-steps__list">
+            {steps.map((step, index) => (
+              <div class="layout239_item peak-feature-steps__item">
+                <div class="margin-bottom margin-medium">
+                  <div class="layout239_image-wrapper peak-feature-steps__visual">
+                    {index === 0 && <slot name="visual-1" />}
+                    {index === 1 && <slot name="visual-2" />}
+                    {index === 2 && <slot name="visual-3" />}
+                  </div>
+                </div>
+                <div class="margin-bottom margin-xsmall"><h3 class="heading-style-h4">{step.title}</h3></div>
+                <p>{step.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

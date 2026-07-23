@@ -1,0 +1,36 @@
+---
+type Props = {
+  href: string;
+  variant?: "primary" | "secondary" | "alternate" | "secondary-alternate" | "link";
+  external?: boolean;
+  crisp?: boolean;
+};
+
+const { href, variant = "primary", external = false, crisp = false } = Astro.props;
+const classes = {
+  primary: "button w-button",
+  secondary: "button is-secondary w-button",
+  alternate: "button is-alternate w-button",
+  "secondary-alternate": "button is-secondary is-alternate w-button",
+  link: "button is-link is-icon w-inline-block",
+}[variant];
+---
+
+<a
+  href={href}
+  class={classes}
+  target={external ? "_blank" : undefined}
+  rel={external ? "noopener" : undefined}
+  data-open-crisp={crisp ? "" : undefined}
+>
+  {variant === "link" ? (
+    <>
+      <div><slot /></div>
+      <div class="icon-embed-xxsmall w-embed" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5"></path>
+        </svg>
+      </div>
+    </>
+  ) : <slot />}
+</a>

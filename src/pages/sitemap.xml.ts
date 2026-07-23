@@ -10,7 +10,8 @@ export async function GET() {
     .map((url) => url.replace(/\/$/, "/"));
   const articleUrls = articles.map((entry) => entryUrl("articles", entry));
   const guideUrls = guides.map((entry) => entryUrl("guides", entry));
-  const urls = [...staticUrls, ...articleUrls, ...guideUrls];
+  const designSystemPageUrls = ["https://peak-pim.com/shopify-pim-translations"];
+  const urls = [...staticUrls, ...designSystemPageUrls, ...articleUrls, ...guideUrls];
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
