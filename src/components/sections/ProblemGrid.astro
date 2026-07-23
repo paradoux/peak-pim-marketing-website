@@ -1,0 +1,47 @@
+---
+import Button from "../ui/Button.astro";
+import PeakIcon from "../ui/PeakIcon.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
+
+type IconName = Parameters<typeof PeakIcon>[0]["name"];
+type Item = { icon: IconName; title: string; description: string };
+type Props = {
+  tagline?: string;
+  title: string;
+  description?: string;
+  items: Item[];
+  link?: { label: string; href: string };
+};
+
+const { tagline, title, description, items, link } = Astro.props;
+---
+
+<section class="section_layout237 peak-problem-grid color-scheme-1">
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="padding-section-large">
+        <div class="layout237_component peak-problem-grid__component">
+          <div class="margin-bottom margin-xxlarge">
+            <SectionHeading tagline={tagline} title={title} description={description} />
+          </div>
+          <div class="w-layout-grid layout237_list peak-problem-grid__list">
+            {items.map((item) => (
+              <div class="layout237_item peak-problem-grid__item">
+                <div class="margin-bottom margin-small">
+                  <div class="layout237_item-icon-wrapper peak-problem-grid__icon"><PeakIcon name={item.icon} /></div>
+                </div>
+                <div class="margin-bottom margin-small"><h3 class="heading-style-h4">{item.title}</h3></div>
+                <p>{item.description}</p>
+              </div>
+            ))}
+          </div>
+          {link && (
+            <div class="margin-top margin-xxlarge">
+              <div class="button-group is-center"><Button href={link.href} variant="link">{link.label}</Button></div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

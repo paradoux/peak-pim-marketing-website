@@ -1,0 +1,4 @@
+interface:
+  display_name: "Peak Landing Pages"
+  short_description: "Build consistent Peak PIM landing pages"
+  default_prompt: "Use $peak-landing-pages to create a new Peak PIM landing page from the approved design system."

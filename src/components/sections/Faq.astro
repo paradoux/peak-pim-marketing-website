@@ -1,0 +1,55 @@
+---
+import Button from "../ui/Button.astro";
+import SectionHeading from "../ui/SectionHeading.astro";
+
+type Item = { question: string; answer: string };
+type Props = { title?: string; description?: string; items: Item[] };
+
+const {
+  title = "Frequently asked questions",
+  description = "Everything you need to know about Peak PIM and getting started.",
+  items,
+} = Astro.props;
+---
+
+<section class="section_faq1 peak-faq">
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="padding-section-large">
+        <div class="faq1_component peak-faq__component">
+          <div class="margin-bottom margin-xxlarge"><SectionHeading title={title} description={description} /></div>
+          <div class="max-width-large align-center">
+            <div class="faq1_list peak-faq__list">
+              {items.map((item) => (
+                <div class="faq1_accordion peak-faq__item">
+                  <div class="faq1_question peak-faq__question" role="button" tabindex="0" aria-expanded="false">
+                    <div class="text-size-medium">{item.question}</div>
+                    <div class="faq1_icon-wrapper">
+                      <div class="icon-embed-small w-embed" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" preserveAspectRatio="xMidYMid meet" role="img">
+                          <path d="M7.08691 9.02344C7.18774 9.02344 7.26471 9.05385 7.34277 9.13184L11.6455 13.459L11.999 13.8145L16.6816 9.13184C16.7593 9.05424 16.8257 9.03227 16.9062 9.03516C17.0005 9.0386 17.0819 9.07117 17.168 9.15723C17.246 9.23531 17.2764 9.31223 17.2764 9.41309C17.2763 9.51371 17.2458 9.59001 17.168 9.66797L12.249 14.5869C12.1949 14.6411 12.1522 14.667 12.124 14.6787C12.0885 14.6935 12.0486 14.7021 12 14.7021C11.9755 14.7021 11.9532 14.6993 11.9326 14.6953L11.875 14.6787L11.8223 14.6484C11.8015 14.634 11.7779 14.6138 11.751 14.5869L6.80664 9.64355C6.7328 9.56972 6.70662 9.50009 6.70996 9.40527C6.71375 9.29797 6.74977 9.2141 6.83203 9.13184C6.90996 9.05403 6.98632 9.02351 7.08691 9.02344Z" fill="currentColor" stroke="currentColor"></path>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="faq1_answer peak-faq__answer" style="width:100%;height:0px;overflow:hidden">
+                    <div class="margin-bottom margin-small"><p>{item.answer}</p></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div class="margin-top margin-xxlarge">
+            <div class="text-align-center">
+              <div class="max-width-medium align-center">
+                <div class="margin-bottom margin-xsmall"><h3 class="heading-style-h4">Still have questions?</h3></div>
+                <p class="text-size-medium">Reach out to our team and we’ll help you find the right setup.</p>
+                <div class="margin-top margin-medium"><div class="button-group is-center"><Button href="#" variant="secondary" crisp>Ask your question</Button></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,9 @@
+---
+type Props = {
+  alternate?: boolean;
+};
+
+const { alternate = false } = Astro.props;
+---
+
+<div class:list={["tag", "is-text", { "is-alternate": alternate }]}><slot /></div>

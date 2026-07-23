@@ -1,0 +1,58 @@
+---
+import Button from "../ui/Button.astro";
+
+type Cta = {
+  label: string;
+  href: string;
+  external?: boolean;
+  crisp?: boolean;
+};
+
+type Props = {
+  title: string;
+  description: string;
+  primaryCta?: Cta;
+  secondaryCta?: Cta;
+};
+
+const { title, description, primaryCta, secondaryCta } = Astro.props;
+const hasVisual = Astro.slots.has("default");
+---
+
+<header class="section_header26 peak-hero">
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="padding-section-large">
+        <div class="header26_component peak-hero__component">
+          <div class="margin-bottom margin-xxlarge">
+            <div class="text-align-center">
+              <div class="max-width-large align-center">
+                <div class="margin-bottom margin-small">
+                  <h1 class="heading-style-h1">{title}</h1>
+                </div>
+                <p class="text-size-medium">{description}</p>
+                {(primaryCta || secondaryCta) && (
+                  <div class="margin-top margin-medium">
+                    <div class="button-group is-center">
+                      {primaryCta && (
+                        <Button href={primaryCta.href} external={primaryCta.external} crisp={primaryCta.crisp}>
+                          {primaryCta.label}
+                        </Button>
+                      )}
+                      {secondaryCta && (
+                        <Button href={secondaryCta.href} variant="secondary" external={secondaryCta.external} crisp={secondaryCta.crisp}>
+                          {secondaryCta.label}
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+          {hasVisual && <div class="header26_image-wrapper peak-hero__visual"><slot /></div>}
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
