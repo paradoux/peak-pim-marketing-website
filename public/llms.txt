@@ -21,6 +21,15 @@ Peak PIM helps Shopify teams:
 - [Shopify media management](https://peak-pim.com/shopify-media-management/)
 - [Shopify PIM alternatives](https://peak-pim.com/shopify-pim-alternatives/)
 
+## Current Pricing
+
+Pricing last reviewed on 2026-07-24. The pricing page is the source of truth.
+
+- Core: $99 per month or $990 per year. Includes 1,500 SKUs, 2 connected Shopify stores, 3 seats, and 100GB files.
+- Elite: $249 per month or $2,490 per year. Includes 5,000 SKUs, 3 connected Shopify stores, 15 seats, and 500GB files.
+- Enterprise: Custom pricing with custom SKU, Shopify store, seat, and file limits. Includes free setup, full onboarding, and dedicated support.
+- Every plan includes free setup and a 10-day free trial. No credit card is required for the trial.
+
 ## Industry Pages
 
 - [PIM for Shopify fashion brands](https://peak-pim.com/industry/fashion/)

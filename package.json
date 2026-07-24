@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "rm -rf dist && astro build",
+    "check:crawlers": "node tests/crawler-contract.mjs",
     "check:design-system": "node tests/design-system-contract.mjs",
     "deploy": "npm run build && wrangler pages deploy dist --project-name peak-pim-marketing-website",
     "preview": "astro preview",

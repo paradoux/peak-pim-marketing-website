@@ -4,6 +4,7 @@ import GlobalWebflowStyles from "../components/GlobalWebflowStyles.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import { contentJsonLd, entryPath, entryUrl, formatDate, type ContentEntry, type ContentKind } from "../lib/content";
+import { canonicalUrl as getCanonicalUrl } from "../lib/site-url";
 import "../styles/global.css";
 
 type Props = {
@@ -14,7 +15,7 @@ type Props = {
 const { kind, entry } = Astro.props;
 const title = entry.data.seoTitle ?? entry.data.title;
 const description = entry.data.seoDescription ?? entry.data.description;
-const canonicalUrl = entry.data.canonicalPath ? `https://peak-pim.com${entry.data.canonicalPath}` : entryUrl(kind, entry);
+const canonicalUrl = entry.data.canonicalPath ? getCanonicalUrl(entry.data.canonicalPath) : entryUrl(kind, entry);
 const jsonLd = contentJsonLd(kind, entry);
 const eyebrow = kind === "articles" ? "Article" : "Guide";
 ---

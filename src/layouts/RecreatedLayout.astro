@@ -4,6 +4,7 @@ import GlobalWebflowStyles from "../components/GlobalWebflowStyles.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import type { PageDefinition } from "../data/pages";
+import { canonicalUrl as getCanonicalUrl } from "../lib/site-url";
 import "../styles/global.css";
 
 type Props = {
@@ -16,7 +17,7 @@ type Props = {
 };
 
 const { page, headHtml, mainHtml, htmlClass, wfPage, wfSite } = Astro.props;
-const canonicalUrl = page.slug ? `https://peak-pim.com/${page.slug}` : "https://peak-pim.com/";
+const canonicalUrl = getCanonicalUrl(page.slug);
 const hasMetaDescription = /<meta\b(?=[^>]*\bname=["']description["'])/i.test(headHtml);
 const hasJsonLd = /<script\b(?=[^>]*\btype=["']application\/ld\+json["'])/i.test(headHtml);
 const fallbackJsonLd = {

@@ -4,6 +4,7 @@ import GlobalWebflowStyles from "../components/GlobalWebflowStyles.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import { formatDate, type ContentEntry } from "../lib/content";
+import { canonicalUrl as getCanonicalUrl } from "../lib/site-url";
 import "../styles/global.css";
 
 type Props = {
@@ -20,7 +21,7 @@ type Props = {
 };
 
 const { title, description, canonicalPath, eyebrow, emptyMessage, noindexWhenEmpty = true, entries } = Astro.props;
-const canonicalUrl = `https://peak-pim.com${canonicalPath}`;
+const canonicalUrl = getCanonicalUrl(canonicalPath);
 const noindex = noindexWhenEmpty && entries.length === 0;
 ---
 

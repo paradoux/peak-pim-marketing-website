@@ -49,6 +49,10 @@ export function getPageDocument(page: PageDefinition) {
 }
 
 function applyContentCorrections(html: string, page: PageDefinition) {
+  if (page.slug === "pricing") {
+    return improvePricingCrawlerContent(html);
+  }
+
   if (page.slug !== "shopify-multi-store-pim") {
     return html;
   }
@@ -91,6 +95,35 @@ function applyContentCorrections(html: string, page: PageDefinition) {
     .replaceAll("Account manager", "Dedicated support");
 
   return removePricingFeature(removePricingFeature(withCurrentLimits, enterprisePlanCardStart, "Metaobjects"), enterprisePlanCardStart, "Translations");
+}
+
+function improvePricingCrawlerContent(html: string) {
+  const replacements = [
+    ['"url": "/pricing"', '"url": "https://peak-pim.com/pricing/"'],
+    ['"url": "/mirror/69b1823397cd6b42cc895d6e_Peak-logo-large-cc62c2a550.png"', '"url": "https://peak-pim.com/mirror/69b1823397cd6b42cc895d6e_Peak-logo-large-cc62c2a550.png"'],
+    ['Core is $99/month or $990/year with free setup included before billing starts.', 'Core is $99/month or $990/year and includes 1,500 SKUs, 2 connected Shopify stores, 3 seats, and 100GB files. Free setup is included before billing starts.'],
+    ['Elite is $249/month or $2,490/year with free setup included before billing starts.', 'Elite is $249/month or $2,490/year and includes 5,000 SKUs, 3 connected Shopify stores, 15 seats, and 500GB files. Free setup is included before billing starts.'],
+    ['Enterprise is custom-priced and includes free setup plus full onboarding for larger catalogs, teams, stores, and workflows.', 'Enterprise is custom-priced with custom SKU, Shopify store, seat, and file limits. It includes free setup, full onboarding, and dedicated support.'],
+    ['Yes. Every plan includes free setup and a 10-day free trial. You do not pay anything until your setup is done.', 'Yes. Every plan comes with a 10-day free trial and free setup. No credit card is required to get started.'],
+    ['Can I change plans later?', 'Can I switch plans later?'],
+    ['Yes. You can upgrade or downgrade your plan at any time. Changes take effect on your next billing cycle.', 'Yes. You can upgrade or downgrade at any time. Changes take effect immediately and billing is adjusted accordingly.'],
+    ['How does multi-store pricing work?', 'How many stores can I connect?'],
+    ["All plans include multi-store support. Your plan's SKU limit applies to your total catalog across all connected stores.", 'Core includes 2 connected Shopify stores and 1,500 SKUs. Elite includes 3 connected Shopify stores and 5,000 SKUs. Enterprise limits are custom.'],
+    ['Enterprise is custom-priced for large catalogs with advanced needs. It includes free setup and full onboarding for your team, catalog, stores, and workflows.', 'Enterprise plans include custom SKU limits, custom Shopify store counts, custom file storage, dedicated support, and onboarding. Pricing is tailored to your business. Contact us to discuss.'],
+    ['Enterprise plans include custom SKU limits, unlimited stores, dedicated support, and onboarding. Pricing is tailored to your business. Contact us to discuss.', 'Enterprise plans include custom SKU limits, custom Shopify store counts, custom file storage, dedicated support, and onboarding. Pricing is tailored to your business. Contact us to discuss.'],
+  ];
+
+  let corrected = html;
+
+  for (const [outdated, current] of replacements) {
+    if (!corrected.includes(outdated)) {
+      throw new Error(`Pricing crawler correction could not find: ${outdated}`);
+    }
+
+    corrected = corrected.replaceAll(outdated, current);
+  }
+
+  return corrected.replaceAll("https://schema.org/PreOrder", "https://schema.org/InStock");
 }
 
 function removePricingFeature(html: string, planCardStart: string, label: string) {

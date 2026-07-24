@@ -1,6 +1,7 @@
 import { getCollection, type CollectionEntry } from "astro:content";
+import { canonicalUrl, productionOrigin } from "./site-url";
 
-export const siteUrl = "https://peak-pim.com";
+export const siteUrl = productionOrigin;
 
 export type ArticleEntry = CollectionEntry<"articles">;
 export type GuideEntry = CollectionEntry<"guides">;
@@ -29,7 +30,7 @@ export function entryPath(kind: ContentKind, entry: ContentEntry) {
 }
 
 export function entryUrl(kind: ContentKind, entry: ContentEntry) {
-  return `${siteUrl}${entryPath(kind, entry)}`;
+  return canonicalUrl(entryPath(kind, entry));
 }
 
 export async function getPublishedArticles() {
