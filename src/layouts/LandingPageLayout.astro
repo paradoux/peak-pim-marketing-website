@@ -3,6 +3,7 @@ import CrispChat from "../components/CrispChat.astro";
 import GlobalWebflowStyles from "../components/GlobalWebflowStyles.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
+import { canonicalUrl as getCanonicalUrl } from "../lib/site-url";
 import "../styles/global.css";
 
 type Props = {
@@ -20,7 +21,7 @@ const {
   noindex = false,
   schemaType = "WebPage",
 } = Astro.props;
-const canonicalUrl = new URL(canonicalPath, "https://peak-pim.com").toString();
+const canonicalUrl = getCanonicalUrl(canonicalPath);
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": schemaType,

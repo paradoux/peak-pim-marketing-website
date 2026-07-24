@@ -1,0 +1,3 @@
+# Cloudflare Pages serves directory index pages at their trailing-slash URL.
+# Use a crawler-friendly permanent redirect for the pricing URL people commonly paste.
+/pricing /pricing/ 301

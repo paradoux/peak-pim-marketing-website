@@ -85,7 +85,7 @@ if (existsSync(translationFile)) {
     if (!html.includes(className)) failures.push(`Translations page is missing semantic component alias ${className}`);
   }
   if (/\bds-[\w-]+/.test(html)) failures.push("Translations page contains parallel ds-* classes");
-  if (!html.includes('rel="canonical" href="https://peak-pim.com/shopify-pim-translations"')) failures.push("Translations canonical URL is incorrect");
+  if (!html.includes('rel="canonical" href="https://peak-pim.com/shopify-pim-translations/"')) failures.push("Translations canonical URL is incorrect");
 }
 
 const multiStoreFile = resolve(projectRoot, "dist/shopify-multi-store-pim/index.html");
