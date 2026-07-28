@@ -20,7 +20,7 @@ export const pages: PageDefinition[] = [
     source: "1-click-setup.html",
     title: "1-Click Setup | Connect Your Shopify Store to Peak PIM Instantly",
     description:
-      "Set up your Shopify PIM in minutes, not weeks. Peak PIM extracts your entire catalog automatically — products, variants, collections, and metafields. No manual work required.",
+      "Set up your Shopify PIM in minutes, not weeks. Peak PIM extracts your entire catalog automatically: products, variants, collections, and metafields. No manual work required.",
     h1: "PIMs take weeks to set up. Peak PIM takes one click.",
   },
   {
@@ -52,7 +52,7 @@ export const pages: PageDefinition[] = [
     source: "mission.html",
     title: "Our Mission | Peak PIM",
     description:
-      "Peak PIM is fixing the missing piece in Shopify — product data management. One place to manage, enrich, and sync your entire catalog across every store.",
+      "Peak PIM is fixing the missing piece in Shopify: product data management. One place to manage, enrich, and sync your entire catalog across every store.",
     h1: "We are on a mission",
   },
   {
@@ -74,7 +74,7 @@ export const pages: PageDefinition[] = [
   {
     slug: "shopify-media-management",
     source: "shopify-media-management.html",
-    title: "Shopify Media Management — One Library for Every Store | Peak PIM",
+    title: "Shopify Media Management: One Library for Every Store | Peak PIM",
     description:
       "Manage all your Shopify media from one place. Bulk edit file names and alt text, organize with folders and tags, track asset usage across stores.",
     h1: "Shopify media management that actually works",
@@ -82,7 +82,7 @@ export const pages: PageDefinition[] = [
   {
     slug: "shopify-multi-store-pim",
     source: "shopify-multi-store-pim.html",
-    title: "Shopify Multi-Store PIM — Manage All Your Stores in One Place | Peak PIM",
+    title: "Shopify Multi-Store PIM: Manage All Your Stores in One Place | Peak PIM",
     description:
       "Peak PIM connects all your Shopify stores and keeps your product catalog in sync. Edit once, push everywhere. Bulk edit, shared media library, and metafield sync across every storefront.",
     h1: "One PIM for all your Shopify stores",
@@ -98,9 +98,9 @@ export const pages: PageDefinition[] = [
   {
     slug: "shopify-sync",
     source: "shopify-sync.html",
-    title: "Shopify-Native PIM — Sync Products, Collections & Metafields | Peak PIM",
+    title: "Shopify-Native PIM: Sync Products, Collections & Metafields | Peak PIM",
     description:
-      "Peak PIM is a Shopify-native PIM. Import your full catalog in one click — products, collections, metafields, metaobjects, and files. Publish changes to Shopify when you're ready.",
+      "Peak PIM is a Shopify-native PIM. Import your full catalog in one click: products, collections, metafields, metaobjects, and files. Publish changes to Shopify when you're ready.",
     h1: "The first PIM built natively for Shopify",
   },
   {

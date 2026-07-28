@@ -1,0 +1,52 @@
+---
+import CardGrid from "../components/sections/CardGrid.astro";
+import CtaBanner from "../components/sections/CtaBanner.astro";
+import Faq from "../components/sections/Faq.astro";
+import FeatureGrid from "../components/sections/FeatureGrid.astro";
+import Hero from "../components/sections/Hero.astro";
+import LogoCloud from "../components/sections/LogoCloud.astro";
+import ProblemGrid from "../components/sections/ProblemGrid.astro";
+import AiConnectorCardVisual from "../components/visuals/AiConnectorCardVisual.astro";
+import AiConnectorHeroVisual from "../components/visuals/AiConnectorHeroVisual.astro";
+import { ctaLabels } from "../data/cta-copy";
+import LandingPageLayout from "../layouts/LandingPageLayout.astro";
+
+const appStoreUrl="https://apps.shopify.com/peak-pim";
+const problems=[
+  {icon:"search",title:"Catalog answers take too many clicks",description:"A simple question can mean searching products, opening store versions, checking fields, and piecing the answer together manually."},
+  {icon:"edit",title:"A generic assistant cannot see your catalog",description:"Without a secure connection, AI can help write copy but cannot find the right record, understand its store context, or save a useful draft."},
+  {icon:"publish",title:"AI actions need clear boundaries",description:"Catalog teams need to decide whether an assistant can only read, prepare drafts, or publish, and revoke that access whenever they choose."},
+];
+const workflows=[
+  {tagline:"Connect",title:"Add Peak PIM to your assistant",description:"Copy the remote connector URL, add it to Claude or an eligible ChatGPT workspace, and approve access in your browser. There are no API keys to paste into a conversation."},
+  {tagline:"Ask",title:"Work in plain language",description:"Search products, variants, collections, media, and custom fields; compare store versions; or ask Peak PIM to prepare a validated catalog update."},
+  {tagline:"Control",title:"Choose exactly what AI can do",description:"Set read-only, draft-update, or publishing access. Peak PIM never exposes delete actions, records AI changes, and lets you disconnect every assistant instantly."},
+];
+const features=[
+  {icon:"search",title:"Search the complete catalog",description:"Find products, variants, collections, media, and custom fields using the words your team already uses."},
+  {icon:"store",title:"Understand every store version",description:"Ask what differs between US, French, German, or other connected storefronts without opening records one by one."},
+  {icon:"edit",title:"Prepare validated drafts",description:"Update catalog fields through the same validation rules as the Peak PIM app, with drafts as the safe default."},
+  {icon:"publish",title:"Publish only with permission",description:"Allow explicit publishing to one, several, or all stores when that access level fits your workflow."},
+];
+const faqItems=[
+  {question:"What is the Peak PIM AI Connector?",answer:"It is a remote Model Context Protocol connector that gives a compatible AI assistant approved tools for searching, understanding, updating, and, when permitted, publishing your Peak PIM catalog."},
+  {question:"Which AI assistants can I connect?",answer:"Peak PIM is designed for remote MCP-compatible assistants such as Claude and eligible ChatGPT workspaces. Availability, plan requirements, write actions, and admin controls depend on the assistant provider and can change as their MCP support evolves."},
+  {question:"How do I connect it?",answer:"Copy the connector URL from Settings → MCP connection in Peak PIM, add it as a custom connector in your assistant, then complete the browser authorization flow."},
+  {question:"Do I need to manage an API key?",answer:"No. The interactive setup uses browser authorization, so you do not need to copy a secret API key into Claude or ChatGPT."},
+  {question:"What can the assistant see?",answer:"With read access it can browse and search the products, variants, collections, media, custom fields, and store-specific versions available in your Peak PIM workspace."},
+  {question:"Can it update or publish products?",answer:"Only if you grant that access. Choose read only, read and update for drafts, or read, update and publish. Publishing still uses Peak PIM's normal validation and Shopify publishing pipeline."},
+  {question:"Can the AI delete catalog data?",answer:"No. Delete tools are not exposed at any access level."},
+  {question:"How do I review or revoke access?",answer:"Peak PIM keeps AI-driven changes visible in the product workflow. You can change the access level or disconnect all assistants from the MCP connection settings."},
+  {question:"Is this the same as the Peak PIM API?",answer:"They use the same catalog capabilities but serve different workflows. The AI Connector packages them as conversational tools; the Developer API exposes endpoints for custom software and integrations."},
+];
+const faqSchema={"@context":"https://schema.org","@type":"FAQPage",mainEntity:faqItems.map(item=>({"@type":"Question",name:item.question,acceptedAnswer:{"@type":"Answer",text:item.answer}}))};
+---
+<LandingPageLayout title="AI Catalog Connector for Shopify | Peak PIM" description="Connect Claude or ChatGPT to Peak PIM. Search, compare, draft, and publish Shopify catalog changes in plain language with controlled permissions." canonicalPath="/ai-catalog-connector" schemaType="SoftwareApplication" additionalSchemas={[faqSchema]} ogTitle="Talk to Your Shopify Catalog with AI" ogDescription="Give your AI assistant controlled access to search, update, and publish your Peak PIM catalog.">
+  <Hero title="Talk to your Shopify catalog" description="Connect Claude or ChatGPT to Peak PIM, then search products, compare store versions, prepare drafts, and publish approved changes in plain language, with permissions you control." primaryCta={{label:ctaLabels.tryFree,href:appStoreUrl,external:true}} secondaryCta={{label:ctaLabels.learnMore,href:"/api"}}><AiConnectorHeroVisual /></Hero>
+  <LogoCloud />
+  <ProblemGrid tagline="AI with catalog context" title="Move from generic answers to real catalog work" description="Your assistant becomes useful when it can find the right record, understand every store version, and act inside clear boundaries." items={problems} link={{label:ctaLabels.seeHowItWorks,href:"#connector-workflow"}} />
+  <CardGrid id="connector-workflow" tagline="Three-step connection" title="Connect once. Work conversationally." description="Give the assistant the access your team needs, then keep every catalog action inside Peak PIM's existing product workflow." cards={workflows}><AiConnectorCardVisual slot="visual-1" mode="connect"/><AiConnectorCardVisual slot="visual-2" mode="permissions"/><AiConnectorCardVisual slot="visual-3" mode="control"/></CardGrid>
+  <FeatureGrid tagline="Catalog operations" title="Useful tools, not unrestricted access" description="The connector exposes the everyday catalog capabilities an assistant needs while leaving destructive actions out." features={features} cta={{label:ctaLabels.talkToUs,href:"#",crisp:true}} />
+  <CtaBanner id="start" title="Give your assistant the right catalog context" description="Connect Peak PIM, choose an access level, and turn everyday catalog questions into controlled work." primaryLabel={ctaLabels.tryFree} primaryHref={appStoreUrl} secondaryLabel={ctaLabels.bookDemo} secondaryHref="#" secondaryCrisp trustLine="10-day free trial. Free setup. No credit card." />
+  <Faq id="faq" title="Frequently asked questions" description="Everything you need to know about connecting an AI assistant to Peak PIM." items={faqItems}/>
+</LandingPageLayout>

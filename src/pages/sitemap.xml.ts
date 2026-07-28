@@ -9,7 +9,19 @@ export async function GET() {
   const staticUrls = pageSlugs.filter((slug) => slug !== "partners").map((slug) => canonicalUrl(slug));
   const articleUrls = articles.map((entry) => entryUrl("articles", entry));
   const guideUrls = guides.map((entry) => entryUrl("guides", entry));
-  const designSystemPageUrls = [canonicalUrl("shopify-pim-translations")];
+  const designSystemPageUrls = [
+    canonicalUrl("shopify-pim-translations"),
+    canonicalUrl("shopify-product-import-export"),
+    canonicalUrl("shopify-product-drops"),
+    canonicalUrl("shopify-catalog-health-center"),
+    canonicalUrl("ai-catalog-connector"),
+    canonicalUrl("api"),
+    canonicalUrl("shopify-metaobjects"),
+    canonicalUrl("shopify-metafield-management"),
+    canonicalUrl("shopify-custom-fields"),
+    canonicalUrl("user-roles-permissions"),
+    canonicalUrl("build-vs-buy-pim"),
+  ];
   const urls = [...staticUrls, ...designSystemPageUrls, ...articleUrls, ...guideUrls];
   const lastModified = new Date().toISOString().slice(0, 10);
 

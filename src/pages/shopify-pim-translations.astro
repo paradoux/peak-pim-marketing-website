@@ -1,101 +1,55 @@
 ---
-import CtaBanner from "../components/sections/CtaBanner.astro";
 import CardGrid from "../components/sections/CardGrid.astro";
+import CtaBanner from "../components/sections/CtaBanner.astro";
 import Faq from "../components/sections/Faq.astro";
 import FeatureGrid from "../components/sections/FeatureGrid.astro";
 import Hero from "../components/sections/Hero.astro";
 import LogoCloud from "../components/sections/LogoCloud.astro";
 import ProblemGrid from "../components/sections/ProblemGrid.astro";
 import Testimonial from "../components/sections/Testimonial.astro";
-import TranslationStepVisual from "../components/visuals/TranslationStepVisual.astro";
-import TranslationWorkflowDemo from "../components/visuals/TranslationWorkflowDemo.astro";
+import TranslationsCardVisual from "../components/visuals/TranslationsCardVisual.astro";
+import TranslationsHeroVisual from "../components/visuals/TranslationsHeroVisual.astro";
 import { assets } from "../data/assets";
+import { ctaLabels } from "../data/cta-copy";
 import LandingPageLayout from "../layouts/LandingPageLayout.astro";
 
-const problems = [
-  {
-    icon: "file",
-    title: "Translations live in separate files",
-    description: "Product copy gets scattered across spreadsheets, agencies, inboxes, and storefronts with no reliable source of truth.",
-  },
-  {
-    icon: "clock",
-    title: "Every catalog change creates rework",
-    description: "A title, specification, or SEO update in the source language has to be found and repeated in every market.",
-  },
-  {
-    icon: "store",
-    title: "Publishing lacks control",
-    description: "Teams struggle to see which languages are complete, which fields changed, and which storefronts are ready to update.",
-  },
+const appStoreUrl="https://apps.shopify.com/peak-pim";
+const problems=[
+  {icon:"store",title:"Languages overlap across stores",description:"French can live on a dedicated France store and an international store, with different fields completed and different copy on each."},
+  {icon:"review",title:"Translation drift stays hidden",description:"Without a language-across-stores view, teams cannot quickly see where the same title, option value, SEO field, or metafield has diverged."},
+  {icon:"clock",title:"Missing fields appear too late",description:"A product can look translated while handles, option values, custom fields, or another storefront still fall back to the source language."},
 ];
-
-const steps = [
-  {
-    tagline: "Organize",
-    title: "Keep every language beside the source data",
-    description: "Manage translated titles, descriptions, SEO fields, metafields, and other localized content from the same product record.",
-  },
-  {
-    tagline: "Review",
-    title: "Review completeness by locale",
-    description: "See what is ready, what still needs work, and what changed since the last translation without comparing separate spreadsheets.",
-  },
-  {
-    tagline: "Publish",
-    title: "Publish to the right Shopify stores",
-    description: "Approve and sync localized product information to each connected regional storefront when the team is ready.",
-  },
+const workflows=[
+  {tagline:"Organize",title:"See the full translation cube",description:"Switch between one store across all its languages and one language across every store. Source content stays beside every field while you edit."},
+  {tagline:"Translate",title:"Let AI prepare the first draft",description:"Fill one cell, a language column, or every gap through a connected model or MCP assistant. AI-generated values return as unsaved drafts for review."},
+  {tagline:"Reuse",title:"Copy translations between stores",description:"Copy a product's translations to one or several stores. Peak PIM includes only languages each target supports and reports what was copied or skipped."},
 ];
-
-const features = [
-  { icon: "file", title: "Keep every language in one product record", description: "Keep source and translated content together instead of duplicating complete catalog files for every locale." },
-  { icon: "edit", title: "Translate every field, not just descriptions", description: "Work with titles, SEO metadata, structured attributes, metafields, and merchandising content in the same process." },
-  { icon: "review", title: "Consistent locale review", description: "Track what is missing, in review, approved, or published while keeping terminology consistent across related products." },
-  { icon: "publish", title: "Bulk translate and publish to regional stores", description: "Filter products by language status, then publish localized content to the right regional stores." },
+const features=[
+  {icon:"store",title:"Languages come from Shopify",description:"Peak PIM reads the languages configured on every connected store and creates the exact store × language slots your catalog needs."},
+  {icon:"edit",title:"Translate beyond title and description",description:"Manage handles, product types, SEO fields, collection content, option names and values, and translatable metafields alongside core product copy."},
+  {icon:"grid",title:"Work across a season in one grid",description:"Use the bulk Translations view to edit products as rows and languages and fields as columns, then publish the completed work together."},
+  {icon:"publish",title:"Keep every path draft-first",description:"Typed, copied, and AI-generated translations remain drafts until a person reviews the source beside them and publishes deliberately."},
 ];
-
-const faqItems = [
-  { question: "Can Peak PIM manage multiple product languages?", answer: "Peak PIM is designed to keep localized product information connected to the same central catalog, so teams can manage source and translated fields without maintaining separate product databases." },
-  { question: "Which product fields can be localized?", answer: "A translation workflow can cover customer-facing product content such as titles, descriptions, SEO metadata, structured attributes, metafields, and other localized fields configured for your catalog." },
-  { question: "Can translation partners work from the same catalog?", answer: "Your team can organize the workflow around shared product records and locale statuses, reducing the need to send full catalog spreadsheets back and forth." },
-  { question: "Can I see which translations are incomplete?", answer: "Yes. Locale-level status makes it possible to filter products that still require translation, review, approval, or publishing." },
-  { question: "Will translated content overwrite the source language?", answer: "No. Localized values remain associated with their locale, while the source product information stays available as the reference." },
-  { question: "Can I publish different languages to different Shopify stores?", answer: "Peak PIM supports connected-store workflows so approved localized content can be sent to the storefronts and markets where it belongs." },
-  { question: "Can translations be bulk edited?", answer: "Yes. You can filter and work across groups of products, which is useful for repeated terminology, seasonal updates, SEO changes, and catalog-wide localization work." },
+const faqItems=[
+  {question:"How does Peak PIM know which languages each store needs?",answer:"Peak PIM reads the languages configured in each connected Shopify store and presents the corresponding translation slots automatically. You do not maintain a separate language list in Peak PIM."},
+  {question:"Can I compare the same language across multiple stores?",answer:"Yes. Choose one language to see it across every store in a single matrix, spot different or missing values, and fan one translation out to several stores when they should match."},
+  {question:"Which product and collection fields can I translate?",answer:"Translations cover product titles, descriptions, handles, product types, SEO titles and descriptions; collection titles, descriptions, handles, and SEO fields; variant option names and values; and translatable custom fields such as metafields."},
+  {question:"Can I see the source content while translating?",answer:"Yes. The source-language reference column can stay visible beside the translation grid so reviewers always see the original field and its localized draft together."},
+  {question:"Can AI translate my catalog?",answer:"Yes. A connected MCP assistant can work conversationally, or you can connect a preferred language model for in-grid translation. In both cases, the result returns to Peak PIM as a draft for review."},
+  {question:"Does Peak PIM force me to use one translation model?",answer:"No. The workflow is designed to work with the AI you choose, including compatible assistants through MCP or a model connected for in-grid translation."},
+  {question:"Can I copy existing translations to a new Shopify store?",answer:"Yes. Choose a source store and one or more targets. Peak PIM copies the product's translations only for languages supported by each target and shows a copied-and-skipped summary."},
+  {question:"Can I translate products in bulk?",answer:"Yes. The bulk Translations view places products in rows and languages and fields in columns so a team can edit and publish a collection or seasonal catalog without opening every product."},
+  {question:"How do translations reach Shopify?",answer:"Save keeps the work as drafts in Peak PIM. Save & Publish sends approved translations to the selected Shopify stores through the same publishing pipeline as the rest of the catalog."},
 ];
+const faqSchema={"@context":"https://schema.org","@type":"FAQPage",mainEntity:faqItems.map(item=>({"@type":"Question",name:item.question,acceptedAnswer:{"@type":"Answer",text:item.answer}}))};
 ---
-
-<LandingPageLayout
-  title="Manage Shopify Product Translations in One PIM | Peak PIM"
-  description="Manage product translations, localized metafields, SEO content, and regional Shopify catalogs from one PIM. Review by locale and publish to the right stores."
-  canonicalPath="/shopify-pim-translations"
-  schemaType="SoftwareApplication"
->
-  <Hero
-    title="Manage every product translation in one PIM"
-    description="Keep localized titles, descriptions, metafields, and SEO content connected to the same product record—then review and publish each language to the right Shopify store."
-    primaryCta={{ label: "Get Peak PIM", href: "https://apps.shopify.com/peak-pim", external: true }}
-    secondaryCta={{ label: "See the workflow", href: "#translation-workflow" }}
-  >
-    <TranslationWorkflowDemo />
-  </Hero>
-
+<LandingPageLayout title="Manage Shopify Product Translations in One PIM | Peak PIM" description="Manage, AI-translate, review, copy, and publish Shopify product translations across every language and store from one multi-store PIM." canonicalPath="/shopify-pim-translations" schemaType="SoftwareApplication" additionalSchemas={[faqSchema]} ogTitle="Every Shopify Translation in One Place" ogDescription="Manage every store, language, and translatable field with AI-assisted drafts and controlled publishing.">
+  <Hero title="Every language, every store, one place" description="Manage, AI-translate, review, and publish product and collection translations across all your Shopify stores without rebuilding the same catalog in spreadsheets or separate apps." primaryCta={{label:ctaLabels.tryFree,href:appStoreUrl,external:true}} secondaryCta={{label:ctaLabels.seeHowItWorks,href:"#translation-workflow"}}><TranslationsHeroVisual/></Hero>
   <LogoCloud />
-  <ProblemGrid tagline="The localization gap" title="Translations should not create another catalog" description="International growth gets messy when every locale becomes a disconnected copy of your product information." items={problems} link={{ label: "See the translation workflow", href: "#translation-workflow" }} />
-  <CardGrid id="translation-workflow" tagline="One controlled workflow" title="From source content to every storefront" description="Peak keeps translation work close to the product data and gives the team a clear path from editing to publishing." cards={steps}>
-    <TranslationStepVisual slot="visual-1" step={1} card />
-    <TranslationStepVisual slot="visual-2" step={2} card />
-    <TranslationStepVisual slot="visual-3" step={3} card />
-  </CardGrid>
-  <Testimonial
-    quote="Peak PIM changed how we work. Shopify handles our storefront and Peak PIM runs everything about our catalog on top of it."
-    name="Amélie Samson"
-    role="Founder, Maéli Paris"
-    image={assets.testimonials.amelieSamson}
-    companyLogo={assets.customerLogos.light.maeli}
-  />
-  <FeatureGrid tagline="Built for catalog operations" title="Translate without losing structure" description="Localization stays part of the product-management workflow instead of becoming a disconnected spreadsheet project." features={features} cta={{ label: "Talk to us", href: "#", crisp: true }} />
-  <CtaBanner title="Bring every market back to one catalog" description="Connect your Shopify stores and manage localized product information from the same structured workspace." />
-  <Faq title="FAQ" description="Everything you need to know about managing product translations with Peak PIM." items={faqItems} />
+  <ProblemGrid tagline="Store × language × field" title="See the whole translation cube" description="Peak PIM shows every translation slot your Shopify stores require, so missing content, store drift, and source-language fallbacks become visible before customers find them." items={problems} link={{label:ctaLabels.learnMore,href:"/shopify-catalog-health-center"}} />
+  <CardGrid id="translation-workflow" tagline="One workspace, two views" title="Translate with context, then reuse the work" description="Move from source content to reviewed storefront copy without losing the relationship between products, languages, fields, and stores." cards={workflows}><TranslationsCardVisual slot="visual-1" mode="matrix"/><TranslationsCardVisual slot="visual-2" mode="ai"/><TranslationsCardVisual slot="visual-3" mode="copy"/></CardGrid>
+  <Testimonial quote="Peak PIM changed how we work. Shopify handles our storefront and Peak PIM runs everything about our catalog on top of it." name="Amélie Samson" role="Founder, Maéli Paris" image={assets.testimonials.amelieSamson} companyLogo={assets.customerLogos.light.maeli}/>
+  <FeatureGrid tagline="Built for catalog operations" title="From one product to a season's catalog" description="Languages are discovered automatically, deeper Shopify fields stay first-class, and every translation route ends in the same human review and publishing workflow." features={features} cta={{label:ctaLabels.learnMore,href:"/ai-catalog-connector"}} />
+  <CtaBanner id="start" title="Bring every language back to one catalog" description="Find every gap, prepare translations with the AI you choose, review them beside the source, and publish to the right Shopify stores." primaryLabel={ctaLabels.tryFree} primaryHref={appStoreUrl} secondaryLabel={ctaLabels.bookDemo} secondaryHref="#" secondaryCrisp trustLine="10-day free trial. Free setup. No credit card."/>
+  <Faq id="faq" description="Everything you need to know about managing Shopify translations across languages and stores with Peak PIM." items={faqItems}/>
 </LandingPageLayout>

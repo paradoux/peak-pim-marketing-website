@@ -38,7 +38,7 @@ export const landingPageArchetypes: LandingPageArchetype[] = [
     purpose: "Help a high-intent buyer choose between Peak and an alternative using fair, concrete evidence.",
     requiredSections: ["Split comparison hero", "Verdict", "Side-by-side table", "Pricing comparison", "Decision guide", "Migration steps", "CTA", "FAQ"],
     optionalSections: ["Product workflow", "Testimonial"],
-    approvedReferences: ["/vs/akeneo", "/vs/plytix", "/vs/catsy", "/vs/quable", "/vs/shopify-admin"],
+    approvedReferences: ["/vs/shopify-admin", "/vs/akeneo", "/vs/plytix", "/vs/catsy", "/vs/quable"],
   },
 ];
 

@@ -1,24 +1,35 @@
 ---
 import Button from "../ui/Button.astro";
+import { ctaLabels, type CtaLabel } from "../../data/cta-copy";
 
 type Props = {
+  id?: string;
   title?: string;
   description?: string;
-  primaryLabel?: string;
+  primaryLabel?: CtaLabel;
   primaryHref?: string;
-  secondaryLabel?: string;
+  secondaryLabel?: CtaLabel;
+  secondaryHref?: string;
+  secondaryExternal?: boolean;
+  secondaryCrisp?: boolean;
+  trustLine?: string;
 };
 
 const {
+  id,
   title = "Ready to take control of your catalog?",
   description = "See how Peak PIM simplifies product management across all your Shopify stores.",
-  primaryLabel = "Try for free",
+  primaryLabel = ctaLabels.tryFree,
   primaryHref = "https://apps.shopify.com/peak-pim",
-  secondaryLabel = "Ask for a demo",
+  secondaryLabel = ctaLabels.bookDemo,
+  secondaryHref = "#",
+  secondaryExternal = false,
+  secondaryCrisp = true,
+  trustLine,
 } = Astro.props;
 ---
 
-<section class="section_cta51 peak-cta-banner color-scheme-1">
+<section id={id} class="section_cta51 peak-cta-banner color-scheme-1">
   <div class="padding-global">
     <div class="container-large">
       <div class="padding-section-large">
@@ -33,12 +44,21 @@ const {
             <div class="margin-top margin-medium">
               <div class="button-group is-center">
                 <Button href={primaryHref} variant="alternate" external>{primaryLabel}</Button>
-                <Button href="#" variant="secondary-alternate" crisp>{secondaryLabel}</Button>
+                <Button href={secondaryHref} variant="secondary-alternate" external={secondaryExternal} crisp={secondaryCrisp}>{secondaryLabel}</Button>
               </div>
             </div>
+            {trustLine && <p class="peak-cta-banner__trust text-size-small">{trustLine}</p>}
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  .peak-cta-banner__trust {
+    margin-top: 1rem;
+    text-align: center;
+    opacity: 0.8;
+  }
+</style>

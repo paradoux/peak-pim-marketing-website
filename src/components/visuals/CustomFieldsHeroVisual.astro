@@ -1,0 +1,50 @@
+---
+import ProductVisualFrame from "../ui/ProductVisualFrame.astro";
+---
+
+<ProductVisualFrame
+  ariaLabel="Peak PIM custom fields workspace showing Shopify metafields beside private PIM-only workflow fields on a product record"
+  section="Custom fields"
+  status="Draft saved"
+  actionLabel="Publish metafields"
+>
+  <div class="peak-cf-workspace">
+    <aside class="peak-cf-sidebar">
+      <strong>Field library</strong>
+      <small>Catalog</small>
+      <span class="active">Products · 12</span>
+      <span>Variants · 8</span>
+      <span>Collections · 4</span>
+      <span>Media · 3</span>
+      <small>Store coverage</small>
+      <b>US · 12 fields</b>
+      <b>FR · 11 fields</b>
+      <b>DE · 12 fields</b>
+    </aside>
+    <div class="peak-cf-main">
+      <div class="peak-cf-heading">
+        <div><small>Product record</small><b>Summit Gear Shell Jacket</b></div>
+        <span>3 stores</span>
+      </div>
+      <div class="peak-cf-layers">
+        <section class="peak-cf-layer is-shopify">
+          <div class="peak-cf-layer-title"><div><i aria-hidden="true">S</i><span><b>Shopify metafields</b><small>Synced to storefronts</small></span></div><em>Public</em></div>
+          <label><small>Material · Single-line text</small><span>Recycled nylon</span><mark>US · FR · DE</mark></label>
+          <label><small>Shell weight · Weight</small><span>420 <em>g</em></span><mark>US · FR · DE</mark></label>
+          <label><small>Care instructions · Multi-line</small><span>Cold wash. Air dry.</span><mark>US · FR</mark></label>
+        </section>
+        <section class="peak-cf-layer peak-cf-private">
+          <div class="peak-cf-layer-title"><div><i aria-hidden="true">P</i><span><b>PIM-only fields</b><small>Never sent to Shopify</small></span></div><em>Private</em></div>
+          <label><small>Data status · Select</small><span class="is-select">Approved</span><mark>Team only</mark></label>
+          <label><small>Supplier SKU · Text</small><span>SG-SHELL-042</span><mark>Team only</mark></label>
+          <label><small>Review deadline · Date</small><span>30 Jul 2026</span><mark>Team only</mark></label>
+        </section>
+      </div>
+      <div class="peak-cf-surfaces"><span>Product page</span><span>Bulk edit</span><span>Import / Export</span><span>Health Center</span><span>Translations</span></div>
+    </div>
+  </div>
+</ProductVisualFrame>
+
+<style>
+  .peak-cf-workspace{display:grid;min-height:440px;grid-template-columns:155px minmax(0,1fr);background:#f6f3ec;font-family:Inter,Arial,sans-serif}.peak-cf-sidebar{display:flex;flex-direction:column;gap:7px;padding:22px 14px;border-right:1px solid #dfdcd5;background:#fbfaf7}.peak-cf-sidebar strong{padding:0 8px 8px;font-size:11px}.peak-cf-sidebar small{margin:10px 8px 0;color:#999;font-size:7px;text-transform:uppercase}.peak-cf-sidebar span,.peak-cf-sidebar b{padding:8px;border-radius:5px;color:#666;font-size:8px}.peak-cf-sidebar span.active{background:#e9edff;color:#2845d6;font-weight:700}.peak-cf-sidebar b{padding-block:4px;font-weight:500}.peak-cf-main{min-width:0;padding:24px}.peak-cf-heading{display:flex;align-items:center;justify-content:space-between;padding-bottom:15px;border-bottom:1px solid #ddd}.peak-cf-heading div{display:flex;flex-direction:column}.peak-cf-heading small{color:#777;font-size:8px}.peak-cf-heading b{font-size:13px}.peak-cf-heading>span{padding:6px 8px;border-radius:999px;background:#e9edff;color:#2845d6;font-size:7px}.peak-cf-layers{display:grid;gap:14px;margin-top:18px;grid-template-columns:1fr 1fr}.peak-cf-layer{display:grid;gap:8px;padding:12px;border:1px solid #ddd;border-radius:8px;background:#fbfaf7}.peak-cf-layer-title{display:flex;align-items:center;justify-content:space-between;padding-bottom:5px}.peak-cf-layer-title>div{display:flex;align-items:center;gap:8px}.peak-cf-layer-title i{display:grid;width:24px;height:24px;place-items:center;border-radius:5px;background:#191919;color:#fff;font-size:9px;font-style:normal;font-weight:700}.peak-cf-private .peak-cf-layer-title i{background:#2845d6}.peak-cf-layer-title span{display:flex;flex-direction:column}.peak-cf-layer-title b{font-size:9px}.peak-cf-layer-title small{color:#777;font-size:7px}.peak-cf-layer-title>em{padding:5px 7px;border-radius:999px;background:#e5f1e8;color:#337448;font-size:7px;font-style:normal}.peak-cf-private .peak-cf-layer-title>em{background:#e9edff;color:#2845d6}.peak-cf-layer label{display:grid;min-width:0;padding:9px;border:1px solid #ddd;border-radius:6px;background:#fff;grid-template-columns:1fr auto}.peak-cf-layer label>small{grid-column:1/-1;margin-bottom:5px;color:#777;font-size:7px}.peak-cf-layer label>span{overflow:hidden;font-size:8px;text-overflow:ellipsis;white-space:nowrap}.peak-cf-layer label>span em{color:#777;font-size:7px;font-style:normal}.peak-cf-layer label>span.is-select{color:#337448;font-weight:700}.peak-cf-layer mark{padding:2px 4px;background:transparent;color:#999;font-size:6px}.peak-cf-surfaces{display:flex;flex-wrap:wrap;gap:6px;margin-top:13px}.peak-cf-surfaces span{padding:6px 8px;border:1px solid #ddd;border-radius:999px;background:#fff;color:#666;font-size:7px}@media(max-width:767px){.peak-cf-workspace{min-height:420px;grid-template-columns:1fr}.peak-cf-sidebar{display:none}.peak-cf-main{padding:16px}.peak-cf-layers{gap:9px}.peak-cf-layer{padding:9px}.peak-cf-layer label{padding:7px}.peak-cf-surfaces span:nth-child(n+4){display:none}}@media(max-width:479px){.peak-cf-layers{grid-template-columns:1fr}.peak-cf-layer label:nth-of-type(n+3){display:none}.peak-cf-surfaces{margin-top:9px}}@media(prefers-reduced-motion:no-preference){.peak-cf-private{animation:peak-cf-private-focus 3s ease-in-out infinite}@keyframes peak-cf-private-focus{50%{box-shadow:0 0 0 4px rgba(40,69,214,.1)}}}@media(prefers-reduced-motion:reduce){.peak-cf-private{animation:none}}
+</style>

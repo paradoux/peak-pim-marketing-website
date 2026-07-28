@@ -1,0 +1,85 @@
+---
+import Button from "../ui/Button.astro";
+import { ctaLabels, type CtaLabel } from "../../data/cta-copy";
+
+type Choice = { title: string; description: string };
+type Props = {
+  id?: string;
+  tagline?: string;
+  title: string;
+  description?: string;
+  choices: Choice[];
+  image?: string;
+  imageAlt?: string;
+  primaryLabel?: CtaLabel;
+  primaryHref?: string;
+  secondaryLabel?: CtaLabel;
+  secondaryHref?: string;
+  secondaryCrisp?: boolean;
+};
+
+const {
+  id,
+  tagline = "Decision",
+  title,
+  description,
+  choices,
+  image,
+  imageAlt,
+  primaryLabel = ctaLabels.tryFree,
+  primaryHref = "https://apps.shopify.com/peak-pim",
+  secondaryLabel = ctaLabels.talkToUs,
+  secondaryHref = "#",
+  secondaryCrisp = true,
+} = Astro.props;
+const hasVisual = Astro.slots.has("visual");
+
+if (!hasVisual && (!image || !imageAlt)) {
+  throw new Error("DecisionGuide requires either a visual slot or image and imageAlt props.");
+}
+---
+
+<section id={id} class="section_layout4 peak-decision-guide color-scheme-1">
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="padding-section-large">
+        <div class="layout4_component peak-decision-guide__component">
+          <div class="w-layout-grid layout4_content peak-decision-guide__content">
+            <div class="layout4_content-left">
+              <div class="margin-bottom margin-xsmall"><div class="text-style-tagline">{tagline}</div></div>
+              <div class="margin-bottom margin-small"><h2 class="heading-style-h2">{title}</h2></div>
+              {description && <div class="margin-bottom margin-medium"><p class="text-size-medium">{description}</p></div>}
+              <div class="w-layout-grid layout4_item-list">
+                {choices.map((choice) => (
+                  <div class="layout4_text-wrapper">
+                    <div class="margin-bottom margin-xsmall"><h3 class="heading-style-h6">{choice.title}</h3></div>
+                    <p>{choice.description}</p>
+                  </div>
+                ))}
+              </div>
+              <div class="margin-top margin-medium">
+                <div class="button-group">
+                  <Button href={primaryHref} variant="secondary" external>{primaryLabel}</Button>
+                  <Button href={secondaryHref} variant="link" crisp={secondaryCrisp}>{secondaryLabel}</Button>
+                </div>
+              </div>
+            </div>
+            <div class="layout4_image-wrapper peak-decision-guide__image-wrapper">
+              {hasVisual ? <slot name="visual" /> : <img loading="lazy" src={image} alt={imageAlt} class="layout4_image peak-decision-guide__image" />}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .peak-decision-guide__image-wrapper {
+    background: var(--color-paper);
+  }
+
+  .peak-decision-guide__image {
+    object-fit: contain;
+  }
+</style>

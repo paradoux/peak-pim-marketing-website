@@ -1,33 +1,37 @@
 ---
-import { assets } from "../../data/assets";
+import { getSharedLogoBannerHtml } from "../../lib/page-source";
 
-type LogoKey = keyof typeof assets.customerLogos.light;
 type Props = { title?: string };
 
-const { title = "Trusted by Shopify merchants worldwide" } = Astro.props;
-const firstList: LogoKey[] = ["tupperware", "duBruit", "maeli", "artefact", "duBruit", "gullyLabs", "lafaurie", "aurevia"];
-const secondList: LogoKey[] = ["carreCoco", "tupperware", "duBruit", "artefact", "gullyLabs", "aurevia", "carreCoco", "lafaurie"];
+const { title = "Already trusted by top merchants" } = Astro.props;
+
+function escapeHtml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+const logoCloudHtml = getSharedLogoBannerHtml()
+  .replace(
+    '<section class="section_logo2 color-scheme-2">',
+    `<section class="section_logo2 peak-logo-cloud color-scheme-2" aria-label="${escapeHtml(title)}">`,
+  )
+  .replace('class="logo2_component"', 'class="logo2_component peak-logo-cloud__component"')
+  .replace('class="logo2_logo-list"', 'class="logo2_logo-list peak-logo-cloud__list"')
+  .replaceAll('class="logo2_wrapper"', 'class="logo2_wrapper peak-logo-cloud__item"')
+  .replace(
+    '<h2 class="heading-style-h6">Already trusted by top merchants</h2>',
+    `<h2 class="heading-style-h6">${escapeHtml(title)}</h2>`,
+  )
+  .replace(/<img\b([^>]*)>/g, (_tag, attributes: string) => {
+    if (/\bclass="/.test(attributes)) {
+      return `<img${attributes.replace(/class="([^"]*)"/, 'class="$1 peak-logo-cloud__logo"')}>`;
+    }
+
+    return `<img class="peak-logo-cloud__logo"${attributes}>`;
+  });
 ---
 
-<section class="section_logo3 peak-logo-cloud color-scheme-1" aria-label={title}>
-  <div class="padding-section-medium">
-    <div class="padding-global">
-      <div class="container-large">
-        <div class="margin-bottom margin-large">
-          <div class="text-align-center">
-            <div class="max-width-large align-center"><h2 class="heading-style-h6-logos">{title}</h2></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="logo3_component peak-logo-cloud__component">
-      {[firstList, secondList].map((logos) => (
-        <div class="logo3_list peak-logo-cloud__list">
-          {logos.map((key) => (
-            <div class="logo3_wrapper peak-logo-cloud__item"><img class="logo3_logo peak-logo-cloud__logo" src={assets.customerLogos.light[key]} alt="" loading="lazy" /></div>
-          ))}
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
+<Fragment set:html={logoCloudHtml} />

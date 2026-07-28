@@ -1,0 +1,314 @@
+---
+type Props = { mode: "export" | "import" | "roundtrip" };
+const { mode } = Astro.props;
+---
+
+<div class="w-embed peak-ie-card-embed">
+  <div class:list={["peak-ie-card-visual", `is-${mode}`]} aria-hidden="true">
+    <div class="peak-ie-card-bar"><span></span><span></span><span></span><i></i></div>
+
+    {mode === "export" && (
+      <div class="peak-ie-card-body">
+        <small>Export catalog</small><strong>Choose what goes into the workbook</strong>
+        <div class="peak-ie-card-stores"><em>US</em><em>FR</em><em>GB</em><b>All stores</b></div>
+        <div class="peak-ie-card-checks"><span>✓ Products</span><span>✓ Variants</span><span>✓ Collections</span></div>
+        <div class="peak-ie-workbook"><span>Products</span><span>Variants</span><span>Collections</span></div>
+      </div>
+    )}
+
+    {mode === "import" && (
+      <div class="peak-ie-card-body">
+        <small>Import wizard</small><strong>Upload, map, and preview</strong>
+        <div class="peak-ie-upload"><i>↑</i><span>supplier-catalog.xlsx</span><em>Ready</em></div>
+        <div class="peak-ie-map-row"><span>Supplier SKU</span><i>→</i><b>Variant SKU</b></div>
+        <div class="peak-ie-map-row"><span>Retail price</span><i>→</i><b>Market price</b></div>
+        <div class="peak-ie-import-state"><span>Dry run</span><em>Nothing saved yet</em></div>
+      </div>
+    )}
+
+    {mode === "roundtrip" && (
+      <div class="peak-ie-card-body">
+        <small>Round trip</small><strong>Edit outside Peak, match back exactly</strong>
+        <div class="peak-ie-loop">
+          <span><i>↓</i><b>Export</b><small>Peak PIM ID</small></span>
+          <em>→</em>
+          <span><i>▦</i><b>Edit</b><small>Excel or Sheets</small></span>
+          <em>→</em>
+          <span><i>↑</i><b>Import</b><small>Exact record</small></span>
+        </div>
+        <div class="peak-ie-loop-ready">✓ Every row matched</div>
+      </div>
+    )}
+  </div>
+</div>
+
+<style>
+  .peak-ie-card-embed {
+    width: 100%;
+  }
+
+  .peak-ie-card-visual {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: #f6f3ec;
+    color: #191919;
+    font-family: Inter, Arial, sans-serif;
+    text-align: left;
+  }
+
+  .peak-ie-card-bar {
+    display: flex;
+    height: 32px;
+    align-items: center;
+    gap: 5px;
+    padding: 0 11px;
+    background: #191919;
+  }
+
+  .peak-ie-card-bar span {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #666;
+  }
+
+  .peak-ie-card-bar i {
+    width: 48px;
+    height: 5px;
+    margin-left: auto;
+    border-radius: 5px;
+    background: #373737;
+  }
+
+  .peak-ie-card-body {
+    display: flex;
+    height: calc(100% - 32px);
+    flex-direction: column;
+    padding: clamp(17px, 3vw, 25px);
+  }
+
+  .peak-ie-card-body > small {
+    color: #777;
+    font-size: 8px;
+  }
+
+  .peak-ie-card-body > strong {
+    max-width: 230px;
+    margin-top: 4px;
+    font-size: clamp(11px, 1.25vw, 14px);
+    line-height: 1.25;
+  }
+
+  .peak-ie-card-stores {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 19px;
+  }
+
+  .peak-ie-card-stores em {
+    display: grid;
+    width: 28px;
+    height: 28px;
+    place-items: center;
+    border-radius: 5px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    font-size: 8px;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .peak-ie-card-stores b {
+    margin-left: auto;
+    color: #2845d6;
+    font-size: 7px;
+  }
+
+  .peak-ie-card-checks {
+    display: grid;
+    gap: 6px;
+    margin-top: 12px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .peak-ie-card-checks span {
+    padding: 8px 5px;
+    border: 1px solid #dedbd4;
+    border-radius: 5px;
+    background: #fff;
+    color: #2845d6;
+    font-size: 7px;
+    text-align: center;
+  }
+
+  .peak-ie-workbook {
+    display: flex;
+    gap: 4px;
+    margin-top: auto;
+    padding: 10px 10px 0;
+    border: 1px solid #dedbd4;
+    border-radius: 6px 6px 0 0;
+    background: #fff;
+  }
+
+  .peak-ie-workbook span {
+    padding: 6px;
+    border-radius: 4px 4px 0 0;
+    background: #e9edff;
+    color: #2845d6;
+    font-size: 6px;
+    font-weight: 650;
+  }
+
+  .peak-ie-upload {
+    display: grid;
+    align-items: center;
+    gap: 7px;
+    margin-top: 18px;
+    padding: 12px;
+    border: 1px dashed #9cabea;
+    border-radius: 6px;
+    background: #fff;
+    grid-template-columns: 20px 1fr auto;
+    font-size: 7px;
+  }
+
+  .peak-ie-upload i {
+    display: grid;
+    width: 20px;
+    height: 20px;
+    place-items: center;
+    border-radius: 4px;
+    background: #e9edff;
+    color: #2845d6;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .peak-ie-upload em {
+    color: #26854a;
+    font-style: normal;
+  }
+
+  .peak-ie-map-row {
+    display: grid;
+    align-items: center;
+    gap: 6px;
+    margin-top: 7px;
+    padding: 8px;
+    border: 1px solid #dedbd4;
+    border-radius: 5px;
+    background: #fff;
+    grid-template-columns: 1fr auto 1fr;
+    font-size: 7px;
+  }
+
+  .peak-ie-map-row i {
+    color: #2845d6;
+    font-style: normal;
+  }
+
+  .peak-ie-map-row b {
+    color: #2845d6;
+    font-weight: 650;
+  }
+
+  .peak-ie-import-state {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid #dedbd4;
+    color: #777;
+    font-size: 7px;
+  }
+
+  .peak-ie-import-state span {
+    color: #2845d6;
+    font-weight: 700;
+  }
+
+  .peak-ie-import-state em {
+    font-style: normal;
+  }
+
+  .peak-ie-loop {
+    display: grid;
+    align-items: center;
+    gap: 5px;
+    margin-top: 24px;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+  }
+
+  .peak-ie-loop > span {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 5px;
+    border: 1px solid #dedbd4;
+    border-radius: 7px;
+    background: #fff;
+    text-align: center;
+  }
+
+  .peak-ie-loop > span i {
+    display: grid;
+    width: 27px;
+    height: 27px;
+    place-items: center;
+    border-radius: 6px;
+    background: #e9edff;
+    color: #2845d6;
+    font-size: 12px;
+    font-style: normal;
+  }
+
+  .peak-ie-loop > span b {
+    margin-top: 6px;
+    font-size: 8px;
+  }
+
+  .peak-ie-loop > span small {
+    margin-top: 2px;
+    overflow: hidden;
+    color: #777;
+    font-size: 6px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .peak-ie-loop > em {
+    color: #2845d6;
+    font-size: 11px;
+    font-style: normal;
+  }
+
+  .peak-ie-loop-ready {
+    margin-top: auto;
+    padding: 9px;
+    border-radius: 5px;
+    background: #e6f4e9;
+    color: #26854a;
+    font-size: 7px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  @media (max-width: 479px) {
+    .peak-ie-card-checks {
+      gap: 3px;
+    }
+
+    .peak-ie-loop {
+      gap: 3px;
+    }
+
+    .peak-ie-loop > span {
+      padding-inline: 2px;
+    }
+  }
+</style>

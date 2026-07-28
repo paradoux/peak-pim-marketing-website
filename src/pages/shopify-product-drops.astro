@@ -1,0 +1,192 @@
+---
+import CardGrid from "../components/sections/CardGrid.astro";
+import CtaBanner from "../components/sections/CtaBanner.astro";
+import Faq from "../components/sections/Faq.astro";
+import FeatureGrid from "../components/sections/FeatureGrid.astro";
+import Hero from "../components/sections/Hero.astro";
+import LogoCloud from "../components/sections/LogoCloud.astro";
+import ProblemGrid from "../components/sections/ProblemGrid.astro";
+import DropsCardVisual from "../components/visuals/DropsCardVisual.astro";
+import DropsHeroVisual from "../components/visuals/DropsHeroVisual.astro";
+import { ctaLabels } from "../data/cta-copy";
+import LandingPageLayout from "../layouts/LandingPageLayout.astro";
+
+const appStoreUrl = "https://apps.shopify.com/peak-pim";
+
+const problems = [
+  {
+    icon: "clock",
+    title: "The sale starts when your team should be sleeping",
+    description: "Black Friday prices, flash sales, and product launches often mean someone is waiting to publish catalog changes at exactly the right minute.",
+  },
+  {
+    icon: "review",
+    title: "Ending the sale is another manual job",
+    description: "Every changed price, title, and compare-at price has to be remembered and restored without overwriting work that happened in the meantime.",
+  },
+  {
+    icon: "store",
+    title: "Each storefront adds another moving part",
+    description: "Regional prices, different launch copy, and local timing turn one campaign into a separate checklist for every Shopify store.",
+  },
+];
+
+const workflows = [
+  {
+    tagline: "Schedule",
+    title: "Stage any catalog change",
+    description: "Select products, variants, or collections in bulk edit and choose Schedule, or add one store-specific field change from an item's detail page.",
+  },
+  {
+    tagline: "Preview",
+    title: "See the exact live-to-scheduled diff",
+    description: "Review every item, store, field, current value, and scheduled value before the Drop starts. Conflicting overlapping changes are flagged up front.",
+  },
+  {
+    tagline: "Apply and restore",
+    title: "Schedule the undo too",
+    description: "Peak snapshots each live value, publishes the Drop to Shopify at the start time, then restores that captured value and republishes at the end.",
+  },
+];
+
+const dropFeatures = [
+  {
+    icon: "clock",
+    title: "Run a sale window or a scheduled launch",
+    description: "Add a start and end time for changes that revert automatically, or set only a start time when the new values should stay live.",
+  },
+  {
+    icon: "store",
+    title: "Publish different changes to every store",
+    description: "One Drop can change prices on one storefront, titles on another, and hundreds of other item-and-field combinations at the same moment.",
+  },
+  {
+    icon: "review",
+    title: "Restore the values that were truly live",
+    description: "Peak captures each field immediately before applying the Drop, so rollback returns the catalog to reality instead of an older assumed value.",
+  },
+  {
+    icon: "publish",
+    title: "Surface failures and keep retrying",
+    description: "Failed changes retry automatically. Persistent issues are flagged with Retry, Edit value & retry, Dismiss, and Retry all controls without blocking successful changes.",
+  },
+];
+
+const faqItems = [
+  {
+    question: "What is a Drop in Peak PIM?",
+    answer: "A Drop is a scheduled group of product, variant, or collection changes. It has a name, a start date and time, and an optional end date and time. Peak applies the changes at the start and, when an end is set, restores them automatically.",
+  },
+  {
+    question: "Can I use Drops for both sales and product launches?",
+    answer: "Yes. A time-boxed Drop has a start and end, which suits sales and temporary catalog changes. An open-ended Drop has only a start, which suits launches or permanent scheduled updates.",
+  },
+  {
+    question: "Which catalog fields can I schedule?",
+    answer: "Drops use the editable fields available in Peak PIM, including prices, compare-at prices, titles, and other product, variant, or collection fields. Each scheduled change targets one item, one store, one field, and one value.",
+  },
+  {
+    question: "Can one Drop update several Shopify stores?",
+    answer: "Yes. A single Drop can contain different changes for different stores and publish them at the same scheduled time. Every row in the preview identifies its target store.",
+  },
+  {
+    question: "What happens if two Drops overlap?",
+    answer: "If overlapping Drops try to change the same field on the same item and store, Peak PIM warns you about the conflict while the changes are being scheduled.",
+  },
+  {
+    question: "How does automatic rollback work?",
+    answer: "At the start time, Peak captures the current value of every field before changing it. At the end time, Peak restores those captured pre-Drop values and republishes them to Shopify.",
+  },
+  {
+    question: "Can I cancel a Drop?",
+    answer: "Yes. Cancel a scheduled Drop and it never applies. Cancel an active Drop and Peak immediately starts restoring the captured values, typically completing the restore within about 30 seconds.",
+  },
+  {
+    question: "What happens if Shopify rejects a scheduled change?",
+    answer: "Peak retries failed changes automatically with backoff, up to eight attempts. Persistent failures are shown in a needs-attention state with controls to retry, edit the value and retry, dismiss one change, or retry all.",
+  },
+  {
+    question: "Which timezone does a Drop use?",
+    answer: "Start and end times are entered in your own timezone, so the schedule matches the way your team plans each campaign or launch.",
+  },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
+---
+
+<LandingPageLayout
+  title="Shopify Product Drops & Scheduled Price Changes | Peak PIM"
+  description="Schedule Shopify product drops, sale prices, titles, and catalog changes across every store. Preview each change, publish on time, and revert automatically."
+  canonicalPath="/shopify-product-drops"
+  schemaType="SoftwareApplication"
+  additionalSchemas={[faqSchema]}
+  ogTitle="Schedule Shopify Product Drops and Automatic Rollbacks"
+  ogDescription="Stage catalog changes, preview every store-specific value, publish them to Shopify on schedule, and restore the original values automatically."
+>
+  <Hero
+    title="Schedule Shopify changes that undo themselves"
+    description="Plan Black Friday prices, flash sales, product launches, and seasonal catalog updates across every store. Peak PIM publishes each change at the start time and restores the live values automatically at the end."
+    primaryCta={{ label: ctaLabels.tryFree, href: appStoreUrl, external: true }}
+    secondaryCta={{ label: ctaLabels.seeHowItWorks, href: "#drops-workflow" }}
+  >
+    <DropsHeroVisual />
+  </Hero>
+
+  <LogoCloud />
+
+  <ProblemGrid
+    tagline="The midnight problem"
+    title="A campaign should not depend on alarms and cleanup"
+    description="Starting a catalog event is only half the job. The real risk is applying the right values everywhere, then returning each storefront to the state it was actually in."
+    items={problems}
+    link={{ label: ctaLabels.seeHowItWorks, href: "#drops-workflow" }}
+  />
+
+  <CardGrid
+    id="drops-workflow"
+    tagline="Set it and forget it"
+    title="Plan the change and its rollback together"
+    description="Build the Drop from the workflow you already use, inspect the full plan before it starts, and let Peak handle both scheduled moments."
+    cards={workflows}
+  >
+    <DropsCardVisual slot="visual-1" mode="schedule" />
+    <DropsCardVisual slot="visual-2" mode="preview" />
+    <DropsCardVisual slot="visual-3" mode="restore" />
+  </CardGrid>
+
+  <FeatureGrid
+    id="drop-safety"
+    tagline="Built for catalog operations"
+    title="On time across every store"
+    description="Drops publish precise catalog changes straight to Shopify, preserve the live values they replace, and make every failure visible."
+    features={dropFeatures}
+    cta={{ label: ctaLabels.talkToUs, href: "#", crisp: true }}
+  />
+
+  <CtaBanner
+    id="start"
+    title="Schedule the sale and the morning after"
+    description="Stage every price and product change, publish at the exact minute, and let Peak restore the storefront when the Drop ends."
+    primaryLabel={ctaLabels.tryFree}
+    primaryHref={appStoreUrl}
+    secondaryLabel={ctaLabels.bookDemo}
+    secondaryHref="#"
+    secondaryCrisp
+    trustLine="10-day free trial. Free setup. No credit card."
+  />
+
+  <Faq
+    id="faq"
+    title="Frequently asked questions"
+    description="Everything you need to know about scheduling Shopify product drops, sale windows, and automatic catalog rollbacks with Peak PIM."
+    items={faqItems}
+  />
+</LandingPageLayout>

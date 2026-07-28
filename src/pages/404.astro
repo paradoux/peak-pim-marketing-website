@@ -1,0 +1,43 @@
+---
+import Button from "../components/ui/Button.astro";
+import LandingPageLayout from "../layouts/LandingPageLayout.astro";
+---
+
+<LandingPageLayout
+  title="Page not found | Peak PIM"
+  description="The page you requested could not be found."
+  canonicalPath="/404"
+  noindex
+>
+  <header class="section_header26 peak-404">
+    <div class="padding-global">
+      <div class="container-large">
+        <div class="padding-section-large">
+          <div class="header26_component">
+            <div class="text-align-center">
+              <div class="max-width-large align-center">
+                <div class="margin-bottom margin-small">
+                  <h1 class="heading-style-h1">That page isn’t here</h1>
+                </div>
+                <p class="text-size-medium">The link may be outdated, or the page may have moved.</p>
+                <div class="margin-top margin-medium">
+                  <div class="button-group is-center">
+                    <Button href="/">Go to homepage</Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+</LandingPageLayout>
+
+<style>
+  .peak-404 .padding-section-large {
+    min-height: 70vh;
+    display: grid;
+    place-items: center;
+  }
+</style>

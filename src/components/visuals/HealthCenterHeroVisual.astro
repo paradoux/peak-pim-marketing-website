@@ -1,0 +1,435 @@
+---
+import ProductVisualFrame from "../ui/ProductVisualFrame.astro";
+---
+
+<ProductVisualFrame
+  ariaLabel="Peak PIM Health Center dashboard showing catalog issues by synchronization, consistency, completeness, translations, and unused items"
+  section="Health Center"
+  status="Last run · 2 min ago"
+  actionLabel="Run all"
+>
+  <div class="peak-health-workspace">
+    <aside class="peak-health-sidebar">
+      <strong>Catalog health</strong>
+      <span class="is-active"><i aria-hidden="true"></i>Overview</span>
+      <span><i aria-hidden="true"></i>Matches Shopify</span>
+      <span><i aria-hidden="true"></i>Completeness</span>
+      <span><i aria-hidden="true"></i>Translations</span>
+      <small>Multi-store</small>
+      <b>Value consistency</b>
+      <b>Structure consistency</b>
+    </aside>
+
+    <div class="peak-health-main">
+      <div class="peak-health-heading">
+        <div><small>Health Center</small><strong>Catalog check-up</strong></div>
+        <em>6 themes</em>
+      </div>
+
+      <div class="peak-health-summary">
+        <span><small>Checked records</small><strong>1,248</strong></span>
+        <span><small>Issues to review</small><strong>73</strong></span>
+        <span class="is-ready"><small>Up to date</small><strong>1,175</strong></span>
+      </div>
+
+      <div class="peak-health-grid">
+        <article>
+          <header><i class="is-blue" aria-hidden="true">↕</i><span><b>Matches Shopify</b><small>Products, variants, collections</small></span></header>
+          <div><strong>18</strong><span>need publishing</span></div>
+          <footer><span>Pending 12</span><span>Failed 2</span><span>Never 4</span></footer>
+        </article>
+        <article>
+          <header><i aria-hidden="true">≠</i><span><b>Value consistency</b><small>Across 3 stores</small></span></header>
+          <div><strong>7</strong><span>diverging records</span></div>
+          <footer><span>Prices</span><span>Titles</span><span>Descriptions</span></footer>
+        </article>
+        <article>
+          <header><i aria-hidden="true">⌘</i><span><b>Structure consistency</b><small>Metafields and metaobjects</small></span></header>
+          <div><strong>3</strong><span>coverage gaps</span></div>
+          <footer><span>Publish to missing stores</span></footer>
+        </article>
+        <article class="is-improving">
+          <header><i class="is-amber" aria-hidden="true">✓</i><span><b>Completeness</b><small>SEO, core, LLM, custom</small></span></header>
+          <div><strong><span class="before">24</span><span class="after">0</span></strong><span>missing fields</span></div>
+          <footer><span>Fill missing data</span><span class="is-fixed">Re-run</span></footer>
+        </article>
+        <article>
+          <header><i class="is-blue" aria-hidden="true">文</i><span><b>Translations</b><small>French and German</small></span></header>
+          <div><strong>12</strong><span>items incomplete</span></div>
+          <footer><span>Products 9</span><span>Collections 3</span></footer>
+        </article>
+        <article>
+          <header><i aria-hidden="true">⌫</i><span><b>Unused entities</b><small>Collections and files</small></span></header>
+          <div><strong>9</strong><span>safe to review</span></div>
+          <footer><span>Empty 4</span><span>Unused 5</span></footer>
+        </article>
+      </div>
+
+      <div class="peak-health-loop"><i aria-hidden="true">✓</i><span>Detect</span><b>→</b><span>Fix in place</span><b>→</b><span>Run again</span></div>
+    </div>
+  </div>
+</ProductVisualFrame>
+
+<style>
+  .peak-health-workspace {
+    display: grid;
+    min-height: 500px;
+    grid-template-columns: 164px minmax(0, 1fr);
+    background: #f6f3ec;
+  }
+
+  .peak-health-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 22px 14px;
+    border-right: 1px solid #e1ded7;
+    background: #fbfaf7;
+    color: #717171;
+    font-size: 9px;
+  }
+
+  .peak-health-sidebar > strong {
+    margin: 0 8px 8px;
+    color: #191919;
+    font-size: 10px;
+  }
+
+  .peak-health-sidebar > span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 8px;
+    border-radius: 5px;
+  }
+
+  .peak-health-sidebar > span i {
+    width: 6px;
+    height: 6px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: #bbb;
+  }
+
+  .peak-health-sidebar > span.is-active {
+    background: #e9edff;
+    color: #2845d6;
+    font-weight: 700;
+  }
+
+  .peak-health-sidebar > span.is-active i {
+    background: #2845d6;
+  }
+
+  .peak-health-sidebar > small {
+    margin: 13px 8px 0;
+    color: #999;
+    font-size: 8px;
+    text-transform: uppercase;
+  }
+
+  .peak-health-sidebar > b {
+    margin: 0 8px;
+    color: #555;
+    font-size: 8px;
+    font-weight: 600;
+  }
+
+  .peak-health-main {
+    min-width: 0;
+    padding: 24px;
+  }
+
+  .peak-health-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #dedbd4;
+  }
+
+  .peak-health-heading > div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .peak-health-heading small,
+  .peak-health-summary small {
+    color: #777;
+    font-size: 8px;
+  }
+
+  .peak-health-heading strong {
+    font-size: 13px;
+  }
+
+  .peak-health-heading > em {
+    padding: 5px 8px;
+    border-radius: 999px;
+    background: #eef1ff;
+    color: #2845d6;
+    font-size: 8px;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .peak-health-summary {
+    display: grid;
+    gap: 8px;
+    margin: 16px 0 12px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .peak-health-summary > span {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 9px 10px;
+    border: 1px solid #dedbd4;
+    border-radius: 6px;
+    background: #fff;
+  }
+
+  .peak-health-summary strong {
+    font-size: 11px;
+  }
+
+  .peak-health-summary .is-ready strong {
+    color: #26854a;
+  }
+
+  .peak-health-grid {
+    display: grid;
+    gap: 9px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .peak-health-grid article {
+    display: flex;
+    min-width: 0;
+    min-height: 132px;
+    flex-direction: column;
+    padding: 12px;
+    border: 1px solid #dedbd4;
+    border-radius: 7px;
+    background: #fff;
+  }
+
+  .peak-health-grid header {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .peak-health-grid header > i {
+    display: grid;
+    width: 24px;
+    height: 24px;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: 5px;
+    background: #f0eee8;
+    color: #555;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .peak-health-grid header > i.is-blue {
+    background: #e9edff;
+    color: #2845d6;
+  }
+
+  .peak-health-grid header > i.is-amber {
+    background: #fff0d7;
+    color: #976514;
+  }
+
+  .peak-health-grid header > span {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .peak-health-grid header b {
+    overflow: hidden;
+    font-size: 8px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .peak-health-grid header small {
+    overflow: hidden;
+    color: #888;
+    font-size: 6px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .peak-health-grid article > div {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    margin-top: auto;
+    padding: 10px 0 8px;
+  }
+
+  .peak-health-grid article > div > strong {
+    position: relative;
+    min-width: 21px;
+    color: #c24e43;
+    font-size: 16px;
+  }
+
+  .peak-health-grid article > div > span {
+    color: #777;
+    font-size: 7px;
+  }
+
+  .peak-health-grid footer {
+    display: flex;
+    min-width: 0;
+    gap: 4px;
+    overflow: hidden;
+  }
+
+  .peak-health-grid footer span {
+    overflow: hidden;
+    padding: 4px 5px;
+    border-radius: 3px;
+    background: #f3f1eb;
+    color: #777;
+    font-size: 6px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .peak-health-grid footer .is-fixed {
+    background: #eef7f0;
+    color: #32744a;
+  }
+
+  .peak-health-grid .is-improving .before,
+  .peak-health-grid .is-improving .after {
+    display: inline-block;
+    animation: peak-health-before 5s ease-in-out infinite;
+  }
+
+  .peak-health-grid .is-improving .after {
+    position: absolute;
+    left: 0;
+    opacity: 0;
+    color: #26854a;
+    animation-name: peak-health-after;
+  }
+
+  .peak-health-loop {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 9px 11px;
+    border-radius: 6px;
+    background: #eef7f0;
+    color: #32744a;
+    font-size: 8px;
+  }
+
+  .peak-health-loop i {
+    display: grid;
+    width: 17px;
+    height: 17px;
+    place-items: center;
+    border-radius: 50%;
+    background: #53a86d;
+    color: #fff;
+    font-size: 9px;
+    font-style: normal;
+  }
+
+  .peak-health-loop b {
+    color: #82a68e;
+  }
+
+  @keyframes peak-health-before {
+    0%, 48% { opacity: 1; transform: translateY(0); }
+    58%, 88% { opacity: 0; transform: translateY(-4px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes peak-health-after {
+    0%, 48% { opacity: 0; transform: translateY(4px); }
+    58%, 88% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(4px); }
+  }
+
+  @media (max-width: 767px) {
+    .peak-health-workspace {
+      min-height: 462px;
+      grid-template-columns: 1fr;
+    }
+
+    .peak-health-sidebar {
+      display: none;
+    }
+
+    .peak-health-main {
+      padding: 15px;
+    }
+
+    .peak-health-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .peak-health-grid article {
+      min-height: 120px;
+    }
+  }
+
+  @media (max-width: 479px) {
+    .peak-health-summary > span:nth-child(1) {
+      display: none;
+    }
+
+    .peak-health-summary {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .peak-health-grid article {
+      min-height: 112px;
+      padding: 9px;
+    }
+
+    .peak-health-grid header > i {
+      width: 21px;
+      height: 21px;
+    }
+
+    .peak-health-grid footer span:nth-child(n + 3) {
+      display: none;
+    }
+
+    .peak-health-loop {
+      gap: 5px;
+      font-size: 7px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .peak-health-grid .is-improving .before {
+      display: none;
+      animation: none;
+    }
+
+    .peak-health-grid .is-improving .after {
+      position: static;
+      opacity: 1;
+      animation: none;
+    }
+  }
+</style>

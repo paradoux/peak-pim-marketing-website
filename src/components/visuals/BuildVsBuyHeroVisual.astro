@@ -1,0 +1,258 @@
+---
+import ProductVisualFrame from "../ui/ProductVisualFrame.astro";
+
+const rows = [
+  { label: "Initial setup", build: "Plan and build", peak: "Connect Shopify" },
+  { label: "Catalog workflows", build: "Build each tool", peak: "Ready to use" },
+  { label: "API maintenance", build: "Your roadmap", peak: "Included" },
+  { label: "Time to operate", build: "Custom project", peak: "Minutes" },
+];
+---
+
+<ProductVisualFrame
+  ariaLabel="Comparison workspace showing an in-house Shopify PIM build beside Peak PIM"
+  section="Implementation comparison"
+  status="Catalog connected"
+  actionLabel="Review paths"
+>
+  <div class="build-buy-workspace">
+    <div class="build-buy-workspace__heading">
+      <div><strong>Choose how to run your catalog</strong><small>Matched against the same Shopify requirements</small></div>
+      <span>4 criteria</span>
+    </div>
+
+    <div class="build-buy-workspace__table">
+      <div class="build-buy-workspace__row is-header">
+        <span>Requirement</span><span>Build in-house</span><span>Peak PIM</span>
+      </div>
+      {rows.map((row, index) => (
+        <div class:list={["build-buy-workspace__row", index === rows.length - 1 && "is-summary"]}>
+          <strong>{row.label}</strong>
+          <span><i class="is-build" aria-hidden="true"></i>{row.build}</span>
+          <span><i class="is-peak" aria-hidden="true">✓</i>{row.peak}</span>
+        </div>
+      ))}
+    </div>
+
+    <div class="build-buy-workspace__footer">
+      <div><span>Selected path</span><strong>Peak PIM</strong></div>
+      <div class="build-buy-workspace__progress"><i></i></div>
+      <em>Ready to start</em>
+    </div>
+  </div>
+</ProductVisualFrame>
+
+<style>
+  .build-buy-workspace {
+    padding: 22px;
+    background: #fafafa;
+  }
+
+  .build-buy-workspace__heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3px 2px 18px;
+    border-bottom: 1px solid #e6e6e6;
+  }
+
+  .build-buy-workspace__heading div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .build-buy-workspace__heading strong {
+    font-size: 13px;
+  }
+
+  .build-buy-workspace__heading small,
+  .build-buy-workspace__heading span {
+    color: #777;
+    font-size: 9px;
+  }
+
+  .build-buy-workspace__heading span {
+    padding: 6px 8px;
+    border: 1px solid #dedede;
+    border-radius: 5px;
+    background: #fff;
+  }
+
+  .build-buy-workspace__table {
+    margin-top: 17px;
+    overflow: hidden;
+    border: 1px solid #dedede;
+    border-radius: 7px;
+    background: #fff;
+  }
+
+  .build-buy-workspace__row {
+    display: grid;
+    min-height: 52px;
+    align-items: center;
+    grid-template-columns: 1.05fr 1fr 1fr;
+    border-bottom: 1px solid #e9e9e9;
+    font-size: 10px;
+  }
+
+  .build-buy-workspace__row:last-child {
+    border-bottom: 0;
+  }
+
+  .build-buy-workspace__row > * {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 7px;
+    height: 100%;
+    padding: 0 12px;
+    border-right: 1px solid #ededed;
+  }
+
+  .build-buy-workspace__row > *:last-child {
+    border-right: 0;
+    background: #f7f8ff;
+  }
+
+  .build-buy-workspace__row.is-header {
+    min-height: 34px;
+    background: #f6f3ec;
+    color: #777;
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .build-buy-workspace__row.is-header > *:last-child {
+    color: #2845d6;
+  }
+
+  .build-buy-workspace__row.is-summary > *:last-child {
+    color: #26854a;
+    font-weight: 700;
+  }
+
+  .build-buy-workspace__row i {
+    display: grid;
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    place-items: center;
+    border-radius: 4px;
+    font-size: 8px;
+    font-style: normal;
+  }
+
+  .build-buy-workspace__row .is-build {
+    border: 1px solid #d8d8d8;
+    background: #f2f0eb;
+  }
+
+  .build-buy-workspace__row .is-build::before {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #999;
+    content: "";
+  }
+
+  .build-buy-workspace__row .is-peak {
+    background: #e9edff;
+    color: #2845d6;
+    font-weight: 800;
+  }
+
+  .build-buy-workspace__footer {
+    display: grid;
+    align-items: center;
+    gap: 12px;
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 6px;
+    background: #f6f3ec;
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .build-buy-workspace__footer div:first-child {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .build-buy-workspace__footer span,
+  .build-buy-workspace__footer em {
+    color: #777;
+    font-size: 8px;
+    font-style: normal;
+  }
+
+  .build-buy-workspace__footer strong {
+    font-size: 10px;
+  }
+
+  .build-buy-workspace__footer em {
+    color: #26854a;
+  }
+
+  .build-buy-workspace__progress {
+    height: 4px;
+    overflow: hidden;
+    border-radius: 99px;
+    background: #dedbd4;
+  }
+
+  .build-buy-workspace__progress i {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: #2845d6;
+    transform-origin: left;
+    animation: build-buy-progress 4s ease-in-out infinite;
+  }
+
+  @keyframes build-buy-progress {
+    0%, 15% { transform: scaleX(0.25); }
+    55%, 100% { transform: scaleX(1); }
+  }
+
+  @media (max-width: 767px) {
+    .build-buy-workspace {
+      padding: 14px;
+    }
+
+    .build-buy-workspace__heading small,
+    .build-buy-workspace__heading > span {
+      display: none;
+    }
+
+    .build-buy-workspace__row {
+      grid-template-columns: 0.9fr 1fr 1fr;
+      font-size: 8px;
+    }
+
+    .build-buy-workspace__row > * {
+      gap: 4px;
+      padding: 0 7px;
+    }
+
+    .build-buy-workspace__row i {
+      display: none;
+    }
+
+    .build-buy-workspace__footer {
+      grid-template-columns: auto 1fr;
+    }
+
+    .build-buy-workspace__footer em {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .build-buy-workspace__progress i {
+      animation: none;
+    }
+  }
+</style>

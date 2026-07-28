@@ -1,0 +1,42 @@
+---
+import Button from "../ui/Button.astro";
+import type { CtaLabel } from "../../data/cta-copy";
+
+type Cta = { label: CtaLabel; href: string; external?: boolean; crisp?: boolean };
+type Props = {
+  title: string;
+  description: string;
+  primaryCta: Cta;
+  secondaryCta?: Cta;
+  headingLevel?: "h1" | "h2";
+};
+
+const { title, description, primaryCta, secondaryCta, headingLevel = "h1" } = Astro.props;
+const Heading = headingLevel;
+---
+
+<header class="section_header1 peak-comparison-hero color-scheme-1">
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="padding-section-large">
+        <div class="header1_component peak-comparison-hero__component">
+          <div class="w-layout-grid header1_content peak-comparison-hero__content">
+            <div class="header1_content-left peak-comparison-hero__copy">
+              <div class="margin-bottom margin-small"><Heading class="heading-style-h1">{title}</Heading></div>
+              <p class="text-size-medium">{description}</p>
+              <div class="margin-top margin-medium">
+                <div class="button-group">
+                  <Button href={primaryCta.href} external={primaryCta.external} crisp={primaryCta.crisp}>{primaryCta.label}</Button>
+                  {secondaryCta && <Button href={secondaryCta.href} variant="secondary" external={secondaryCta.external} crisp={secondaryCta.crisp}>{secondaryCta.label}</Button>}
+                </div>
+              </div>
+            </div>
+            <div class="header1_image-wrapper peak-comparison-hero__visual">
+              <slot />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

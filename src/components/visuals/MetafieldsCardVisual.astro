@@ -1,0 +1,44 @@
+---
+type Props = { mode: "define" | "typed" | "publish" };
+const { mode } = Astro.props;
+
+const ariaLabels = {
+  define: "Metafield definition form showing a product metafield type and three selected Shopify stores",
+  typed: "Typed metafield editors showing color, date, weight, and list values",
+  publish: "Native Shopify metafield publishing results for United States, France, and Germany stores",
+};
+---
+
+<div class:list={["peak-mf-card", `is-${mode}`]} role="img" aria-label={ariaLabels[mode]}>
+  {mode === "define" && (
+    <div class="peak-mf-define">
+      <header><span><small>New definition</small><b>Product details</b></span><em>Account level</em></header>
+      <label><small>Name</small><b>Material</b></label>
+      <div class="peak-mf-pair"><label><small>Namespace and key</small><b>custom.material</b></label><label><small>Type</small><b>Single-line text</b></label></div>
+      <section><small>Available in stores</small><span><i>US</i><b>United States</b><mark>✓</mark></span><span><i>FR</i><b>France</b><mark>✓</mark></span><span><i>DE</i><b>Germany</b><mark>✓</mark></span></section>
+    </div>
+  )}
+  {mode === "typed" && (
+    <div class="peak-mf-typed">
+      <header><span><small>Product · Summit Shell</small><b>Metafields</b></span><em>All valid</em></header>
+      <label><span><small>Color</small><b><i class="color"></i>Alpine blue</b></span><em>Color</em></label>
+      <label><span><small>Release date</small><b>30 Jul 2026</b></span><em>Date</em></label>
+      <label><span><small>Shell weight</small><b>420 <i>g</i></b></span><em>Weight</em></label>
+      <label><span><small>Materials</small><b>Recycled nylon · Elastane</b></span><em>List</em></label>
+    </div>
+  )}
+  {mode === "publish" && (
+    <div class="peak-mf-publish">
+      <header><span><small>Publish definition</small><b>Material</b></span><em>Native Shopify metafield</em></header>
+      <div><i>US</i><span><b>United States</b><small>Definition and values</small></span><mark>Published</mark></div>
+      <div><i>FR</i><span><b>France</b><small>Definition and values</small></span><mark>Published</mark></div>
+      <div><i>DE</i><span><b>Germany</b><small>Definition and values</small></span><mark>Published</mark></div>
+      <footer><span>3 of 3 stores updated</span><b>View in Shopify →</b></footer>
+    </div>
+  )}
+</div>
+
+<style>
+  .peak-mf-card{box-sizing:border-box;width:100%;min-height:300px;padding:24px;background:radial-gradient(#333 1px,transparent 1px),#191919;background-size:18px 18px;color:#191919;font-family:Inter,Arial,sans-serif}.peak-mf-card>div{display:grid;gap:8px}.peak-mf-card header,.peak-mf-card label,.peak-mf-card section,.peak-mf-publish>div,.peak-mf-publish footer{border-radius:7px;background:#fff}.peak-mf-card header{display:flex;align-items:center;justify-content:space-between;padding:11px}.peak-mf-card header span{display:flex;flex-direction:column}.peak-mf-card small,.peak-mf-card em{color:#777;font-size:7px;font-style:normal}.peak-mf-card header b{font-size:10px}.peak-mf-card header>em{padding:5px 6px;border-radius:999px;background:#eef1ff;color:#2845d6}.peak-mf-card label{display:flex;flex-direction:column;gap:4px;padding:10px}.peak-mf-card label b{font-size:8px;font-weight:500}.peak-mf-pair{display:grid;gap:8px;grid-template-columns:1fr 1fr}.peak-mf-define section{display:grid;gap:5px;padding:10px}.peak-mf-define section>small{margin-bottom:2px}.peak-mf-define section>span{display:grid;align-items:center;gap:6px;padding:5px 7px;border-radius:5px;background:#f6f3ec;grid-template-columns:22px 1fr auto}.peak-mf-card section i,.peak-mf-publish>div>i{display:grid;width:22px;height:22px;place-items:center;border-radius:4px;background:#191919;color:#fff;font:normal 6px Inter,Arial,sans-serif}.peak-mf-define section b{font-size:7px}.peak-mf-card mark{background:none;color:#3d8c56;font-size:7px}.peak-mf-typed label{display:flex;flex-direction:row;align-items:center;justify-content:space-between}.peak-mf-typed label>span{display:flex;flex-direction:column;gap:4px}.peak-mf-typed label>em{padding:4px 5px;border-radius:999px;background:#f1eee7}.peak-mf-typed label b{display:flex;align-items:center;gap:5px}.peak-mf-typed label b i{color:#777;font-size:6px;font-style:normal}.peak-mf-typed .color{display:block;width:11px;height:11px;border-radius:3px;background:#2845d6}.peak-mf-publish>div{display:grid;align-items:center;gap:8px;padding:10px;grid-template-columns:24px 1fr auto}.peak-mf-publish>div span{display:flex;flex-direction:column}.peak-mf-publish>div b{font-size:8px}.peak-mf-publish>div mark{padding:5px 6px;border-radius:999px;background:#e5f1e8}.peak-mf-publish footer{display:flex;justify-content:space-between;padding:10px;color:#666;font-size:7px}.peak-mf-publish footer b{color:#2845d6;font-size:7px}
+  @media(max-width:479px){.peak-mf-card{padding:18px}.peak-mf-pair{grid-template-columns:1fr}.peak-mf-pair label:last-child{display:none}}
+</style>

@@ -1,0 +1,192 @@
+---
+import CardGrid from "../components/sections/CardGrid.astro";
+import CtaBanner from "../components/sections/CtaBanner.astro";
+import Faq from "../components/sections/Faq.astro";
+import FeatureGrid from "../components/sections/FeatureGrid.astro";
+import Hero from "../components/sections/Hero.astro";
+import LogoCloud from "../components/sections/LogoCloud.astro";
+import ProblemGrid from "../components/sections/ProblemGrid.astro";
+import ImportExportCardVisual from "../components/visuals/ImportExportCardVisual.astro";
+import ImportExportHeroVisual from "../components/visuals/ImportExportHeroVisual.astro";
+import { ctaLabels } from "../data/cta-copy";
+import LandingPageLayout from "../layouts/LandingPageLayout.astro";
+
+const appStoreUrl = "https://apps.shopify.com/peak-pim";
+
+const problems = [
+  {
+    icon: "file",
+    title: "Supplier files never look the same",
+    description: "Column names, worksheets, variant rows, prices, and product identifiers arrive in a different structure from every supplier.",
+  },
+  {
+    icon: "review",
+    title: "A blind re-import can change too much",
+    description: "Without a row-level preview, a missing value, invalid option, or wrong match can alter catalog data you did not intend to touch.",
+  },
+  {
+    icon: "store",
+    title: "More stores create more spreadsheets",
+    description: "Exporting, cleaning, and re-importing one storefront at a time turns a single catalog update into repeated manual work.",
+  },
+];
+
+const workflows = [
+  {
+    tagline: "Export",
+    title: "One workbook for every store",
+    description: "Choose one, several, or all stores, then export products, variants, collections, and the fields you need into one Excel workbook.",
+  },
+  {
+    tagline: "Import",
+    title: "Map any file to your catalog",
+    description: "Upload CSV or Excel, use a published sheet URL, join columns from other worksheets, and decide how every column should update Peak PIM.",
+  },
+  {
+    tagline: "Round trip",
+    title: "Turn a spreadsheet into a bulk editor",
+    description: "Export the Peak PIM ID, make changes in Excel or Google Sheets, then import the file back so every row matches its exact original record.",
+  },
+];
+
+const importSteps = [
+  {
+    icon: "file",
+    title: "Upload the file you already have",
+    description: "Drag in CSV or Excel, paste a published Google Sheet or CSV URL, select the worksheet with your rows, and join columns from other tabs when needed.",
+  },
+  {
+    icon: "search",
+    title: "Map columns and match records",
+    description: "Choose products, variants, or collections; update only or create missing items; map any editable field; set the match key; and select the target stores.",
+  },
+  {
+    icon: "review",
+    title: "Review every result before writing",
+    description: "Filter matched, unmatched, new, ambiguous, and invalid rows. See the exact catalog match and every before-to-after field change in one table.",
+  },
+  {
+    icon: "publish",
+    title: "Save to Peak or publish to Shopify",
+    description: "Commit only when the plan is ready. Save keeps changes in Peak PIM and creates new items as drafts; Save & Publish also pushes them to the selected stores.",
+  },
+];
+
+const faqItems = [
+  {
+    question: "Which file formats can I import?",
+    answer: "You can upload CSV and Excel files or paste a published Google Sheet or CSV URL. For multi-sheet Excel workbooks, choose the tab containing the main rows and join columns from other tabs onto it.",
+  },
+  {
+    question: "What can I export from Peak PIM?",
+    answer: "You can export products, variants, and collections from one, several, or all connected stores. Every field is included by default, including custom metafields, and you can remove columns you do not need.",
+  },
+  {
+    question: "Can one file update multiple Shopify stores?",
+    answer: "Yes. Select the target stores for the import, or map a column in the file so each row specifies its own store or stores. Exports can also combine multiple stores in one workbook, with every row labeled by store.",
+  },
+  {
+    question: "How does Peak PIM match spreadsheet rows to existing items?",
+    answer: "Choose a file column and the catalog field it should match, such as SKU, barcode, handle, Shopify ID, or Peak PIM ID. Ambiguous and unmatched rows can be linked manually from the review table.",
+  },
+  {
+    question: "Can an import create products and variants as well as update them?",
+    answer: "Yes. An import can update existing items only, or create new products and variants from unmatched rows. New multi-variant products can be grouped by a file column, and new variants can be attached to existing products.",
+  },
+  {
+    question: "Can I import metafields, market prices, and variant options?",
+    answer: "Yes. File columns can map to editable core fields, custom metafields, per-market prices, and variant options. Columns you do not map are ignored.",
+  },
+  {
+    question: "Will anything change while I configure the import?",
+    answer: "No. Uploading, mapping, matching, and reviewing are a dry run. Peak PIM does not write to the catalog until you choose Save or Save & Publish on the final step.",
+  },
+  {
+    question: "How does the export and import round trip work?",
+    answer: "Include the optional Peak PIM ID column in your export, edit the workbook in Excel or Google Sheets, and import it again. The ID sends each row back to the exact record it came from without configuring another match key.",
+  },
+  {
+    question: "Can I export only the products shown in a filtered view?",
+    answer: "Yes. The bulk-edit grid also provides a filtered CSV export containing exactly the rows and filters in the current view.",
+  },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
+---
+
+<LandingPageLayout
+  title="Shopify Product Import & Export | Peak PIM"
+  description="Import CSV, Excel, supplier files, and Google Sheets into your Shopify PIM with a full preview. Export products, variants, collections, and metafields from every store."
+  canonicalPath="/shopify-product-import-export"
+  schemaType="SoftwareApplication"
+  additionalSchemas={[faqSchema]}
+  ogTitle="Safe Shopify Product Import & Export"
+  ogDescription="Move Shopify catalog data in and out with configurable exports, guided mapping, before-and-after review, and multi-store publishing."
+>
+  <Hero
+    title="Import and export your whole Shopify catalog"
+    description="Bring supplier spreadsheets into Peak PIM, map every column, preview every change, and publish when you are ready. Or export products, variants, collections, and metafields from every store into one Excel workbook."
+    primaryCta={{ label: ctaLabels.tryFree, href: appStoreUrl, external: true }}
+    secondaryCta={{ label: ctaLabels.seeHowItWorks, href: "#import-export-workflow" }}
+  >
+    <ImportExportHeroVisual />
+  </Hero>
+
+  <LogoCloud />
+
+  <ProblemGrid
+    tagline="The spreadsheet problem"
+    title="Spreadsheets are useful. Blind imports are not."
+    description="Catalog teams need the flexibility of a spreadsheet without guessing what an import will overwrite, miss, or publish."
+    items={problems}
+    link={{ label: ctaLabels.seeHowItWorks, href: "#import-export-workflow" }}
+  />
+
+  <CardGrid
+    id="import-export-workflow"
+    tagline="Move data both ways"
+    title="A controlled path in and out of your PIM"
+    description="Export a catalog you can actually work with, import the file structure you already receive, and keep a reliable link back to every product record."
+    cards={workflows}
+  >
+    <ImportExportCardVisual slot="visual-1" mode="export" />
+    <ImportExportCardVisual slot="visual-2" mode="import" />
+    <ImportExportCardVisual slot="visual-3" mode="roundtrip" />
+  </CardGrid>
+
+  <FeatureGrid
+    id="safe-import"
+    tagline="Safe by design"
+    title="A dry run until you commit"
+    description="The four-step import wizard separates setup from execution. Nothing writes while you upload, map, match, or review."
+    features={importSteps}
+    cta={{ label: ctaLabels.talkToUs, href: "#", crisp: true }}
+  />
+
+  <CtaBanner
+    id="start"
+    title="Move your catalog without the guesswork"
+    description="Export the fields you need, import the files you already use, and review every change before it reaches Shopify."
+    primaryLabel={ctaLabels.tryFree}
+    primaryHref={appStoreUrl}
+    secondaryLabel={ctaLabels.bookDemo}
+    secondaryHref="#"
+    secondaryCrisp
+    trustLine="10-day free trial. Free setup. No credit card."
+  />
+
+  <Faq
+    id="faq"
+    title="Frequently asked questions"
+    description="Everything you need to know about importing and exporting Shopify catalog data with Peak PIM."
+    items={faqItems}
+  />
+</LandingPageLayout>

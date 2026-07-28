@@ -11,6 +11,9 @@ export const assets = {
     skiBackpackBlack: "/assets/product-ui/ski-traverse-30l-backpack-black.webp",
     nordicBootBlack: "/assets/product-ui/nordic-flr-boot-black.webp",
   },
+  marketing: {
+    buildVsBuyOg: "/og-build-vs-buy-pim.png",
+  },
   testimonials: {
     amelieSamson: "/assets/testimonials/amelie-samson.jpg",
     simonTordjman: "/assets/testimonials/simon-tordjman-du-bruit-dans-la-cuisine.webp",
