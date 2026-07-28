@@ -1,25 +1,27 @@
 ---
 import Button from "../ui/Button.astro";
 import PeakIcon from "../ui/PeakIcon.astro";
+import type { CtaLabel } from "../../data/cta-copy";
 
 type IconName = "clock" | "file" | "store" | "edit" | "code" | "image" | "grid" | "search" | "review" | "publish";
 type Feature = { icon: IconName; title: string; description: string };
 type Props = {
+  id?: string;
   tagline?: string;
   title: string;
   description?: string;
   features: Feature[];
-  cta?: { label: string; href: string; crisp?: boolean };
+  cta?: { label: CtaLabel; href: string; crisp?: boolean };
 };
 
-const { tagline, title, description, features, cta } = Astro.props;
+const { id, tagline, title, description, features, cta } = Astro.props;
 
 if (features.length !== 4) {
   throw new Error(`FeatureGrid requires exactly four features; received ${features.length}.`);
 }
 ---
 
-<section class="section_layout353 peak-feature-grid color-scheme-1">
+<section id={id} class="section_layout353 peak-feature-grid color-scheme-1">
   <div class="padding-global">
     <div class="container-large">
       <div class="padding-section-large">

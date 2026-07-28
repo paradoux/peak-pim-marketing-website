@@ -1,0 +1,192 @@
+---
+import CardGrid from "../components/sections/CardGrid.astro";
+import CtaBanner from "../components/sections/CtaBanner.astro";
+import Faq from "../components/sections/Faq.astro";
+import FeatureGrid from "../components/sections/FeatureGrid.astro";
+import Hero from "../components/sections/Hero.astro";
+import LogoCloud from "../components/sections/LogoCloud.astro";
+import ProblemGrid from "../components/sections/ProblemGrid.astro";
+import HealthCenterCardVisual from "../components/visuals/HealthCenterCardVisual.astro";
+import HealthCenterHeroVisual from "../components/visuals/HealthCenterHeroVisual.astro";
+import { ctaLabels } from "../data/cta-copy";
+import LandingPageLayout from "../layouts/LandingPageLayout.astro";
+
+const appStoreUrl = "https://apps.shopify.com/peak-pim";
+
+const problems = [
+  {
+    icon: "search",
+    title: "Catalog problems hide between systems",
+    description: "A product can look complete in one store while another store has an older value, a failed publish, an empty field, or a missing definition.",
+  },
+  {
+    icon: "store",
+    title: "Multi-store drift is hard to see",
+    description: "Intentional regional differences and accidental inconsistencies appear identical until every field and structure is compared store by store.",
+  },
+  {
+    icon: "edit",
+    title: "An audit without repair creates more work",
+    description: "Exporting a report only starts another hunt through products, collections, translations, files, and storefronts to make each correction.",
+  },
+];
+
+const workflow = [
+  {
+    tagline: "Detect",
+    title: "Run the checks that matter now",
+    description: "Run one health theme or Run all. Results remain available with their last-run time until you choose to analyze the catalog again.",
+  },
+  {
+    tagline: "Drill down",
+    title: "See every issue in context",
+    description: "Open a theme to filter the exact records, stores, fields, definitions, languages, collections, or files behind its count.",
+  },
+  {
+    tagline: "Fix and re-run",
+    title: "Repair the catalog in place",
+    description: "Publish, harmonize, fill, dismiss, or delete from the same workflow, then run the analysis again and watch the issue count fall.",
+  },
+];
+
+const healthFeatures = [
+  {
+    icon: "publish",
+    title: "Find what does not match Shopify",
+    description: "Check products, variants, collections, files, and metafield definitions across stores. Filter pending, failed, and never-published records, then publish selected rows.",
+  },
+  {
+    icon: "store",
+    title: "Compare values and structures across stores",
+    description: "Choose which fields must match, review values side by side, adopt one store everywhere, edit individual values, publish missing definitions, or dismiss an intentional difference.",
+  },
+  {
+    icon: "review",
+    title: "Measure completeness by your standards",
+    description: "Check SEO, core product data, AI-shopping fields, or a custom checklist that includes your metafields. Fill each missing value and save as draft or publish.",
+  },
+  {
+    icon: "file",
+    title: "Finish translations and remove dead weight",
+    description: "Find untranslated and partially translated items, then review empty collections and unused files. Deletion stays scoped to the stores where an entity is truly unused and is verified again first.",
+  },
+];
+
+const faqItems = [
+  {
+    question: "What does Health Center check?",
+    answer: "Health Center checks six dimensions: whether Peak matches Shopify, cross-store value consistency, cross-store structure consistency, field completeness, translation completeness, and unused collections or files.",
+  },
+  {
+    question: "Does Health Center run continuously in the background?",
+    answer: "No. You run one theme or choose Run all when you need a current check. Each result and its timestamp remain available until the next analysis, so the dashboard does not constantly churn through the catalog.",
+  },
+  {
+    question: "Does every merchant see all six health themes?",
+    answer: "No. Health Center adapts to the account. Single-store accounts do not see cross-store checks, and the Translations theme appears only when a store sells in additional languages.",
+  },
+  {
+    question: "How does Health Center identify unpublished changes?",
+    answer: "For products, variants, collections, files, and metafield definitions on each store, Health Center separates items into Pending, Failed, and Never published. Select rows and publish them directly from the results.",
+  },
+  {
+    question: "Can I choose which fields should match across stores?",
+    answer: "Yes. Use a preset or create a custom field selection. In the Harmonize view, adopt one store as the source for every difference, edit any store value individually, or choose Leave as is when a difference is intentional.",
+  },
+  {
+    question: "What counts as a complete product?",
+    answer: "You choose the standard. Health Center includes SEO, core, and LLM-focused checklists, plus a custom checklist where you can include your own fields and metafields.",
+  },
+  {
+    question: "What does the LLM completeness check cover?",
+    answer: "The LLM theme checks product information that helps AI shopping assistants understand and match products, including descriptions, product type, category, and tags.",
+  },
+  {
+    question: "Can Health Center fix translation gaps?",
+    answer: "The Translations theme shows the overall completion level, fully untranslated items, partially translated items, and differences between stores. Each result links directly to that item's Translations tab for repair.",
+  },
+  {
+    question: "How safely does Health Center delete unused items?",
+    answer: "An empty collection is removed only from stores where it has no products and retained where it is still used. Peak re-verifies every collection or file immediately before deletion, whether you delete one row, a selection, or all candidates.",
+  },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
+---
+
+<LandingPageLayout
+  title="Shopify Catalog Health Center | Peak PIM"
+  description="Find and fix Shopify catalog issues across synchronization, stores, completeness, translations, collections, and files from one configurable health dashboard."
+  canonicalPath="/shopify-catalog-health-center"
+  schemaType="SoftwareApplication"
+  additionalSchemas={[faqSchema]}
+  ogTitle="Find and Fix Shopify Catalog Health Issues"
+  ogDescription="Run catalog checks on demand, inspect every issue in context, repair it in place, and re-run to keep every Shopify store healthy."
+>
+  <Hero
+    title="Find and fix every Shopify catalog issue"
+    description="Check publish state, cross-store consistency, completeness, translations, empty collections, and unused files from one dashboard, then repair each problem without leaving Health Center."
+    primaryCta={{ label: ctaLabels.tryFree, href: appStoreUrl, external: true }}
+    secondaryCta={{ label: ctaLabels.seeHowItWorks, href: "#health-workflow" }}
+  >
+    <HealthCenterHeroVisual />
+  </Hero>
+
+  <LogoCloud />
+
+  <ProblemGrid
+    tagline="Catalog check-up"
+    title="Know what is wrong and fix it in the same place"
+    description="Health Center turns six separate catalog questions into one repeatable loop: detect the issue, understand it, repair it, and verify the result."
+    items={problems}
+    link={{ label: ctaLabels.seeHowItWorks, href: "#health-workflow" }}
+  />
+
+  <CardGrid
+    id="health-workflow"
+    tagline="Detect, fix, repeat"
+    title="A repair shop for your catalog"
+    description="Run an analysis when you need it, keep the latest results in view, and move from a health count to the exact corrective action."
+    cards={workflow}
+  >
+    <HealthCenterCardVisual slot="visual-1" mode="detect" />
+    <HealthCenterCardVisual slot="visual-2" mode="drill" />
+    <HealthCenterCardVisual slot="visual-3" mode="fix" />
+  </CardGrid>
+
+  <FeatureGrid
+    id="health-dimensions"
+    tagline="Six health dimensions"
+    title="One answer to “is my catalog okay?”"
+    description="Health Center measures the standards your team chooses, adapts to the stores and languages you actually use, and separates real issues from deliberate differences."
+    features={healthFeatures}
+    cta={{ label: ctaLabels.talkToUs, href: "#", crisp: true }}
+  />
+
+  <CtaBanner
+    id="start"
+    title="Keep your catalog healthy as it changes"
+    description="Run every check, repair the issues that matter, and verify the result across products, stores, languages, collections, and files."
+    primaryLabel={ctaLabels.tryFree}
+    primaryHref={appStoreUrl}
+    secondaryLabel={ctaLabels.bookDemo}
+    secondaryHref="#"
+    secondaryCrisp
+    trustLine="10-day free trial. Free setup. No credit card."
+  />
+
+  <Faq
+    id="faq"
+    title="Frequently asked questions"
+    description="Everything you need to know about monitoring and repairing Shopify catalog health with Peak PIM."
+    items={faqItems}
+  />
+</LandingPageLayout>

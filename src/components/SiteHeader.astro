@@ -1,13 +1,68 @@
 ---
 import { getSharedHeaderHtml } from "../lib/page-source";
+import { featureNavigationGroups } from "../data/site-navigation";
 
-const headerHtml = getSharedHeaderHtml().replace(
-  '<a href="https://apps.shopify.com/peak-pim/reviews" target="_blank" class="navbar10_link w-nav-link">Reviews</a>',
-  '<a href="https://apps.shopify.com/peak-pim/reviews" target="_blank" class="navbar10_link w-nav-link">Reviews</a><a href="https://help.peak-pim.com/en/" target="_blank" rel="noopener" class="navbar10_link w-nav-link">Help Center</a>',
-).replace(
-  '<a href="/pricing" class="navbar10_link w-nav-link">Pricing</a>',
-  '<a href="/pricing/" class="navbar10_link w-nav-link">Pricing</a>',
+function escapeHtml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+const featureGroupsHtml = featureNavigationGroups.filter((group) => group.label !== "Solutions").map((group) => `
+  <section class="feature-mega-menu__group" aria-labelledby="feature-group-${group.label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}">
+    <div class="feature-mega-menu__group-heading">
+      <span class="feature-mega-menu__marker" aria-hidden="true"></span>
+      <div>
+        <div id="feature-group-${group.label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}" class="feature-mega-menu__title">${escapeHtml(group.label)}</div>
+        <p class="feature-mega-menu__group-description">${escapeHtml(group.description)}</p>
+      </div>
+    </div>
+    <div class="feature-mega-menu__links">
+      ${group.links.map((link) => `
+        <a href="${escapeHtml(link.href)}" class="feature-mega-menu__link">
+          <span class="feature-mega-menu__link-title">${escapeHtml(link.label)}</span>
+          <span class="feature-mega-menu__link-description">${escapeHtml(link.description ?? "")}</span>
+        </a>
+      `).join("")}
+    </div>
+  </section>
+`).join("");
+
+const featureMenuHtml = `
+  <nav class="navbar10_dropdown-list w-dropdown-list" id="w-dropdown-list-0" aria-labelledby="w-dropdown-toggle-0" aria-label="Peak PIM features" style="opacity: 0;">
+    <div class="navbar10_container">
+      <div class="feature-mega-menu">
+        <div class="feature-mega-menu__intro">
+          <span class="feature-mega-menu__eyebrow">One Shopify PIM. Every catalog workflow.</span>
+          <p>Connect all your stores, plug in your stack, and run your entire catalog from one place.</p>
+        </div>
+        <div class="feature-mega-menu__grid">${featureGroupsHtml}</div>
+      </div>
+    </div>
+  </nav>
+`;
+
+const sharedHeaderHtml = getSharedHeaderHtml();
+const headerWithFeatureMenu = sharedHeaderHtml.replace(
+  /<nav class="navbar10_dropdown-list w-dropdown-list"[\s\S]*?<\/nav>/,
+  featureMenuHtml,
 );
+
+if (headerWithFeatureMenu === sharedHeaderHtml) {
+  throw new Error("The shared Features menu could not be replaced.");
+}
+
+const headerHtml = headerWithFeatureMenu
+  .replace(
+    '<a href="https://apps.shopify.com/peak-pim/reviews" target="_blank" class="navbar10_link w-nav-link">Reviews</a>',
+    '<a href="https://apps.shopify.com/peak-pim/reviews" target="_blank" class="navbar10_link w-nav-link">Reviews</a><a href="https://help.peak-pim.com/en/" target="_blank" rel="noopener" class="navbar10_link w-nav-link">Help Center</a>',
+  )
+  .replace(
+    '<a href="/pricing" class="navbar10_link w-nav-link">Pricing</a>',
+    '<a href="/pricing/" class="navbar10_link w-nav-link">Pricing</a>',
+  );
 ---
 
 <div class="site-header" set:html={headerHtml} />
@@ -29,6 +84,23 @@ const headerHtml = getSharedHeaderHtml().replace(
     var menu = header.querySelector(".navbar10_menu");
     var overlay = header.querySelector(".w-nav-overlay");
     var closeTimer;
+    var scrollFrame;
+
+    function updateScrolledState() {
+      header.classList.toggle("is-scrolled", window.scrollY > 4);
+      scrollFrame = undefined;
+    }
+
+    function handleScroll() {
+      if (scrollFrame) {
+        return;
+      }
+
+      scrollFrame = window.requestAnimationFrame(updateScrolledState);
+    }
+
+    updateScrolledState();
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     function openDropdown() {
       window.clearTimeout(closeTimer);
@@ -60,6 +132,10 @@ const headerHtml = getSharedHeaderHtml().replace(
       closeTimer = window.setTimeout(closeDropdown, 160);
     }
 
+    function isDesktopNavigation() {
+      return window.matchMedia("(min-width: 992px)").matches;
+    }
+
     function setMobileMenu(open) {
       if (!menuButton || !menu || !overlay) {
         return;
@@ -78,21 +154,30 @@ const headerHtml = getSharedHeaderHtml().replace(
     }
 
     if (dropdown && toggle && list) {
-      dropdown.addEventListener("mouseenter", openDropdown);
-      dropdown.addEventListener("mouseleave", scheduleDropdownClose);
+      dropdown.addEventListener("mouseenter", function() {
+        if (isDesktopNavigation()) {
+          openDropdown();
+        }
+      });
+      dropdown.addEventListener("mouseleave", function() {
+        if (isDesktopNavigation()) {
+          scheduleDropdownClose();
+        }
+      });
       toggle.addEventListener("click", function(event) {
         event.preventDefault();
-        event.stopPropagation();
+        event.stopImmediatePropagation();
 
         if (list.classList.contains("w--open")) {
           closeDropdown();
         } else {
           openDropdown();
         }
-      });
+      }, true);
       toggle.addEventListener("keydown", function(event) {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
+          event.stopImmediatePropagation();
           openDropdown();
         }
 
@@ -112,8 +197,9 @@ const headerHtml = getSharedHeaderHtml().replace(
     if (menuButton && menu && overlay) {
       menuButton.addEventListener("click", function(event) {
         event.preventDefault();
+        event.stopImmediatePropagation();
         setMobileMenu(!menuButton.classList.contains("w--open"));
-      });
+      }, true);
     }
 
     document.addEventListener("click", function(event) {

@@ -8,6 +8,14 @@ Peak PIM helps Shopify teams:
 - Bulk edit products, variants, metafields, collections, SEO fields, and media.
 - Sync product data back to Shopify without CSV exports.
 - Organize product images, videos, and files in a shared media library.
+- Import supplier CSV, Excel, and Google Sheets files with a before-and-after review, and export multiple stores into one workbook.
+- Schedule product drops, sale prices, and catalog changes that publish and revert automatically.
+- Check and repair catalog health across Shopify synchronization, stores, completeness, translations, collections, and files.
+- Connect compatible AI assistants to search, compare, draft, and publish catalog work through controlled MCP permissions.
+- Build catalog integrations with an API for master data, store versions, validated updates, and multi-store publishing.
+- Define, edit, localize, import, and publish Shopify metaobject definitions and entries across connected stores.
+- Define synced Shopify metafields and private PIM-only custom fields with typed inputs, validation, multi-store coverage, and bulk workflows.
+- Give catalog teams and agencies individual Peak PIM access with user roles, permissions, and multi-store scope.
 - Set up from the Shopify App Store with a one-click connection.
 
 ## Primary Pages
@@ -20,6 +28,25 @@ Peak PIM helps Shopify teams:
 - [Shopify multi-store PIM](https://peak-pim.com/shopify-multi-store-pim/)
 - [Shopify media management](https://peak-pim.com/shopify-media-management/)
 - [Shopify PIM alternatives](https://peak-pim.com/shopify-pim-alternatives/)
+- [Shopify product translations](https://peak-pim.com/shopify-pim-translations/)
+- [Shopify product import and export](https://peak-pim.com/shopify-product-import-export/)
+- [Shopify product drops and scheduled price changes](https://peak-pim.com/shopify-product-drops/)
+- [Shopify catalog Health Center](https://peak-pim.com/shopify-catalog-health-center/)
+- [AI catalog connector](https://peak-pim.com/ai-catalog-connector/)
+- [Developer API](https://peak-pim.com/api/)
+- [Shopify metaobjects](https://peak-pim.com/shopify-metaobjects/)
+- [Shopify metafield management](https://peak-pim.com/shopify-metafield-management/)
+- [Shopify custom fields and metafields](https://peak-pim.com/shopify-custom-fields/)
+- [User roles and permissions](https://peak-pim.com/user-roles-permissions/)
+
+## Current Pricing
+
+Pricing last reviewed on 2026-07-24. The pricing page is the source of truth.
+
+- Core: $99 per month or $990 per year. Includes 1,500 SKUs, 2 connected Shopify stores, 3 seats, and 100GB files.
+- Elite: $249 per month or $2,490 per year. Includes 5,000 SKUs, 3 connected Shopify stores, 15 seats, and 500GB files.
+- Enterprise: Custom pricing with custom SKU, Shopify store, seat, and file limits. Includes free setup, full onboarding, and dedicated support.
+- Every plan includes free setup and a 10-day free trial. No credit card is required for the trial.
 
 ## Current Pricing
 
@@ -36,6 +63,7 @@ Pricing last reviewed on 2026-07-24. The pricing page is the source of truth.
 
 ## Comparisons
 
+- [Build vs buy a Shopify PIM](https://peak-pim.com/build-vs-buy-pim/)
 - [Peak PIM vs Akeneo](https://peak-pim.com/vs/akeneo/)
 - [Peak PIM vs Catsy](https://peak-pim.com/vs/catsy/)
 - [Peak PIM vs Plytix](https://peak-pim.com/vs/plytix/)

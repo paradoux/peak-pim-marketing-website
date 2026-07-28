@@ -4,6 +4,15 @@ const pages = [
   { name: "catalogue", path: "/design-system" },
   { name: "bulk-edit", path: "/bulk-edit" },
   { name: "translations", path: "/shopify-pim-translations" },
+  { name: "import-export", path: "/shopify-product-import-export" },
+  { name: "drops", path: "/shopify-product-drops" },
+  { name: "health-center", path: "/shopify-catalog-health-center" },
+  { name: "ai-connector", path: "/ai-catalog-connector" },
+  { name: "developer-api", path: "/api" },
+  { name: "metaobjects", path: "/shopify-metaobjects" },
+  { name: "metafields", path: "/shopify-metafield-management" },
+  { name: "custom-fields", path: "/shopify-custom-fields" },
+  { name: "roles-permissions", path: "/user-roles-permissions" },
 ] as const;
 
 const viewports = [
@@ -31,19 +40,207 @@ for (const target of pages) {
   }
 }
 
+test("homepage · hero CTA pair is responsive and uses canonical actions", async ({ page }) => {
+  for (const width of [1440, 768, 375]) {
+    await prepare(page, "/", width, 1000);
+    const hero = page.locator(".section_landing-big_hero-header");
+    const actions = hero.locator(".button-group.is-center .button");
+    await expect(actions).toHaveCount(2);
+    await expect(actions).toHaveText(["Try for free", "Book a demo"]);
+    await expect(actions.nth(0)).toHaveAttribute("href", "https://apps.shopify.com/peak-pim");
+    await expect(actions.nth(1)).toHaveAttribute("data-open-crisp", "");
+    await expect(actions.nth(0)).toBeVisible();
+    await expect(actions.nth(1)).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+  }
+});
+
+test("global navigation · every feature is grouped and reachable", async ({ page }) => {
+  const featurePaths = [
+    "/1-click-setup",
+    "/shopify-sync",
+    "/ai-catalog-connector",
+    "/api",
+    "/shopify-multi-store-pim",
+    "/bulk-edit",
+    "/shopify-product-import-export",
+    "/shopify-media-management",
+    "/shopify-pim-translations",
+    "/shopify-metaobjects",
+    "/shopify-metafield-management",
+    "/shopify-custom-fields",
+    "/shopify-product-drops",
+    "/shopify-catalog-health-center",
+    "/user-roles-permissions",
+    "/industry/fashion",
+  ];
+
+  for (const width of [1440, 992, 768, 560, 375]) {
+    await prepare(page, "/", width, 1000);
+    const header = page.locator(".site-header");
+    const featureToggle = header.locator(".navbar10_dropdown-toggle");
+
+    if (width <= 991) {
+      await header.locator(".navbar10_menu-button").click();
+    }
+
+    await featureToggle.focus();
+    await featureToggle.press("Enter");
+    await expect(featureToggle).toHaveAttribute("aria-expanded", "true");
+    await expect(header.locator(".feature-mega-menu__title")).toHaveText(["Connect", "Operate", "Manage & Enrich"]);
+    await expect(header.locator('.feature-mega-menu__group[aria-labelledby="feature-group-operate"] .feature-mega-menu__link-title')).toHaveText([
+      "Multi-store",
+      "Bulk edit",
+      "Import & export",
+      "Media management",
+      "Drops",
+      "Health Center",
+      "Users & permissions",
+    ]);
+
+    for (const path of featurePaths) {
+      if (path !== "/industry/fashion") {
+        await expect(header.locator(`.feature-mega-menu__link[href="${path}"]`)).toHaveCount(1);
+      }
+      await expect(page.locator(`.site-footer a[href="${path}"]`)).toHaveCount(1);
+    }
+
+    await expect(header.locator('.feature-mega-menu__group[aria-labelledby="feature-group-manage-enrich"] .feature-mega-menu__link-title')).toHaveText([
+      "Metafields",
+      "Metaobjects",
+      "Translations",
+      "Custom fields",
+    ]);
+    await expect(header.locator('.feature-mega-menu__link[href="/industry/fashion"]')).toHaveCount(0);
+
+    const footer = page.locator(".site-footer");
+    await expect(footer.locator(".footer1_link-column")).toHaveCount(5);
+    await expect(footer.locator(".site-footer__feature-category-title")).toHaveText(["Connect", "Operate", "Manage & Enrich"]);
+    await expect(footer.locator('.site-footer__feature-category:nth-child(3) .footer1_link')).toHaveText([
+      "Metafields",
+      "Metaobjects",
+      "Translations",
+      "Custom fields",
+    ]);
+    await expect(footer.locator(".site-footer__solutions-column")).toContainText("Fashion");
+    await expect(footer.locator(".site-footer__column-heading")).toHaveText(["Features", "Solutions", "Compare", "Peak", "Connect"]);
+    await expect(footer.locator(".site-footer__heading-marker")).toHaveCount(5);
+    await expect(footer.locator(".footer1_social-link")).toHaveCount(6);
+    await expect(footer.locator(".footer1_social-link .icon-embed-xsmall")).toHaveCount(6);
+    const footerColumns = await footer.locator(".footer1_menu-wrapper").evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(" ").length);
+    const featureColumns = await footer.locator(".site-footer__feature-categories").evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(" ").length);
+    expect(footerColumns).toBe(width >= 992 ? 4 : width >= 768 ? 2 : 1);
+    expect(featureColumns).toBe(width >= 992 ? 3 : width > 560 ? 2 : 1);
+
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+  }
+});
+
+test("import-export · responsive workflow and product contract", async ({ page }) => {
+  for (const width of [1440, 992, 768, 767, 375]) {
+    await prepare(page, "/shopify-product-import-export", width, 1000);
+    await expect(page.locator("h1")).toHaveCount(1);
+    await expect(page.locator(".peak-card-grid__card")).toHaveCount(3);
+    await expect(page.locator(".peak-feature-grid__card")).toHaveCount(4);
+    await expect(page.getByRole("img", { name: "Peak PIM import review showing a supplier spreadsheet mapped to catalog records with before and after changes" })).toHaveCount(1);
+    await expect(page.locator(".peak-hero__visual img, .peak-card-grid__visual img")).toHaveCount(0);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+  }
+
+  await prepare(page, "/shopify-product-import-export", 1440, 1000);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page.locator(".peak-ie-row").nth(1)).toHaveCSS("animation-name", "none");
+  const firstQuestion = page.locator(".peak-faq__question").first();
+  await firstQuestion.focus();
+  await firstQuestion.press("Enter");
+  await expect(firstQuestion).toHaveAttribute("aria-expanded", "true");
+});
+
+test("drops · responsive scheduling and rollback contract", async ({ page }) => {
+  for (const width of [1440, 992, 768, 767, 375]) {
+    await prepare(page, "/shopify-product-drops", width, 1000);
+    await expect(page.locator("h1")).toHaveCount(1);
+    await expect(page.locator(".peak-card-grid__card")).toHaveCount(3);
+    await expect(page.locator(".peak-feature-grid__card")).toHaveCount(4);
+    await expect(page.getByRole("img", { name: "Peak PIM Drop review showing scheduled Shopify price and product changes with automatic rollback" })).toHaveCount(1);
+    await expect(page.locator(".peak-hero__visual img, .peak-card-grid__visual img")).toHaveCount(0);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+  }
+
+  await prepare(page, "/shopify-product-drops", 1440, 1000);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page.locator(".peak-drop-restore i")).toHaveCSS("animation-name", "none");
+  const firstQuestion = page.locator(".peak-faq__question").first();
+  await firstQuestion.focus();
+  await firstQuestion.press("Enter");
+  await expect(firstQuestion).toHaveAttribute("aria-expanded", "true");
+});
+
+test("health-center · responsive analysis and repair contract", async ({ page }) => {
+  for (const width of [1440, 992, 768, 767, 375]) {
+    await prepare(page, "/shopify-catalog-health-center", width, 1000);
+    await expect(page.locator("h1")).toHaveCount(1);
+    await expect(page.locator(".peak-card-grid__card")).toHaveCount(3);
+    await expect(page.locator(".peak-feature-grid__card")).toHaveCount(4);
+    await expect(page.getByRole("img", { name: "Peak PIM Health Center dashboard showing catalog issues by synchronization, consistency, completeness, translations, and unused items" })).toHaveCount(1);
+    await expect(page.locator(".peak-hero__visual img, .peak-card-grid__visual img")).toHaveCount(0);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+  }
+
+  await prepare(page, "/shopify-catalog-health-center", 1440, 1000);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page.locator(".peak-health-grid .is-improving .after")).toHaveCSS("animation-name", "none");
+  const firstQuestion = page.locator(".peak-faq__question").first();
+  await firstQuestion.focus();
+  await firstQuestion.press("Enter");
+  await expect(firstQuestion).toHaveAttribute("aria-expanded", "true");
+});
+
+for (const feature of [
+  { name: "ai-connector", path: "/ai-catalog-connector", aria: "Peak PIM AI connector conversation showing a merchant asking about missing SEO descriptions and reviewing catalog results", motion: ".peak-ai-message.is-assistant" },
+  { name: "developer-api", path: "/api", aria: "Peak PIM developer API workspace showing a store-specific product update and publish response", motion: ".peak-api-divider" },
+  { name: "metaobjects", path: "/shopify-metaobjects", aria: "Peak PIM metaobject workspace showing a Size Guide definition, typed entry fields, and publishing results across Shopify stores", motion: ".peak-mo-stores > div" },
+  { name: "metafields", path: "/shopify-metafield-management", aria: "Peak PIM metafield definition workspace showing one Material definition linked across US, France, and Germany Shopify stores", motion: ".peak-mf-coverage > div:last-of-type" },
+  { name: "custom-fields", path: "/shopify-custom-fields", aria: "Peak PIM custom fields workspace showing Shopify metafields beside private PIM-only workflow fields on a product record", motion: ".peak-cf-private" },
+  { name: "roles-permissions", path: "/user-roles-permissions", aria: "Peak PIM users and permissions workspace showing a catalog editor with selected stores and separate view, edit, and publish access", motion: ".peak-rp-users > span.active" },
+]) {
+  test(`${feature.name} · responsive product and interaction contract`, async ({ page }) => {
+    for (const width of [1440, 1100, 992, 768, 767, 540, 375]) {
+      await prepare(page, feature.path, width, 1000);
+      await expect(page.locator("h1")).toHaveCount(1);
+      await expect(page.locator(".peak-card-grid__card")).toHaveCount(3);
+      await expect(page.locator(".peak-feature-grid__card")).toHaveCount(4);
+      await expect(page.getByRole("img", { name: feature.aria })).toHaveCount(1);
+      await expect(page.locator(".peak-hero__visual img, .peak-card-grid__visual img")).toHaveCount(0);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+    }
+    await prepare(page, feature.path, 1440, 1000);
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await expect(page.locator(feature.motion)).toHaveCSS("animation-name", "none");
+    const firstQuestion = page.locator(".peak-faq__question").first();
+    await firstQuestion.focus();
+    await firstQuestion.press("Enter");
+    await expect(firstQuestion).toHaveAttribute("aria-expanded", "true");
+  });
+}
+
 test("translations · canonical sections", async ({ page }) => {
   await prepare(page, "/shopify-pim-translations", 1440, 1000);
   for (const selector of [".section_header26", ".section_layout237", ".section_layout395", ".section_layout353", ".section_testimonial4", ".section_cta51", ".section_faq1"]) {
     await expect(page.locator(selector)).toHaveCount(1);
   }
   await expect(page.locator("[class*='ds-']")).toHaveCount(0);
+  await expect(page.getByRole("img", { name: "Peak PIM translation workflow showing catalog coverage, AI-generated drafts, side-by-side review, and multi-store publishing" })).toHaveCount(1);
+  await expect(page.locator(".peak-hero__visual img, .peak-card-grid__visual img")).toHaveCount(0);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page.locator(".peak-tr-grid .is-ai").first()).toHaveCSS("animation-name", "none");
 });
 
 test("translations · semantic component API preserves legacy styling hooks", async ({ page }) => {
   await prepare(page, "/shopify-pim-translations", 1440, 1000);
   for (const selector of [
     ".peak-hero.section_header26",
-    ".peak-logo-cloud.section_logo3",
+    ".peak-logo-cloud.section_logo2",
     ".peak-problem-grid.section_layout237",
     ".peak-card-grid.section_layout395",
     ".peak-testimonial.section_testimonial4",
@@ -92,6 +289,64 @@ test("multi-store · retired Scale plan is absent at every breakpoint", async ({
   }
 });
 
+test("build vs buy · responsive comparison and SEO contract", async ({ page }) => {
+  const sectionIds = ["verdict", "comparison", "pricing-comparison", "decision", "implementation", "faq", "start"];
+
+  for (const width of [1440, 992, 768, 767, 375]) {
+    await prepare(page, "/build-vs-buy-pim", width, 1000);
+    await expect(page.locator("h1")).toHaveCount(1);
+    await expect(page.locator("h2")).toHaveCount(7);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+    await expect(page.locator(".peak-comparison-table__card")).toHaveCount(2);
+    await expect(page.locator(".pricing50_row")).toHaveCount(7);
+    const comparisonColumns = await page.locator(".peak-comparison-table__grid").evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(" ").length);
+    expect(comparisonColumns).toBe(width < 768 ? 1 : 2);
+    if (width < 768) await expect(page.locator(".pricing50_feature").first()).toHaveCSS("grid-column", "1 / -1");
+  }
+
+  await prepare(page, "/build-vs-buy-pim", 1440, 1000);
+  for (const id of sectionIds) {
+    await expect(page.locator(`#${id}`)).toBeVisible();
+  }
+  await expect(page.locator(".peak-faq__answer").filter({ visible: true })).toHaveCount(0);
+  const heroVisual = page.getByRole("img", { name: "Comparison workspace showing an in-house Shopify PIM build beside Peak PIM" });
+  const decisionVisual = page.getByRole("img", { name: "Decision workspace comparing when to build a PIM in-house and when to choose Peak PIM" });
+  await expect(heroVisual).toHaveCount(1);
+  await expect(decisionVisual).toHaveCount(1);
+  await expect(page.locator(".peak-comparison-hero__visual img")).toHaveCount(0);
+  await expect(page.locator("#decision .peak-decision-guide__image-wrapper img")).toHaveCount(0);
+  const firstHeroCta = page.locator(".peak-comparison-hero a").first();
+  await page.locator("body").click({ position: { x: 1, y: 1 } });
+  for (let index = 0; index < 30 && !(await firstHeroCta.evaluate((element) => element === document.activeElement)); index += 1) {
+    await page.keyboard.press("Tab");
+  }
+  await expect(firstHeroCta).toBeFocused();
+  await expect(firstHeroCta).toHaveCSS("outline-style", "solid");
+  const firstFaqQuestion = page.locator(".peak-faq__question").first();
+  await firstFaqQuestion.focus();
+  await page.keyboard.press("Enter");
+  await expect(firstFaqQuestion).toHaveAttribute("aria-expanded", "true");
+  await expect(page.locator(".peak-faq__answer").first()).toBeVisible();
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page.locator(".build-buy-workspace__progress i")).toHaveCSS("animation-name", "none");
+  expect(await page.locator('script[type="application/ld+json"]').evaluateAll((scripts) => scripts.map((script) => JSON.parse(script.textContent ?? "{}")["@type"]))).toEqual(expect.arrayContaining(["Article", "FAQPage"]));
+});
+
+test("build vs buy · comparison typography and controls match the approved reference", async ({ page }) => {
+  const selectors = [".section_header1 .heading-style-h1", ".section_header1 .text-size-medium", ".section_header1 .button", ".section_layout140 .heading-style-h5", ".section_comparison14 .heading-style-h2", ".section_pricing50 .heading-style-h1", ".section_layout4 .heading-style-h2"];
+  const readStyles = (selectorsToRead: string[]) => selectorsToRead.map((selector) => {
+    const element = document.querySelector(selector);
+    if (!element) return null;
+    const style = getComputedStyle(element);
+    return { fontFamily: style.fontFamily, fontSize: style.fontSize, lineHeight: style.lineHeight, fontWeight: style.fontWeight, borderRadius: style.borderRadius, padding: style.padding };
+  });
+
+  await prepare(page, "/build-vs-buy-pim", 1440, 1000);
+  const buildVsBuyStyles = await page.evaluate(readStyles, selectors);
+  await prepare(page, "/vs/akeneo", 1440, 1000);
+  expect(await page.evaluate(readStyles, selectors)).toEqual(buildVsBuyStyles);
+});
+
 test("translations · complete workflow cards match the finished homepage", async ({ page }) => {
   const selectors = [".section_layout395 .heading-style-h2", ".section_layout395 .heading-style-h4", ".layout395_grid-list", ".layout395_row", ".layout395_card", ".layout395_card-content"];
   const readStyles = (selectorsToRead: string[]) => selectorsToRead.map((selector) => {
@@ -125,7 +380,7 @@ test("translations · complete workflow cards stack at tablet and mobile widths"
     await prepare(page, "/shopify-pim-translations", width, 1000);
     const layout = await page.evaluate(() => Array.from(document.querySelectorAll(".section_layout395 .layout395_card")).map((card) => {
       const cardRect = card.getBoundingClientRect();
-      const visualRect = card.querySelector(".peak-translation-step")?.getBoundingClientRect();
+      const visualRect = card.querySelector(".peak-tr-card")?.getBoundingClientRect();
       return { left: cardRect.left, top: cardRect.top, cardWidth: cardRect.width, visualWidth: visualRect?.width ?? 0 };
     }));
     expect(new Set(layout.map((card) => Math.round(card.left))).size).toBe(1);
@@ -185,8 +440,8 @@ test("translations · completed four-card stack resolves to its last card", asyn
   })).toEqual({
     bottomDelta: 0,
     earlierCardAboveLast: false,
-    visibleHeading: "Bulk translate and publish to regional stores",
-    lastHeading: "Bulk translate and publish to regional stores",
+    visibleHeading: "Keep every path draft-first",
+    lastHeading: "Keep every path draft-first",
   });
   await expect(page).toHaveScreenshot("translations-feature-stack-final.png", { animations: "disabled", fullPage: false, maxDiffPixelRatio: 0.015 });
 });
@@ -206,7 +461,9 @@ test("translations · completed capability stack is covered at every responsive 
     const result = await page.locator(".section_layout353 .layout353_content-item").evaluateAll((cards) => {
       const rects = cards.map((card) => card.getBoundingClientRect());
       const lastRect = rects.at(-1)!;
-      const topCard = document.elementFromPoint(lastRect.left + 8, lastRect.top + 8)?.closest(".layout353_content-item");
+      const headerBottom = document.querySelector(".site-header")?.getBoundingClientRect().bottom ?? 0;
+      const sampleY = Math.min(lastRect.bottom - 8, Math.max(lastRect.top + 8, headerBottom + 8));
+      const topCard = document.elementFromPoint(lastRect.left + 8, sampleY)?.closest(".layout353_content-item");
       return {
         heights: rects.map((rect) => rect.height),
         bottomDelta: Math.max(...rects.map((rect) => rect.bottom)) - Math.min(...rects.map((rect) => rect.bottom)),
@@ -215,7 +472,7 @@ test("translations · completed capability stack is covered at every responsive 
       };
     });
     const heightDelta = Math.max(...result.heights) - Math.min(...result.heights);
-    if (heightDelta > 1 || result.bottomDelta > 1 || result.earlierCardAboveLast || result.visibleHeading !== "Bulk translate and publish to regional stores") {
+    if (heightDelta > 1 || result.bottomDelta > 1 || result.earlierCardAboveLast || result.visibleHeading !== "Keep every path draft-first") {
       failures.push({ width, ...result });
     }
   }
@@ -223,8 +480,8 @@ test("translations · completed capability stack is covered at every responsive 
   expect(failures).toEqual([]);
 });
 
-test("translations · logo strip and FAQ match the feature-page reference", async ({ page }) => {
-  const selectors = [".section_logo3 h2", ".logo3_logo", ".section_faq1 h2", ".faq1_question .text-size-medium", ".faq1_answer p"];
+test("translations · logo strip matches the homepage and FAQ matches the feature-page reference", async ({ page }) => {
+  const selectors = [".section_logo2 h2", ".logo2_wrapper img", ".section_faq1 h2", ".faq1_question .text-size-medium", ".faq1_answer p"];
   const readStyles = (selectorsToRead: string[]) => selectorsToRead.map((selector) => {
     const element = document.querySelector(selector);
     if (!element) return null;
@@ -234,11 +491,18 @@ test("translations · logo strip and FAQ match the feature-page reference", asyn
 
   await prepare(page, "/shopify-pim-translations", 1440, 1000);
   const translationStyles = await page.evaluate(readStyles, selectors);
-  await expect(page.locator(".section_logo3.color-scheme-1")).toHaveCount(1);
-  await expect(page.locator(".section_faq1 h2")).toHaveText("FAQ");
+  await expect(page.locator(".section_logo2.color-scheme-2")).toHaveCount(1);
+  await expect(page.locator(".section_logo2 .logo2_wrapper")).toHaveCount(4);
+  await expect(page.locator(".section_logo2 h2")).toHaveText("Already trusted by top merchants");
+  await expect(page.locator(".section_faq1 h2")).toHaveText("Frequently asked questions");
 
   await prepare(page, "/shopify-media-management", 1440, 1000);
   expect(await page.evaluate(readStyles, selectors)).toEqual(translationStyles);
+
+  await prepare(page, "/industry/fashion", 1440, 1000);
+  expect(await page.evaluate(readStyles, selectors.slice(0, 2))).toEqual(translationStyles.slice(0, 2));
+  await expect(page.locator(".section_logo2 .logo2_wrapper")).toHaveCount(4);
+  await expect(page.locator(".section_logo2 h2")).toHaveText("Already trusted by top merchants");
 });
 
 test("translations · uses the original global font smoothing", async ({ page }) => {
@@ -254,7 +518,7 @@ test("translations · uses the original global font smoothing", async ({ page })
 
 for (const specimen of [
   { name: "workflow-cards", selector: ".section_layout395" },
-  { name: "logo-strip-canonical", selector: ".section_logo3" },
+  { name: "logo-strip-canonical", selector: ".section_logo2" },
   { name: "faq", selector: ".section_faq1" },
 ] as const) {
   test(`translations · ${specimen.name} visual`, async ({ page }) => {

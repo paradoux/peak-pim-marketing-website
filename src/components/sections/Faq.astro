@@ -1,18 +1,20 @@
 ---
 import Button from "../ui/Button.astro";
 import SectionHeading from "../ui/SectionHeading.astro";
+import { ctaLabels } from "../../data/cta-copy";
 
 type Item = { question: string; answer: string };
-type Props = { title?: string; description?: string; items: Item[] };
+type Props = { id?: string; title?: string; description?: string; items: Item[] };
 
 const {
+  id,
   title = "Frequently asked questions",
   description = "Everything you need to know about Peak PIM and getting started.",
   items,
 } = Astro.props;
 ---
 
-<section class="section_faq1 peak-faq">
+<section id={id} class="section_faq1 peak-faq">
   <div class="padding-global">
     <div class="container-large">
       <div class="padding-section-large">
@@ -44,7 +46,7 @@ const {
               <div class="max-width-medium align-center">
                 <div class="margin-bottom margin-xsmall"><h3 class="heading-style-h4">Still have questions?</h3></div>
                 <p class="text-size-medium">Reach out to our team and we’ll help you find the right setup.</p>
-                <div class="margin-top margin-medium"><div class="button-group is-center"><Button href="#" variant="secondary" crisp>Ask your question</Button></div></div>
+                <div class="margin-top margin-medium"><div class="button-group is-center"><Button href="#" variant="secondary" crisp>{ctaLabels.talkToUs}</Button></div></div>
               </div>
             </div>
           </div>

@@ -1,0 +1,190 @@
+---
+import CardGrid from "../components/sections/CardGrid.astro";
+import CtaBanner from "../components/sections/CtaBanner.astro";
+import Faq from "../components/sections/Faq.astro";
+import FeatureGrid from "../components/sections/FeatureGrid.astro";
+import Hero from "../components/sections/Hero.astro";
+import LogoCloud from "../components/sections/LogoCloud.astro";
+import ProblemGrid from "../components/sections/ProblemGrid.astro";
+import MetafieldsCardVisual from "../components/visuals/MetafieldsCardVisual.astro";
+import MetafieldsHeroVisual from "../components/visuals/MetafieldsHeroVisual.astro";
+import { ctaLabels } from "../data/cta-copy";
+import LandingPageLayout from "../layouts/LandingPageLayout.astro";
+
+const appStoreUrl = "https://apps.shopify.com/peak-pim";
+
+const problems = [
+  {
+    icon: "store",
+    title: "Every store rebuilds the same definitions",
+    description: "The same material, care, certification, or specification field becomes a separate setup job in every Shopify admin, and those copies drift over time.",
+  },
+  {
+    icon: "edit",
+    title: "Values are edited one product at a time",
+    description: "Without a catalog-wide editor, teams click through individual products and work in inputs that do not reflect the metafield's real type or validation.",
+  },
+  {
+    icon: "review",
+    title: "Missing data stays invisible",
+    description: "A metafield can exist in one store, be absent in another, or remain empty across hundreds of products without a clear account-wide view of the gaps.",
+  },
+];
+
+const workflows = [
+  {
+    tagline: "Define",
+    title: "One definition for every store",
+    description: "Create an account-level metafield, choose its owner type, namespace, key, data type, validations, and store coverage without rebuilding it store by store.",
+  },
+  {
+    tagline: "Edit",
+    title: "Use controls that match the data",
+    description: "Edit text, dates, numbers, colors, measurements, and lists with type-aware inputs on record pages, in bulk workflows, and through mapped spreadsheets.",
+  },
+  {
+    tagline: "Publish",
+    title: "Send native metafields to Shopify",
+    description: "Publish definitions and values through the same pipeline as the rest of your catalog, with an honest outcome for every selected storefront.",
+  },
+];
+
+const features = [
+  {
+    icon: "grid",
+    title: "Start with what your stores already use",
+    description: "Connecting a Shopify store imports its existing metafield definitions, so teams can organize current structures instead of starting from a blank account.",
+  },
+  {
+    icon: "store",
+    title: "See and repair store coverage",
+    description: "See which stores contain a definition, link it to all stores or a subset, and replicate missing definitions without copying settings by hand.",
+  },
+  {
+    icon: "file",
+    title: "Move values at catalog scale",
+    description: "Use metafields in bulk edit, imports, exports, and translation workflows alongside standard product, variant, and collection data.",
+  },
+  {
+    icon: "review",
+    title: "Turn structure into quality control",
+    description: "Add metafields to completeness rules, surface definition divergence in Health Center, and let approved AI connections work with the same typed catalog data.",
+  },
+];
+
+const faqItems = [
+  {
+    question: "What is a Shopify metafield?",
+    answer: "A Shopify metafield is a typed custom data field attached to a Shopify resource such as a product, variant, or collection. Merchants use metafields for information that does not fit Shopify's standard fields, including materials, care instructions, specifications, certifications, and release dates.",
+  },
+  {
+    question: "How are metafields different from metaobjects?",
+    answer: "A metafield adds a typed value to a Shopify resource. A metaobject is a reusable structured content record with its own set of fields, such as a size guide or designer profile. Peak PIM manages both, but each has its own definition and publishing workflow.",
+  },
+  {
+    question: "Which metafield types does Peak PIM support?",
+    answer: "Peak PIM supports single-line and multi-line text, integers, decimals, booleans, dates, JSON, URLs, colors, dimensions, weights, and list variants, with type-aware controls and relevant validation.",
+  },
+  {
+    question: "Can I use one metafield definition across multiple Shopify stores?",
+    answer: "Yes. Peak PIM manages one account-level definition with per-store presence. Select all connected stores or a subset, keep the definition linked, and publish it natively to each target Shopify store.",
+  },
+  {
+    question: "What happens to metafields that already exist in Shopify?",
+    answer: "When a store connects, Peak PIM imports its existing metafield definitions. You can then review their store coverage, organize their display order, and identify definitions that are missing or inconsistent across stores.",
+  },
+  {
+    question: "Are these real native Shopify metafields?",
+    answer: "Yes. Peak PIM publishes metafield definitions and values into the selected Shopify stores. They remain native Shopify metafields that storefront themes, apps, and Shopify admin can use.",
+  },
+  {
+    question: "Can I bulk edit, import, and export metafield values?",
+    answer: "Yes. Value-based metafields can be edited in the bulk grid, mapped from CSV or Excel files, and included in exports. Reference-type metafields are edited with the appropriate picker on entity pages but are not currently import-mappable.",
+  },
+  {
+    question: "Can metafields be translated and checked for completeness?",
+    answer: "Yes. Translatable metafields can be managed beside localized product and collection content. Health Center can include required metafields in completeness checks and flag definition coverage or structure differences between stores.",
+  },
+  {
+    question: "Can an AI assistant work with metafields?",
+    answer: "Yes. An assistant connected through Peak PIM's controlled AI connector can read or update metafield values within the catalog permissions granted to that connection.",
+  },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
+---
+
+<LandingPageLayout
+  title="Shopify Metafield Management | Peak PIM"
+  description="Define, edit, bulk update, validate, and publish native Shopify metafields across every connected store from one multi-store PIM."
+  canonicalPath="/shopify-metafield-management"
+  schemaType="SoftwareApplication"
+  additionalSchemas={[faqSchema]}
+  ogTitle="Manage Shopify Metafields Across Every Store"
+  ogDescription="Create one metafield definition, edit typed values at catalog scale, and publish native Shopify metafields with clear per-store outcomes."
+>
+  <Hero
+    title="Shopify metafields, without the pain"
+    description="Define a metafield once, link it across stores, and edit typed values wherever your team manages the catalog. Peak PIM publishes real native Shopify metafields, with every store outcome visible."
+    primaryCta={{ label: ctaLabels.tryFree, href: appStoreUrl, external: true }}
+    secondaryCta={{ label: ctaLabels.seeHowItWorks, href: "#metafield-workflow" }}
+  >
+    <MetafieldsHeroVisual />
+  </Hero>
+
+  <LogoCloud />
+
+  <ProblemGrid
+    tagline="Metafields at scale"
+    title="Custom product data should not multiply the admin work"
+    description="Shopify metafields are powerful. Managing their definitions and values separately in every store is where the pain starts. Need fields Shopify should never see? Peak PIM also supports private PIM-only custom fields."
+    items={problems}
+    link={{ label: ctaLabels.learnMore, href: "/shopify-custom-fields" }}
+  />
+
+  <CardGrid
+    id="metafield-workflow"
+    tagline="One connected workflow"
+    title="Define once, edit everywhere, publish natively"
+    description="Keep the structure, values, and store presence of every metafield connected from definition through publication."
+    cards={workflows}
+  >
+    <MetafieldsCardVisual slot="visual-1" mode="define" />
+    <MetafieldsCardVisual slot="visual-2" mode="typed" />
+    <MetafieldsCardVisual slot="visual-3" mode="publish" />
+  </CardGrid>
+
+  <FeatureGrid
+    tagline="Built into the catalog"
+    title="Metafields work wherever product data moves"
+    description="Definitions are not isolated configuration records. Their types, validations, store coverage, values, and quality rules follow the same operational workflows as the rest of your catalog."
+    features={features}
+    cta={{ label: ctaLabels.learnMore, href: "/shopify-product-import-export" }}
+  />
+
+  <CtaBanner
+    id="start"
+    title="Make metafields manageable across every store"
+    description="Bring definitions and values into one typed workspace, then publish native Shopify metafields to the storefronts that need them."
+    primaryLabel={ctaLabels.tryFree}
+    primaryHref={appStoreUrl}
+    secondaryLabel={ctaLabels.learnMore}
+    secondaryHref="/shopify-metaobjects"
+    trustLine="10-day free trial. Free setup. No credit card."
+  />
+
+  <Faq
+    id="faq"
+    title="Frequently asked questions"
+    description="Everything you need to know about managing Shopify metafields with Peak PIM."
+    items={faqItems}
+  />
+</LandingPageLayout>

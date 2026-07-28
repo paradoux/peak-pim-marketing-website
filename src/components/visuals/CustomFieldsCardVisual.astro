@@ -1,0 +1,18 @@
+---
+type Props = { mode: "synced" | "private" | "everywhere" };
+const { mode } = Astro.props;
+---
+
+<div
+  class:list={["peak-cf-card", `is-${mode}`]}
+  role="img"
+  aria-label={mode === "synced" ? "Shopify metafields with typed values and multi-store coverage" : mode === "private" ? "Private PIM-only fields for internal catalog workflow status and supplier data" : "Custom fields available across bulk edit, import, health, translations, and AI workflows"}
+>
+  {mode === "synced" && <div class="peak-cf-synced"><div><small>Shopify metafields</small><b>Product fields</b><em>3 stores</em></div><span><i>T</i><b>Material</b><small>Recycled nylon</small></span><span><i>#</i><b>Shell weight</b><small>420 g</small></span><span><i>◷</i><b>Release date</b><small>30 Jul 2026</small></span><section><b>US</b><b>FR</b><b>DE</b></section></div>}
+  {mode === "private" && <div class="peak-cf-private-card"><div><small>PIM-only · Team data</small><b>Internal workflow</b><em>Never synced</em></div><label><small>Data status · Select</small><span>Approved</span></label><label><small>Supplier SKU · Text</small><span>SG-SHELL-042</span></label><label><small>Review owner · Select</small><span>Catalog team</span></label><button>Save private fields</button></div>}
+  {mode === "everywhere" && <div class="peak-cf-everywhere"><div><small>Editing surfaces</small><b>First-class custom data</b></div><span><i>▦</i><b>Bulk edit</b><small>200 products</small></span><span><i>↕</i><b>Import / Export</b><small>Mapped column</small></span><span><i>✓</i><b>Health Center</b><small>Completeness</small></span><span><i>A</i><b>Translations + AI</b><small>Ready</small></span></div>}
+</div>
+
+<style>
+  .peak-cf-card{box-sizing:border-box;width:100%;min-height:300px;padding:25px;background:radial-gradient(#333 1px,transparent 1px),#191919;background-size:18px 18px;color:#191919;font-family:Inter,Arial,sans-serif}.peak-cf-synced,.peak-cf-private-card,.peak-cf-everywhere{display:grid;gap:9px}.peak-cf-card>div>div,.peak-cf-synced>span,.peak-cf-everywhere>span,.peak-cf-private-card label{padding:12px;border-radius:7px;background:#fff}.peak-cf-card>div>div{display:grid;grid-template-columns:1fr auto}.peak-cf-card small,.peak-cf-card em{color:#777;font-size:7px;font-style:normal}.peak-cf-card div>b{grid-column:1;font-size:10px}.peak-cf-card div>em{grid-column:2;grid-row:1/3;align-self:center;padding:5px;border-radius:999px;background:#eef1ff;color:#2845d6}.peak-cf-synced>span,.peak-cf-everywhere>span{display:grid;grid-template-columns:28px 1fr}.peak-cf-synced>span i,.peak-cf-everywhere>span i{display:grid;width:23px;height:23px;grid-row:1/3;place-items:center;border-radius:4px;background:#191919;color:#fff;font-size:8px;font-style:normal}.peak-cf-synced>span b,.peak-cf-everywhere>span b{font-size:8px}.peak-cf-synced>span small,.peak-cf-everywhere>span small{grid-column:2}.peak-cf-synced section{display:flex;gap:6px}.peak-cf-synced section b{display:grid;width:28px;height:24px;place-items:center;border-radius:5px;background:#e5f1e8;color:#337448;font-size:7px}.peak-cf-private-card label{display:flex;flex-direction:column;gap:4px}.peak-cf-private-card label span{font-size:8px}.peak-cf-private-card label:first-of-type span{color:#337448;font-weight:700}.peak-cf-card button{padding:11px;border:0;border-radius:7px;background:#2845d6;color:#fff;font:700 8px Inter,Arial,sans-serif}.peak-cf-everywhere>span i{background:#2845d6}@media(max-width:479px){.peak-cf-card{padding:18px}}
+</style>

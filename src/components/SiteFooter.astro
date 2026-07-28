@@ -1,13 +1,93 @@
 ---
+import { featureNavigationGroups } from "../data/site-navigation";
 import { getSharedFooterHtml } from "../lib/page-source";
 
-const footerHtml = getSharedFooterHtml().replace(
-  '<a href="#" target="_blank" class="footer1_link">Help Center</a>',
-  '<a href="https://help.peak-pim.com/en/" target="_blank" rel="noopener" class="footer1_link">Help Center</a>',
-).replace(
-  '<a href="/pricing" class="footer1_link">Pricing</a>',
-  '<a href="/pricing/" class="footer1_link">Pricing</a>',
-);
+function escapeHtml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+const originalFooterHtml = getSharedFooterHtml()
+  .replace(
+    '<a href="#" target="_blank" class="footer1_link">Help Center</a>',
+    '<a href="https://help.peak-pim.com/en/" target="_blank" rel="noopener" class="footer1_link">Help Center</a>',
+  )
+  .replace(
+    '<a href="/pricing" class="footer1_link">Pricing</a>',
+    '<a href="/pricing/" class="footer1_link">Pricing</a>',
+  );
+const menuStart = originalFooterHtml.indexOf('<div class="w-layout-grid footer1_menu-wrapper">');
+const featureColumnStart = originalFooterHtml.indexOf('<div class="footer1_link-column">', menuStart);
+const peakHeading = '<div class="text-weight-semibold">⛰️ Peak</div>';
+const compareHeading = '<div class="text-weight-semibold">🔍 Compare</div>';
+const connectHeading = '<div class="text-weight-semibold">🤙 Connect</div>';
+const peakHeadingIndex = originalFooterHtml.indexOf(peakHeading, featureColumnStart);
+const peakColumnStart = originalFooterHtml.lastIndexOf('<div class="footer1_link-column">', peakHeadingIndex);
+const compareHeadingIndex = originalFooterHtml.indexOf(compareHeading, peakColumnStart);
+const compareColumnStart = originalFooterHtml.lastIndexOf('<div class="footer1_link-column">', compareHeadingIndex);
+const connectHeadingIndex = originalFooterHtml.indexOf(connectHeading, compareColumnStart);
+const connectColumnStart = originalFooterHtml.lastIndexOf('<div class="footer1_link-column">', connectHeadingIndex);
+
+if (
+  menuStart === -1 ||
+  featureColumnStart === -1 ||
+  peakHeadingIndex === -1 ||
+  peakColumnStart === -1 ||
+  compareHeadingIndex === -1 ||
+  compareColumnStart === -1 ||
+  connectHeadingIndex === -1 ||
+  connectColumnStart === -1
+) {
+  throw new Error("The original footer columns could not be restored.");
+}
+
+const featureColumnHtml = `
+  <div class="footer1_link-column site-footer__features-column">
+    <div class="margin-bottom margin-small"><div class="text-weight-semibold site-footer__column-heading"><span class="site-footer__heading-marker" aria-hidden="true"></span>Features</div></div>
+    <div class="site-footer__feature-categories">
+      ${featureNavigationGroups.filter((group) => group.label !== "Solutions").map((group) => `
+        <div class="site-footer__feature-category">
+          <div class="site-footer__feature-category-title">${escapeHtml(group.label)}</div>
+          <div class="footer1_link-list">
+            ${group.links.map((link) => `<a href="${escapeHtml(link.href)}" class="footer1_link">${escapeHtml(link.label)}</a>`).join("")}
+          </div>
+        </div>
+      `).join("")}
+    </div>
+  </div>`;
+
+const headingMarker = '<span class="site-footer__heading-marker" aria-hidden="true"></span>';
+const solutionsGroup = featureNavigationGroups.find((group) => group.label === "Solutions");
+
+if (!solutionsGroup) {
+  throw new Error("The footer Solutions group is missing from the shared navigation taxonomy.");
+}
+
+const solutionsColumnHtml = `
+  <div class="footer1_link-column site-footer__solutions-column">
+    <div class="margin-bottom margin-xsmall"><div class="text-weight-semibold site-footer__column-heading">${headingMarker}Solutions</div></div>
+    <div class="footer1_link-list">
+      ${solutionsGroup.links.map((link) => `<a href="${escapeHtml(link.href)}" class="footer1_link">${escapeHtml(link.label)}</a>`).join("")}
+    </div>
+  </div>`;
+const peakColumnHtml = originalFooterHtml
+  .slice(peakColumnStart, compareColumnStart)
+  .replace(peakHeading, `<div class="text-weight-semibold site-footer__column-heading">${headingMarker}Peak</div>`);
+const compareColumnHtml = originalFooterHtml
+  .slice(compareColumnStart, connectColumnStart)
+  .replace(compareHeading, `<div class="text-weight-semibold site-footer__column-heading">${headingMarker}Compare</div>`);
+const connectColumnHtml = originalFooterHtml
+  .slice(connectColumnStart)
+  .replace(connectHeading, `<div class="text-weight-semibold site-footer__column-heading">${headingMarker}Connect</div>`);
+const footerHtml = originalFooterHtml.slice(0, featureColumnStart)
+  + featureColumnHtml
+  + solutionsColumnHtml
+  + compareColumnHtml
+  + peakColumnHtml
+  + connectColumnHtml;
 ---
 
 <div class="site-footer" set:html={footerHtml} />

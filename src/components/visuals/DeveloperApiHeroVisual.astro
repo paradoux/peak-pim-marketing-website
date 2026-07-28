@@ -1,0 +1,16 @@
+---
+import ProductVisualFrame from "../ui/ProductVisualFrame.astro";
+---
+<ProductVisualFrame ariaLabel="Peak PIM developer API workspace showing a store-specific product update and publish response" section="Developer API" status="revision 42" actionLabel="200 Published">
+  <div class="peak-api-workspace">
+    <div class="peak-api-model"><small>Product model</small><b>Alpine Jacket</b><span class="master">Master data <em>rev 42</em></span><span>US store <em>Active</em></span><span class="selected">FR store <em>Draft</em></span><span>DE store <em>Active</em></span></div>
+    <div class="peak-api-code"><div><span class="method">PATCH</span><b>/v1/products/prod_82/stores/fr</b></div><pre><code><i>&#123;</i>
+  <mark>"revision"</mark>: 42,
+  <mark>"title"</mark>: "Veste Alpine",
+  <mark>"seo_description"</mark>: "Une veste…"
+<i>&#125;</i></code></pre><div class="peak-api-divider"><span>Validated draft</span><em>revision 43</em></div><div><span class="post">POST</span><b>/v1/products/prod_82/publish</b></div><pre class="response"><code><i>&#123;</i> "stores": ["fr"], "status": <mark>"published"</mark> <i>&#125;</i></code></pre></div>
+  </div>
+</ProductVisualFrame>
+<style>
+  .peak-api-workspace{display:grid;min-height:440px;grid-template-columns:160px minmax(0,1fr);background:#111;color:#d8d8d8;font-family:Inter,Arial,sans-serif}.peak-api-model{display:flex;flex-direction:column;gap:8px;padding:24px 14px;border-right:1px solid #333}.peak-api-model>small{color:#888;font-size:8px;text-transform:uppercase}.peak-api-model>b{margin-bottom:8px;color:#fff;font-size:11px}.peak-api-model>span{display:flex;justify-content:space-between;padding:10px 8px;border-radius:5px;font-size:8px}.peak-api-model>span.master{border-bottom:1px solid #333;border-radius:0}.peak-api-model>span.selected{background:#273050;color:#fff}.peak-api-model em{color:#8496ff;font-size:7px;font-style:normal}.peak-api-code{min-width:0;padding:28px}.peak-api-code>div{display:flex;align-items:center;gap:8px;font-size:8px}.peak-api-code .method,.peak-api-code .post{padding:5px 7px;border-radius:4px;background:#305b41;color:#a9e2ba;font-weight:800}.peak-api-code .post{background:#3b3158;color:#cabaff}.peak-api-code pre{overflow:hidden;margin:16px 0 20px;padding:18px;border:1px solid #303030;border-radius:8px;background:#191919;color:#ddd;font:9px/1.9 ui-monospace,SFMono-Regular,Menlo,monospace}.peak-api-code mark{background:transparent;color:#91a3ff}.peak-api-code i{color:#999;font-style:normal}.peak-api-code .peak-api-divider{justify-content:space-between;margin:0 0 20px;padding:10px;border-radius:5px;background:#203026;color:#91d0a5}.peak-api-divider em{font-style:normal}.peak-api-code .response{margin-bottom:0}@media(max-width:767px){.peak-api-workspace{min-height:390px;grid-template-columns:1fr}.peak-api-model{display:none}.peak-api-code{padding:18px}.peak-api-code pre{font-size:7px}}@media(prefers-reduced-motion:no-preference){.peak-api-divider{animation:peak-api-pulse 2s ease-in-out infinite}@keyframes peak-api-pulse{50%{box-shadow:0 0 0 4px rgba(75,139,95,.12)}}}@media(prefers-reduced-motion:reduce){.peak-api-divider{animation:none}}
+</style>

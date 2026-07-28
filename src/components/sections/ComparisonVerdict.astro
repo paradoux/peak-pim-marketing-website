@@ -1,0 +1,47 @@
+---
+import Button from "../ui/Button.astro";
+import { ctaLabels, type CtaLabel } from "../../data/cta-copy";
+
+type Props = {
+  id?: string;
+  tagline?: string;
+  verdict: string;
+  primaryLabel?: CtaLabel;
+  primaryHref?: string;
+  secondaryLabel?: CtaLabel;
+  secondaryHref?: string;
+};
+
+const {
+  id,
+  tagline = "Verdict",
+  verdict,
+  primaryLabel = ctaLabels.seeComparison,
+  primaryHref = "#comparison",
+  secondaryLabel = ctaLabels.tryFree,
+  secondaryHref = "https://apps.shopify.com/peak-pim",
+} = Astro.props;
+---
+
+<section id={id} class="section_layout140 peak-comparison-verdict color-scheme-1">
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="padding-section-large">
+        <div class="layout140_component peak-comparison-verdict__component">
+          <div class="text-align-center">
+            <div class="max-width-large align-center">
+              <div class="margin-bottom margin-xsmall"><div class="text-style-tagline">{tagline}</div></div>
+              <h2 class="heading-style-h5">{verdict}</h2>
+              <div class="margin-top margin-medium">
+                <div class="button-group is-center">
+                  <Button href={primaryHref} variant="secondary">{primaryLabel}</Button>
+                  <Button href={secondaryHref} variant="link" external>{secondaryLabel}</Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,52 @@
+---
+import CardGrid from "../components/sections/CardGrid.astro";
+import CtaBanner from "../components/sections/CtaBanner.astro";
+import Faq from "../components/sections/Faq.astro";
+import FeatureGrid from "../components/sections/FeatureGrid.astro";
+import Hero from "../components/sections/Hero.astro";
+import LogoCloud from "../components/sections/LogoCloud.astro";
+import ProblemGrid from "../components/sections/ProblemGrid.astro";
+import DeveloperApiCardVisual from "../components/visuals/DeveloperApiCardVisual.astro";
+import DeveloperApiHeroVisual from "../components/visuals/DeveloperApiHeroVisual.astro";
+import { ctaLabels } from "../data/cta-copy";
+import LandingPageLayout from "../layouts/LandingPageLayout.astro";
+
+const appStoreUrl="https://apps.shopify.com/peak-pim";
+const problems=[
+  {icon:"store",title:"Storefront data fragments the product model",description:"Custom integrations often reconstruct master data and store-specific versions from separate calls before they can do useful work."},
+  {icon:"edit",title:"Catalog writes need more than an endpoint",description:"Validation, revision conflicts, drafts, variants, media, and collection relationships all matter when a partial update reaches production."},
+  {icon:"publish",title:"Publishing is its own workflow",description:"Moving a validated change to one, several, or all Shopify stores should use a predictable pipeline, not another collection of custom scripts."},
+];
+const workflows=[
+  {tagline:"Query",title:"Read the whole product context",description:"Search and filter products, variants, collections, media, and metafield definitions, then retrieve master data and store versions together."},
+  {tagline:"Update",title:"Patch the exact layer you intend",description:"Update master data or one store version with field validation, draft-first behavior, scoped bearer tokens, and revision checks that reject stale writes."},
+  {tagline:"Publish",title:"Use one multi-store pipeline",description:"Publish to one, several, or all connected stores while Peak PIM coordinates variants, media, and collection memberships through the same workflow as the app."},
+];
+const features=[
+  {icon:"grid",title:"Unified product model",description:"Read master product information and per-store versions in one structured response instead of rebuilding their relationship client-side."},
+  {icon:"search",title:"Deep reads and precise queries",description:"Use full-text search, filters, sorting, pagination, and related records to retrieve the context an integration actually needs."},
+  {icon:"review",title:"Safe partial updates",description:"Scopes separate read, write, and publish access. Optimistic concurrency returns a conflict instead of silently accepting a stale revision."},
+  {icon:"publish",title:"Explicit Shopify publishing",description:"Writes remain drafts until a publish request targets the intended stores, keeping catalog mutation separate from storefront release."},
+];
+const faqItems=[
+  {question:"What can I build with the Peak PIM API?",answer:"You can build catalog integrations, supplier and ERP connections, internal product tools, automation, reporting, and other workflows that need structured access to Peak PIM's multi-store catalog."},
+  {question:"Which catalog resources are available?",answer:"The API covers products, variants, collections, media, metafield definitions, master data, and store-specific versions, with search, filtering, sorting, pagination, and related-record reads."},
+  {question:"Can I update one Shopify store without changing the others?",answer:"Yes. Patch a store-specific version when the change belongs to one storefront, or patch master data when it should apply at the shared product layer."},
+  {question:"How does publishing work?",answer:"Publishing is an explicit action after a write. Target one, several, or all connected stores, and Peak PIM runs the change through its Shopify publishing pipeline with the related variants, media, and collection memberships."},
+  {question:"How is API access scoped?",answer:"Bearer credentials use separate pim:read, pim:write, and pim:publish scopes so an integration receives only the capabilities it needs. There is no delete scope."},
+  {question:"How are concurrent updates handled?",answer:"Update requests include the record revision. If another change has advanced that revision, Peak PIM rejects the stale write with HTTP 409 so the client can refresh and resolve it deliberately."},
+  {question:"Does an API update immediately change Shopify?",answer:"No. Updates are draft-first. The client sends a separate publish request when the validated change is ready for the selected storefronts."},
+  {question:"Where can I access the API documentation?",answer:"Public documentation is not yet available. Talk to the Peak PIM team for current API access, endpoint details, and integration guidance."},
+  {question:"How is the API related to the AI Connector?",answer:"The AI Connector exposes the same catalog capabilities as typed conversational tools over a remote MCP server. Use the REST API for custom software, or the connector when an off-the-shelf AI assistant is the interface."},
+];
+const faqSchema={"@context":"https://schema.org","@type":"FAQPage",mainEntity:faqItems.map(item=>({"@type":"Question",name:item.question,acceptedAnswer:{"@type":"Answer",text:item.answer}}))};
+---
+<LandingPageLayout title="Shopify Multi-Store Catalog API | Peak PIM" description="Build on Peak PIM's REST API for Shopify products, variants, collections, media, metafields, store versions, validated updates, and multi-store publishing." canonicalPath="/api" schemaType="SoftwareApplication" additionalSchemas={[faqSchema]} ogTitle="One API for Your Shopify Catalog" ogDescription="Read master data and store versions together, update safely, and publish through one multi-store pipeline.">
+  <Hero title="One API for your whole multi-store catalog" description="Search complete product context, update master or store-specific data with validation, and publish to the right Shopify storefronts through one consistent API." primaryCta={{label:ctaLabels.talkToUs,href:"#",crisp:true}} secondaryCta={{label:ctaLabels.learnMore,href:"/ai-catalog-connector"}}><DeveloperApiHeroVisual/></Hero>
+  <LogoCloud />
+  <ProblemGrid tagline="A catalog API, not raw tables" title="Build on the product model Peak PIM already manages" description="Give integrations a reliable way to understand shared data, storefront differences, safe writes, and publishing state." items={problems} link={{label:ctaLabels.seeHowItWorks,href:"#api-workflow"}} />
+  <CardGrid id="api-workflow" tagline="Read, write, publish" title="A predictable path from request to storefront" description="Use structured catalog reads, controlled partial updates, and the same multi-store publishing workflow as the Peak PIM app." cards={workflows}><DeveloperApiCardVisual slot="visual-1" mode="query"/><DeveloperApiCardVisual slot="visual-2" mode="update"/><DeveloperApiCardVisual slot="visual-3" mode="publish"/></CardGrid>
+  <FeatureGrid tagline="Built for integrations" title="The controls production catalog work needs" description="The API makes permissions, revisions, drafts, and publishing explicit so your integration can fail safely." features={features} cta={{label:ctaLabels.talkToUs,href:"#",crisp:true}} />
+  <CtaBanner id="start" title="Build on your complete catalog" description="Connect your software to one product model, update the intended layer, and publish through Peak PIM's multi-store workflow." primaryLabel={ctaLabels.tryFree} primaryHref={appStoreUrl} secondaryLabel={ctaLabels.talkToUs} secondaryHref="#" secondaryCrisp trustLine="Talk to us for current API access and integration guidance." />
+  <Faq id="faq" title="Frequently asked questions" description="Everything developers need to know before building with the Peak PIM API." items={faqItems}/>
+</LandingPageLayout>

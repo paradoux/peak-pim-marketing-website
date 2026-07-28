@@ -39,10 +39,20 @@ Reference the finished `/vs/*` routes. Reuse their comparison hero, verdict, tab
 
 ## Copy rules
 
+- Follow `docs/copywriting-system.md` for voice and CTA copy.
 - Lead with the operating outcome.
 - Name Shopify objects precisely: products, variants, collections, metafields, metaobjects, media, and stores.
 - Keep headings short and body copy concrete.
-- Use one primary CTA label per page, normally “Get Peak PIM” or “Try for free.”
+- Use one primary conversion label consistently across a page, normally `Get Peak PIM` or `Try for free`.
+- Import CTA labels from `src/data/cta-copy.ts`. Use a page-specific exception only when it has been explicitly approved and registered in `ctaExceptions`.
 - Do not invent customer quotes, quantified outcomes, pricing, limits, or integrations.
+
+## Illustration rules
+
+- Build marketing and product illustrations in responsive HTML/CSS by default; use raster artwork only when explicitly requested.
+- Use `ProductVisualFrame.astro` for Peak application and workflow views.
+- Match the black top bar, warm neutral surfaces, white panels, grey borders, Peak-blue selection, green readiness states, compact UI labels, and subtle shadows used by approved pages.
+- Prefer a coherent product workspace over floating cards or decorative metaphors.
+- Support 1440px, 768px, 375px, and `prefers-reduced-motion`.
 
 `/partners` is unfinished and must never be used as a source or approved reference.

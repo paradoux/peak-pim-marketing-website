@@ -1,0 +1,170 @@
+---
+import ComparisonHero from "../components/sections/ComparisonHero.astro";
+import ComparisonTable from "../components/sections/ComparisonTable.astro";
+import ComparisonVerdict from "../components/sections/ComparisonVerdict.astro";
+import CtaBanner from "../components/sections/CtaBanner.astro";
+import DecisionGuide from "../components/sections/DecisionGuide.astro";
+import Faq from "../components/sections/Faq.astro";
+import FeatureGrid from "../components/sections/FeatureGrid.astro";
+import PricingComparison from "../components/sections/PricingComparison.astro";
+import BuildVsBuyDecisionVisual from "../components/visuals/BuildVsBuyDecisionVisual.astro";
+import BuildVsBuyHeroVisual from "../components/visuals/BuildVsBuyHeroVisual.astro";
+import { assets } from "../data/assets";
+import { ctaLabels } from "../data/cta-copy";
+import LandingPageLayout from "../layouts/LandingPageLayout.astro";
+
+const appStoreUrl = "https://apps.shopify.com/peak-pim";
+
+const comparisonMetrics = [
+  { label: "Time to launch", build: "Plan, design, and build", peak: "Connect in minutes" },
+  { label: "Upfront investment", build: "Engineering capacity", peak: "Free setup" },
+  { label: "Ongoing cost", build: "Team + infrastructure", peak: "From $99/mo" },
+  { label: "Shopify maintenance", build: "Owned by your team", peak: "Handled by Peak" },
+];
+
+const buildFeatures = [
+  "Design the product, variant, metafield, and metaobject model",
+  "Build bulk editing, validation, search, filters, and undo",
+  "Build translation, media, import, export, and multi-store workflows",
+  "Own OAuth, webhooks, retries, rate limits, and API version changes",
+  "Operate hosting, monitoring, backups, permissions, and support",
+];
+
+const peakFeatures = [
+  "Shopify-native product, variant, metafield, and metaobject workspace",
+  "Bulk editing, validation, search, filters, and history ready to use",
+  "Translations, media, import, export, and multi-store workflows included",
+  "OAuth, webhooks, retries, rate limits, and API versions handled for you",
+  "Hosting, monitoring, onboarding, and human support included",
+];
+
+const pricingRows = [
+  { label: "Initial setup", left: "Discovery, product design, and engineering", right: "Free Shopify setup" },
+  { label: "Application cost", left: "Internal salaries or contractor scope", right: "Starts at $99 per month" },
+  { label: "Shopify stores", left: "You design and maintain every connection", right: "2 stores on Core" },
+  { label: "Catalog capacity", left: "Depends on the architecture you build", right: "1,500 SKUs on Core" },
+  { label: "Hosting and monitoring", left: "Separate infrastructure and ownership", right: "Included" },
+  { label: "Shopify API maintenance", left: "Planned into your engineering roadmap", right: "Included" },
+  { label: "Onboarding and support", left: "Handled internally", right: "Free, human-led" },
+];
+
+const processSteps = [
+  { icon: "store", title: "Connect Shopify", description: "Install Peak PIM from the Shopify App Store and connect your existing store without a custom integration project." },
+  { icon: "grid", title: "Load your catalog", description: "Products, variants, metafields, metaobjects, media, and current Shopify data appear in one structured workspace." },
+  { icon: "review", title: "Review your workflow", description: "Choose how your team will bulk edit, translate, manage media, and publish across connected Shopify stores." },
+  { icon: "publish", title: "Start operating", description: "Keep your products live while Peak PIM handles the catalog workflows and Shopify maintenance behind them." },
+];
+
+const faqItems = [
+  { question: "When does building a Shopify PIM make sense?", answer: "Building can make sense when you have a dedicated engineering team with spare capacity, a genuinely unusual product model, and a strategic reason to own internal catalog software long term." },
+  { question: "Can I start with Peak PIM and build something custom later?", answer: "Yes. Your product information remains in Shopify, and you can export products, metafields, metaobjects, translations, and media whenever you need them." },
+  { question: "What if my Shopify data model is unusual?", answer: "Peak PIM supports Shopify metafields and metaobjects natively. Talk to us about your model and we can confirm how it maps before you commit." },
+  { question: "Does Peak PIM have an API?", answer: "Yes. Peak PIM also provides an MCP endpoint so approved AI tools can work with your Shopify catalog." },
+  { question: "How many Shopify stores can I connect?", answer: "Core supports 2 Shopify stores, Elite supports 3, and Enterprise provides custom store limits." },
+  { question: "Is there a free plan?", answer: "There is no permanent free plan. Every plan starts with a 10-day free trial, free setup, and no credit card requirement." },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
+---
+
+<LandingPageLayout
+  title="Build vs Buy a Shopify PIM: an honest comparison"
+  description="Compare the real product, engineering, Shopify maintenance, and operating work behind building a PIM in-house versus using Peak PIM."
+  canonicalPath="/build-vs-buy-pim"
+  schemaType="Article"
+  schema={{
+    headline: "Build vs Buy a Shopify PIM: an honest comparison",
+    author: { "@type": "Organization", name: "Peak PIM" },
+    image: "https://peak-pim.com/og-build-vs-buy-pim.png",
+    mainEntityOfPage: "https://peak-pim.com/build-vs-buy-pim/",
+    datePublished: "2026-07-23",
+    dateModified: "2026-07-28",
+  }}
+  additionalSchemas={[faqSchema]}
+  ogTitle="Build vs Buy a Shopify PIM"
+  ogDescription="An honest breakdown of what it takes to build a Shopify PIM in-house, and when Peak PIM is the better call."
+  ogImage={assets.marketing.buildVsBuyOg}
+>
+  <ComparisonHero
+    title="Build or buy a Shopify PIM?"
+    description="Full comparison of the product work, Shopify engineering, and long-term ownership behind an in-house PIM, and when using Peak PIM is the better call."
+    primaryCta={{ label: ctaLabels.seeComparisonCompact, href: "#comparison" }}
+    secondaryCta={{ label: ctaLabels.tryFree, href: appStoreUrl, external: true }}
+  >
+    <BuildVsBuyHeroVisual />
+  </ComparisonHero>
+
+  <ComparisonVerdict
+    id="verdict"
+    verdict="Build when owning internal catalog software is strategically important and your engineering team has the capacity to maintain it. Use Peak PIM when your priority is operating a Shopify catalog now, not becoming a PIM software company."
+  />
+
+  <ComparisonTable
+    id="comparison"
+    title="Building in-house and Peak PIM, side by side"
+    description="The choice is not only build cost versus subscription cost. It is also who owns every workflow and Shopify change after launch."
+    metrics={comparisonMetrics}
+    build={{ label: "Build your own", description: "Maximum control, permanent ownership", icon: "code", features: buildFeatures }}
+    peak={{ label: "Peak PIM", description: "Shopify-native and ready to use", logo: { src: assets.logo.peakSmall, alt: "Peak PIM" }, features: peakFeatures }}
+  />
+
+  <PricingComparison
+    id="pricing-comparison"
+    title="Compare what you actually pay for"
+    description="Peak PIM starts with the Core plan. An in-house build varies by scope, so its column shows the work and ownership you need to budget."
+    leftPlan={{ name: "Build in-house", price: "Custom", unit: "Engineering scope", description: "Software your team designs, builds, and operates", ctaLabel: ctaLabels.seeComparison, ctaHref: "#decision" }}
+    rightPlan={{ name: "Peak PIM", pricePrefix: "Starts at", price: "$99", unit: "Per month", description: "Core includes 1,500 SKUs and 2 Shopify stores", ctaLabel: ctaLabels.seePricing, ctaHref: "/pricing/" }}
+    rows={pricingRows}
+  />
+
+  <DecisionGuide
+    id="decision"
+    title="Which path fits your team?"
+    description="Both choices can be valid. The right answer depends on whether catalog software is part of your competitive advantage or infrastructure your team simply needs to work."
+    choices={[
+      { title: "Build your own if", description: "You have dedicated engineering capacity, a genuinely unusual Shopify data model, and a strategic reason to own and maintain internal catalog software for years." },
+      { title: "Choose Peak PIM if", description: "You are Shopify-first, need better catalog operations this quarter, and want your engineers focused on customer-facing or revenue-generating work." },
+    ]}
+    secondaryLabel={ctaLabels.seeComparison}
+    secondaryHref="/shopify-pim-alternatives/"
+    secondaryCrisp={false}
+  >
+    <BuildVsBuyDecisionVisual slot="visual" />
+  </DecisionGuide>
+
+  <FeatureGrid
+    id="implementation"
+    tagline="Getting started"
+    title="From decision to working catalog"
+    description="Peak PIM connects to the Shopify catalog you already operate. There is no separate PIM migration project before your team can begin."
+    features={processSteps}
+    cta={{ label: ctaLabels.talkToUs, href: "#", crisp: true }}
+  />
+
+  <Faq
+    id="faq"
+    title="Frequently asked questions"
+    description="Common questions about building or buying a Shopify PIM."
+    items={faqItems}
+  />
+
+  <CtaBanner
+    id="start"
+    title="Skip the internal build. Start operating."
+    description="Connect your Shopify catalog and start managing product information with Peak PIM."
+    primaryLabel={ctaLabels.tryFree}
+    primaryHref={appStoreUrl}
+    secondaryLabel={ctaLabels.talkToUs}
+    secondaryHref="#"
+    secondaryCrisp
+    trustLine="10-day free trial. Free setup. No credit card."
+  />
+</LandingPageLayout>

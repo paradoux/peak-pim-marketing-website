@@ -2,6 +2,7 @@
 import Button from "../ui/Button.astro";
 import PeakIcon from "../ui/PeakIcon.astro";
 import SectionHeading from "../ui/SectionHeading.astro";
+import type { CtaLabel } from "../../data/cta-copy";
 
 type IconName = Parameters<typeof PeakIcon>[0]["name"];
 type Item = { icon: IconName; title: string; description: string };
@@ -10,7 +11,7 @@ type Props = {
   title: string;
   description?: string;
   items: Item[];
-  link?: { label: string; href: string };
+  link?: { label: CtaLabel; href: string };
 };
 
 const { tagline, title, description, items, link } = Astro.props;

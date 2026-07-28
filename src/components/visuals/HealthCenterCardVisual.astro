@@ -1,0 +1,339 @@
+---
+type Props = { mode: "detect" | "drill" | "fix" };
+const { mode } = Astro.props;
+---
+
+<div class:list={["peak-health-card-visual", `is-${mode}`]} role="img" aria-label={
+  mode === "detect"
+    ? "Peak PIM Health Center running catalog checks and keeping the latest results"
+    : mode === "drill"
+      ? "Health Center issue list filtered to products with missing catalog fields"
+      : "Health Center harmonize view comparing and repairing values across Shopify stores"
+}>
+  <div class="peak-health-card-bar"><i></i><i></i><i></i><span></span></div>
+
+  {mode === "detect" && (
+    <div class="peak-health-card-body">
+      <div class="peak-health-card-top"><span>Catalog health</span><strong>Run all</strong></div>
+      <div class="peak-health-card-tiles">
+        <span><i class="is-blue">↕</i><b>Matches Shopify</b><em>18</em><small>2 min ago</small></span>
+        <span><i>≠</i><b>Value consistency</b><em>7</em><small>2 min ago</small></span>
+        <span><i class="is-amber">✓</i><b>Completeness</b><em>24</em><small>2 min ago</small></span>
+        <span><i>⌫</i><b>Unused entities</b><em>9</em><small>2 min ago</small></span>
+      </div>
+    </div>
+  )}
+
+  {mode === "drill" && (
+    <div class="peak-health-card-body">
+      <div class="peak-health-card-top"><span>Completeness · SEO</span><strong class="is-secondary">Run again</strong></div>
+      <div class="peak-health-card-filters"><span>24 missing</span><span>All stores</span><span>Products</span></div>
+      <div class="peak-health-card-list">
+        <div><i></i><span><b>Ridge Jacket</b><small>SEO description · Alt text</small></span><em>Fill</em></div>
+        <div><i class="is-blue"></i><span><b>Trail Pack</b><small>SEO title</small></span><em>Fill</em></div>
+        <div><i class="is-sand"></i><span><b>Summit Cap</b><small>Alt text</small></span><em>Fill</em></div>
+      </div>
+    </div>
+  )}
+
+  {mode === "fix" && (
+    <div class="peak-health-card-body">
+      <div class="peak-health-card-top"><span>Harmonize · Ridge Jacket</span><strong>Adopt US</strong></div>
+      <div class="peak-health-card-table">
+        <div class="is-head"><span>Field</span><span>US</span><span>FR</span><span>GB</span></div>
+        <div><b>Title</b><span>Ridge Jacket</span><span>Veste Ridge</span><span>Ridge Jacket</span></div>
+        <div><b>Price</b><span>$129</span><span>€139</span><span>£119</span></div>
+        <div><b>Vendor</b><span>Summit</span><span class="is-different">Summit Gear</span><span>Summit</span></div>
+      </div>
+      <div class="peak-health-card-actions"><span>Leave as is</span><span>Save draft</span><strong>Save &amp; Publish</strong></div>
+    </div>
+  )}
+</div>
+
+<style>
+  .peak-health-card-visual {
+    width: 100%;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    border-radius: 8px 8px 0 0;
+    background: #f6f3ec;
+    color: #191919;
+    font-family: Inter, Arial, sans-serif;
+    text-align: left;
+  }
+
+  .peak-health-card-bar {
+    display: flex;
+    height: 32px;
+    align-items: center;
+    gap: 5px;
+    padding: 0 12px;
+    background: #191919;
+  }
+
+  .peak-health-card-bar i {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #777;
+  }
+
+  .peak-health-card-bar span {
+    width: 42px;
+    height: 5px;
+    margin-left: auto;
+    border-radius: 999px;
+    background: #363636;
+  }
+
+  .peak-health-card-body {
+    padding: 9%;
+  }
+
+  .peak-health-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 9%;
+    color: #777;
+    font-size: clamp(7px, 0.7vw, 10px);
+    font-weight: 700;
+  }
+
+  .peak-health-card-top strong {
+    padding: 6px 8px;
+    border-radius: 4px;
+    background: #2845d6;
+    color: #fff;
+    font-size: clamp(6px, 0.62vw, 8px);
+  }
+
+  .peak-health-card-top strong.is-secondary {
+    border: 1px solid #d7d4ce;
+    background: #fff;
+    color: #555;
+  }
+
+  .peak-health-card-tiles {
+    display: grid;
+    gap: 7px;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .peak-health-card-tiles > span {
+    display: grid;
+    align-items: center;
+    gap: 4px 7px;
+    padding: 9px;
+    border: 1px solid #dfddd7;
+    border-radius: 6px;
+    background: #fff;
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .peak-health-card-tiles i {
+    display: grid;
+    width: 21px;
+    height: 21px;
+    grid-row: 1 / 3;
+    place-items: center;
+    border-radius: 4px;
+    background: #f0eee8;
+    color: #555;
+    font-size: 8px;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .peak-health-card-tiles i.is-blue {
+    background: #e9edff;
+    color: #2845d6;
+  }
+
+  .peak-health-card-tiles i.is-amber {
+    background: #fff0d7;
+    color: #976514;
+  }
+
+  .peak-health-card-tiles b {
+    overflow: hidden;
+    font-size: clamp(6px, 0.62vw, 8px);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .peak-health-card-tiles em {
+    color: #c24e43;
+    font-size: clamp(8px, 0.8vw, 11px);
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .peak-health-card-tiles small {
+    color: #888;
+    font-size: clamp(5px, 0.5vw, 7px);
+  }
+
+  .peak-health-card-filters {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 7%;
+  }
+
+  .peak-health-card-filters span {
+    padding: 5px 7px;
+    border-radius: 999px;
+    background: #efede7;
+    color: #666;
+    font-size: clamp(6px, 0.55vw, 7px);
+  }
+
+  .peak-health-card-filters span:first-child {
+    background: #fff0ee;
+    color: #aa4139;
+  }
+
+  .peak-health-card-list {
+    display: grid;
+    gap: 7px;
+  }
+
+  .peak-health-card-list > div {
+    display: grid;
+    align-items: center;
+    gap: 7px;
+    padding: 9px;
+    border: 1px solid #dfddd7;
+    border-radius: 5px;
+    background: #fff;
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .peak-health-card-list > div > i {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    background: #202020;
+  }
+
+  .peak-health-card-list > div > i.is-blue {
+    background: #9db0cc;
+  }
+
+  .peak-health-card-list > div > i.is-sand {
+    background: #d3b898;
+  }
+
+  .peak-health-card-list > div > span {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .peak-health-card-list b {
+    font-size: clamp(6px, 0.62vw, 8px);
+  }
+
+  .peak-health-card-list small {
+    overflow: hidden;
+    color: #777;
+    font-size: clamp(5px, 0.52vw, 7px);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .peak-health-card-list em {
+    padding: 5px 7px;
+    border-radius: 4px;
+    background: #e9edff;
+    color: #2845d6;
+    font-size: clamp(6px, 0.56vw, 8px);
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .peak-health-card-table {
+    overflow: hidden;
+    border: 1px solid #dfddd7;
+    border-radius: 5px;
+    background: #fff;
+  }
+
+  .peak-health-card-table > div {
+    display: grid;
+    gap: 5px;
+    padding: 8px;
+    border-top: 1px solid #eceae5;
+    font-size: clamp(5px, 0.52vw, 7px);
+    grid-template-columns: 0.7fr repeat(3, 1fr);
+  }
+
+  .peak-health-card-table > div.is-head {
+    border-top: 0;
+    background: #f7f5f0;
+    color: #777;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .peak-health-card-table span {
+    overflow: hidden;
+    padding: 4px;
+    border-radius: 3px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .peak-health-card-table span.is-different {
+    background: #fff0ee;
+    color: #aa4139;
+  }
+
+  .peak-health-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+    margin-top: 8%;
+    font-size: clamp(5px, 0.53vw, 7px);
+  }
+
+  .peak-health-card-actions span,
+  .peak-health-card-actions strong {
+    padding: 6px 7px;
+    border-radius: 4px;
+  }
+
+  .peak-health-card-actions span {
+    border: 1px solid #d7d4ce;
+    background: #fff;
+  }
+
+  .peak-health-card-actions strong {
+    background: #2845d6;
+    color: #fff;
+  }
+
+  @media (max-width: 767px) {
+    .peak-health-card-top,
+    .peak-health-card-tiles b,
+    .peak-health-card-list b {
+      font-size: 9px;
+    }
+
+    .peak-health-card-top strong,
+    .peak-health-card-tiles small,
+    .peak-health-card-filters span,
+    .peak-health-card-list small,
+    .peak-health-card-list em,
+    .peak-health-card-table > div,
+    .peak-health-card-actions {
+      font-size: 7px;
+    }
+
+    .peak-health-card-tiles em {
+      font-size: 10px;
+    }
+  }
+</style>

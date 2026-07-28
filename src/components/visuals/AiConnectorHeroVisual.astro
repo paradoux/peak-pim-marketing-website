@@ -1,0 +1,37 @@
+---
+import ProductVisualFrame from "../ui/ProductVisualFrame.astro";
+---
+
+<ProductVisualFrame
+  ariaLabel="Peak PIM AI connector conversation showing a merchant asking about missing SEO descriptions and reviewing catalog results"
+  section="AI Connector"
+  status="Read & update"
+  actionLabel="Review draft"
+>
+  <div class="peak-ai-workspace">
+    <aside class="peak-ai-prompts">
+      <strong>Ask your catalog</strong>
+      <button class="is-active">Which products are missing SEO descriptions?</button>
+      <button>Translate my Summer collection into French and German, then save as drafts.</button>
+      <button>List draft products from vendor X.</button>
+      <button>Compare this product across US and DE.</button>
+    </aside>
+    <div class="peak-ai-chat">
+      <div class="peak-ai-message is-user">Which products are missing SEO descriptions?</div>
+      <div class="peak-ai-message is-assistant">
+        <div class="peak-ai-agent"><i aria-hidden="true"></i><b>Peak PIM</b><span>searched 1,248 products</span></div>
+        <p>I found <strong>18 products</strong> with an empty SEO description across three stores.</p>
+        <div class="peak-ai-results">
+          <span><i>AJ</i><b>Alpine Jacket</b><small>FR · Draft</small></span>
+          <span><i>TB</i><b>Trail Backpack</b><small>US · Active</small></span>
+          <span><i>SC</i><b>Summit Cap</b><small>DE · Draft</small></span>
+        </div>
+        <div class="peak-ai-next"><span>Suggested next step</span><b>Draft the missing descriptions</b><em>No changes published</em></div>
+      </div>
+    </div>
+  </div>
+</ProductVisualFrame>
+
+<style>
+  .peak-ai-workspace{display:grid;min-height:440px;grid-template-columns:190px minmax(0,1fr);background:#f6f3ec}.peak-ai-prompts{display:flex;flex-direction:column;gap:8px;padding:22px 14px;border-right:1px solid #dfdcd5;background:#fbfaf7}.peak-ai-prompts strong{padding:0 8px 8px;font-size:10px}.peak-ai-prompts button{padding:10px 9px;border:0;border-radius:6px;background:transparent;color:#666;font:500 8px/1.35 Inter,Arial,sans-serif;text-align:left}.peak-ai-prompts button.is-active{background:#e9edff;color:#2845d6}.peak-ai-chat{padding:28px}.peak-ai-message{max-width:82%;padding:12px 14px;border-radius:10px;font-size:9px;line-height:1.45}.peak-ai-message.is-user{margin-left:auto;background:#191919;color:#fff}.peak-ai-message.is-assistant{margin-top:18px;padding:18px;background:#fff;box-shadow:0 5px 18px rgba(0,0,0,.07)}.peak-ai-agent{display:flex;align-items:center;gap:7px;color:#777}.peak-ai-agent i{width:18px;height:18px;border-radius:4px;background:#191919}.peak-ai-agent b{color:#191919}.peak-ai-agent span{margin-left:auto;font-size:7px}.peak-ai-message p{margin:14px 0 12px}.peak-ai-results{display:grid;gap:6px}.peak-ai-results span{display:grid;grid-template-columns:26px 1fr auto;align-items:center;gap:8px;padding:7px;border:1px solid #ece9e2;border-radius:6px}.peak-ai-results i{display:grid;width:24px;height:24px;place-items:center;border-radius:4px;background:#eef1ff;color:#2845d6;font-size:7px;font-style:normal}.peak-ai-results small{color:#888;font-size:7px}.peak-ai-next{display:grid;margin-top:10px;padding:10px;border-radius:6px;background:#f6f3ec;grid-template-columns:1fr auto}.peak-ai-next span{grid-column:1/-1;color:#888;font-size:7px}.peak-ai-next b{margin-top:3px}.peak-ai-next em{align-self:end;color:#4c925f;font-size:7px;font-style:normal}@media(max-width:767px){.peak-ai-workspace{min-height:390px;grid-template-columns:1fr}.peak-ai-prompts{display:none}.peak-ai-chat{padding:18px}.peak-ai-message{max-width:92%}}@media(prefers-reduced-motion:no-preference){.peak-ai-message.is-assistant{animation:peak-ai-enter .7s ease both}@keyframes peak-ai-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}}@media(prefers-reduced-motion:reduce){.peak-ai-message.is-assistant{animation:none}}
+</style>

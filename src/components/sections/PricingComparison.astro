@@ -1,0 +1,85 @@
+---
+import Button from "../ui/Button.astro";
+import type { CtaLabel } from "../../data/cta-copy";
+
+type Plan = {
+  name: string;
+  pricePrefix?: string;
+  price: string;
+  unit: string;
+  description: string;
+  ctaLabel: CtaLabel;
+  ctaHref: string;
+  external?: boolean;
+};
+type Row = { label: string; left: string; right: string };
+type Props = {
+  id?: string;
+  tagline?: string;
+  title: string;
+  description?: string;
+  leftPlan: Plan;
+  rightPlan: Plan;
+  rows: Row[];
+};
+
+const { id, tagline = "Pricing", title, description, leftPlan, rightPlan, rows } = Astro.props;
+const plans = [leftPlan, rightPlan];
+---
+
+<section id={id} class="section_pricing50 peak-pricing-comparison color-scheme-1">
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="padding-section-large">
+        <div class="pricing50_component peak-pricing-comparison__component">
+          <div class="margin-bottom margin-xxlarge">
+            <div class="text-align-center">
+              <div class="max-width-large align-center">
+                <div class="margin-bottom margin-xsmall"><div class="text-style-tagline">{tagline}</div></div>
+                <div class="margin-bottom margin-small"><h2 class="heading-style-h2">{title}</h2></div>
+                {description && <p class="text-size-medium">{description}</p>}
+              </div>
+            </div>
+          </div>
+          <div class="pricing50_plans">
+            <div class="w-layout-grid pricing50_top-row">
+              <div class="pricing50_empty-space"></div>
+              {plans.map((plan, index) => (
+                <div class:list={["pricing50_top-row-content", index === 0 && "is-first"]}>
+                  <div class="pricing50_top-row-wrapper">
+                    <div class="heading-style-h6">{plan.name}</div>
+                    <div class="margin-vertical margin-xsmall">
+                      <div class="pricing50_top-row-price-wrapper">
+                        {plan.pricePrefix && <div class="text-weight-bold">{plan.pricePrefix}</div>}
+                        <div class="heading-style-h1">{plan.price}</div>
+                        <div class="text-weight-bold">{plan.unit}</div>
+                      </div>
+                    </div>
+                    <div>{plan.description}</div>
+                  </div>
+                  <div class="margin-top margin-medium"><Button href={plan.ctaHref} external={plan.external}>{plan.ctaLabel}</Button></div>
+                </div>
+              ))}
+            </div>
+            <div class="pricing50_heading-row"><div class="heading-style-h6">What the price includes</div></div>
+            {rows.map((row) => (
+              <div class="w-layout-grid pricing50_row">
+                <div class="pricing50_feature"><div>{row.label}</div></div>
+                <div class="pricing50_row-content is-first"><div>{row.left}</div></div>
+                <div class="pricing50_row-content"><div>{row.right}</div></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @media screen and (max-width: 767px) {
+    .peak-pricing-comparison .pricing50_feature {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

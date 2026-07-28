@@ -1,0 +1,63 @@
+---
+import ProductVisualFrame from "../ui/ProductVisualFrame.astro";
+---
+
+<ProductVisualFrame
+  ariaLabel="Peak PIM metafield definition workspace showing one Material definition linked across US, France, and Germany Shopify stores"
+  section="Metafields"
+  status="3 stores linked"
+  actionLabel="Publish changes"
+>
+  <div class="peak-mf-workspace">
+    <aside class="peak-mf-sidebar">
+      <div class="peak-mf-sidebar__heading"><strong>Definitions</strong><span>24</span></div>
+      <label><span aria-hidden="true">⌕</span>Search metafields</label>
+      <small>Products</small>
+      <button class="is-active"><b>Material</b><em>3 stores</em></button>
+      <button><b>Care instructions</b><em>3 stores</em></button>
+      <button><b>Release date</b><em>2 stores</em></button>
+      <small>Variants</small>
+      <button><b>Shell weight</b><em>3 stores</em></button>
+      <button><b>Season</b><em>3 stores</em></button>
+    </aside>
+
+    <div class="peak-mf-main">
+      <header class="peak-mf-title">
+        <div><small>Product metafield</small><strong>Material</strong><code>custom.material</code></div>
+        <span>Single-line text</span>
+      </header>
+
+      <nav class="peak-mf-tabs" aria-label="Metafield store views">
+        <button class="is-active"><i>US</i>United States</button>
+        <button><i>FR</i>France</button>
+        <button><i>DE</i>Germany</button>
+        <button>Settings</button>
+      </nav>
+
+      <div class="peak-mf-content">
+        <section class="peak-mf-form">
+          <div class="peak-mf-field"><small>Name</small><b>Material</b></div>
+          <div class="peak-mf-field"><small>Description</small><b>Primary material used in this product</b></div>
+          <div class="peak-mf-field is-wide"><small>Validation</small><span><b>Minimum length</b><em>2 characters</em></span><span><b>Maximum length</b><em>80 characters</em></span></div>
+        </section>
+
+        <aside class="peak-mf-coverage">
+          <small>Store coverage</small>
+          <strong>Linked everywhere</strong>
+          <div><i>US</i><span><b>United States</b><em>Published</em></span><mark>✓</mark></div>
+          <div><i>FR</i><span><b>France</b><em>Published</em></span><mark>✓</mark></div>
+          <div><i>DE</i><span><b>Germany</b><em>Ready to publish</em></span><mark>→</mark></div>
+          <button>Link another store</button>
+        </aside>
+      </div>
+    </div>
+  </div>
+</ProductVisualFrame>
+
+<style>
+  .peak-mf-workspace{display:grid;min-height:440px;grid-template-columns:168px minmax(0,1fr);background:#f6f3ec;color:#191919;font-family:Inter,Arial,sans-serif}.peak-mf-sidebar{display:flex;flex-direction:column;gap:6px;padding:19px 13px;border-right:1px solid #dedbd3;background:#fbfaf7}.peak-mf-sidebar__heading{display:flex;align-items:center;justify-content:space-between;padding:0 6px 6px;font-size:10px}.peak-mf-sidebar__heading span{display:grid;width:20px;height:20px;place-items:center;border-radius:50%;background:#ece9e2;color:#666;font-size:7px}.peak-mf-sidebar label{display:flex;align-items:center;gap:5px;padding:8px;border:1px solid #dedbd3;border-radius:5px;background:#fff;color:#999;font-size:7px}.peak-mf-sidebar small{margin:9px 6px 1px;color:#999;font-size:7px;text-transform:uppercase}.peak-mf-sidebar button{display:grid;gap:2px;padding:8px;border:0;border-radius:5px;background:transparent;color:#555;text-align:left}.peak-mf-sidebar button b{font:600 8px Inter,Arial,sans-serif}.peak-mf-sidebar button em{color:#999;font:normal 6px Inter,Arial,sans-serif}.peak-mf-sidebar button.is-active{background:#e9edff;color:#2845d6}.peak-mf-main{min-width:0;padding:22px 22px 18px}.peak-mf-title{display:flex;align-items:center;justify-content:space-between}.peak-mf-title>div{display:grid;grid-template-columns:auto 1fr;gap:2px 7px}.peak-mf-title small{grid-column:1/-1;color:#777;font-size:7px}.peak-mf-title strong{font-size:14px}.peak-mf-title code{align-self:end;color:#888;font:7px Inter,Arial,sans-serif}.peak-mf-title>span{padding:6px 8px;border-radius:999px;background:#eeeae1;color:#555;font-size:7px}.peak-mf-tabs{display:flex;gap:3px;margin-top:18px;border-bottom:1px solid #dcd8d0}.peak-mf-tabs button{display:flex;align-items:center;gap:5px;padding:8px 9px;border:0;border-bottom:2px solid transparent;background:transparent;color:#777;font:500 7px Inter,Arial,sans-serif}.peak-mf-tabs button.is-active{border-bottom-color:#2845d6;color:#2845d6}.peak-mf-tabs i,.peak-mf-coverage i{display:grid;width:21px;height:21px;place-items:center;border-radius:4px;background:#191919;color:#fff;font:normal 6px Inter,Arial,sans-serif}.peak-mf-content{display:grid;gap:13px;margin-top:15px;grid-template-columns:minmax(0,1fr) 145px}.peak-mf-form{display:grid;gap:9px}.peak-mf-field{display:flex;flex-direction:column;gap:6px;padding:10px;border:1px solid #ddd9d1;border-radius:7px;background:#fff}.peak-mf-field small{color:#777;font-size:7px}.peak-mf-field>b{font-size:8px;font-weight:500}.peak-mf-field.is-wide{display:grid;grid-template-columns:1fr 1fr}.peak-mf-field.is-wide>small{grid-column:1/-1}.peak-mf-field.is-wide span{display:flex;flex-direction:column;gap:3px;padding:7px;border-radius:5px;background:#f6f3ec}.peak-mf-field.is-wide span b{font-size:7px}.peak-mf-field.is-wide span em{color:#777;font-size:6px;font-style:normal}.peak-mf-coverage{display:flex;flex-direction:column;gap:8px;padding:11px;border:1px solid #ddd9d1;border-radius:7px;background:#fbfaf7}.peak-mf-coverage>small{color:#777;font-size:7px}.peak-mf-coverage>strong{font-size:9px}.peak-mf-coverage>div{display:grid;align-items:center;gap:6px;padding:7px;border-radius:5px;background:#fff;grid-template-columns:21px 1fr auto}.peak-mf-coverage>div span{display:flex;min-width:0;flex-direction:column}.peak-mf-coverage>div b{overflow:hidden;font-size:7px;text-overflow:ellipsis;white-space:nowrap}.peak-mf-coverage>div em{color:#777;font-size:6px;font-style:normal}.peak-mf-coverage mark{background:none;color:#3d8c56;font-size:8px}.peak-mf-coverage>div:last-of-type mark{color:#2845d6}.peak-mf-coverage>button{padding:8px;border:1px solid #d5d1c9;border-radius:5px;background:transparent;color:#333;font:600 7px Inter,Arial,sans-serif}
+  @media(max-width:767px){.peak-mf-workspace{min-height:410px;grid-template-columns:1fr}.peak-mf-sidebar{display:none}.peak-mf-main{padding:17px}.peak-mf-tabs button{padding-inline:7px}.peak-mf-tabs button i{display:none}}
+  @media(max-width:479px){.peak-mf-content{grid-template-columns:1fr}.peak-mf-coverage{display:grid;grid-template-columns:1fr 1fr}.peak-mf-coverage>small,.peak-mf-coverage>strong,.peak-mf-coverage>button{grid-column:1/-1}.peak-mf-coverage>div:nth-of-type(3){display:none}.peak-mf-field.is-wide{display:none}.peak-mf-title code,.peak-mf-tabs button:nth-child(3){display:none}}
+  @media(prefers-reduced-motion:no-preference){.peak-mf-coverage>div:last-of-type{animation:peak-mf-ready 3s ease-in-out infinite}@keyframes peak-mf-ready{50%{box-shadow:0 0 0 3px rgba(40,69,214,.12);transform:translateY(-1px)}}}
+  @media(prefers-reduced-motion:reduce){.peak-mf-coverage>div:last-of-type{animation:none}}
+</style>

@@ -1,10 +1,15 @@
 import { pagesBySlug, type PageDefinition } from "../data/pages";
+import { normalizeCtaCopyInHtml } from "../data/cta-copy";
+import { featureNavigationGroups } from "../data/site-navigation";
 
-const pageModules = import.meta.glob<string>("../content/recreated-pages/*.html", {
-  eager: true,
-  query: "?raw",
-  import: "default",
-});
+const pageModules = import.meta.glob<string>(
+  ["../content/recreated-pages/*.html", "!../content/recreated-pages/partners.html"],
+  {
+    eager: true,
+    query: "?raw",
+    import: "default",
+  },
+);
 
 const homeHtml = pageModules["../content/recreated-pages/index.html"];
 
@@ -16,14 +21,18 @@ function innerMatch(html: string, pattern: RegExp) {
   return html.match(pattern)?.[1] ?? "";
 }
 
-const sharedHeaderHtml = firstMatch(
-  homeHtml,
-  /<div data-animation="default" class="navbar12_component[\s\S]*?<main class="main-wrapper">/,
-).replace(/<main class="main-wrapper">$/, "");
+const sharedHeaderHtml = normalizeCtaCopyInHtml(
+  firstMatch(
+    homeHtml,
+    /<div data-animation="default" class="navbar12_component[\s\S]*?<main class="main-wrapper">/,
+  ).replace(/<main class="main-wrapper">$/, ""),
+);
 
 const sharedGlobalStylesHtml = firstMatch(homeHtml, /<div class="global-styles">[\s\S]*?<\/div><\/div>/);
 
-const sharedFooterHtml = firstMatch(homeHtml, /<footer class="footer1_component"[\s\S]*?<\/footer>/);
+const sharedFooterHtml = normalizeCtaCopyInHtml(firstMatch(homeHtml, /<footer class="footer1_component"[\s\S]*?<\/footer>/));
+const sharedLogoBannerHtml = firstMatch(homeHtml, /<section class="section_logo2 color-scheme-2">[\s\S]*?<\/section>/);
+const featurePageSlugs = new Set(featureNavigationGroups.flatMap((group) => group.links.map((link) => link.href.replace(/^\//, "").replace(/\/$/, ""))));
 
 export function getPage(slug = "") {
   return pagesBySlug.get(slug);
@@ -36,7 +45,8 @@ export function getPageDocument(page: PageDefinition) {
     throw new Error(`Missing recreated page source: ${page.source}`);
   }
 
-  const html = applyContentCorrections(sourceHtml, page);
+  const correctedHtml = applyContentCorrections(sourceHtml, page);
+  const html = normalizeCtaCopyInHtml(featurePageSlugs.has(page.slug) ? harmonizeFeatureFaqHeading(correctedHtml) : correctedHtml);
 
   return {
     html,
@@ -49,8 +59,19 @@ export function getPageDocument(page: PageDefinition) {
 }
 
 function applyContentCorrections(html: string, page: PageDefinition) {
+  if (["shopify-media-management", "industry/fashion"].includes(page.slug)) {
+    return replaceLogoBannerWithHomepageVersion(html);
+  }
+
   if (page.slug === "pricing") {
     return improvePricingCrawlerContent(html);
+  }
+
+  if (page.slug === "bulk-edit") {
+    return html.replace(
+      "Bulk edits apply immediately. Scheduled edits are on our roadmap. If it's a priority for you, let us know and we'll bump it up.",
+      "Yes. Select products, variants, or collections in the bulk editor, set the new values, and choose Schedule to add every change to a Drop. Peak applies them at the start time and can restore the captured live values automatically at the end.",
+    );
   }
 
   if (page.slug !== "shopify-multi-store-pim") {
@@ -68,7 +89,7 @@ function applyContentCorrections(html: string, page: PageDefinition) {
       },`;
   const scalePlanFaqAnswer = "It depends on your plan. Core supports 2 stores, Elite supports 5, Scale supports 8, and Enterprise supports unlimited stores. You can connect additional stores at any time from your Peak PIM dashboard.";
   const currentPlanFaqAnswer = "Core supports 2 stores and Elite supports 3. Need more? Contact us about an Enterprise plan.";
-  const outdatedMultiStorePlanAnswer = "Yes. Every Peak PIM plan supports multiple stores. The number of stores you can connect scales with your plan — from 2 stores on Core up to unlimited on Enterprise.";
+  const outdatedMultiStorePlanAnswer = "Yes. Every Peak PIM plan supports multiple stores. The number of stores you can connect scales with your plan: from 2 stores on Core up to unlimited on Enterprise.";
   const outdatedVisibleMultiStorePlanAnswer = "Yes. Every Peak PIM plan supports multiple stores. The number of stores you can connect scales with your plan. From 2 stores on Core up to unlimited on Enterprise.";
   const currentMultiStorePlanAnswer = "Yes. Every Peak PIM plan supports multiple stores. Core includes 2 stores and Elite includes 3. For additional stores, contact us about an Enterprise plan.";
   const scalePlanCardIndex = html.indexOf(scalePlanCardStart);
@@ -95,6 +116,37 @@ function applyContentCorrections(html: string, page: PageDefinition) {
     .replaceAll("Account manager", "Dedicated support");
 
   return removePricingFeature(removePricingFeature(withCurrentLimits, enterprisePlanCardStart, "Metaobjects"), enterprisePlanCardStart, "Translations");
+}
+
+function replaceLogoBannerWithHomepageVersion(html: string) {
+  const logoBannerPattern = /<section\b[^>]*class="section_logo[23] color-scheme-[12]"[^>]*>[\s\S]*?<\/section>/;
+
+  if (!sharedLogoBannerHtml || !logoBannerPattern.test(html)) {
+    throw new Error("The page logo banner could not be replaced with the homepage version.");
+  }
+
+  return html.replace(logoBannerPattern, sharedLogoBannerHtml);
+}
+
+function harmonizeFeatureFaqHeading(html: string) {
+  const faqStart = html.search(/<section\b[^>]*class="[^"]*\bsection_faq1\b[^"]*"[^>]*>/);
+
+  if (faqStart === -1) {
+    throw new Error("The feature page is missing its FAQ section.");
+  }
+
+  const faqEnd = html.indexOf("</section>", faqStart);
+  const faqHtml = html.slice(faqStart, faqEnd + "</section>".length);
+  const updatedFaqHtml = faqHtml.replace(
+    /<h2\b([^>]*)>(?:FAQ|Questions|Frequently asked questions)<\/h2>/,
+    '<h2$1>Frequently asked questions</h2>',
+  );
+
+  if (updatedFaqHtml === faqHtml && !faqHtml.includes(">Frequently asked questions</h2>")) {
+    throw new Error("The feature FAQ heading could not be harmonized.");
+  }
+
+  return html.slice(0, faqStart) + updatedFaqHtml + html.slice(faqEnd + "</section>".length);
 }
 
 function improvePricingCrawlerContent(html: string) {
@@ -150,6 +202,10 @@ export function getSharedGlobalStylesHtml() {
 
 export function getSharedFooterHtml() {
   return sharedFooterHtml;
+}
+
+export function getSharedLogoBannerHtml() {
+  return sharedLogoBannerHtml;
 }
 
 function extractMain(html: string) {

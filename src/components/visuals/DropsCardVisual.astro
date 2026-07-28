@@ -1,0 +1,311 @@
+---
+type Props = { mode: "schedule" | "preview" | "restore" };
+const { mode } = Astro.props;
+---
+
+<div class:list={["peak-drops-card-visual", `is-${mode}`]} role="img" aria-label={
+  mode === "schedule"
+    ? "Peak PIM bulk editor scheduling selected catalog changes onto a Drop"
+    : mode === "preview"
+      ? "Drop preview showing store-specific before and after values"
+      : "Drop lifecycle showing scheduled changes applying and reverting automatically"
+}>
+  <div class="peak-drops-card-bar"><i></i><i></i><i></i><span></span></div>
+
+  {mode === "schedule" && (
+    <div class="peak-drops-card-body">
+      <div class="peak-drops-card-label">Bulk edit · 48 selected</div>
+      <div class="peak-drops-card-rows">
+        <span><i></i><b>Ridge Jacket</b><em>$99</em></span>
+        <span><i></i><b>Trail Pack</b><em>$79</em></span>
+        <span><i></i><b>Summit Cap</b><em>$24</em></span>
+      </div>
+      <div class="peak-drops-card-action"><span>Save</span><strong>Schedule</strong></div>
+    </div>
+  )}
+
+  {mode === "preview" && (
+    <div class="peak-drops-card-body">
+      <div class="peak-drops-card-label">Black Friday · Preview</div>
+      <div class="peak-drops-card-stats"><span><small>Changes</small><b>184</b></span><span><small>Conflicts</small><b>0</b></span></div>
+      <div class="peak-drops-card-diff"><em>US</em><span><small>Price</small><del>$129</del><b>$99</b></span></div>
+      <div class="peak-drops-card-diff"><em>FR</em><span><small>Title</small><del>Trail Pack</del><b>Weekend Trail Pack</b></span></div>
+    </div>
+  )}
+
+  {mode === "restore" && (
+    <div class="peak-drops-card-body">
+      <div class="peak-drops-card-label">Drop lifecycle</div>
+      <div class="peak-drops-card-timeline">
+        <span class="is-done"><i>✓</i><b>Scheduled</b><small>Nov 28 · 00:01</small></span>
+        <span class="is-live"><i>↓</i><b>Active</b><small>Published to 3 stores</small></span>
+        <span><i>↶</i><b>Reverted</b><small>Dec 2 · 00:01</small></span>
+      </div>
+      <div class="peak-drops-card-note">Original values captured at start</div>
+    </div>
+  )}
+</div>
+
+<style>
+  .peak-drops-card-visual {
+    width: 100%;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    border-radius: 8px 8px 0 0;
+    background: #f6f3ec;
+    color: #191919;
+    font-family: Inter, Arial, sans-serif;
+    text-align: left;
+  }
+
+  .peak-drops-card-bar {
+    display: flex;
+    height: 32px;
+    align-items: center;
+    gap: 5px;
+    padding: 0 12px;
+    background: #191919;
+  }
+
+  .peak-drops-card-bar i {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #777;
+  }
+
+  .peak-drops-card-bar span {
+    width: 42px;
+    height: 5px;
+    margin-left: auto;
+    border-radius: 999px;
+    background: #363636;
+  }
+
+  .peak-drops-card-body {
+    padding: 10%;
+  }
+
+  .peak-drops-card-label {
+    margin-bottom: 10%;
+    color: #777;
+    font-size: clamp(7px, 0.7vw, 10px);
+    font-weight: 700;
+  }
+
+  .peak-drops-card-rows {
+    display: grid;
+    gap: 7px;
+  }
+
+  .peak-drops-card-rows > span {
+    display: grid;
+    align-items: center;
+    gap: 7px;
+    padding: 9px;
+    border: 1px solid #dfddd7;
+    border-radius: 5px;
+    background: #fff;
+    font-size: clamp(6px, 0.65vw, 9px);
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .peak-drops-card-rows i {
+    width: 9px;
+    height: 9px;
+    border-radius: 2px;
+    background: #e1e6ff;
+  }
+
+  .peak-drops-card-rows em {
+    color: #2845d6;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .peak-drops-card-action {
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+    margin-top: 9%;
+    font-size: clamp(6px, 0.65vw, 9px);
+  }
+
+  .peak-drops-card-action span,
+  .peak-drops-card-action strong {
+    padding: 7px 10px;
+    border-radius: 4px;
+  }
+
+  .peak-drops-card-action span {
+    border: 1px solid #d7d4ce;
+    background: #fff;
+  }
+
+  .peak-drops-card-action strong {
+    background: #2845d6;
+    color: #fff;
+  }
+
+  .peak-drops-card-stats {
+    display: grid;
+    gap: 7px;
+    margin-bottom: 8%;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .peak-drops-card-stats > span {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px;
+    border: 1px solid #dfddd7;
+    border-radius: 5px;
+    background: #fff;
+  }
+
+  .peak-drops-card-stats small,
+  .peak-drops-card-diff small {
+    color: #777;
+    font-size: clamp(6px, 0.6vw, 8px);
+  }
+
+  .peak-drops-card-stats b {
+    color: #26854a;
+    font-size: clamp(8px, 0.8vw, 11px);
+  }
+
+  .peak-drops-card-diff {
+    display: grid;
+    align-items: center;
+    gap: 8px;
+    margin-top: 7px;
+    padding: 9px;
+    border: 1px solid #dfddd7;
+    border-radius: 5px;
+    background: #fff;
+    grid-template-columns: auto 1fr;
+  }
+
+  .peak-drops-card-diff > em {
+    display: grid;
+    width: 23px;
+    height: 22px;
+    place-items: center;
+    border-radius: 4px;
+    background: #f0eee8;
+    font-size: clamp(6px, 0.6vw, 8px);
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .peak-drops-card-diff > span {
+    display: grid;
+    align-items: center;
+    gap: 5px;
+    font-size: clamp(6px, 0.6vw, 8px);
+    grid-template-columns: 1fr auto auto;
+  }
+
+  .peak-drops-card-diff del {
+    color: #999;
+  }
+
+  .peak-drops-card-diff b {
+    color: #2845d6;
+  }
+
+  .peak-drops-card-timeline {
+    position: relative;
+    display: grid;
+    gap: 8px;
+  }
+
+  .peak-drops-card-timeline::before {
+    position: absolute;
+    top: 13px;
+    bottom: 13px;
+    left: 12px;
+    width: 1px;
+    background: #d5d3cd;
+    content: "";
+  }
+
+  .peak-drops-card-timeline > span {
+    position: relative;
+    display: grid;
+    align-items: center;
+    gap: 8px;
+    padding: 9px;
+    border: 1px solid #dfddd7;
+    border-radius: 5px;
+    background: #fff;
+    grid-template-columns: auto 1fr;
+  }
+
+  .peak-drops-card-timeline i {
+    z-index: 1;
+    display: grid;
+    width: 24px;
+    height: 24px;
+    grid-row: 1 / 3;
+    place-items: center;
+    border: 1px solid #d5d3cd;
+    border-radius: 50%;
+    background: #fff;
+    font-size: 9px;
+    font-style: normal;
+  }
+
+  .peak-drops-card-timeline b {
+    font-size: clamp(7px, 0.7vw, 10px);
+  }
+
+  .peak-drops-card-timeline small {
+    color: #777;
+    font-size: clamp(6px, 0.6vw, 8px);
+  }
+
+  .peak-drops-card-timeline .is-done i {
+    border-color: #53a86d;
+    background: #53a86d;
+    color: #fff;
+  }
+
+  .peak-drops-card-timeline .is-live i {
+    border-color: #2845d6;
+    background: #2845d6;
+    color: #fff;
+  }
+
+  .peak-drops-card-note {
+    margin-top: 8%;
+    padding: 8px;
+    border-radius: 5px;
+    background: #eef7f0;
+    color: #32744a;
+    font-size: clamp(6px, 0.62vw, 8px);
+    text-align: center;
+  }
+
+  @media (max-width: 767px) {
+    .peak-drops-card-label {
+      font-size: 9px;
+    }
+
+    .peak-drops-card-rows > span,
+    .peak-drops-card-action,
+    .peak-drops-card-stats small,
+    .peak-drops-card-diff small,
+    .peak-drops-card-diff > span,
+    .peak-drops-card-timeline small,
+    .peak-drops-card-note {
+      font-size: 8px;
+    }
+
+    .peak-drops-card-stats b,
+    .peak-drops-card-timeline b {
+      font-size: 10px;
+    }
+  }
+</style>

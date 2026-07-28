@@ -1,0 +1,52 @@
+---
+import CardGrid from "../components/sections/CardGrid.astro";
+import CtaBanner from "../components/sections/CtaBanner.astro";
+import Faq from "../components/sections/Faq.astro";
+import FeatureGrid from "../components/sections/FeatureGrid.astro";
+import Hero from "../components/sections/Hero.astro";
+import LogoCloud from "../components/sections/LogoCloud.astro";
+import ProblemGrid from "../components/sections/ProblemGrid.astro";
+import RolesPermissionsCardVisual from "../components/visuals/RolesPermissionsCardVisual.astro";
+import RolesPermissionsHeroVisual from "../components/visuals/RolesPermissionsHeroVisual.astro";
+import { ctaLabels } from "../data/cta-copy";
+import LandingPageLayout from "../layouts/LandingPageLayout.astro";
+
+const appStoreUrl="https://apps.shopify.com/peak-pim";
+const problems=[
+  {icon:"store",title:"One login can expose too many stores",description:"Regional teams, agencies, and temporary collaborators rarely need the same catalog and storefront access as a workspace owner."},
+  {icon:"edit",title:"Editing and publishing are different jobs",description:"A team member may need to prepare product drafts without being responsible for releasing those changes to every live Shopify store."},
+  {icon:"review",title:"Access gets harder to review as teams grow",description:"When responsibilities change, owners need a clear view of active users, assigned roles, store scope, and invitations that are still pending."},
+];
+const workflows=[
+  {tagline:"Invite",title:"Give every person their own access",description:"Invite employees, agencies, or collaborators into Peak PIM instead of sharing one account, then keep access connected to an individual user."},
+  {tagline:"Assign",title:"Match access to the responsibility",description:"Organize permissions around catalog viewing, draft editing, publishing, and workspace administration so operational access reflects the job."},
+  {tagline:"Review",title:"Keep users and roles visible",description:"See who is active, which role they hold, the stores in their scope, and which invitations or access assignments need attention."},
+];
+const features=[
+  {icon:"grid",title:"Use roles instead of one-off access",description:"Group the permissions a responsibility needs so access stays understandable as people join, change jobs, or work across several brands."},
+  {icon:"store",title:"Keep multi-store scope explicit",description:"Give regional or agency teams access to the connected Shopify stores relevant to their work instead of exposing the entire operation by default."},
+  {icon:"edit",title:"Separate preparation from release",description:"Keep product editing and publishing as distinct responsibilities so catalog contributors can prepare work without taking every change live."},
+  {icon:"review",title:"Remove access when the work ends",description:"Change a user's responsibility or remove workspace access when an employee, freelancer, or agency no longer needs it."},
+];
+const faqItems=[
+  {question:"What are roles and permissions in Peak PIM?",answer:"A role groups the access a user needs for their responsibilities. Permissions determine which parts of catalog work and workspace administration that role can access."},
+  {question:"How many users can I invite?",answer:"Core includes 3 seats, Elite includes 15 seats, and Enterprise uses a custom seat limit. The pricing page is the source of truth for current plan limits."},
+  {question:"Which plans include roles and permissions?",answer:"Core and Elite include Standard User Roles & Permissions. Enterprise includes Advanced User Roles & Permissions."},
+  {question:"Can I give an agency or freelancer access?",answer:"Yes. Give each collaborator an individual user account and assign access appropriate to the work instead of sharing a team password."},
+  {question:"Can access be limited by Shopify store?",answer:"Store scope is an important part of multi-store access control, allowing regional teams or partners to work with the connected stores relevant to their responsibility."},
+  {question:"Can someone edit products without publishing them?",answer:"Editing and publishing can be treated as separate responsibilities, allowing contributors to prepare catalog drafts while publishing remains with the appropriate users."},
+  {question:"Can I change or remove a user's access?",answer:"Yes. Workspace owners can update a user's assigned access or remove it when their responsibilities or working relationship change."},
+  {question:"Do Shopify staff permissions automatically control Peak PIM?",answer:"No. Shopify admin roles govern access inside Shopify, while Peak PIM roles and permissions govern access inside the Peak PIM workspace. Manage each system according to the work performed there."},
+  {question:"What is the difference between Standard and Advanced permissions?",answer:"Standard permissions are included with Core and Elite, while Advanced permissions are available with Enterprise. Talk to the Peak PIM team to review the exact access model required for a larger or more specialized organization."},
+];
+const faqSchema={"@context":"https://schema.org","@type":"FAQPage",mainEntity:faqItems.map(item=>({"@type":"Question",name:item.question,acceptedAnswer:{"@type":"Answer",text:item.answer}}))};
+---
+<LandingPageLayout title="Shopify PIM User Roles & Permissions | Peak PIM" description="Give Shopify catalog teams, agencies, and collaborators the Peak PIM access they need with role-based permissions and explicit multi-store scope." canonicalPath="/user-roles-permissions" schemaType="SoftwareApplication" additionalSchemas={[faqSchema]} ogTitle="Control Who Can View, Edit, and Publish Your Catalog" ogDescription="Invite users, assign responsibility-based access, and keep multi-store catalog permissions clear as your team grows.">
+  <Hero title="The right catalog access for every role" description="Give employees, regional teams, and agencies the Peak PIM access their work requires without sharing accounts or treating editing, publishing, and workspace administration as the same responsibility." primaryCta={{label:ctaLabels.tryFree,href:appStoreUrl,external:true}} secondaryCta={{label:ctaLabels.seeHowItWorks,href:"#roles-workflow"}}><RolesPermissionsHeroVisual/></Hero>
+  <LogoCloud />
+  <ProblemGrid tagline="Access should match the job" title="Your whole team should not need owner-level access" description="Merchants need enough access to keep catalog work moving, with clear boundaries around live stores and administrative responsibilities." items={problems} link={{label:ctaLabels.learnMore,href:"/shopify-multi-store-pim"}} />
+  <CardGrid id="roles-workflow" tagline="Invite, assign, review" title="Keep access understandable as the team grows" description="Move away from shared credentials and one-size-fits-all access with a workflow built around individual users and defined responsibilities." cards={workflows}><RolesPermissionsCardVisual slot="visual-1" mode="invite"/><RolesPermissionsCardVisual slot="visual-2" mode="assign"/><RolesPermissionsCardVisual slot="visual-3" mode="review"/></CardGrid>
+  <FeatureGrid tagline="Least-privilege catalog work" title="Give people what they need, and no more" description="Clear roles, store scope, and separate operating responsibilities help catalog teams move quickly without making every collaborator a workspace administrator." features={features} cta={{label:ctaLabels.seePricing,href:"/pricing"}} />
+  <CtaBanner id="start" title="Bring your team into one controlled workspace" description="Invite catalog contributors, organize their access, and keep responsibility clear across every connected Shopify store." primaryLabel={ctaLabels.tryFree} primaryHref={appStoreUrl} secondaryLabel={ctaLabels.talkToUs} secondaryHref="#" secondaryCrisp trustLine="Core includes 3 seats. Elite includes 15. Enterprise is custom."/>
+  <Faq id="faq" title="Frequently asked questions" description="Everything you need to know about users, roles, permissions, and seats in Peak PIM." items={faqItems}/>
+</LandingPageLayout>

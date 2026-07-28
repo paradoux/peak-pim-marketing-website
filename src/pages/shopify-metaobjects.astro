@@ -1,0 +1,52 @@
+---
+import CardGrid from "../components/sections/CardGrid.astro";
+import CtaBanner from "../components/sections/CtaBanner.astro";
+import Faq from "../components/sections/Faq.astro";
+import FeatureGrid from "../components/sections/FeatureGrid.astro";
+import Hero from "../components/sections/Hero.astro";
+import LogoCloud from "../components/sections/LogoCloud.astro";
+import ProblemGrid from "../components/sections/ProblemGrid.astro";
+import MetaobjectsCardVisual from "../components/visuals/MetaobjectsCardVisual.astro";
+import MetaobjectsHeroVisual from "../components/visuals/MetaobjectsHeroVisual.astro";
+import { ctaLabels } from "../data/cta-copy";
+import LandingPageLayout from "../layouts/LandingPageLayout.astro";
+
+const appStoreUrl="https://apps.shopify.com/peak-pim";
+const problems=[
+  {icon:"store",title:"Every store rebuilds the same structure",description:"A size guide, designer profile, or care guide becomes another definition and another set of entries to maintain in each Shopify admin."},
+  {icon:"review",title:"Existing structures rarely match",description:"Stores that evolved separately can use the same metaobject type with different fields, validations, handles, and content coverage."},
+  {icon:"publish",title:"Partial publishing hides drift",description:"Without per-store outcomes, a definition or entry can succeed in one storefront and fail in another while the team assumes they match."},
+];
+const workflows=[
+  {tagline:"Define",title:"Design the structure once",description:"Create a canonical definition with typed fields, descriptions, required flags, validations, translated labels, and the stores that should receive it."},
+  {tagline:"Edit",title:"Fill entries with real field controls",description:"Manage canonical entries and store-specific versions with type-aware inputs, inline validation, handles, and draft or active status, not a raw JSON box."},
+  {tagline:"Publish",title:"Send structure and content together",description:"Publish a definition to its target stores and cascade through its entries. Peak PIM reports each store outcome and surfaces conflicts instead of hiding them."},
+];
+const features=[
+  {icon:"grid",title:"Import what already exists",description:"Connecting a Shopify store brings its existing metaobject definitions and entries into Peak PIM during onboarding instead of forcing a clean start."},
+  {icon:"review",title:"Expose structural divergence",description:"When stores use the same type differently, Peak PIM shows which fields and validations conflict so an agency can resolve the model deliberately."},
+  {icon:"edit",title:"Evolve structures safely",description:"Add fields, rename labels, and adjust validations with guardrails. Existing field types stay immutable and removal is never a silent side effect."},
+  {icon:"store",title:"Localize labels and entries",description:"Translate definition labels and keep per-store entry content where language or market needs differ, while preserving one canonical identity."},
+];
+const faqItems=[
+  {question:"What is a Shopify metaobject?",answer:"A metaobject is reusable structured content made from a definition and its entries. Merchants use it for content such as size guides, designer profiles, care instructions, ingredient lists, FAQs, and store locations."},
+  {question:"What is the difference between a definition and an entry?",answer:"The definition is the blueprint: its name, identity, fields, types, and validation rules. An entry is one content record created from that blueprint, such as the “Women's outerwear” entry in a Size Guide definition."},
+  {question:"Which field types can I use?",answer:"Peak PIM supports typed fields including single-line and multi-line text, integers, decimals, booleans, dates, JSON, URLs, colors, dimensions, and weights, with field descriptions, required flags, and relevant validations."},
+  {question:"Can one definition be published to multiple Shopify stores?",answer:"Yes. Target all connected stores or a subset. Peak PIM creates the definition natively in each target store and reports the result for every storefront."},
+  {question:"Can an entry be different in each store?",answer:"Yes. One canonical entry can have store-specific handles, status, and field values, so content can remain shared where appropriate and differ for language or market needs."},
+  {question:"What happens if my stores already have different definitions?",answer:"Peak PIM imports the existing structures and flags definitions that share a type but diverge in fields or validations. It shows the affected stores and differences rather than merging them silently."},
+  {question:"Can I translate metaobjects?",answer:"Yes. Definition labels can be translated by language, and per-store entry versions can contain localized content while remaining connected to the same canonical entry."},
+  {question:"How does publishing handle failures?",answer:"Definition publishing fans out to the selected stores and cascades to entries. If one store fails, Peak PIM reports that store and its reason while preserving the successful outcomes elsewhere."},
+  {question:"Can an AI assistant work with metaobjects?",answer:"Yes. Metaobject definitions and entries are first-class catalog records in Peak PIM, so a connected AI assistant can read or draft structured content within the permissions you grant."},
+];
+const faqSchema={"@context":"https://schema.org","@type":"FAQPage",mainEntity:faqItems.map(item=>({"@type":"Question",name:item.question,acceptedAnswer:{"@type":"Answer",text:item.answer}}))};
+---
+<LandingPageLayout title="Shopify Metaobjects Management | Peak PIM" description="Define, edit, localize, import, and publish Shopify metaobject definitions and entries across every connected store from one multi-store PIM." canonicalPath="/shopify-metaobjects" schemaType="SoftwareApplication" additionalSchemas={[faqSchema]} ogTitle="Manage Shopify Metaobjects Across Every Store" ogDescription="Define structured custom content once, edit it with validation, and publish it across Shopify stores with honest per-store outcomes.">
+  <Hero title="Your custom content, mastered" description="Metaobjects are reusable structured content such as size guides, designer bios, and care instructions. Define them once, manage canonical and store-specific entries, and publish across every Shopify store from one place." primaryCta={{label:ctaLabels.tryFree,href:appStoreUrl,external:true}} secondaryCta={{label:ctaLabels.seeHowItWorks,href:"#metaobjects-workflow"}}><MetaobjectsHeroVisual/></Hero>
+  <LogoCloud />
+  <ProblemGrid tagline="The custom-content gap" title="One metaobject should not become one project per store" description="Peak PIM treats definitions and entries like the rest of your catalog: one canonical model, controlled store versions, and visible publishing state." items={problems} link={{label:ctaLabels.learnMore,href:"/shopify-catalog-health-center"}} />
+  <CardGrid id="metaobjects-workflow" tagline="Define once, publish everywhere" title="Structure and content in one workflow" description="Build the blueprint, edit entries with the right controls, and send both to the stores that need them without rebuilding each record in Shopify." cards={workflows}><MetaobjectsCardVisual slot="visual-1" mode="define"/><MetaobjectsCardVisual slot="visual-2" mode="entry"/><MetaobjectsCardVisual slot="visual-3" mode="publish"/></CardGrid>
+  <FeatureGrid tagline="Built for existing catalogs" title="Keep structure consistent without pretending drift does not exist" description="Peak PIM imports what stores already contain, exposes structural conflicts, and gives teams safe controls for evolving and localizing reusable content." features={features} cta={{label:ctaLabels.learnMore,href:"/ai-catalog-connector"}} />
+  <CtaBanner id="start" title="Make custom content part of your catalog" description="Bring definitions and entries into one structured workspace, then publish them across the right Shopify stores." primaryLabel={ctaLabels.tryFree} primaryHref={appStoreUrl} secondaryLabel={ctaLabels.learnMore} secondaryHref="/shopify-pim-translations" trustLine="10-day free trial. Free setup. No credit card."/>
+  <Faq id="faq" title="Frequently asked questions" description="Everything you need to know about managing Shopify metaobjects with Peak PIM." items={faqItems}/>
+</LandingPageLayout>

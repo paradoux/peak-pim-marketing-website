@@ -1,0 +1,398 @@
+---
+import ProductVisualFrame from "../ui/ProductVisualFrame.astro";
+---
+
+<ProductVisualFrame
+  ariaLabel="Peak PIM import review showing a supplier spreadsheet mapped to catalog records with before and after changes"
+  section="Import / Export"
+  status="Dry run · Nothing saved"
+  actionLabel="Review changes"
+>
+  <div class="peak-ie-workspace">
+    <aside class="peak-ie-sidebar">
+      <strong>Move catalog data</strong>
+      <span class="is-active"><i aria-hidden="true">↑</i> Import</span>
+      <span><i aria-hidden="true">↓</i> Export</span>
+      <small>Source</small>
+      <b>supplier-catalog.xlsx</b>
+      <small>Target stores</small>
+      <div class="peak-ie-store-list"><em>US</em><em>FR</em><em>GB</em></div>
+    </aside>
+
+    <div class="peak-ie-main">
+      <div class="peak-ie-heading">
+        <div><small>Import plan</small><strong>Supplier catalog update</strong></div>
+        <em>Review</em>
+      </div>
+
+      <ol class="peak-ie-progress" aria-hidden="true">
+        <li class="is-done"><i>1</i><span>Upload</span></li>
+        <li class="is-done"><i>2</i><span>Map &amp; match</span></li>
+        <li class="is-current"><i>3</i><span>Review</span></li>
+        <li><i>4</i><span>Done</span></li>
+      </ol>
+
+      <div class="peak-ie-summary">
+        <span><small>Matched</small><strong>12</strong></span>
+        <span><small>Will be created</small><strong>3</strong></span>
+        <span class="needs-review"><small>Needs review</small><strong>1</strong></span>
+      </div>
+
+      <div class="peak-ie-table">
+        <div class="peak-ie-row is-header"><span>File row</span><span>Catalog match</span><span>Change</span><span>Store</span></div>
+        <div class="peak-ie-row"><span><i class="file-dot"></i> Ridge Jacket</span><span>Ridge Shell · SKU-184</span><span><del>$129</del><b>$139</b></span><span><em>US</em></span></div>
+        <div class="peak-ie-row"><span><i class="file-dot"></i> Trail Pack</span><span>Trail Pack · SKU-226</span><span><del>20L</del><b>24L</b></span><span><em>FR</em></span></div>
+        <div class="peak-ie-row is-new"><span><i class="file-dot"></i> Summit Cap</span><span>New draft product</span><span><b>Create</b></span><span><em>GB</em></span></div>
+      </div>
+
+      <div class="peak-ie-safe-note"><i aria-hidden="true">✓</i><span>Nothing changes until you choose Save or Save &amp; Publish.</span></div>
+    </div>
+  </div>
+</ProductVisualFrame>
+
+<style>
+  .peak-ie-workspace {
+    display: grid;
+    min-height: 440px;
+    grid-template-columns: 156px minmax(0, 1fr);
+    background: #f6f3ec;
+  }
+
+  .peak-ie-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 22px 14px;
+    border-right: 1px solid #e1ded7;
+    background: #fbfaf7;
+    color: #717171;
+    font-size: 9px;
+  }
+
+  .peak-ie-sidebar > strong {
+    margin: 0 8px 8px;
+    color: #191919;
+    font-size: 10px;
+  }
+
+  .peak-ie-sidebar > span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 8px;
+    border-radius: 5px;
+  }
+
+  .peak-ie-sidebar > span i {
+    font-size: 12px;
+    font-style: normal;
+  }
+
+  .peak-ie-sidebar > span.is-active {
+    background: #e9edff;
+    color: #2845d6;
+    font-weight: 700;
+  }
+
+  .peak-ie-sidebar > small {
+    margin: 13px 8px 0;
+    color: #999;
+    font-size: 8px;
+    text-transform: uppercase;
+  }
+
+  .peak-ie-sidebar > b {
+    margin: 0 8px;
+    overflow: hidden;
+    color: #333;
+    font-size: 8px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .peak-ie-store-list {
+    display: flex;
+    gap: 5px;
+    margin: 0 8px;
+  }
+
+  .peak-ie-store-list em,
+  .peak-ie-row em {
+    display: inline-grid;
+    min-width: 23px;
+    height: 20px;
+    place-items: center;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    color: #333;
+    font-size: 7px;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .peak-ie-main {
+    min-width: 0;
+    padding: 24px;
+  }
+
+  .peak-ie-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #dedbd4;
+  }
+
+  .peak-ie-heading > div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .peak-ie-heading small {
+    color: #777;
+    font-size: 8px;
+  }
+
+  .peak-ie-heading strong {
+    font-size: 13px;
+  }
+
+  .peak-ie-heading > em {
+    padding: 5px 8px;
+    border-radius: 999px;
+    background: #eef1ff;
+    color: #2845d6;
+    font-size: 8px;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .peak-ie-progress {
+    display: grid;
+    margin: 18px 0;
+    padding: 0;
+    grid-template-columns: repeat(4, 1fr);
+    list-style: none;
+  }
+
+  .peak-ie-progress li {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #999;
+    font-size: 8px;
+  }
+
+  .peak-ie-progress li:not(:last-child)::after {
+    position: absolute;
+    z-index: 0;
+    top: 50%;
+    right: 6px;
+    left: 27px;
+    height: 1px;
+    background: #ddd;
+    content: "";
+  }
+
+  .peak-ie-progress i {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    width: 20px;
+    height: 20px;
+    flex: 0 0 auto;
+    place-items: center;
+    border: 1px solid #d5d5d5;
+    border-radius: 50%;
+    background: #fff;
+    font-size: 7px;
+    font-style: normal;
+  }
+
+  .peak-ie-progress .is-done i {
+    border-color: #53a86d;
+    background: #53a86d;
+    color: #fff;
+  }
+
+  .peak-ie-progress .is-current {
+    color: #2845d6;
+    font-weight: 700;
+  }
+
+  .peak-ie-progress .is-current i {
+    border-color: #2845d6;
+    color: #2845d6;
+    box-shadow: 0 0 0 3px rgba(40, 69, 214, 0.1);
+  }
+
+  .peak-ie-summary {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .peak-ie-summary > span {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px;
+    border: 1px solid #dedbd4;
+    border-radius: 6px;
+    background: #fff;
+  }
+
+  .peak-ie-summary small {
+    color: #777;
+    font-size: 7px;
+  }
+
+  .peak-ie-summary strong {
+    color: #26854a;
+    font-size: 11px;
+  }
+
+  .peak-ie-summary .needs-review strong {
+    color: #aa6324;
+  }
+
+  .peak-ie-table {
+    overflow: hidden;
+    margin-top: 11px;
+    border: 1px solid #dedbd4;
+    border-radius: 7px;
+    background: #fff;
+  }
+
+  .peak-ie-row {
+    display: grid;
+    min-height: 45px;
+    align-items: center;
+    gap: 9px;
+    padding: 7px 10px;
+    border-top: 1px solid #eee;
+    grid-template-columns: 1.1fr 1.35fr 0.8fr 0.38fr;
+    font-size: 8px;
+    animation: peak-ie-review 6s infinite;
+  }
+
+  .peak-ie-row:nth-child(3) {
+    animation-delay: 0.6s;
+  }
+
+  .peak-ie-row:nth-child(4) {
+    animation-delay: 1.2s;
+  }
+
+  .peak-ie-row.is-header {
+    min-height: 30px;
+    border-top: 0;
+    background: #f8f7f3;
+    color: #777;
+    font-size: 7px;
+    animation: none;
+  }
+
+  .peak-ie-row > span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .peak-ie-row .file-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-right: 6px;
+    border-radius: 2px;
+    background: #dce2ff;
+  }
+
+  .peak-ie-row del {
+    margin-right: 5px;
+    color: #999;
+  }
+
+  .peak-ie-row b {
+    color: #2845d6;
+    font-weight: 700;
+  }
+
+  .peak-ie-row.is-new b {
+    color: #26854a;
+  }
+
+  .peak-ie-safe-note {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 11px;
+    color: #5e5e5e;
+    font-size: 8px;
+  }
+
+  .peak-ie-safe-note i {
+    display: grid;
+    width: 17px;
+    height: 17px;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: 50%;
+    background: #e6f4e9;
+    color: #26854a;
+    font-size: 9px;
+    font-style: normal;
+  }
+
+  @keyframes peak-ie-review {
+    0%, 12%, 100% { background: #fff; }
+    18%, 34% { background: #f0f2ff; }
+  }
+
+  @media (max-width: 767px) {
+    .peak-ie-workspace {
+      min-height: 355px;
+      grid-template-columns: 1fr;
+    }
+
+    .peak-ie-sidebar {
+      display: none;
+    }
+
+    .peak-ie-main {
+      padding: 15px;
+    }
+
+    .peak-ie-progress span {
+      display: none;
+    }
+
+    .peak-ie-progress li:not(:last-child)::after {
+      right: 7px;
+    }
+
+    .peak-ie-summary small {
+      max-width: 54px;
+    }
+
+    .peak-ie-row {
+      grid-template-columns: 1.15fr 1fr 0.6fr;
+    }
+
+    .peak-ie-row > span:nth-child(2) {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .peak-ie-row {
+      animation: none;
+    }
+  }
+</style>

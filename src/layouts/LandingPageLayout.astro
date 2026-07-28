@@ -11,7 +11,12 @@ type Props = {
   description: string;
   canonicalPath: string;
   noindex?: boolean;
-  schemaType?: "WebPage" | "SoftwareApplication";
+  schemaType?: "WebPage" | "SoftwareApplication" | "Article";
+  schema?: Record<string, unknown>;
+  additionalSchemas?: Record<string, unknown>[];
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
 };
 
 const {
@@ -20,6 +25,11 @@ const {
   canonicalPath,
   noindex = false,
   schemaType = "WebPage",
+  schema = {},
+  additionalSchemas = [],
+  ogTitle = title,
+  ogDescription = description,
+  ogImage,
 } = Astro.props;
 const canonicalUrl = getCanonicalUrl(canonicalPath);
 const jsonLd = {
@@ -39,7 +49,10 @@ const jsonLd = {
     url: "https://peak-pim.com/",
     logo: "https://peak-pim.com/assets/logo/peak-logo-large.png",
   },
+  ...schema,
 };
+const structuredData = [jsonLd, ...additionalSchemas];
+const ogImageUrl = ogImage ? new URL(ogImage, "https://peak-pim.com").toString() : undefined;
 ---
 
 <!doctype html>
@@ -50,6 +63,15 @@ const jsonLd = {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content={schemaType === "Article" ? "article" : "website"} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:url" content={canonicalUrl} />
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    <meta name="twitter:card" content={ogImageUrl ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
+    {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
     {noindex && <meta name="robots" content="noindex,nofollow" />}
     <link rel="icon" href="/assets/logo/favicon-peak-pim.png" />
     <link rel="apple-touch-icon" href="/assets/logo/peak-webclip.png" />
@@ -57,7 +79,7 @@ const jsonLd = {
     <link rel="preload" href="/mirror/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7-6ab57b19c6.woff2" as="font" type="font/woff2" crossorigin />
     <link href="/mirror/local-fonts.css" rel="stylesheet" />
     <link href="/mirror/peak-pim-landing.webflow.shared.c3ebbebc2-825ab19cb5.css" rel="stylesheet" />
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    {structuredData.map((entry) => <script type="application/ld+json" set:html={JSON.stringify(entry)} />)}
   </head>
   <body>
     <div class="page-wrapper site-page">

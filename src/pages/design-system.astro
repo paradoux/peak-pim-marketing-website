@@ -1,15 +1,31 @@
 ---
 import CtaBanner from "../components/sections/CtaBanner.astro";
 import CardGrid from "../components/sections/CardGrid.astro";
+import ComparisonHero from "../components/sections/ComparisonHero.astro";
+import ComparisonTable from "../components/sections/ComparisonTable.astro";
+import ComparisonVerdict from "../components/sections/ComparisonVerdict.astro";
+import DecisionGuide from "../components/sections/DecisionGuide.astro";
 import Faq from "../components/sections/Faq.astro";
 import FeatureGrid from "../components/sections/FeatureGrid.astro";
 import Hero from "../components/sections/Hero.astro";
 import LogoCloud from "../components/sections/LogoCloud.astro";
+import PricingComparison from "../components/sections/PricingComparison.astro";
 import ProblemGrid from "../components/sections/ProblemGrid.astro";
 import Testimonial from "../components/sections/Testimonial.astro";
+import BuildVsBuyHeroVisual from "../components/visuals/BuildVsBuyHeroVisual.astro";
+import AiConnectorCardVisual from "../components/visuals/AiConnectorCardVisual.astro";
+import DeveloperApiCardVisual from "../components/visuals/DeveloperApiCardVisual.astro";
+import DropsCardVisual from "../components/visuals/DropsCardVisual.astro";
+import HealthCenterCardVisual from "../components/visuals/HealthCenterCardVisual.astro";
+import ImportExportCardVisual from "../components/visuals/ImportExportCardVisual.astro";
+import MetaobjectsCardVisual from "../components/visuals/MetaobjectsCardVisual.astro";
+import RolesPermissionsCardVisual from "../components/visuals/RolesPermissionsCardVisual.astro";
 import TranslationStepVisual from "../components/visuals/TranslationStepVisual.astro";
 import TranslationWorkflowDemo from "../components/visuals/TranslationWorkflowDemo.astro";
+import TranslationsCardVisual from "../components/visuals/TranslationsCardVisual.astro";
+import BuildVsBuyDecisionVisual from "../components/visuals/BuildVsBuyDecisionVisual.astro";
 import { assets } from "../data/assets";
+import { ctaLabels } from "../data/cta-copy";
 import LandingPageLayout from "../layouts/LandingPageLayout.astro";
 
 const principles = [
@@ -24,6 +40,54 @@ const steps = [
   { tagline: "Illustrate", title: "Add only content-specific visuals", description: "Product illustrations may change to explain the feature, while their framing and section layout remain consistent." },
 ];
 
+const importExportVisuals = [
+  { tagline: "Export", title: "Configurable workbook", description: "Products, variants, collections, stores, and fields use the complete-card treatment." },
+  { tagline: "Import", title: "Guided mapping", description: "The product visual shows a real upload and field-mapping state inside the same card frame." },
+  { tagline: "Round trip", title: "Exact record matching", description: "The final card explains export, spreadsheet editing, and import as one controlled loop." },
+];
+
+const translationVisuals = [
+  { tagline: "Organize", title: "Store-language matrix", description: "The card switches between one store across languages and one language across every store." },
+  { tagline: "Translate", title: "AI drafts with source context", description: "Connected AI writes into the same translation grid and leaves every result unsaved for review." },
+  { tagline: "Reuse", title: "Compatible store copying", description: "Copy-to-store shows target language compatibility and a clear copied-and-skipped summary." },
+];
+
+const dropsVisuals = [
+  { tagline: "Schedule", title: "Bulk scheduling", description: "Selected catalog changes move from the bulk editor onto a named Drop without changing live data." },
+  { tagline: "Preview", title: "Store-specific diffs", description: "Every item, store, field, live value, and scheduled value stays visible before fire time." },
+  { tagline: "Restore", title: "Apply and revert lifecycle", description: "The visual explains scheduled, active, and reverted states with captured live values." },
+];
+
+const healthCenterVisuals = [
+  { tagline: "Detect", title: "On-demand analysis", description: "The latest catalog-health counts and timestamps stay visible until the merchant runs the theme again." },
+  { tagline: "Drill down", title: "Issues in context", description: "Each health count leads to the exact records, stores, fields, languages, collections, or files behind it." },
+  { tagline: "Fix", title: "Repair in place", description: "Harmonize, fill, publish, dismiss, and cleanup actions remain inside the same product workspace." },
+];
+
+const aiConnectorVisuals = [
+  { tagline: "Connect", title: "Browser authorization", description: "Remote connector setup uses the same complete-card treatment as other product workflows." },
+  { tagline: "Ask", title: "Permission levels", description: "Read, draft, and publish boundaries are represented as explicit Peak workspace controls." },
+  { tagline: "Control", title: "Visible AI activity", description: "Drafts, publishes, and disconnection controls remain inside the product interface." },
+];
+
+const developerApiVisuals = [
+  { tagline: "Query", title: "Precise catalog reads", description: "Requests, filters, pagination, and results use a restrained code-workspace treatment." },
+  { tagline: "Update", title: "Revision-safe writes", description: "Partial updates show the target layer, revision, and draft response together." },
+  { tagline: "Publish", title: "Multi-store pipeline", description: "Validation, publishing, and related Shopify sync steps remain explicit." },
+];
+
+const metaobjectsVisuals = [
+  { tagline: "Define", title: "Typed structure", description: "Definitions show field types, requirements, validation, and store scope inside a product workspace." },
+  { tagline: "Edit", title: "Type-aware entries", description: "Entry fields use meaningful controls, localized values, handles, and draft state rather than a generic JSON surface." },
+  { tagline: "Publish", title: "Honest store outcomes", description: "The publish visual shows successes and structural conflicts together instead of implying a silent all-or-nothing result." },
+];
+
+const rolesPermissionsVisuals = [
+  { tagline: "Invite", title: "Individual access", description: "User invitations show an example role and store scope without recreating the surrounding card system." },
+  { tagline: "Assign", title: "Responsibility-based access", description: "Catalog, publishing, and administrative permissions stay explicit in the Peak workspace language." },
+  { tagline: "Review", title: "Visible access state", description: "Active users, roles, stores, and pending invitations remain easy to review." },
+];
+
 const features = [
   { icon: "grid", title: "Hero and problem framing", description: "peak-hero and peak-problem-grid preserve the approved hierarchy, actions, and three-item problem grid." },
   { icon: "edit", title: "Workflow and capability cards", description: "peak-card-grid provides three complete cards; peak-feature-grid provides exactly four sticky capability cards." },
@@ -34,7 +98,18 @@ const features = [
 const faqItems = [
   { question: "Can a landing page introduce a new heading size?", answer: "No. Use the existing heading-style-h1 through heading-style-h6 classes according to the approved section structure." },
   { question: "Can a button be restyled for a new page?", answer: "No. Use the existing button variants so hover, motion, spacing, and contrast remain identical across the site." },
+  { question: "Can a page introduce a new CTA label?", answer: "No. Choose the action by destination from Get Peak PIM, Try for free, Book a demo, Talk to us, See pricing, See how it works, See the comparison, or Learn more." },
   { question: "Is the partners page a design reference?", answer: "No. The partners landing page is unfinished and is explicitly excluded from the approved reference set." },
+];
+
+const comparisonMetrics = [
+  { label: "Time to launch", build: "Engineering project", peak: "Connect in minutes" },
+  { label: "Ongoing ownership", build: "Your team", peak: "Peak PIM" },
+];
+
+const pricingRows = [
+  { label: "Application", left: "Custom build", right: "Subscription" },
+  { label: "Shopify maintenance", left: "Internal", right: "Included" },
 ];
 ---
 
@@ -47,21 +122,95 @@ const faqItems = [
   <Hero
     title="The Peak PIM design system"
     description="This catalogue renders the actual production components. New pages reuse these exact structures, typography classes, buttons, spacing rules, and interactions."
-    primaryCta={{ label: "View the components", href: "#components" }}
-    secondaryCta={{ label: "View a finished example", href: "/shopify-pim-translations" }}
+    primaryCta={{ label: ctaLabels.seeHowItWorks, href: "#components" }}
+    secondaryCta={{ label: ctaLabels.learnMore, href: "/shopify-pim-translations" }}
   >
     <TranslationWorkflowDemo />
   </Hero>
 
-  <LogoCloud title="Approved customer-logo section" />
-  <ProblemGrid tagline="Core rule" title="Reuse before creating" description="The system is a component layer over the website’s original design—not a second design language." items={principles} />
+  <LogoCloud />
+  <ProblemGrid tagline="Core rule" title="Reuse before creating" description="The system is a component layer over the website’s original design, not a second design language." items={principles} />
   <CardGrid id="components" tagline="Page-building workflow" title="How every new landing page is assembled" description="The same process protects consistency while leaving room for feature-specific copy and product visuals." cards={steps}>
     <TranslationStepVisual slot="visual-1" step={1} card />
     <TranslationStepVisual slot="visual-2" step={2} card />
     <TranslationStepVisual slot="visual-3" step={3} card />
   </CardGrid>
+  <CardGrid tagline="Feature-specific product visuals" title="One visual language, different operations" description="New workflows can have new HTML and CSS product demonstrations while the surrounding card, typography, and spacing remain unchanged." cards={importExportVisuals}>
+    <ImportExportCardVisual slot="visual-1" mode="export" />
+    <ImportExportCardVisual slot="visual-2" mode="import" />
+    <ImportExportCardVisual slot="visual-3" mode="roundtrip" />
+  </CardGrid>
+  <CardGrid tagline="Multi-store localization" title="Translations use the same product workspace language" description="Matrices, AI drafts, and store copying stay inside the approved complete-card structure." cards={translationVisuals}>
+    <TranslationsCardVisual slot="visual-1" mode="matrix" />
+    <TranslationsCardVisual slot="visual-2" mode="ai" />
+    <TranslationsCardVisual slot="visual-3" mode="copy" />
+  </CardGrid>
+  <CardGrid tagline="Scheduled operations" title="Drops use the same product workspace language" description="Scheduling, review, and rollback are expressed through the same complete-card structure and restrained Peak UI states." cards={dropsVisuals}>
+    <DropsCardVisual slot="visual-1" mode="schedule" />
+    <DropsCardVisual slot="visual-2" mode="preview" />
+    <DropsCardVisual slot="visual-3" mode="restore" />
+  </CardGrid>
+  <CardGrid tagline="Catalog operations" title="Health Center uses the same repair workflow language" description="Analysis, issue context, and corrective actions use the approved complete-card structure and Peak workspace states." cards={healthCenterVisuals}>
+    <HealthCenterCardVisual slot="visual-1" mode="detect" />
+    <HealthCenterCardVisual slot="visual-2" mode="drill" />
+    <HealthCenterCardVisual slot="visual-3" mode="fix" />
+  </CardGrid>
+  <CardGrid tagline="Conversational catalog work" title="AI connections use explicit Peak controls" description="Setup, permissions, and activity stay grounded in the same product-workspace visual language." cards={aiConnectorVisuals}>
+    <AiConnectorCardVisual slot="visual-1" mode="connect" />
+    <AiConnectorCardVisual slot="visual-2" mode="permissions" />
+    <AiConnectorCardVisual slot="visual-3" mode="control" />
+  </CardGrid>
+  <CardGrid tagline="Developer workflows" title="API operations use the same product logic" description="Query, update, and publish states use realistic code while preserving canonical cards and spacing." cards={developerApiVisuals}>
+    <DeveloperApiCardVisual slot="visual-1" mode="query" />
+    <DeveloperApiCardVisual slot="visual-2" mode="update" />
+    <DeveloperApiCardVisual slot="visual-3" mode="publish" />
+  </CardGrid>
+  <CardGrid tagline="Structured custom content" title="Metaobjects use the same catalog workflow language" description="Definitions, entries, and multi-store publishing use the canonical complete-card structure and Peak workspace states." cards={metaobjectsVisuals}>
+    <MetaobjectsCardVisual slot="visual-1" mode="define" />
+    <MetaobjectsCardVisual slot="visual-2" mode="entry" />
+    <MetaobjectsCardVisual slot="visual-3" mode="publish" />
+  </CardGrid>
+  <CardGrid tagline="Team access" title="Roles and permissions use the same workspace language" description="Invitations, assigned access, and user reviews use the canonical complete-card structure." cards={rolesPermissionsVisuals}>
+    <RolesPermissionsCardVisual slot="visual-1" mode="invite" />
+    <RolesPermissionsCardVisual slot="visual-2" mode="assign" />
+    <RolesPermissionsCardVisual slot="visual-3" mode="review" />
+  </CardGrid>
+  <ComparisonHero
+    headingLevel="h2"
+    title="Approved comparison hero"
+    description="Comparison pages use the original split header1 structure, canonical buttons, and a topic-specific visual."
+    primaryCta={{ label: ctaLabels.seeComparison, href: "#comparison-patterns" }}
+    secondaryCta={{ label: ctaLabels.learnMore, href: "#comparison-patterns" }}
+  >
+    <BuildVsBuyHeroVisual />
+  </ComparisonHero>
+  <ComparisonVerdict id="comparison-patterns" verdict="The verdict section states clearly who each option fits before presenting the detailed comparison." />
+  <ComparisonTable
+    title="Approved side-by-side comparison"
+    description="Use matched operating facts rather than inventing a new table treatment."
+    metrics={comparisonMetrics}
+    build={{ label: "Option one", description: "The alternative", icon: "code", features: ["First matched capability", "Second matched capability"] }}
+    peak={{ label: "Peak PIM", description: "The Peak path", icon: "grid", features: ["First matched capability", "Second matched capability"] }}
+  />
+  <PricingComparison
+    title="Approved pricing and ownership comparison"
+    description="The canonical structure keeps plan headers visible while the reader compares rows."
+    leftPlan={{ name: "Option one", price: "Custom", unit: "Scope", description: "Alternative ownership model", ctaLabel: ctaLabels.seeComparison, ctaHref: "#comparison-patterns" }}
+    rightPlan={{ name: "Peak PIM", price: "$99", unit: "Per month", description: "Shopify-native product workspace", ctaLabel: ctaLabels.seeComparison, ctaHref: "#comparison-patterns" }}
+    rows={pricingRows}
+  />
+  <DecisionGuide
+    title="Approved comparison decision guide"
+    description="Use two concise criteria blocks and a registered, topic-specific visual."
+    choices={[
+      { title: "Choose option one if", description: "Its operating model and ownership tradeoffs fit the team." },
+      { title: "Choose Peak PIM if", description: "A Shopify-native workspace is the better operational fit." },
+    ]}
+  >
+    <BuildVsBuyDecisionVisual slot="visual" />
+  </DecisionGuide>
   <FeatureGrid tagline="Canonical sections" title="The approved component inventory" description="Use the semantic peak-* names; each wrapper preserves the exact HTML hierarchy and legacy Webflow classes underneath." features={features} />
   <Testimonial quote="Peak PIM changed how we work. Shopify handles our storefront and Peak PIM runs everything about our catalog on top of it." name="Amélie Samson" role="Founder, Maéli Paris" image={assets.testimonials.amelieSamson} companyLogo={assets.customerLogos.light.maeli} />
-  <CtaBanner title="Build the next page from the system" description="Keep the original Peak PIM hierarchy and interactions, then adapt only the story and product demonstration." primaryLabel="View translation example" primaryHref="/shopify-pim-translations" />
+  <CtaBanner title="Build the next page from the system" description="Keep the original Peak PIM hierarchy and interactions, then adapt only the story and product demonstration." primaryLabel={ctaLabels.learnMore} primaryHref="/shopify-pim-translations" />
   <Faq title="Design-system rules" description="The non-negotiable rules for creating new Peak PIM landing pages." items={faqItems} />
 </LandingPageLayout>

@@ -1,0 +1,24 @@
+---
+import ProductVisualFrame from "../ui/ProductVisualFrame.astro";
+---
+<ProductVisualFrame ariaLabel="Peak PIM translation workflow showing catalog coverage, AI-generated drafts, side-by-side review, and multi-store publishing" section="Translations" status="Drafts reviewed" actionLabel="Publish translations">
+  <div class="peak-tr-workspace">
+    <aside class="peak-tr-health">
+      <small>Translation coverage</small><strong>68%</strong><span><i style="width:68%"></i></span><b>French · 18 gaps</b><b>German · 11 gaps</b><em>Health Center analysis</em>
+    </aside>
+    <div class="peak-tr-main">
+      <div class="peak-tr-heading"><div><small>Alpine Jacket</small><b>French across all stores</b></div><span>Source visible</span></div>
+      <div class="peak-tr-grid">
+        <div class="is-head"><span>Field</span><span>Source · EN</span><span>France</span><span>International</span></div>
+        <div><b>Title</b><span>Alpine Jacket</span><span>Veste Alpine</span><span>Veste Alpine</span></div>
+        <div><b>SEO description</b><span>Weather-ready shell…</span><span class="is-ai">Coque conçue pour… <em>AI draft</em></span><span class="is-ai">Coque conçue pour… <em>AI draft</em></span></div>
+        <div><b>Option value</b><span>Red</span><span>Rouge</span><span>Rouge</span></div>
+        <div><b>Care metafield</b><span>Cold wash</span><span class="is-ai">Lavage à froid <em>AI draft</em></span><span class="is-ai">Lavage à froid <em>AI draft</em></span></div>
+      </div>
+      <div class="peak-tr-flow"><span><i>1</i>Find gaps</span><span><i>2</i>AI fills drafts</span><span><i>3</i>Review source</span><span class="is-ready"><i>4</i>Publish</span></div>
+    </div>
+  </div>
+</ProductVisualFrame>
+<style>
+  .peak-tr-workspace{display:grid;min-height:440px;grid-template-columns:170px minmax(0,1fr);background:#f6f3ec;font-family:Inter,Arial,sans-serif}.peak-tr-health{display:flex;flex-direction:column;gap:9px;padding:26px 18px;border-right:1px solid #dfdcd5;background:#fbfaf7}.peak-tr-health small{color:#777;font-size:8px}.peak-tr-health strong{font-size:30px}.peak-tr-health>span{height:6px;overflow:hidden;border-radius:999px;background:#ddd}.peak-tr-health>span i{display:block;height:100%;border-radius:inherit;background:#2845d6}.peak-tr-health b{font-size:8px;font-weight:600}.peak-tr-health em{margin-top:auto;color:#2845d6;font-size:7px;font-style:normal}.peak-tr-main{min-width:0;padding:24px}.peak-tr-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}.peak-tr-heading div{display:flex;flex-direction:column;gap:3px}.peak-tr-heading small{color:#777;font-size:8px}.peak-tr-heading b{font-size:13px}.peak-tr-heading>span{padding:6px 8px;border:1px solid #ddd;border-radius:5px;background:#fff;font-size:7px}.peak-tr-grid{overflow:hidden;border:1px solid #ddd;border-radius:7px;background:#fff}.peak-tr-grid>div{display:grid;grid-template-columns:86px repeat(3,1fr)}.peak-tr-grid>div+div{border-top:1px solid #e7e4de}.peak-tr-grid span,.peak-tr-grid b{min-width:0;padding:11px 9px;border-left:1px solid #eee;font-size:7px;font-weight:500}.peak-tr-grid b{border-left:0;background:#fbfaf7}.peak-tr-grid .is-head span{background:#191919;color:#aaa;font-weight:700}.peak-tr-grid .is-head span:first-child{border-left:0}.peak-tr-grid .is-ai{position:relative;background:#f2f4ff;color:#273baf}.peak-tr-grid em{display:block;margin-top:4px;color:#7080da;font-size:6px;font-style:normal}.peak-tr-flow{display:grid;margin-top:14px;grid-template-columns:repeat(4,1fr);border:1px solid #ddd;border-radius:7px;background:#fff}.peak-tr-flow span{display:flex;align-items:center;gap:5px;padding:10px 7px;font-size:7px}.peak-tr-flow span+span{border-left:1px solid #eee}.peak-tr-flow i{display:grid;width:17px;height:17px;place-items:center;border-radius:50%;background:#e9edff;color:#2845d6;font-style:normal}.peak-tr-flow .is-ready{color:#36874e}.peak-tr-flow .is-ready i{background:#dff1e4;color:#36874e}@media(max-width:767px){.peak-tr-workspace{min-height:395px;grid-template-columns:1fr}.peak-tr-health{display:none}.peak-tr-main{padding:16px}.peak-tr-grid>div{grid-template-columns:70px repeat(2,1fr)}.peak-tr-grid>div>*:last-child{display:none}.peak-tr-flow{grid-template-columns:repeat(2,1fr)}.peak-tr-flow span:nth-child(3){border-left:0;border-top:1px solid #eee}.peak-tr-flow span:nth-child(4){border-top:1px solid #eee}}@media(prefers-reduced-motion:no-preference){.peak-tr-grid .is-ai{animation:peak-tr-draft 3s ease-in-out infinite}@keyframes peak-tr-draft{50%{background:#e6eaff}}}@media(prefers-reduced-motion:reduce){.peak-tr-grid .is-ai{animation:none}}
+</style>

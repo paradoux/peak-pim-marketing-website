@@ -1,0 +1,243 @@
+---
+import ProductVisualFrame from "../ui/ProductVisualFrame.astro";
+
+const buildSignals = ["Catalog software is strategic", "Dedicated engineering capacity", "Unique operating model"];
+const peakSignals = ["Shopify is the core platform", "The catalog must improve now", "A ready workspace is preferred"];
+---
+
+<ProductVisualFrame
+  ariaLabel="Decision workspace comparing when to build a PIM in-house and when to choose Peak PIM"
+  section="Decision brief"
+  status="Assessment complete"
+>
+  <div class="build-buy-decision">
+    <div class="build-buy-decision__heading">
+      <div><strong>Which operating model fits?</strong><small>Review the conditions that matter most to your team</small></div>
+      <span>6 signals</span>
+    </div>
+
+    <div class="build-buy-decision__options">
+      <div class="build-buy-decision__option">
+        <div class="build-buy-decision__option-title"><i class="is-code" aria-hidden="true">&lt;/&gt;</i><div><strong>Build in-house</strong><small>Own the software</small></div></div>
+        <ul>{buildSignals.map((signal) => <li><i aria-hidden="true"></i>{signal}</li>)}</ul>
+        <span class="build-buy-decision__tag">Engineering project</span>
+      </div>
+
+      <div class="build-buy-decision__option is-selected">
+        <div class="build-buy-decision__option-title"><i class="is-peak" aria-hidden="true">✓</i><div><strong>Choose Peak PIM</strong><small>Operate the catalog</small></div></div>
+        <ul>{peakSignals.map((signal) => <li><i aria-hidden="true">✓</i>{signal}</li>)}</ul>
+        <span class="build-buy-decision__tag">Ready to connect</span>
+      </div>
+    </div>
+
+    <div class="build-buy-decision__result">
+      <span>Recommended path</span><strong>Peak PIM for Shopify-first operations</strong><em>Ready</em>
+    </div>
+  </div>
+</ProductVisualFrame>
+
+<style>
+  .build-buy-decision {
+    padding: 22px;
+    background: #fafafa;
+  }
+
+  .build-buy-decision__heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3px 2px 18px;
+    border-bottom: 1px solid #e6e6e6;
+  }
+
+  .build-buy-decision__heading div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .build-buy-decision__heading strong {
+    font-size: 13px;
+  }
+
+  .build-buy-decision__heading small,
+  .build-buy-decision__heading span {
+    color: #777;
+    font-size: 9px;
+  }
+
+  .build-buy-decision__heading span {
+    padding: 6px 8px;
+    border: 1px solid #dedede;
+    border-radius: 5px;
+    background: #fff;
+  }
+
+  .build-buy-decision__options {
+    display: grid;
+    gap: 10px;
+    margin-top: 17px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .build-buy-decision__option {
+    padding: 14px;
+    border: 1px solid #dedede;
+    border-radius: 7px;
+    background: #fff;
+  }
+
+  .build-buy-decision__option.is-selected {
+    border-color: #8fa1eb;
+    background: #f7f8ff;
+    box-shadow: 0 0 0 2px rgba(40, 69, 214, 0.08);
+  }
+
+  .build-buy-decision__option-title {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #ededed;
+  }
+
+  .build-buy-decision__option-title > i {
+    display: grid;
+    flex: 0 0 auto;
+    width: 30px;
+    height: 30px;
+    place-items: center;
+    border-radius: 5px;
+    font-size: 8px;
+    font-style: normal;
+    font-weight: 800;
+  }
+
+  .build-buy-decision__option-title .is-code {
+    background: #191919;
+    color: #fff;
+  }
+
+  .build-buy-decision__option-title .is-peak {
+    background: #e9edff;
+    color: #2845d6;
+  }
+
+  .build-buy-decision__option-title div {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .build-buy-decision__option-title strong {
+    font-size: 10px;
+  }
+
+  .build-buy-decision__option-title small {
+    color: #777;
+    font-size: 8px;
+  }
+
+  .build-buy-decision__option ul {
+    display: grid;
+    gap: 9px;
+    margin: 13px 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .build-buy-decision__option li {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #555;
+    font-size: 9px;
+  }
+
+  .build-buy-decision__option li i {
+    display: grid;
+    flex: 0 0 auto;
+    width: 15px;
+    height: 15px;
+    place-items: center;
+    border: 1px solid #d8d8d8;
+    border-radius: 4px;
+    color: #2845d6;
+    font-size: 7px;
+    font-style: normal;
+  }
+
+  .build-buy-decision__option.is-selected li i {
+    border-color: #cad2fa;
+    background: #e9edff;
+  }
+
+  .build-buy-decision__tag {
+    display: inline-flex;
+    padding: 5px 7px;
+    border-radius: 4px;
+    background: #f2f0eb;
+    color: #777;
+    font-size: 8px;
+    font-weight: 650;
+  }
+
+  .build-buy-decision__option.is-selected .build-buy-decision__tag {
+    background: #e9edff;
+    color: #2845d6;
+  }
+
+  .build-buy-decision__result {
+    display: grid;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 6px;
+    background: #f6f3ec;
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .build-buy-decision__result span,
+  .build-buy-decision__result em {
+    color: #777;
+    font-size: 8px;
+    font-style: normal;
+  }
+
+  .build-buy-decision__result strong {
+    font-size: 9px;
+  }
+
+  .build-buy-decision__result em {
+    color: #26854a;
+  }
+
+  @media (max-width: 767px) {
+    .build-buy-decision {
+      padding: 14px;
+    }
+
+    .build-buy-decision__heading small,
+    .build-buy-decision__heading > span {
+      display: none;
+    }
+
+    .build-buy-decision__options {
+      grid-template-columns: 1fr;
+    }
+
+    .build-buy-decision__option li {
+      font-size: 8px;
+    }
+
+    .build-buy-decision__result {
+      grid-template-columns: 1fr auto;
+    }
+
+    .build-buy-decision__result span {
+      display: none;
+    }
+  }
+</style>

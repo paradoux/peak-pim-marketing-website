@@ -1,0 +1,127 @@
+---
+import PeakIcon from "../ui/PeakIcon.astro";
+
+type IconName = "clock" | "file" | "store" | "edit" | "code" | "image" | "grid" | "search" | "review" | "publish";
+type Metric = { label: string; build: string; peak: string };
+type Side = {
+  label: string;
+  description: string;
+  icon?: IconName;
+  logo?: { src: string; alt: string };
+  features: string[];
+};
+type Props = {
+  id?: string;
+  tagline?: string;
+  title: string;
+  description?: string;
+  metrics: Metric[];
+  build: Side;
+  peak: Side;
+};
+
+const { id, tagline = "Head to head", title, description, metrics, build, peak } = Astro.props;
+const sides = [
+  { ...build, key: "build" as const },
+  { ...peak, key: "peak" as const },
+];
+---
+
+<section id={id} class="section_comparison14 section_comparison14-2 peak-comparison-table color-scheme-1">
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="padding-section-large">
+        <div class="comparison14_component peak-comparison-table__component">
+          <div class="margin-bottom margin-xxlarge">
+            <div class="text-align-center">
+              <div class="max-width-large align-center">
+                <div class="margin-bottom margin-xsmall"><div class="text-style-tagline">{tagline}</div></div>
+                <div class="margin-bottom margin-small"><h2 class="heading-style-h2">{title}</h2></div>
+                {description && <p class="text-size-medium">{description}</p>}
+              </div>
+            </div>
+          </div>
+          <div class="max-width-xlarge align-center">
+            <div class="w-layout-grid comparison14_grid-list peak-comparison-table__grid">
+              {sides.map((side) => (
+                <article class:list={["comparison14_card", "peak-comparison-table__card", side.key === "peak" && "peak-comparison-table__card--peak"]}>
+                  <div class="margin-bottom margin-small">
+                    <div class="text-align-center">
+                      {(side.icon || side.logo) && (
+                        <div class="margin-bottom margin-xsmall">
+                          <div class:list={["comparison14_image-wrapper", "peak-comparison-table__visual-wrap", side.logo ? "peak-comparison-table__logo-wrap" : "peak-comparison-table__icon-wrap"]}>
+                            {side.logo
+                              ? <img src={side.logo.src} alt={side.logo.alt} class="peak-comparison-table__logo" loading="lazy" />
+                              : <PeakIcon name={side.icon!} wrapperClass="comparison14_image peak-comparison-table__icon w-embed" />}
+                          </div>
+                        </div>
+                      )}
+                      <div class="margin-bottom margin-xxsmall"><h3 class="heading-style-h6">{side.label}</h3></div>
+                      <div>{side.description}</div>
+                    </div>
+                  </div>
+                  <div class="comparison14_feature-list-top">
+                    {metrics.map((metric) => (
+                      <div class="comparison14_feature-top">
+                        <div>{metric.label}</div>
+                        <div class="heading-style-h6">{metric[side.key]}</div>
+                      </div>
+                    ))}
+                  </div>
+                  <div class="margin-top margin-medium">
+                    <div class="comparison14_feature-list-bottom">
+                      {side.features.map((feature) => (
+                        <div class="comparison14_feature-bottom">
+                          <div class="comparison14_feature-icon-wrapper">
+                            <PeakIcon name={side.key === "peak" ? "review" : "code"} wrapperClass="icon-embed-xsmall w-embed" />
+                          </div>
+                          <div>{feature}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .peak-comparison-table__icon-wrap {
+    display: grid;
+    width: 6rem;
+    height: 6rem;
+    place-items: center;
+    background: var(--color-paper);
+  }
+
+  .peak-comparison-table__logo-wrap {
+    display: grid;
+    width: 10rem;
+    height: 6rem;
+    place-items: center;
+  }
+
+  .peak-comparison-table__logo {
+    width: 9rem;
+    height: auto;
+  }
+
+  .peak-comparison-table__card .heading-style-h6 {
+    text-align: center;
+  }
+
+  .peak-comparison-table__icon {
+    width: 3rem;
+    height: 3rem;
+    color: var(--color-ink);
+  }
+
+  .peak-comparison-table__card--peak .peak-comparison-table__icon {
+    color: var(--color-brand-blue);
+  }
+</style>

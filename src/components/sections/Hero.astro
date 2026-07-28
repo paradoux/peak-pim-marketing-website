@@ -1,8 +1,9 @@
 ---
 import Button from "../ui/Button.astro";
+import type { CtaLabel } from "../../data/cta-copy";
 
 type Cta = {
-  label: string;
+  label: CtaLabel;
   href: string;
   external?: boolean;
   crisp?: boolean;
@@ -13,46 +14,110 @@ type Props = {
   description: string;
   primaryCta?: Cta;
   secondaryCta?: Cta;
+  layout?: "centered" | "split";
+  trustLine?: string;
 };
 
-const { title, description, primaryCta, secondaryCta } = Astro.props;
+const { title, description, primaryCta, secondaryCta, layout = "centered", trustLine } = Astro.props;
 const hasVisual = Astro.slots.has("default");
 ---
 
-<header class="section_header26 peak-hero">
+<header class:list={["section_header26", "peak-hero", { "peak-hero--split": layout === "split" }]}>
   <div class="padding-global">
     <div class="container-large">
       <div class="padding-section-large">
-        <div class="header26_component peak-hero__component">
-          <div class="margin-bottom margin-xxlarge">
-            <div class="text-align-center">
-              <div class="max-width-large align-center">
-                <div class="margin-bottom margin-small">
-                  <h1 class="heading-style-h1">{title}</h1>
-                </div>
-                <p class="text-size-medium">{description}</p>
-                {(primaryCta || secondaryCta) && (
-                  <div class="margin-top margin-medium">
-                    <div class="button-group is-center">
-                      {primaryCta && (
-                        <Button href={primaryCta.href} external={primaryCta.external} crisp={primaryCta.crisp}>
-                          {primaryCta.label}
-                        </Button>
-                      )}
-                      {secondaryCta && (
-                        <Button href={secondaryCta.href} variant="secondary" external={secondaryCta.external} crisp={secondaryCta.crisp}>
-                          {secondaryCta.label}
-                        </Button>
-                      )}
-                    </div>
+        {layout === "split" ? (
+          <div class="peak-hero__split">
+            <div class="peak-hero__content">
+              <div class="margin-bottom margin-small">
+                <h1 class="heading-style-h1">{title}</h1>
+              </div>
+              <p class="text-size-medium">{description}</p>
+              {(primaryCta || secondaryCta) && (
+                <div class="margin-top margin-medium">
+                  <div class="button-group">
+                    {primaryCta && (
+                      <Button href={primaryCta.href} external={primaryCta.external} crisp={primaryCta.crisp}>
+                        {primaryCta.label}
+                      </Button>
+                    )}
+                    {secondaryCta && (
+                      <Button href={secondaryCta.href} variant="secondary" external={secondaryCta.external} crisp={secondaryCta.crisp}>
+                        {secondaryCta.label}
+                      </Button>
+                    )}
                   </div>
-                )}
+                </div>
+              )}
+              {trustLine && <p class="peak-hero__trust text-size-small">{trustLine}</p>}
+            </div>
+            {hasVisual && <div class="peak-hero__split-visual"><slot /></div>}
+          </div>
+        ) : (
+          <div class="header26_component peak-hero__component">
+            <div class="margin-bottom margin-xxlarge">
+              <div class="text-align-center">
+                <div class="max-width-large align-center">
+                  <div class="margin-bottom margin-small">
+                    <h1 class="heading-style-h1">{title}</h1>
+                  </div>
+                  <p class="text-size-medium">{description}</p>
+                  {(primaryCta || secondaryCta) && (
+                    <div class="margin-top margin-medium">
+                      <div class="button-group is-center">
+                        {primaryCta && (
+                          <Button href={primaryCta.href} external={primaryCta.external} crisp={primaryCta.crisp}>
+                            {primaryCta.label}
+                          </Button>
+                        )}
+                        {secondaryCta && (
+                          <Button href={secondaryCta.href} variant="secondary" external={secondaryCta.external} crisp={secondaryCta.crisp}>
+                            {secondaryCta.label}
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  {trustLine && <p class="peak-hero__trust text-size-small">{trustLine}</p>}
+                </div>
               </div>
             </div>
+            {hasVisual && <div class="header26_image-wrapper peak-hero__visual"><slot /></div>}
           </div>
-          {hasVisual && <div class="header26_image-wrapper peak-hero__visual"><slot /></div>}
-        </div>
+        )}
       </div>
     </div>
   </div>
 </header>
+
+<style>
+  .peak-hero__split {
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+    gap: clamp(2.5rem, 5vw, 5rem);
+    align-items: center;
+  }
+
+  .peak-hero__content {
+    max-width: 39rem;
+  }
+
+  .peak-hero__trust {
+    margin-top: 1rem;
+    color: var(--color-muted);
+  }
+
+  .peak-hero__split-visual {
+    min-width: 0;
+  }
+
+  @media screen and (max-width: 991px) {
+    .peak-hero__split {
+      grid-template-columns: 1fr;
+    }
+
+    .peak-hero__content {
+      max-width: 46rem;
+    }
+  }
+</style>
