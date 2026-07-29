@@ -13,6 +13,7 @@ export const assets = {
   },
   marketing: {
     buildVsBuyOg: "/og-build-vs-buy-pim.png",
+    buildVsBuyMaintenanceExample: "/assets/marketing/build-vs-buy-maintenance-example.webp",
     featureOg: {
       "/ai-catalog-connector": "/assets/og/ai-catalog-connector.png",
       "/api": "/assets/og/api.png",

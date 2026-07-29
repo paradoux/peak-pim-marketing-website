@@ -54,7 +54,133 @@ test("homepage · hero CTA pair is responsive and uses canonical actions", async
     await expect(actions.nth(1)).toHaveAttribute("data-open-crisp", "");
     await expect(actions.nth(0)).toBeVisible();
     await expect(actions.nth(1)).toBeVisible();
+    const pricingPreviewCta = page.getByRole("link", { name: "See pricing", exact: true });
+    await expect(pricingPreviewCta).toHaveCount(1);
+    await expect(pricingPreviewCta).toHaveAttribute("href", "/pricing/");
+    await expect(pricingPreviewCta).not.toHaveAttribute("data-open-crisp", "");
     expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+
+    if (width === 1440) {
+      await pricingPreviewCta.click();
+      await expect(page).toHaveURL(/\/pricing\/$/);
+    }
+  }
+});
+
+test("pricing · categorized feature matrix and accessible information controls", async ({ page }) => {
+  for (const width of [1440, 768, 375]) {
+    await prepare(page, "/pricing/", width, 900);
+    const matrix = page.locator(".pricing54_plans");
+
+    await expect(matrix.locator(".pricing-feature-category .heading-style-h6")).toHaveText([
+      "Plan limits",
+      "Connect",
+      "Operate",
+      "Manage & Enrich",
+      "Support",
+    ]);
+    await expect(matrix.locator(".pricing-feature-info")).toHaveCount(27);
+    await expect(matrix.locator(".pricing-feature-name")).toContainText([
+      "Connected Shopify stores",
+      "Seats",
+      "SKUs",
+      "File storage",
+      "1-click setup",
+      "Shopify sync",
+      "AI Connector (MCP)",
+      "API",
+      "Multi-store management",
+      "Bulk edit",
+      "Import & export",
+      "Media management",
+      "Drops",
+      "Health Center",
+      "Users & permissions",
+      "Products & variants",
+      "Collections",
+      "Metafields",
+      "Metaobjects",
+      "Translations",
+      "Markets & catalogs",
+      "Custom fields",
+      "Help Center",
+      "AI agent support (24/7)",
+      "Human priority support",
+      "Onboarding call",
+      "Dedicated account manager",
+    ]);
+    await expect(matrix.locator(".pricing54_top-row-content .heading-style-h6")).toHaveText(["Core", "Elite", "Enterprise"]);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+  }
+
+  await prepare(page, "/pricing/", 1440, 900);
+  const category = page.locator(".pricing-feature-category").filter({ hasText: "Manage & Enrich" });
+  const markerBox = await category.locator(".pricing-feature-category__marker").boundingBox();
+  const titleBox = await category.locator(".heading-style-h6").boundingBox();
+  const subtitleBox = await category.locator("p").boundingBox();
+  expect(markerBox).not.toBeNull();
+  expect(titleBox).not.toBeNull();
+  expect(subtitleBox).not.toBeNull();
+  expect(markerBox!.width).toBeGreaterThanOrEqual(10);
+  expect(Math.abs(markerBox!.y + markerBox!.height / 2 - (titleBox!.y + titleBox!.height / 2))).toBeLessThanOrEqual(2);
+  expect(Math.abs(subtitleBox!.y + subtitleBox!.height / 2 - (titleBox!.y + titleBox!.height / 2))).toBeLessThanOrEqual(6);
+  await expect(page.locator(".pricing54_plans .pricing54_icon-wrapper svg")).toHaveCount(0);
+  const infoIconBox = await page.locator('summary[aria-label="About Drops"]').boundingBox();
+  expect(infoIconBox).not.toBeNull();
+  expect(infoIconBox!.width).toBeGreaterThanOrEqual(13);
+  expect(infoIconBox!.width).toBeLessThanOrEqual(15);
+
+  const hoverControl = page.locator('summary[aria-label="About Drops"]');
+  await hoverControl.hover();
+  await expect(hoverControl.locator("xpath=..")).toHaveAttribute("open", "");
+  const hoverPanel = page.locator('summary[aria-label="About Drops"] + .pricing-feature-popover');
+  const hoverPanelBox = await hoverPanel.boundingBox();
+  expect(hoverPanelBox).not.toBeNull();
+  expect(hoverPanelBox!.x).toBeGreaterThanOrEqual(0);
+  expect(hoverPanelBox!.x + hoverPanelBox!.width).toBeLessThanOrEqual(1440);
+  await page.mouse.move(1200, 820);
+  await page.waitForTimeout(180);
+  await expect(hoverControl.locator("xpath=..")).not.toHaveAttribute("open", "");
+
+  await prepare(page, "/pricing/", 375, 812);
+  const infoControl = page.locator('summary[aria-label="About Shopify sync"]');
+  await infoControl.focus();
+  await infoControl.press("Enter");
+  await expect(infoControl.locator("xpath=..")).toHaveAttribute("open", "");
+  const infoPanel = page.locator('summary[aria-label="About Shopify sync"] + .pricing-feature-popover');
+  await expect(infoPanel).toContainText("Refresh catalog data from Shopify");
+  await expect(infoPanel.getByRole("link", { name: "Learn more" })).toHaveAttribute("href", "/shopify-sync");
+  const panelBox = await infoPanel.boundingBox();
+  expect(panelBox).not.toBeNull();
+  expect(panelBox!.x).toBeGreaterThanOrEqual(0);
+  expect(panelBox!.x + panelBox!.width).toBeLessThanOrEqual(375);
+
+  for (const width of [1600, 992, 768, 375]) {
+    await prepare(page, "/pricing/#details", width, 900);
+    await page.evaluate(() => {
+      const topRow = document.querySelector<HTMLElement>(".pricing54_top-row");
+      if (topRow) window.scrollTo(0, topRow.getBoundingClientRect().top + window.scrollY + 160);
+    });
+    await page.waitForTimeout(100);
+    const stickyLayers = await page.evaluate(() => {
+      const header = document.querySelector<HTMLElement>(".site-header");
+      const topRow = document.querySelector<HTMLElement>(".pricing54_top-row");
+      const emptyCell = document.querySelector<HTMLElement>(".pricing54_empty-space");
+      const planCell = document.querySelector<HTMLElement>(".pricing54_top-row-content");
+      if (!header || !topRow || !planCell) return null;
+      const alpha = (element: HTMLElement) => getComputedStyle(element).backgroundColor;
+      return {
+        headerBottom: header.getBoundingClientRect().bottom,
+        topRowTop: topRow.getBoundingClientRect().top,
+        backgrounds: [alpha(header), alpha(topRow), emptyCell ? alpha(emptyCell) : null, alpha(planCell)],
+      };
+    });
+    expect(stickyLayers).not.toBeNull();
+    expect(
+      Math.abs(stickyLayers!.headerBottom - stickyLayers!.topRowTop),
+      `sticky stack at ${width}px: ${JSON.stringify(stickyLayers)}`,
+    ).toBeLessThanOrEqual(1);
+    expect(stickyLayers!.backgrounds.filter(Boolean).every((color) => color !== "rgba(0, 0, 0, 0)" && color !== "transparent")).toBe(true);
   }
 });
 
@@ -316,7 +442,7 @@ test("multi-store · retired Scale plan is absent at every breakpoint", async ({
 test("build vs buy · responsive comparison and SEO contract", async ({ page }) => {
   const sectionIds = ["verdict", "comparison", "pricing-comparison", "decision", "implementation", "faq", "start"];
 
-  for (const width of [1440, 992, 768, 767, 375]) {
+  for (const width of [2048, 1440, 992, 768, 767, 375]) {
     await prepare(page, "/build-vs-buy-pim", width, 1000);
     await expect(page.locator("h1")).toHaveCount(1);
     await expect(page.locator("h2")).toHaveCount(7);
@@ -326,6 +452,9 @@ test("build vs buy · responsive comparison and SEO contract", async ({ page }) 
     const comparisonColumns = await page.locator(".peak-comparison-table__grid").evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(" ").length);
     expect(comparisonColumns).toBe(width < 768 ? 1 : 2);
     if (width < 768) await expect(page.locator(".pricing50_feature").first()).toHaveCSS("grid-column", "1 / -1");
+    const heroImageBox = await page.locator(".build-buy-evidence").boundingBox();
+    expect(heroImageBox).not.toBeNull();
+    expect(Math.abs(heroImageBox!.width / heroImageBox!.height - 1190 / 812)).toBeLessThanOrEqual(0.01);
   }
 
   await prepare(page, "/build-vs-buy-pim", 1440, 1000);
@@ -333,11 +462,15 @@ test("build vs buy · responsive comparison and SEO contract", async ({ page }) 
     await expect(page.locator(`#${id}`)).toBeVisible();
   }
   await expect(page.locator(".peak-faq__answer").filter({ visible: true })).toHaveCount(0);
-  const heroVisual = page.getByRole("img", { name: "Comparison workspace showing an in-house Shopify PIM build beside Peak PIM" });
+  const heroVisual = page.getByRole("img", { name: "Post describing a team returning to Linear because maintaining its internally built tool consumed work bandwidth" });
   const decisionVisual = page.getByRole("img", { name: "Decision workspace comparing when to build a PIM in-house and when to choose Peak PIM" });
   await expect(heroVisual).toHaveCount(1);
   await expect(decisionVisual).toHaveCount(1);
-  await expect(page.locator(".peak-comparison-hero__visual img")).toHaveCount(0);
+  await expect(page.locator('.peak-comparison-hero__visual img[src="/assets/marketing/build-vs-buy-maintenance-example.webp"]')).toHaveCount(1);
+  await expect(page.locator(".build-buy-evidence__frame, .build-buy-evidence__topbar, .build-buy-evidence__image-wrap, .build-buy-evidence + figcaption")).toHaveCount(0);
+  await expect(page.locator(".peak-comparison-hero__visual.is-plain")).toHaveCSS("border-radius", "0px");
+  await expect(heroVisual).toHaveCSS("border-radius", "14px");
+  await expect(heroVisual).not.toHaveCSS("box-shadow", "none");
   await expect(page.locator("#decision .peak-decision-guide__image-wrapper img")).toHaveCount(0);
   const firstHeroCta = page.locator(".peak-comparison-hero a").first();
   await page.locator("body").click({ position: { x: 1, y: 1 } });
@@ -352,7 +485,7 @@ test("build vs buy · responsive comparison and SEO contract", async ({ page }) 
   await expect(firstFaqQuestion).toHaveAttribute("aria-expanded", "true");
   await expect(page.locator(".peak-faq__answer").first()).toBeVisible();
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(page.locator(".build-buy-workspace__progress i")).toHaveCSS("animation-name", "none");
+  await expect(page.locator(".build-buy-evidence")).toBeVisible();
   expect(await page.locator('script[type="application/ld+json"]').evaluateAll((scripts) => scripts.map((script) => JSON.parse(script.textContent ?? "{}")["@type"]))).toEqual(expect.arrayContaining(["Article", "FAQPage"]));
 });
 

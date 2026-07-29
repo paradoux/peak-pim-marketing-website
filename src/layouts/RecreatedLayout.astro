@@ -217,16 +217,70 @@ const fallbackJsonLd = {
         setBilling("monthly");
       }
 
+      function setupPricingFeatureInfo() {
+        const disclosures = Array.from(document.querySelectorAll(".pricing-feature-info"));
+
+        disclosures.forEach((disclosure) => {
+          if (disclosure.dataset.pricingInfoReady === "true") {
+            return;
+          }
+
+          const summary = disclosure.querySelector("summary");
+          let closeTimer;
+
+          disclosure.dataset.pricingInfoReady = "true";
+
+          function closeOthers() {
+            disclosures.forEach((other) => {
+              if (other !== disclosure) {
+                other.removeAttribute("open");
+              }
+            });
+          }
+
+          function openFromHover() {
+            window.clearTimeout(closeTimer);
+            closeOthers();
+            disclosure.setAttribute("open", "");
+          }
+
+          function closeAfterHover() {
+            closeTimer = window.setTimeout(() => {
+              if (!disclosure.matches(":focus-within")) {
+                disclosure.removeAttribute("open");
+              }
+            }, 120);
+          }
+
+          disclosure.addEventListener("mouseenter", openFromHover);
+          disclosure.addEventListener("mouseleave", closeAfterHover);
+          disclosure.addEventListener("focusin", () => window.clearTimeout(closeTimer));
+          disclosure.addEventListener("toggle", () => {
+            if (disclosure.hasAttribute("open")) {
+              closeOthers();
+            }
+          });
+          disclosure.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+              disclosure.removeAttribute("open");
+              summary?.focus();
+            }
+          });
+        });
+      }
+
       if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", function() {
           setupFaqAccordions();
           setupTimelineProgress();
           setupPricingBilling();
+          setupPricingFeatureInfo();
         });
       } else {
         setupFaqAccordions();
         setupTimelineProgress();
         setupPricingBilling();
+        setupPricingFeatureInfo();
       }
     </script>
   </body>

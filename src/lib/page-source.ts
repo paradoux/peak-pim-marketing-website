@@ -1,5 +1,6 @@
 import { pagesBySlug, type PageDefinition } from "../data/pages";
 import { normalizeCtaCopyInHtml } from "../data/cta-copy";
+import { pricingFeatureGroups, type PricingPlanValue } from "../data/pricing-feature-matrix";
 import { featureNavigationGroups } from "../data/site-navigation";
 
 const pageModules = import.meta.glob<string>(
@@ -59,6 +60,10 @@ export function getPageDocument(page: PageDefinition) {
 }
 
 function applyContentCorrections(html: string, page: PageDefinition) {
+  if (page.slug === "") {
+    return correctHomepagePricingCta(html);
+  }
+
   if (["shopify-media-management", "industry/fashion"].includes(page.slug)) {
     return replaceLogoBannerWithHomepageVersion(html);
   }
@@ -118,6 +123,17 @@ function applyContentCorrections(html: string, page: PageDefinition) {
   return removePricingFeature(removePricingFeature(withCurrentLimits, enterprisePlanCardStart, "Metaobjects"), enterprisePlanCardStart, "Translations");
 }
 
+function correctHomepagePricingCta(html: string) {
+  const incorrectCta = '<a data-open-crisp="" href="/pricing" class="button is-secondary is-alternate w-button">See pricing</a>';
+  const correctedCta = '<a href="/pricing/" class="button is-secondary is-alternate w-button">See pricing</a>';
+
+  if (!html.includes(incorrectCta)) {
+    throw new Error("The homepage pricing preview CTA could not be corrected.");
+  }
+
+  return html.replace(incorrectCta, correctedCta);
+}
+
 function replaceLogoBannerWithHomepageVersion(html: string) {
   const logoBannerPattern = /<section\b[^>]*class="section_logo[23] color-scheme-[12]"[^>]*>[\s\S]*?<\/section>/;
 
@@ -175,7 +191,126 @@ function improvePricingCrawlerContent(html: string) {
     corrected = corrected.replaceAll(outdated, current);
   }
 
-  return corrected.replaceAll("https://schema.org/PreOrder", "https://schema.org/InStock");
+  const withLiveOffers = corrected.replaceAll("https://schema.org/PreOrder", "https://schema.org/InStock");
+
+  return replacePricingFeatureMatrix(enrichPricingStructuredData(withLiveOffers));
+}
+
+function pricingSchemaValue(value: PricingPlanValue) {
+  if (value === true) return "Included";
+  if (value === false) return "Not included";
+  return value;
+}
+
+function pricingPlanProperties(planIndex: number) {
+  return pricingFeatureGroups.flatMap((group) =>
+    group.features.map((feature) => ({
+      "@type": "PropertyValue",
+      name: feature.label,
+      description: feature.description,
+      value: pricingSchemaValue(feature.values[planIndex]),
+      ...(feature.href ? { propertyID: `https://peak-pim.com${feature.href}` } : {}),
+    })),
+  );
+}
+
+function enrichPricingStructuredData(html: string) {
+  const schemaPattern = /(<script\b[^>]*type=["']application\/ld\+json["'][^>]*>)([\s\S]*?)(<\/script>)/i;
+  const match = html.match(schemaPattern);
+
+  if (!match) {
+    throw new Error("The pricing structured data could not be found.");
+  }
+
+  const schema = JSON.parse(match[2]) as {
+    "@type"?: string;
+    featureList?: string[];
+    offers?: Array<Record<string, unknown> & { name?: string }>;
+  };
+  const planNames = ["Core", "Elite", "Enterprise"];
+
+  if (schema["@type"] !== "SoftwareApplication" || !Array.isArray(schema.offers)) {
+    throw new Error("The pricing SoftwareApplication offers are missing.");
+  }
+
+  schema.featureList = pricingFeatureGroups.flatMap((group) => group.features.map((feature) => feature.label));
+
+  planNames.forEach((planName, planIndex) => {
+    const offer = schema.offers?.find((candidate) => candidate.name === planName);
+
+    if (!offer) {
+      throw new Error(`The pricing schema is missing the ${planName} offer.`);
+    }
+
+    offer.additionalProperty = pricingPlanProperties(planIndex);
+  });
+
+  return html.replace(
+    schemaPattern,
+    (_fullMatch, openingTag: string, _originalSchema: string, closingTag: string) =>
+      `${openingTag}\n${JSON.stringify(schema, null, 2)}\n${closingTag}`,
+  );
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function renderPricingPlanValue(value: PricingPlanValue) {
+  if (value === true) {
+    return `<span class="pricing-feature-check" aria-label="Included"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 9.25 17 19 7" /></svg></span>`;
+  }
+
+  if (value === false) {
+    return `<span class="pricing-feature-unavailable">Not included</span>`;
+  }
+
+  return `<span>${escapeHtml(value)}</span>`;
+}
+
+function renderPricingInfo(label: string, description: string, href?: string) {
+  const link = href
+    ? `<a href="${escapeHtml(href)}" class="pricing-feature-popover__link">Learn more<span aria-hidden="true">&rarr;</span></a>`
+    : "";
+
+  return `<details class="pricing-feature-info"><summary aria-label="About ${escapeHtml(label)}"><svg class="pricing-feature-info__icon" viewBox="0 0 10 10" aria-hidden="true"><circle cx="5" cy="2.2" r="0.9"/><path d="M5 4.4V8"/></svg></summary><div class="pricing-feature-popover"><p>${escapeHtml(description)}</p>${link}</div></details>`;
+}
+
+function renderPricingFeatureMatrix() {
+  return pricingFeatureGroups
+    .map((group) => {
+      const heading = `<div class="pricing54_heading-row"><div class="pricing-feature-category"><div class="pricing-feature-category__title"><span class="pricing-feature-category__marker" aria-hidden="true"></span><div class="heading-style-h6">${escapeHtml(group.label)}</div></div><p>${escapeHtml(group.description)}</p></div></div>`;
+      const rows = group.features
+        .map((feature) => {
+          const values = feature.values
+            .map((value, index) => `<div class="pricing54_row-content${index === 0 ? " is-first" : ""}">${renderPricingPlanValue(value)}</div>`)
+            .join("");
+
+          return `<div class="w-layout-grid pricing54_row"><div class="pricing54_feature"><div class="pricing-feature-name"><span>${escapeHtml(feature.label)}</span>${renderPricingInfo(feature.label, feature.description, feature.href)}</div></div>${values}</div>`;
+        })
+        .join("");
+
+      return heading + rows;
+    })
+    .join("");
+}
+
+function replacePricingFeatureMatrix(html: string) {
+  const startMarker = '<div class="pricing54_heading-row"><div class="heading-style-h6">Data</div></div>';
+  const endMarker = '</div></div></div></div></div></section><section class="section_faq1';
+  const start = html.indexOf(startMarker);
+  const end = html.indexOf(endMarker, start);
+
+  if (start === -1 || end === -1) {
+    throw new Error("The pricing feature matrix could not be reorganized.");
+  }
+
+  return html.slice(0, start) + renderPricingFeatureMatrix() + html.slice(end);
 }
 
 function removePricingFeature(html: string, planCardStart: string, label: string) {

@@ -35,7 +35,7 @@
 - `TranslationStepVisual.astro`: three compact product states placed inside `layout239_image-wrapper`.
 - `TranslationsHeroVisual.astro`: catalog coverage, AI drafting, source review, and publishing in one translation workspace.
 - `TranslationsCardVisual.astro`: multi-store matrix, AI draft, and copy-to-store states for complete workflow cards.
-- `BuildVsBuyHeroVisual.astro`: implementation comparison inside the canonical product-window frame.
+- `BuildVsBuyHeroVisual.astro`: registered real-world build-vs-buy evidence screenshot inside a responsive rounded card; this is a page-specific raster exception, not a product-illustration pattern.
 - `BuildVsBuyDecisionVisual.astro`: two-path decision brief inside the canonical product-window frame.
 - `ImportExportHeroVisual.astro`: import dry-run review with matching, summary states, and before-to-after catalog changes inside the canonical product-window frame.
 - `ImportExportCardVisual.astro`: compact export, guided import, and spreadsheet round-trip states for complete workflow cards.

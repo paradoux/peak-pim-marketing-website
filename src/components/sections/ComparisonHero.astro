@@ -9,9 +9,10 @@ type Props = {
   primaryCta: Cta;
   secondaryCta?: Cta;
   headingLevel?: "h1" | "h2";
+  visualTreatment?: "framed" | "plain";
 };
 
-const { title, description, primaryCta, secondaryCta, headingLevel = "h1" } = Astro.props;
+const { title, description, primaryCta, secondaryCta, headingLevel = "h1", visualTreatment = "framed" } = Astro.props;
 const Heading = headingLevel;
 ---
 
@@ -31,7 +32,7 @@ const Heading = headingLevel;
                 </div>
               </div>
             </div>
-            <div class="header1_image-wrapper peak-comparison-hero__visual">
+            <div class:list={["header1_image-wrapper peak-comparison-hero__visual", { "is-plain": visualTreatment === "plain" }]}>
               <slot />
             </div>
           </div>
@@ -40,3 +41,10 @@ const Heading = headingLevel;
     </div>
   </div>
 </header>
+
+<style>
+  .peak-comparison-hero__visual.is-plain {
+    overflow: visible;
+    border-radius: 0;
+  }
+</style>

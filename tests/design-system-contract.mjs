@@ -7,6 +7,7 @@ const requiredFiles = [
   "src/layouts/LandingPageLayout.astro",
   "src/lib/site-url.ts",
   "src/data/cta-copy.ts",
+  "src/data/pricing-feature-matrix.ts",
   "src/data/site-navigation.ts",
   "src/components/ui/Button.astro",
   "src/components/ui/PeakIcon.astro",
@@ -31,6 +32,7 @@ const requiredFiles = [
   "src/components/visuals/TranslationsHeroVisual.astro",
   "src/components/visuals/TranslationsCardVisual.astro",
   "src/components/visuals/BuildVsBuyHeroVisual.astro",
+  "public/assets/marketing/build-vs-buy-maintenance-example.webp",
   "src/components/visuals/BuildVsBuyDecisionVisual.astro",
   "src/components/visuals/ImportExportHeroVisual.astro",
   "src/components/visuals/ImportExportCardVisual.astro",
@@ -431,7 +433,8 @@ if (existsSync(buildVsBuyFile)) {
   if (!html.includes('name="description" content="Compare the real product, engineering, Shopify maintenance, and operating work behind building a PIM in-house versus using Peak PIM."')) failures.push("Build-vs-buy meta description is incorrect");
   if (!html.includes('rel="canonical" href="https://peak-pim.com/build-vs-buy-pim/"')) failures.push("Build-vs-buy canonical URL is incorrect");
   if (!html.includes('property="og:image" content="https://peak-pim.com/og-build-vs-buy-pim.png"')) failures.push("Build-vs-buy Open Graph image is incorrect");
-  if (!html.includes('aria-label="Comparison workspace showing an in-house Shopify PIM build beside Peak PIM"')) failures.push("Build-vs-buy hero visual alt text is missing");
+  if (!html.includes('alt="Post describing a team returning to Linear because maintaining its internally built tool consumed work bandwidth"')) failures.push("Build-vs-buy evidence image alt text is missing");
+  if (!html.includes('src="/assets/marketing/build-vs-buy-maintenance-example.webp"')) failures.push("Build-vs-buy hero is missing its registered evidence image");
   if (!html.includes('aria-label="Decision workspace comparing when to build a PIM in-house and when to choose Peak PIM"')) failures.push("Build-vs-buy decision visual alt text is missing");
   if (h2Count !== 7) failures.push(`Build-vs-buy page has ${h2Count} h2 elements; expected seven`);
   if (!jsonLdEntries.some((entry) => entry["@type"] === "Article" && entry.author?.name === "Peak PIM")) failures.push("Build-vs-buy Article schema is missing or incorrect");
@@ -444,7 +447,7 @@ if (existsSync(buildVsBuyFile)) {
   }
   const heroHtml = html.match(/<header class="section_header1[\s\S]*?<\/header>/)?.[0] ?? "";
   const decisionHtml = html.match(/<section id="decision"[\s\S]*?<\/section>/)?.[0] ?? "";
-  if (heroHtml.includes("<img")) failures.push("Build-vs-buy hero must use an HTML/CSS illustration, not a raster image");
+  if ((heroHtml.match(/<img\b/g) ?? []).length !== 1 || !heroHtml.includes('src="/assets/marketing/build-vs-buy-maintenance-example.webp"')) failures.push("Build-vs-buy hero must use its single approved evidence image");
   if (decisionHtml.includes("<img")) failures.push("Build-vs-buy decision section must use an HTML/CSS illustration, not a raster image");
   if (!/href="#comparison"[^>]*>See comparison<\/a>[\s\S]*?href="https:\/\/apps\.shopify\.com\/peak-pim"[^>]*>Try for free<\/a>/.test(heroHtml)) {
     failures.push("Build-vs-buy hero must show See comparison first and Try for free second");
@@ -464,9 +467,33 @@ if (existsSync(pricingFile)) {
   if (html.includes("unlimited stores")) failures.push("Pricing page still contains the outdated unlimited-stores claim");
   if (html.includes("next billing cycle")) failures.push("Pricing schema conflicts with the visible plan-change policy");
   if (!schema.offers?.every((offer) => offer.availability === "https://schema.org/InStock")) failures.push("Pricing schema does not describe the live plans as available");
+  if (schema.featureList?.length !== 27) failures.push("Pricing schema feature list is incomplete");
+  if (!schema.offers?.every((offer) => offer.additionalProperty?.length === 27)) failures.push("Pricing schema offers are not generated from the complete pricing matrix");
+  const schemaFeatureValue = (planName, featureName) => schema.offers
+    ?.find((offer) => offer.name === planName)
+    ?.additionalProperty?.find((property) => property.name === featureName)?.value;
+  for (const [planName, featureName, expectedValue] of [
+    ["Core", "Drops", "Not included"],
+    ["Elite", "Drops", "Included"],
+    ["Enterprise", "Metaobjects", "Included"],
+    ["Elite", "Custom fields", "Included"],
+  ]) {
+    if (schemaFeatureValue(planName, featureName) !== expectedValue) failures.push(`Pricing schema has an incorrect ${planName} value for ${featureName}`);
+  }
   for (const currentPricingFact of ["1,500 SKUs, 2 connected Shopify stores, 3 seats, and 100GB files", "5,000 SKUs, 3 connected Shopify stores, 15 seats, and 500GB files", "Enterprise limits are custom"]) {
     if (!html.includes(currentPricingFact)) failures.push(`Pricing crawler content is missing: ${currentPricingFact}`);
   }
+  for (const category of ["Plan limits", "Connect", "Operate", "Manage &amp; Enrich", "Support"]) {
+    if (!html.includes(`class="heading-style-h6">${category}</div>`)) failures.push(`Pricing matrix is missing category: ${category}`);
+  }
+  for (const feature of ["Shopify sync", "Media management", "Health Center", "Markets &amp; catalogs", "AI Connector (MCP)", "Drops"]) {
+    if (!html.includes(`<span>${feature}</span>`)) failures.push(`Pricing matrix is missing feature: ${feature}`);
+  }
+  for (const href of ["/shopify-sync", "/shopify-media-management", "/shopify-catalog-health-center", "/shopify-markets-pricing"]) {
+    if (!html.includes(`href="${href}" class="pricing-feature-popover__link"`)) failures.push(`Pricing matrix is missing feature detail link: ${href}`);
+  }
+  if ((html.match(/class="pricing-feature-info"/g) ?? []).length !== 27) failures.push("Pricing matrix information disclosures are incomplete");
+  if (!html.includes('summary aria-label="About Shopify sync"')) failures.push("Pricing matrix information controls are not accessibly labelled");
 }
 
 const sitemapFile = resolve(projectRoot, "dist/sitemap.xml");
