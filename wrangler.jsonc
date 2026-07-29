@@ -1,6 +1,13 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "peak-pim-marketing-website",
-  "compatibility_date": "2026-07-02",
-  "pages_build_output_dir": "dist"
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "peak-pim-marketing-website",
+	"compatibility_date": "2026-07-02",
+	"pages_build_output_dir": "dist",
+	"d1_databases": [
+		{
+			"binding": "LEAD_ANALYTICS",
+			"database_name": "peak-pim-marketing-analytics",
+			"database_id": "a9f4552d-e32c-4240-8163-48aa783c77b2"
+		}
+	]
 }

@@ -1,0 +1,659 @@
+---
+import { defaultLeadOfferId, leadOffers } from "../data/lead-offers";
+
+// Turnstile site keys are public by design. Keep the production key here so
+// direct Cloudflare Pages uploads always include bot protection; local and
+// preview builds can still override it with PUBLIC_TURNSTILE_SITE_KEY.
+const turnstileSiteKey =
+  import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || "0x4AAAAAAEBElmsSKBSymFvA";
+---
+
+<dialog class="lead-modal" data-lead-modal-root aria-labelledby="lead-modal-title" aria-describedby="lead-modal-description">
+  <div class="lead-modal__panel">
+    <button class="lead-modal__close" type="button" aria-label="Close email form" data-lead-modal-close>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="m6 6 12 12M18 6 6 18"></path>
+      </svg>
+    </button>
+
+    <div class="lead-modal__content" data-lead-modal-form-state>
+      <p class="lead-modal__eyebrow" data-lead-modal-eyebrow></p>
+      <h2 id="lead-modal-title" data-lead-modal-title></h2>
+      <p class="lead-modal__description" id="lead-modal-description" data-lead-modal-description></p>
+
+      <form class="lead-modal__form" data-lead-form novalidate>
+        <input type="hidden" name="offer" value={defaultLeadOfferId} />
+
+        <div class="lead-modal__field">
+          <input id="lead-capture-email" name="email" type="email" inputmode="email" autocomplete="email" maxlength="254" placeholder="myemail@gmail.com" aria-label="Email address" required />
+        </div>
+
+        <div class="lead-modal__honeypot" aria-hidden="true">
+          <label for="lead-capture-company-website">Company website</label>
+          <input id="lead-capture-company-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        {
+          turnstileSiteKey && (
+            <div class="lead-modal__turnstile">
+              <div
+                class="cf-turnstile"
+                data-sitekey={turnstileSiteKey}
+                data-theme="light"
+                data-size="flexible"
+                data-appearance="interaction-only"
+                data-language="en"
+                data-action="lead_capture"
+              />
+            </div>
+          )
+        }
+
+        <p class="lead-modal__error" data-lead-form-error role="alert" hidden></p>
+
+        <button class="lead-modal__submit" type="submit" data-lead-submit>
+          <span data-lead-submit-label></span>
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 6l4 4-4 4"></path></svg>
+        </button>
+
+        <div class="lead-modal__badges" data-lead-modal-badges aria-label="Trial benefits"></div>
+      </form>
+    </div>
+
+    <div class="lead-modal__success" data-lead-modal-success hidden tabindex="-1">
+      <span class="lead-modal__success-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="m6 12 4 4 8-9"></path></svg>
+      </span>
+      <p class="lead-modal__eyebrow">Request received</p>
+      <h2 data-lead-success-title></h2>
+      <p data-lead-success-description></p>
+      <button class="lead-modal__secondary" type="button" data-lead-modal-close>Got it</button>
+    </div>
+  </div>
+</dialog>
+
+{turnstileSiteKey && <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+
+<script define:vars={{ offers: leadOffers, defaultOfferId: defaultLeadOfferId }}>
+  const dialog = document.querySelector("[data-lead-modal-root]");
+
+  if (dialog instanceof HTMLDialogElement && !dialog.dataset.ready) {
+    dialog.dataset.ready = "true";
+
+    const form = dialog.querySelector("[data-lead-form]");
+    const formState = dialog.querySelector("[data-lead-modal-form-state]");
+    const successState = dialog.querySelector("[data-lead-modal-success]");
+    const errorMessage = dialog.querySelector("[data-lead-form-error]");
+    const submitButton = dialog.querySelector("[data-lead-submit]");
+    const emailInput = dialog.querySelector('input[name="email"]');
+    let activeOfferId = defaultOfferId;
+    let activeTriggerType = "manual";
+    let openingTrigger = null;
+    let submissionSucceeded = false;
+    let dismissalTracked = false;
+
+    const setText = (selector, value) => {
+      const element = dialog.querySelector(selector);
+      if (element) element.textContent = value;
+    };
+
+    const getOffer = (offerId) => offers[offerId] || offers[defaultOfferId];
+    const completedKey = (offerId) => `peak-lead-completed:${offerId}`;
+    const seenKey = (offerId) => `peak-lead-seen:${offerId}`;
+
+    const getSessionId = () => {
+      const key = "peak-lead-session-id";
+      try {
+        const existing = sessionStorage.getItem(key);
+        if (existing) return existing;
+        const value = globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+        sessionStorage.setItem(key, value);
+        return value;
+      } catch {
+        return "";
+      }
+    };
+
+    const getReferrerHost = () => {
+      if (!document.referrer) return "";
+      try {
+        return new URL(document.referrer).hostname;
+      } catch {
+        return "";
+      }
+    };
+
+    const trackEvent = (eventType) => {
+      const params = new URLSearchParams(window.location.search);
+      const payload = {
+        eventType,
+        offerId: activeOfferId,
+        triggerType: activeTriggerType,
+        deviceType: window.matchMedia("(max-width: 767px)").matches ? "mobile" : "desktop",
+        pagePath: window.location.pathname,
+        referrerHost: getReferrerHost(),
+        sessionId: getSessionId(),
+        utmSource: params.get("utm_source") || "",
+        utmMedium: params.get("utm_medium") || "",
+        utmCampaign: params.get("utm_campaign") || "",
+      };
+
+      fetch("/api/lead-event", {
+        method: "POST",
+        credentials: "same-origin",
+        keepalive: true,
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
+      }).catch(() => {});
+    };
+
+    const trackDismissal = () => {
+      if (submissionSucceeded || dismissalTracked) return;
+      dismissalTracked = true;
+      trackEvent("modal_dismiss");
+    };
+
+    const updateOffer = (offerId) => {
+      const offer = getOffer(offerId);
+      activeOfferId = offer.id;
+      setText("[data-lead-modal-eyebrow]", offer.eyebrow);
+      setText("[data-lead-modal-title]", offer.title);
+      setText("[data-lead-modal-description]", offer.description);
+      const badges = dialog.querySelector("[data-lead-modal-badges]");
+      if (badges) {
+        badges.replaceChildren(
+          ...offer.badges.map((label) => {
+            const badge = document.createElement("span");
+            badge.className = "lead-modal__badge";
+            const icon = document.createElement("span");
+            icon.className = "lead-modal__badge-icon";
+            icon.setAttribute("aria-hidden", "true");
+            icon.textContent = "✓";
+            badge.append(icon, document.createTextNode(label));
+            return badge;
+          }),
+        );
+      }
+      setText("[data-lead-submit-label]", offer.submitLabel);
+      setText("[data-lead-success-title]", offer.successTitle);
+      setText("[data-lead-success-description]", offer.successDescription);
+      const offerInput = form?.querySelector('input[name="offer"]');
+      if (offerInput) offerInput.value = offer.id;
+    };
+
+    const resetState = () => {
+      form?.reset();
+      globalThis.turnstile?.reset?.();
+      submissionSucceeded = false;
+      dismissalTracked = false;
+      if (formState) formState.hidden = false;
+      if (successState) successState.hidden = true;
+      if (errorMessage) {
+        errorMessage.hidden = true;
+        errorMessage.textContent = "";
+      }
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.removeAttribute("aria-busy");
+      }
+    };
+
+    const open = (offerId = defaultOfferId, trigger = null, triggerType = "manual") => {
+      if (!dialog.isConnected || dialog.open) return;
+      openingTrigger = trigger instanceof HTMLElement ? trigger : document.activeElement;
+      resetState();
+      updateOffer(offerId);
+      activeTriggerType = triggerType;
+      dialog.showModal();
+      document.documentElement.classList.add("has-lead-modal");
+      if (triggerType === "automatic") {
+        try {
+          localStorage.setItem(seenKey(activeOfferId), String(Date.now()));
+        } catch {}
+      }
+      trackEvent("modal_view");
+      requestAnimationFrame(() => emailInput?.focus());
+    };
+
+    const close = () => {
+      if (dialog.open) {
+        trackDismissal();
+        dialog.close();
+      }
+    };
+
+    dialog.addEventListener("cancel", trackDismissal);
+
+    dialog.addEventListener("close", () => {
+      document.documentElement.classList.remove("has-lead-modal");
+      if (openingTrigger instanceof HTMLElement) openingTrigger.focus();
+      openingTrigger = null;
+    });
+
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) close();
+      const closeButton = event.target.closest("[data-lead-modal-close]");
+      if (closeButton) close();
+    });
+
+    document.addEventListener("click", (event) => {
+      const trigger = event.target.closest("[data-lead-modal]");
+      if (!trigger) return;
+      event.preventDefault();
+      open(trigger.dataset.leadModal || defaultOfferId, trigger, "manual");
+    });
+
+    form?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!(form instanceof HTMLFormElement) || !(submitButton instanceof HTMLButtonElement)) return;
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const data = new FormData(form);
+      const params = new URLSearchParams(window.location.search);
+      const payload = {
+        email: String(data.get("email") || ""),
+        firstName: "",
+        offer: activeOfferId,
+        website: String(data.get("website") || ""),
+        turnstileToken: String(data.get("cf-turnstile-response") || ""),
+        pageUrl: window.location.href,
+        pageTitle: document.title,
+        referrer: document.referrer,
+        utmSource: params.get("utm_source") || "",
+        utmMedium: params.get("utm_medium") || "",
+        utmCampaign: params.get("utm_campaign") || "",
+        utmContent: params.get("utm_content") || "",
+        requestId: globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+      };
+
+      submitButton.disabled = true;
+      submitButton.setAttribute("aria-busy", "true");
+      if (errorMessage) errorMessage.hidden = true;
+
+      try {
+        const response = await fetch("/api/lead", {
+          method: "POST",
+          credentials: "same-origin",
+          headers: { "content-type": "application/json", accept: "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const result = await response.json().catch(() => ({}));
+
+        if (!response.ok || !result.ok) {
+          throw new Error(result.message || "We could not send your request. Please try again.");
+        }
+
+        try {
+          localStorage.setItem(completedKey(activeOfferId), String(Date.now()));
+        } catch {}
+        submissionSucceeded = true;
+        trackEvent("modal_submit");
+        if (formState) formState.hidden = true;
+        if (successState) {
+          successState.hidden = false;
+          successState.focus();
+        }
+      } catch (error) {
+        if (errorMessage) {
+          errorMessage.textContent = error instanceof Error ? error.message : "We could not send your request. Please try again.";
+          errorMessage.hidden = false;
+        }
+      } finally {
+        submitButton.disabled = false;
+        submitButton.removeAttribute("aria-busy");
+      }
+    });
+
+    window.PeakLeadCapture = { open, close };
+
+    const requestedOffer = new URLSearchParams(window.location.search).get("lead-modal");
+    if (requestedOffer && offers[requestedOffer]) {
+      window.setTimeout(() => {
+        open(requestedOffer, null, "query");
+        const params = new URLSearchParams(window.location.search);
+        const isLocalPreview = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+        if (isLocalPreview && params.get("lead-modal-state") === "success") {
+          if (formState) formState.hidden = true;
+          if (successState) {
+            successState.hidden = false;
+            successState.focus();
+          }
+        }
+      }, 250);
+    }
+
+    Object.values(offers).forEach((offer) => {
+      const rule = offer.autoOpen;
+      if (!rule?.enabled) return;
+      const pathname = window.location.pathname;
+      const excluded = rule.excludedPathPrefixes?.some((prefix) => pathname.startsWith(prefix));
+      const included =
+        rule.exactPaths?.includes(pathname) ||
+        rule.pathPrefixes?.some((prefix) => pathname.startsWith(prefix));
+      if (excluded || !included) return;
+      try {
+        if (localStorage.getItem(completedKey(offer.id))) return;
+        const lastSeen = Number(localStorage.getItem(seenKey(offer.id)) || 0);
+        if (Date.now() - lastSeen < rule.cooldownDays * 86_400_000) return;
+      } catch {}
+
+      let delayReached = false;
+      let depthReached = false;
+      const isMobile = window.matchMedia("(max-width: 767px)").matches;
+      const delayMs = isMobile ? rule.mobileDelayMs ?? rule.delayMs : rule.delayMs;
+      const scrollDepth = isMobile ? rule.mobileScrollDepth ?? rule.scrollDepth : rule.scrollDepth;
+      const maybeOpen = () => {
+        if (delayReached && depthReached) {
+          window.removeEventListener("scroll", checkDepth);
+          open(offer.id, null, "automatic");
+        }
+      };
+      const checkDepth = () => {
+        const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+        const depth = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 100;
+        if (depth >= scrollDepth) {
+          depthReached = true;
+          maybeOpen();
+        }
+      };
+      window.setTimeout(() => {
+        delayReached = true;
+        maybeOpen();
+      }, delayMs);
+      window.addEventListener("scroll", checkDepth, { passive: true });
+      checkDepth();
+    });
+  }
+</script>
+
+<style>
+  .lead-modal {
+    width: min(calc(100% - 2rem), 34rem);
+    max-width: none;
+    max-height: min(90svh, 48rem);
+    margin: auto;
+    padding: 0;
+    overflow: auto;
+    border: 1px solid rgba(26, 26, 26, 0.16);
+    border-radius: 1rem;
+    background: #f5f0e8;
+    box-shadow: 0 2rem 6rem rgba(26, 26, 26, 0.24), 0 0 0 0.45rem rgba(255, 255, 255, 0.18);
+    color: var(--color-ink);
+  }
+
+  .lead-modal::backdrop {
+    background: rgba(26, 26, 26, 0.58);
+    backdrop-filter: blur(5px);
+  }
+
+  .lead-modal__panel {
+    position: relative;
+    min-height: 100%;
+    padding: clamp(2rem, 5vw, 3.25rem);
+  }
+
+  .lead-modal__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1;
+    display: grid;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border: 1px solid rgba(26, 26, 26, 0.14);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--color-ink);
+    cursor: pointer;
+    place-items: center;
+    transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
+  }
+
+  .lead-modal__close:hover {
+    background: var(--color-ink);
+    color: white;
+    transform: rotate(3deg);
+  }
+
+  .lead-modal__close svg {
+    width: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-width: 1.8;
+  }
+
+  .lead-modal__eyebrow {
+    margin: 0 0 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .lead-modal__eyebrow:empty {
+    display: none;
+  }
+
+  .lead-modal h2 {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 6vw, 3.1rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 0.98;
+  }
+
+  .lead-modal__description,
+  .lead-modal__success > p:last-of-type {
+    margin: 1rem 0 0;
+    color: var(--color-muted);
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .lead-modal__badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0;
+  }
+
+  :global(.lead-modal__badge) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 2rem;
+    padding: 0.4rem 0.7rem 0.4rem 0.45rem;
+    border: 1px solid var(--color-brand-blue);
+    border-radius: 999px;
+    background: var(--color-brand-blue);
+    box-shadow: 0 0.35rem 0.9rem rgba(40, 69, 214, 0.14);
+    color: white;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  :global(.lead-modal__badge-icon) {
+    display: grid;
+    width: 1.1rem;
+    height: 1.1rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+    font-size: 0.68rem;
+    line-height: 1;
+    place-items: center;
+  }
+
+  .lead-modal__form {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.75rem;
+  }
+
+  .lead-modal__field {
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .lead-modal__field label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 650;
+  }
+
+  .lead-modal__field label span {
+    color: var(--color-muted);
+    font-weight: 450;
+  }
+
+  .lead-modal__field input {
+    width: 100%;
+    min-height: 3.2rem;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid rgba(26, 26, 26, 0.18);
+    border-radius: 0.5rem;
+    outline: none;
+    background: rgba(255, 255, 255, 0.62);
+    color: var(--color-ink);
+    font: inherit;
+    transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+  }
+
+  .lead-modal__field input:focus {
+    border-color: var(--color-brand-blue);
+    background: white;
+    box-shadow: 0 0 0 0.2rem rgba(40, 69, 214, 0.1);
+  }
+
+  .lead-modal__honeypot {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .lead-modal__turnstile {
+    min-height: 0;
+  }
+
+  .lead-modal__error {
+    margin: 0;
+    padding: 0.65rem 0.75rem;
+    border-left: 2px solid #b42318;
+    background: rgba(180, 35, 24, 0.07);
+    color: #8a1c13;
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+
+  .lead-modal__submit,
+  .lead-modal__secondary {
+    min-height: 3.25rem;
+    border-radius: 999px;
+    font: inherit;
+    font-weight: 650;
+    cursor: pointer;
+  }
+
+  .lead-modal__submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.8rem 1.25rem;
+    border: 1px solid var(--color-ink);
+    background: var(--color-ink);
+    color: white;
+    transition: transform 160ms ease, background-color 160ms ease;
+  }
+
+  .lead-modal__submit:hover:not(:disabled) {
+    transform: translateY(-2px);
+    background: var(--color-brand-blue);
+  }
+
+  .lead-modal__submit:disabled {
+    cursor: wait;
+    opacity: 0.62;
+  }
+
+  .lead-modal__submit svg {
+    width: 1.1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+  }
+
+  .lead-modal__success {
+    padding: 1rem 0 0;
+    outline: none;
+    text-align: center;
+  }
+
+  .lead-modal__success-icon {
+    display: grid;
+    width: 3.5rem;
+    height: 3.5rem;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    background: var(--color-ink);
+    color: white;
+    place-items: center;
+    box-shadow: 0 0 0 0.5rem rgba(40, 69, 214, 0.1);
+  }
+
+  .lead-modal__success-icon svg {
+    width: 1.5rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+  }
+
+  .lead-modal__secondary {
+    margin-top: 1.75rem;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid rgba(26, 26, 26, 0.18);
+    background: transparent;
+    color: var(--color-ink);
+  }
+
+  @media (max-width: 479px) {
+    .lead-modal {
+      width: calc(100% - 1rem);
+      max-height: calc(100svh - 1rem);
+      border-radius: 0.75rem;
+    }
+
+    .lead-modal__panel {
+      padding: 2rem 1.25rem 1.5rem;
+    }
+
+    .lead-modal__close {
+      top: 0.75rem;
+      right: 0.75rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lead-modal__close,
+    .lead-modal__field input,
+    .lead-modal__submit {
+      transition: none;
+    }
+  }
+</style>

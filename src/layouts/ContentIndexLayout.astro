@@ -1,6 +1,7 @@
 ---
 import CrispChat from "../components/CrispChat.astro";
 import GlobalWebflowStyles from "../components/GlobalWebflowStyles.astro";
+import LeadCaptureModal from "../components/LeadCaptureModal.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import { formatDate, type ContentEntry } from "../lib/content";
@@ -81,6 +82,7 @@ const noindex = noindexWhenEmpty && entries.length === 0;
         </section>
       </main>
       <SiteFooter />
+      <LeadCaptureModal />
       <CrispChat />
     </div>
   </body>

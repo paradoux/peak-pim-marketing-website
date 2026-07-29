@@ -1,0 +1,4 @@
+# Cloudflare Pages Function secrets. Copy to .dev.vars for local Pages testing.
+MAKE_LEAD_WEBHOOK_URL=
+MAKE_WEBHOOK_API_KEY=
+TURNSTILE_SECRET_KEY=

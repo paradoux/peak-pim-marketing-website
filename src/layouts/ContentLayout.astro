@@ -1,6 +1,7 @@
 ---
 import CrispChat from "../components/CrispChat.astro";
 import GlobalWebflowStyles from "../components/GlobalWebflowStyles.astro";
+import LeadCaptureModal from "../components/LeadCaptureModal.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import { contentJsonLd, entryPath, entryUrl, formatDate, type ContentEntry, type ContentKind } from "../lib/content";
@@ -59,6 +60,7 @@ const eyebrow = kind === "articles" ? "Article" : "Guide";
         </article>
       </main>
       <SiteFooter />
+      <LeadCaptureModal />
       <CrispChat />
     </div>
   </body>

@@ -303,6 +303,90 @@ const sitemapUrls = [
         </article>
       </section>
 
+      <section class="panel lead-analytics" aria-labelledby="lead-analytics-title">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Lead capture</p>
+            <h2 id="lead-analytics-title">Extended-trial modal funnel</h2>
+          </div>
+          <label class="period-control">
+            <span>Period</span>
+            <select data-lead-period>
+              <option value="7">Last 7 days</option>
+              <option value="30" selected>Last 30 days</option>
+              <option value="90">Last 90 days</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="analytics-loading" data-lead-loading>Loading lead analytics...</div>
+        <div data-lead-dashboard hidden>
+          <div class="funnel-grid" aria-label="Lead modal performance">
+            <article>
+              <span data-lead-metric="views">0</span>
+              <p>Modal views</p>
+            </article>
+            <article>
+              <span data-lead-metric="dismissals">0</span>
+              <p>Dismissals</p>
+            </article>
+            <article>
+              <span data-lead-metric="submissions">0</span>
+              <p>Trial requests</p>
+            </article>
+            <article class="is-good">
+              <span data-lead-metric="conversion">0%</span>
+              <p>View to request</p>
+            </article>
+          </div>
+
+          <div class="analytics-grid">
+            <div class="analytics-card">
+              <div class="analytics-card__heading">
+                <h3>Daily activity</h3>
+                <span data-lead-updated></span>
+              </div>
+              <div class="lead-chart" data-lead-chart aria-label="Daily modal views and trial requests"></div>
+              <div class="chart-legend" aria-hidden="true">
+                <span><i class="is-view"></i>Views</span>
+                <span><i class="is-submit"></i>Requests</span>
+              </div>
+            </div>
+
+            <div class="analytics-card">
+              <div class="analytics-card__heading">
+                <h3>Audience breakdown</h3>
+              </div>
+              <div class="breakdown-grid">
+                <div>
+                  <h4>Trigger</h4>
+                  <div class="breakdown-list" data-lead-trigger></div>
+                </div>
+                <div>
+                  <h4>Device</h4>
+                  <div class="breakdown-list" data-lead-device></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="lead-page-table">
+              <thead>
+                <tr>
+                  <th>Source page</th>
+                  <th>Views</th>
+                  <th>Dismissals</th>
+                  <th>Trial requests</th>
+                  <th>Conversion</th>
+                </tr>
+              </thead>
+              <tbody data-lead-pages></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
       <section class="panel">
         <div class="panel-heading">
           <div>
@@ -521,6 +605,166 @@ const sitemapUrls = [
       </section>
     </main>
 
+    <script>
+      const dashboard = document.querySelector("[data-lead-dashboard]");
+      const loading = document.querySelector("[data-lead-loading]");
+      const period = document.querySelector("[data-lead-period]");
+
+      const setMetric = (name, value) => {
+        const element = document.querySelector(`[data-lead-metric="${name}"]`);
+        if (element) element.textContent = value;
+      };
+
+      const totalsByEvent = (rows) =>
+        Object.fromEntries(rows.map((row) => [row.eventType, Number(row.total) || 0]));
+
+      const renderBreakdown = (target, rows) => {
+        target.replaceChildren();
+        const grouped = new Map();
+        rows.forEach((row) => {
+          const current = grouped.get(row.label) || { views: 0, submissions: 0 };
+          if (row.eventType === "modal_view") current.views = Number(row.total) || 0;
+          if (row.eventType === "modal_submit") current.submissions = Number(row.total) || 0;
+          grouped.set(row.label, current);
+        });
+
+        if (grouped.size === 0) {
+          const empty = document.createElement("p");
+          empty.className = "muted";
+          empty.textContent = "No activity yet.";
+          target.append(empty);
+          return;
+        }
+
+        grouped.forEach((values, label) => {
+          const row = document.createElement("div");
+          const name = document.createElement("span");
+          const result = document.createElement("strong");
+          const conversion = values.views > 0 ? (values.submissions / values.views) * 100 : 0;
+          name.textContent = label.charAt(0).toUpperCase() + label.slice(1);
+          result.textContent = `${values.views} views / ${values.submissions} requests (${conversion.toFixed(1)}%)`;
+          row.append(name, result);
+          target.append(row);
+        });
+      };
+
+      const renderChart = (target, rows, days) => {
+        target.replaceChildren();
+        target.style.setProperty("--chart-columns", String(days));
+        const byDate = new Map();
+        rows.forEach((row) => {
+          const current = byDate.get(row.date) || { views: 0, submissions: 0 };
+          if (row.eventType === "modal_view") current.views = Number(row.total) || 0;
+          if (row.eventType === "modal_submit") current.submissions = Number(row.total) || 0;
+          byDate.set(row.date, current);
+        });
+
+        const dates = [];
+        const today = new Date();
+        for (let offset = days - 1; offset >= 0; offset -= 1) {
+          const date = new Date(today);
+          date.setUTCDate(today.getUTCDate() - offset);
+          dates.push(date.toISOString().slice(0, 10));
+        }
+        const max = Math.max(1, ...dates.map((date) => byDate.get(date)?.views || 0));
+
+        dates.forEach((date, index) => {
+          const values = byDate.get(date) || { views: 0, submissions: 0 };
+          const column = document.createElement("div");
+          column.className = "lead-chart__column";
+          column.title = `${date}: ${values.views} views, ${values.submissions} requests`;
+          const bars = document.createElement("div");
+          bars.className = "lead-chart__bars";
+          const views = document.createElement("i");
+          views.className = "is-view";
+          views.style.height = `${Math.max(values.views > 0 ? 5 : 0, (values.views / max) * 100)}%`;
+          const submissions = document.createElement("i");
+          submissions.className = "is-submit";
+          submissions.style.height = `${Math.max(values.submissions > 0 ? 5 : 0, (values.submissions / max) * 100)}%`;
+          bars.append(views, submissions);
+          const label = document.createElement("span");
+          label.textContent = index === 0 || index === dates.length - 1 || (days <= 7 && index % 2 === 0)
+            ? date.slice(5)
+            : "";
+          column.append(bars, label);
+          target.append(column);
+        });
+      };
+
+      const renderPages = (target, rows) => {
+        target.replaceChildren();
+        if (rows.length === 0) {
+          const row = document.createElement("tr");
+          const cell = document.createElement("td");
+          cell.colSpan = 5;
+          cell.className = "muted";
+          cell.textContent = "No modal activity has been recorded for this period.";
+          row.append(cell);
+          target.append(row);
+          return;
+        }
+
+        rows.forEach((item) => {
+          const row = document.createElement("tr");
+          const path = document.createElement("td");
+          const link = document.createElement("a");
+          link.href = item.pagePath;
+          link.target = "_blank";
+          link.textContent = item.pagePath;
+          path.append(link);
+          const views = document.createElement("td");
+          views.textContent = String(item.views || 0);
+          const dismissals = document.createElement("td");
+          dismissals.textContent = String(item.dismissals || 0);
+          const submissions = document.createElement("td");
+          submissions.textContent = String(item.submissions || 0);
+          const conversion = document.createElement("td");
+          conversion.textContent = item.views > 0 ? `${((item.submissions / item.views) * 100).toFixed(1)}%` : "0%";
+          row.append(path, views, dismissals, submissions, conversion);
+          target.append(row);
+        });
+      };
+
+      const loadLeadAnalytics = async () => {
+        if (!(period instanceof HTMLSelectElement) || !dashboard || !loading) return;
+        loading.hidden = false;
+        loading.textContent = "Loading lead analytics...";
+        dashboard.hidden = true;
+
+        try {
+          const response = await fetch(`/admin/api/lead-metrics?days=${period.value}`, {
+            credentials: "same-origin",
+            headers: { accept: "application/json" },
+          });
+          const data = await response.json();
+          if (!response.ok || !data.ok) throw new Error(data.message || "Lead analytics could not be loaded.");
+
+          const totals = totalsByEvent(data.summary || []);
+          const views = totals.modal_view || 0;
+          const submissions = totals.modal_submit || 0;
+          setMetric("views", String(views));
+          setMetric("dismissals", String(totals.modal_dismiss || 0));
+          setMetric("submissions", String(submissions));
+          setMetric("conversion", views > 0 ? `${((submissions / views) * 100).toFixed(1)}%` : "0%");
+
+          renderChart(document.querySelector("[data-lead-chart]"), data.byDay || [], Number(data.days));
+          renderBreakdown(document.querySelector("[data-lead-trigger]"), data.byTrigger || []);
+          renderBreakdown(document.querySelector("[data-lead-device]"), data.byDevice || []);
+          renderPages(document.querySelector("[data-lead-pages]"), data.byPage || []);
+
+          const updated = document.querySelector("[data-lead-updated]");
+          if (updated) updated.textContent = `Updated ${new Date(data.generatedAt).toLocaleString()}`;
+          loading.hidden = true;
+          dashboard.hidden = false;
+        } catch (error) {
+          loading.textContent = error instanceof Error ? error.message : "Lead analytics could not be loaded.";
+        }
+      };
+
+      period?.addEventListener("change", loadLeadAnalytics);
+      loadLeadAnalytics();
+    </script>
+
   </body>
 </html>
 
@@ -676,6 +920,188 @@ const sitemapUrls = [
     font-size: 14px;
   }
 
+  .period-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .period-control select {
+    min-height: 40px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: white;
+    color: var(--ink);
+    padding: 0 34px 0 12px;
+    font: inherit;
+  }
+
+  .analytics-loading {
+    padding: 22px;
+    color: var(--muted);
+  }
+
+  .funnel-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-bottom: 1px solid var(--line);
+  }
+
+  .funnel-grid article {
+    padding: 20px;
+  }
+
+  .funnel-grid article + article {
+    border-left: 1px solid var(--line);
+  }
+
+  .funnel-grid span {
+    display: block;
+    font-size: 34px;
+    font-weight: 800;
+  }
+
+  .funnel-grid p {
+    margin: 5px 0 0;
+    color: var(--muted);
+  }
+
+  .analytics-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .analytics-card {
+    min-width: 0;
+    padding: 20px;
+  }
+
+  .analytics-card + .analytics-card {
+    border-left: 1px solid var(--line);
+  }
+
+  .analytics-card__heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  .analytics-card h3,
+  .analytics-card h4 {
+    margin: 0;
+  }
+
+  .analytics-card__heading span,
+  .analytics-card h4 {
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .analytics-card h4 {
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .lead-chart {
+    display: grid;
+    grid-template-columns: repeat(var(--chart-columns, 30), minmax(3px, 1fr));
+    align-items: stretch;
+    gap: 3px;
+    height: 180px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .lead-chart__column {
+    display: grid;
+    grid-template-rows: 1fr 18px;
+    min-width: 0;
+  }
+
+  .lead-chart__bars {
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    gap: 1px;
+  }
+
+  .lead-chart__bars i {
+    display: block;
+    width: min(45%, 10px);
+    min-height: 0;
+    border-radius: 3px 3px 0 0;
+  }
+
+  .lead-chart__column > span {
+    overflow: visible;
+    color: var(--muted);
+    font-size: 9px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .is-view {
+    background: #bfc9ff;
+  }
+
+  .is-submit {
+    background: var(--blue);
+  }
+
+  .chart-legend {
+    display: flex;
+    gap: 14px;
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .chart-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .chart-legend i {
+    width: 9px;
+    height: 9px;
+    border-radius: 2px;
+  }
+
+  .breakdown-grid {
+    display: grid;
+    gap: 20px;
+  }
+
+  .breakdown-list {
+    display: grid;
+    gap: 8px;
+  }
+
+  .breakdown-list > div {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 8px;
+    font-size: 13px;
+  }
+
+  .breakdown-list strong {
+    font-size: 12px;
+    text-align: right;
+  }
+
+  .lead-page-table {
+    min-width: 760px;
+  }
+
   .sitemap-list {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -823,6 +1249,29 @@ const sitemapUrls = [
     .sitemap-list,
     .schema-grid {
       grid-template-columns: 1fr;
+    }
+
+    .funnel-grid,
+    .analytics-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .funnel-grid article:nth-child(3) {
+      border-left: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .funnel-grid article:nth-child(4) {
+      border-top: 1px solid var(--line);
+    }
+
+    .analytics-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .analytics-card + .analytics-card {
+      border-top: 1px solid var(--line);
+      border-left: 0;
     }
   }
 </style>

@@ -56,6 +56,10 @@ The Webflow stylesheet owns sizing and interaction behavior. Do not override it 
 
 Button appearance comes from the canonical primitives above; button wording comes from `docs/copywriting-system.md` and `src/data/cta-copy.ts`. The approved vocabulary is `Get Peak PIM`, `Try for free`, `Book a demo`, `Talk to us`, `See pricing`, `See how it works`, `See the comparison` (or compact `See comparison`), and `Learn more`.
 
+### Lead capture modal
+
+Use the shared `LeadCaptureModal.astro` system for email capture. Never recreate a form or modal inside a landing page, and never expose a Make.com webhook URL in browser code. Register offer copy and trigger rules in `src/data/lead-offers.ts`, then open it with `data-lead-modal="offer-id"`. See `docs/lead-capture.md` for configuration, privacy, Turnstile, and Make scenario details.
+
 Choose the label from the destination and intent, not from the wording of an individual section. Reusable section props use the `CtaLabel` type, historical recreated pages are normalized when rendered, and the design-system contract checks every public sitemap page. Page-specific wording is allowed only when it is explicitly approved and registered in `ctaExceptions` with a placement-specific test.
 
 All pages also use the original global antialiasing settings (`-webkit-font-smoothing: antialiased` and `-moz-osx-font-smoothing: grayscale`). These are required for Inter body text to render with the same visual weight as the finished Webflow pages.
