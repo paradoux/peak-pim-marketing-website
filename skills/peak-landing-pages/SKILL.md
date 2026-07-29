@@ -31,7 +31,7 @@ Never use `/partners` as a reference. It is unfinished.
 6. Use the canonical CTA labels exported by `src/data/cta-copy.ts`, or a placement-specific exception already registered there, following `docs/copywriting-system.md`.
 7. Register any new asset in `src/data/assets.ts`.
 8. Add a genuinely new reusable wrapper to `/design-system` and the contract test.
-9. Add a public route to the sitemap; never add `/design-system`.
+9. Add a public route to the sitemap and `public/llms.txt`; never add `/design-system`. Register its route-specific Open Graph image in `src/data/assets.ts`, add it to `scripts/generate-og-images.mjs`, and run `npm run generate:og-images`.
 10. Build and compare computed type, button, and grid styles with the approved reference page.
 11. Review at 1440px, 768px, and 375px.
 
@@ -54,7 +54,7 @@ Never use `/partners` as a reference. It is unfinished.
 - Exact heading and button classes preserved
 - Product visual explains one real operation
 - Desktop, tablet, mobile, keyboard, and reduced-motion checks pass
-- Metadata, canonical, schema, and sitemap are correct
+- Metadata, canonical, route-specific social image, shared-application schema, FAQ schema, sitemap, and `llms.txt` are correct
 - CTA labels and destinations follow the copywriting system
 - `/design-system` shows the real production components
 - No `/partners` pattern was used

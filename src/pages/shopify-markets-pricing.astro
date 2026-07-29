@@ -1,0 +1,72 @@
+---
+import CardGrid from "../components/sections/CardGrid.astro";
+import CtaBanner from "../components/sections/CtaBanner.astro";
+import Faq from "../components/sections/Faq.astro";
+import FeatureGrid from "../components/sections/FeatureGrid.astro";
+import Hero from "../components/sections/Hero.astro";
+import LogoCloud from "../components/sections/LogoCloud.astro";
+import ProblemGrid from "../components/sections/ProblemGrid.astro";
+import MarketsCatalogsCardVisual from "../components/visuals/MarketsCatalogsCardVisual.astro";
+import MarketsCatalogsHeroVisual from "../components/visuals/MarketsCatalogsHeroVisual.astro";
+import { ctaLabels } from "../data/cta-copy";
+import LandingPageLayout from "../layouts/LandingPageLayout.astro";
+
+const appStoreUrl="https://apps.shopify.com/peak-pim";
+
+const problems=[
+  {icon:"grid",title:"The pricing matrix stays hidden",description:"Variant prices multiply across markets, catalogs, currencies, and stores, but Shopify does not give international teams one editable view of the full matrix."},
+  {icon:"store",title:"Every store rebuilds the same market",description:"Country coverage, catalog rules, product availability, and fixed prices become another setup to maintain in each Shopify admin."},
+  {icon:"review",title:"Currency changes create silent risk",description:"A catalog currency can change after fixed prices were prepared, leaving teams unsure which values are still safe to publish."},
+];
+
+const workflows=[
+  {tagline:"Define",title:"Create each market once",description:"Choose the countries, optional display currency, and stores for a market. Keep it in draft until the structure is ready for Shopify."},
+  {tagline:"Catalog",title:"Set products and pricing rules",description:"Include every product or a selected list, then apply a percentage adjustment for broad pricing that stays easy to maintain."},
+  {tagline:"Price",title:"Use exact numbers where they matter",description:"Set fixed price and compare-at pairs beside each variant, edit them in bulk, and publish deliberate prices for strategic markets."},
+];
+
+const features=[
+  {icon:"publish",title:"Publish the full structure in order",description:"One action publishes the market, catalogs, price lists, product membership, and fixed prices in the dependency order Shopify expects."},
+  {icon:"file",title:"Bring the pricing spreadsheet with you",description:"Map catalog price columns in the Import wizard and include them in exports, with the same validation and review used for other catalog fields."},
+  {icon:"edit",title:"Edit every store from one market",description:"Compare country coverage and display currency side by side, then manage one market record across its connected storefronts."},
+  {icon:"review",title:"Surface limits and stale prices clearly",description:"Unsupported fixed-price controls stay disabled with a reason, and currency changes flag prepared prices for review instead of republishing them silently."},
+];
+
+const faqItems=[
+  {question:"What are Shopify Markets and Catalogs?",answer:"A Shopify market defines a selling context such as a country or group of countries. A catalog controls which products are available in that context and can attach percentage pricing adjustments or fixed variant prices."},
+  {question:"What is the difference between a market and a catalog?",answer:"The market describes where and in which context you sell. A catalog describes what customers in that context can buy and how those products are priced. One market can use one or more catalogs depending on the Shopify configuration."},
+  {question:"Can I manage the same market across multiple Shopify stores?",answer:"Yes. Peak PIM keeps one market record with per-store versions of its country set and display currency. You can compare and edit those store records side by side instead of rebuilding the market in every admin."},
+  {question:"Can I use both percentage adjustments and fixed prices?",answer:"Yes. A catalog can use a percentage increase or decrease for broad pricing and fixed prices for individual variants. When a fixed price exists for a variant, it takes precedence over the percentage adjustment."},
+  {question:"Can I control which products are available in a market?",answer:"Yes. A catalog can include all products or a selected product list. Product additions and removals are staged as drafts, then reconciled with Shopify when the catalog is published."},
+  {question:"Can I bulk edit per-market variant prices?",answer:"Yes. Each supported catalog contributes fixed price and compare-at columns to the bulk editor, so teams can validate and update prices across many variants in one session."},
+  {question:"Can I import and export market prices?",answer:"Yes. Catalog price columns are mappable targets in the Import wizard and can be included in exports. This lets teams review and move the international pricing spreadsheet they already maintain without rekeying each value."},
+  {question:"What happens if a catalog currency changes?",answer:"Peak PIM marks previously prepared fixed prices as stale and keeps the warning visible until the team reviews and deliberately publishes them again. It does not silently republish values under a new currency."},
+  {question:"Does Peak PIM manage every Shopify Markets setting?",answer:"No. Peak PIM focuses on markets, catalogs, product availability, percentage adjustments, and supported fixed prices. Domains, subfolders, and other web-presence settings remain managed in Shopify. Fixed-price availability also depends on the store's Shopify plan and catalog configuration."},
+];
+
+const faqSchema={"@context":"https://schema.org","@type":"FAQPage",mainEntity:faqItems.map(item=>({"@type":"Question",name:item.question,acceptedAnswer:{"@type":"Answer",text:item.answer}}))};
+---
+
+<LandingPageLayout
+  title="Shopify Markets & Catalog Pricing | Peak PIM"
+  description="Manage Shopify Markets, catalogs, product availability, percentage adjustments, and fixed variant prices across every connected store."
+  canonicalPath="/shopify-markets-pricing"
+  schemaType="SoftwareApplication"
+  additionalSchemas={[faqSchema]}
+  ogTitle="Manage Shopify Markets and Catalog Pricing"
+  ogDescription="See and edit market pricing across variants, catalogs, currencies, and stores, then publish the full structure in one controlled workflow."
+>
+  <Hero title="International pricing, mastered" description="Define Shopify Markets and catalogs, manage product availability and per-market prices across stores, then publish the whole pricing structure from one workspace." primaryCta={{label:ctaLabels.tryFree,href:appStoreUrl,external:true}} secondaryCta={{label:ctaLabels.seeHowItWorks,href:"#markets-workflow"}}><MarketsCatalogsHeroVisual/></Hero>
+
+  <LogoCloud />
+
+  <ProblemGrid tagline="International pricing at scale" title="Markets multiply the price work fast" description="Rules help with broad adjustments. Strategic regions still need exact variant prices, clear product scope, and a safe path from draft to Shopify." items={problems} link={{label:ctaLabels.learnMore,href:"/shopify-pim-translations"}} />
+
+  <CardGrid id="markets-workflow" tagline="Markets, catalogs, and prices" title="Set the context, choose the products, control the price" description="Keep every layer of international catalog pricing connected from market setup through publication." cards={workflows}><MarketsCatalogsCardVisual slot="visual-1" mode="market"/><MarketsCatalogsCardVisual slot="visual-2" mode="catalog"/><MarketsCatalogsCardVisual slot="visual-3" mode="prices"/></CardGrid>
+
+  <FeatureGrid tagline="Built for pricing operations" title="Handle the details that spreadsheets usually hide" description="Peak PIM brings market structure and variant prices into the same draft-first workflows teams already use for the rest of the catalog." features={features} cta={{label:ctaLabels.learnMore,href:"/shopify-product-import-export"}} />
+
+  <CtaBanner id="start" title="Run international pricing from one place" description="Connect markets, catalogs, product availability, and supported fixed prices across stores, then publish with every dependency and warning visible." primaryLabel={ctaLabels.tryFree} primaryHref={appStoreUrl} secondaryLabel={ctaLabels.learnMore} secondaryHref="/shopify-product-drops" trustLine="10-day free trial. Free setup. No credit card."/>
+
+  <Faq id="faq" title="Frequently asked questions" description="Everything you need to know about managing Shopify Markets and catalogs with Peak PIM." items={faqItems}/>
+</LandingPageLayout>

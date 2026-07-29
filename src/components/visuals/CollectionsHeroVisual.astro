@@ -1,0 +1,58 @@
+---
+import ProductVisualFrame from "../ui/ProductVisualFrame.astro";
+---
+
+<ProductVisualFrame
+  ariaLabel="Peak PIM collections workspace showing one Holiday Gifts collection with content, SEO, and product memberships across US, France, and Germany Shopify stores"
+  section="Collections"
+  status="3 stores connected"
+  actionLabel="Publish"
+>
+  <div class="peak-col-workspace">
+    <aside class="peak-col-sidebar">
+      <div class="peak-col-sidebar__title"><strong>Collections</strong><span>128</span></div>
+      <label><span aria-hidden="true">⌕</span>Search collections</label>
+      <small>Store</small>
+      <button class="is-filter"><i></i>All stores</button>
+      <small>Collections</small>
+      <button class="is-active"><b>Holiday Gifts</b><em>3 stores · 42 products</em></button>
+      <button><b>New Arrivals</b><em>3 stores · 86 products</em></button>
+      <button><b>Outdoor Essentials</b><em>2 stores · 31 products</em></button>
+      <button><b>Sale</b><em>3 stores · Smart</em></button>
+    </aside>
+
+    <div class="peak-col-main">
+      <header class="peak-col-heading">
+        <div><small>Master collection</small><strong>Holiday Gifts</strong><span>Manual collection</span></div>
+        <div class="peak-col-stores" aria-label="Store coverage"><i>US</i><i>FR</i><i>DE</i></div>
+      </header>
+
+      <nav class="peak-col-tabs" aria-label="Collection views">
+        <button>Master</button>
+        <button>United States</button>
+        <button>France</button>
+        <button>Germany</button>
+        <button class="is-active">Multi-stores</button>
+        <button>Translations</button>
+      </nav>
+
+      <section class="peak-col-grid" aria-label="Side by side collection fields">
+        <div class="peak-col-grid__head"><span>Field</span><b><i>US</i>United States</b><b><i>FR</i>France</b><b><i>DE</i>Germany</b></div>
+        <div><span>Title</span><b>Holiday Gifts</b><b>Cadeaux de Noël</b><b>Weihnachtsgeschenke</b></div>
+        <div><span>Handle</span><b>/holiday-gifts</b><b>/cadeaux-noel</b><b>/weihnachtsgeschenke</b></div>
+        <div><span>SEO title</span><b>Holiday gifts for everyone</b><b>Cadeaux pour tous</b><b>Geschenke für alle</b></div>
+        <div class="is-membership"><span>Products</span><b><mark>42</mark> products</b><b><mark>42</mark> products</b><b><mark>40</mark> products <em>2 missing</em></b></div>
+      </section>
+
+      <footer class="peak-col-footer"><span><i></i>2 changes ready</span><button>Review memberships</button></footer>
+    </div>
+  </div>
+</ProductVisualFrame>
+
+<style>
+  .peak-col-workspace{display:grid;min-height:440px;grid-template-columns:170px minmax(0,1fr);background:#f6f3ec;color:#191919;font-family:Inter,Arial,sans-serif}.peak-col-sidebar{display:flex;flex-direction:column;gap:6px;padding:18px 13px;border-right:1px solid #dedbd3;background:#fbfaf7}.peak-col-sidebar__title{display:flex;align-items:center;justify-content:space-between;padding:0 6px 6px;font-size:10px}.peak-col-sidebar__title span{display:grid;width:22px;height:22px;place-items:center;border-radius:50%;background:#ece9e2;color:#666;font-size:7px}.peak-col-sidebar label{display:flex;align-items:center;gap:5px;padding:8px;border:1px solid #dedbd3;border-radius:5px;background:#fff;color:#999;font-size:7px}.peak-col-sidebar small{margin:8px 6px 0;color:#999;font-size:6px;text-transform:uppercase}.peak-col-sidebar button{display:grid;gap:2px;padding:8px;border:0;border-radius:5px;background:transparent;color:#555;text-align:left}.peak-col-sidebar button b{font:600 8px Inter,Arial,sans-serif}.peak-col-sidebar button em{color:#999;font:normal 6px Inter,Arial,sans-serif}.peak-col-sidebar button.is-active{background:#e9edff;color:#2845d6}.peak-col-sidebar button.is-filter{display:flex;align-items:center;gap:6px;background:#fff;font:600 7px Inter,Arial,sans-serif}.peak-col-sidebar button.is-filter i{width:6px;height:6px;border-radius:50%;background:#2845d6}.peak-col-main{min-width:0;padding:20px 21px 16px}.peak-col-heading{display:flex;align-items:center;justify-content:space-between}.peak-col-heading>div:first-child{display:grid;grid-template-columns:auto auto;gap:2px 7px}.peak-col-heading small{grid-column:1/-1;color:#777;font-size:7px}.peak-col-heading strong{font-size:14px}.peak-col-heading span{align-self:end;padding:4px 6px;border-radius:999px;background:#ece9e2;color:#666;font-size:6px}.peak-col-stores{display:flex}.peak-col-stores i,.peak-col-grid i{display:grid;width:22px;height:22px;place-items:center;border:2px solid #f6f3ec;border-radius:50%;background:#191919;color:#fff;font:normal 6px Inter,Arial,sans-serif}.peak-col-stores i+ i{margin-left:-5px}.peak-col-tabs{display:flex;gap:2px;margin-top:17px;overflow:hidden;border-bottom:1px solid #dcd8d0}.peak-col-tabs button{flex:none;padding:8px 7px;border:0;border-bottom:2px solid transparent;background:transparent;color:#777;font:500 6px Inter,Arial,sans-serif}.peak-col-tabs button.is-active{border-bottom-color:#2845d6;color:#2845d6}.peak-col-grid{margin-top:13px;overflow:hidden;border:1px solid #dedad2;border-radius:7px;background:#fff}.peak-col-grid>div{display:grid;min-height:43px;align-items:center;grid-template-columns:82px repeat(3,minmax(0,1fr));border-top:1px solid #ebe8e1}.peak-col-grid>div:first-child{border-top:0;background:#f2efe8}.peak-col-grid span,.peak-col-grid b{min-width:0;padding:7px 8px;overflow:hidden;font-size:7px;text-overflow:ellipsis;white-space:nowrap}.peak-col-grid span{color:#777}.peak-col-grid b{border-left:1px solid #ebe8e1;font-weight:500}.peak-col-grid__head b{display:flex;align-items:center;gap:4px;font-weight:600}.peak-col-grid__head i{width:18px;height:18px;border:0;border-radius:4px}.peak-col-grid mark{padding:3px 5px;border-radius:4px;background:#e9edff;color:#2845d6}.peak-col-grid em{margin-left:4px;color:#a34f3b;font-size:6px;font-style:normal}.peak-col-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px}.peak-col-footer span{display:flex;align-items:center;gap:5px;color:#666;font-size:7px}.peak-col-footer span i{width:6px;height:6px;border-radius:50%;background:#e2a64a}.peak-col-footer button{padding:8px 10px;border:1px solid #d5d1c9;border-radius:5px;background:#fff;color:#333;font:600 7px Inter,Arial,sans-serif}
+  @media(max-width:767px){.peak-col-workspace{min-height:410px;grid-template-columns:1fr}.peak-col-sidebar{display:none}.peak-col-main{padding:17px}.peak-col-tabs button:nth-child(2),.peak-col-tabs button:nth-child(3),.peak-col-tabs button:nth-child(4){display:none}.peak-col-grid>div{grid-template-columns:72px repeat(3,minmax(0,1fr))}.peak-col-grid span,.peak-col-grid b{padding-inline:6px}}
+  @media(max-width:479px){.peak-col-heading span,.peak-col-tabs button:last-child,.peak-col-grid>div>:nth-child(4){display:none}.peak-col-grid>div{grid-template-columns:68px repeat(2,minmax(0,1fr))}.peak-col-main{padding:14px}.peak-col-grid em{display:none}.peak-col-footer{gap:8px}.peak-col-footer button{padding-inline:8px}}
+  @media(prefers-reduced-motion:no-preference){.peak-col-grid .is-membership b:last-child{animation:peak-col-gap 3s ease-in-out infinite}@keyframes peak-col-gap{50%{background:#fff6ed;box-shadow:inset 3px 0 #e2a64a}}}
+  @media(prefers-reduced-motion:reduce){.peak-col-grid .is-membership b:last-child{animation:none}}
+</style>

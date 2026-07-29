@@ -13,6 +13,9 @@ const pages = [
   { name: "metafields", path: "/shopify-metafield-management" },
   { name: "custom-fields", path: "/shopify-custom-fields" },
   { name: "roles-permissions", path: "/user-roles-permissions" },
+  { name: "collections", path: "/shopify-collections" },
+  { name: "markets-catalogs", path: "/shopify-markets-pricing" },
+  { name: "products-variants", path: "/shopify-product-management" },
 ] as const;
 
 const viewports = [
@@ -62,11 +65,14 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
     "/ai-catalog-connector",
     "/api",
     "/shopify-multi-store-pim",
+    "/shopify-product-management",
+    "/shopify-markets-pricing",
     "/bulk-edit",
     "/shopify-product-import-export",
     "/shopify-media-management",
     "/shopify-pim-translations",
     "/shopify-metaobjects",
+    "/shopify-collections",
     "/shopify-metafield-management",
     "/shopify-custom-fields",
     "/shopify-product-drops",
@@ -106,9 +112,12 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
     }
 
     await expect(header.locator('.feature-mega-menu__group[aria-labelledby="feature-group-manage-enrich"] .feature-mega-menu__link-title')).toHaveText([
+      "Products & variants",
+      "Collections",
       "Metafields",
       "Metaobjects",
       "Translations",
+      "Markets & catalogs",
       "Custom fields",
     ]);
     await expect(header.locator('.feature-mega-menu__link[href="/industry/fashion"]')).toHaveCount(0);
@@ -117,13 +126,19 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
     await expect(footer.locator(".footer1_link-column")).toHaveCount(5);
     await expect(footer.locator(".site-footer__feature-category-title")).toHaveText(["Connect", "Operate", "Manage & Enrich"]);
     await expect(footer.locator('.site-footer__feature-category:nth-child(3) .footer1_link')).toHaveText([
+      "Products & variants",
+      "Collections",
       "Metafields",
       "Metaobjects",
       "Translations",
+      "Markets & catalogs",
       "Custom fields",
     ]);
     await expect(footer.locator(".site-footer__solutions-column")).toContainText("Fashion");
     await expect(footer.locator(".site-footer__column-heading")).toHaveText(["Features", "Solutions", "Compare", "Peak", "Connect"]);
+    await expect(footer.locator(".footer1_link-column").filter({ hasText: "Compare" }).locator(".footer1_link").nth(0)).toHaveText("PIM alternatives");
+    await expect(footer.locator(".footer1_link-column").filter({ hasText: "Compare" }).locator(".footer1_link").nth(1)).toHaveText("Build vs buy a PIM");
+    await expect(footer.locator('a[href="/build-vs-buy-pim/"]')).toHaveCount(1);
     await expect(footer.locator(".site-footer__heading-marker")).toHaveCount(5);
     await expect(footer.locator(".footer1_social-link")).toHaveCount(6);
     await expect(footer.locator(".footer1_social-link .icon-embed-xsmall")).toHaveCount(6);
@@ -203,6 +218,9 @@ for (const feature of [
   { name: "metafields", path: "/shopify-metafield-management", aria: "Peak PIM metafield definition workspace showing one Material definition linked across US, France, and Germany Shopify stores", motion: ".peak-mf-coverage > div:last-of-type" },
   { name: "custom-fields", path: "/shopify-custom-fields", aria: "Peak PIM custom fields workspace showing Shopify metafields beside private PIM-only workflow fields on a product record", motion: ".peak-cf-private" },
   { name: "roles-permissions", path: "/user-roles-permissions", aria: "Peak PIM users and permissions workspace showing a catalog editor with selected stores and separate view, edit, and publish access", motion: ".peak-rp-users > span.active" },
+  { name: "collections", path: "/shopify-collections", aria: "Peak PIM collections workspace showing one Holiday Gifts collection with content, SEO, and product memberships across US, France, and Germany Shopify stores", motion: ".peak-col-grid .is-membership b:last-child" },
+  { name: "markets-catalogs", path: "/shopify-markets-pricing", aria: "Peak PIM Markets and Catalogs workspace showing fixed variant prices across France, Switzerland, United Kingdom, and two Shopify stores", motion: ".peak-mkt-price.is-fixed.is-focus" },
+  { name: "products-variants", path: "/shopify-product-management", aria: "Peak PIM product workspace showing one Summit Shell Jacket with intentional field and variant differences across US, France, and Germany Shopify stores", motion: ".peak-pv-grid .is-variant-row b:last-child" },
 ]) {
   test(`${feature.name} · responsive product and interaction contract`, async ({ page }) => {
     for (const width of [1440, 1100, 992, 768, 767, 540, 375]) {

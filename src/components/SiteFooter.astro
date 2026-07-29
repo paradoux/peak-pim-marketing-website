@@ -1,5 +1,5 @@
 ---
-import { featureNavigationGroups } from "../data/site-navigation";
+import { comparisonNavigationLinks, featureNavigationGroups } from "../data/site-navigation";
 import { getSharedFooterHtml } from "../lib/page-source";
 
 function escapeHtml(value: string) {
@@ -61,9 +61,10 @@ const featureColumnHtml = `
 
 const headingMarker = '<span class="site-footer__heading-marker" aria-hidden="true"></span>';
 const solutionsGroup = featureNavigationGroups.find((group) => group.label === "Solutions");
+const buildVsBuyLink = comparisonNavigationLinks.find((link) => link.href === "/build-vs-buy-pim/");
 
-if (!solutionsGroup) {
-  throw new Error("The footer Solutions group is missing from the shared navigation taxonomy.");
+if (!solutionsGroup || !buildVsBuyLink) {
+  throw new Error("The footer is missing a required shared-navigation group or link.");
 }
 
 const solutionsColumnHtml = `
@@ -78,7 +79,11 @@ const peakColumnHtml = originalFooterHtml
   .replace(peakHeading, `<div class="text-weight-semibold site-footer__column-heading">${headingMarker}Peak</div>`);
 const compareColumnHtml = originalFooterHtml
   .slice(compareColumnStart, connectColumnStart)
-  .replace(compareHeading, `<div class="text-weight-semibold site-footer__column-heading">${headingMarker}Compare</div>`);
+  .replace(compareHeading, `<div class="text-weight-semibold site-footer__column-heading">${headingMarker}Compare</div>`)
+  .replace(
+    '<a href="/shopify-pim-alternatives" class="footer1_link">PIM alternatives</a>',
+    `<a href="/shopify-pim-alternatives" class="footer1_link">PIM alternatives</a><a href="${escapeHtml(buildVsBuyLink.href)}" class="footer1_link">${escapeHtml(buildVsBuyLink.label)}</a>`,
+  );
 const connectColumnHtml = originalFooterHtml
   .slice(connectColumnStart)
   .replace(connectHeading, `<div class="text-weight-semibold site-footer__column-heading">${headingMarker}Connect</div>`);

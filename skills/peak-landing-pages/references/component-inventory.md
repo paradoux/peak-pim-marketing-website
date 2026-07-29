@@ -2,7 +2,7 @@
 
 ## Layout
 
-- `LandingPageLayout.astro`: SEO, structured data, original Webflow stylesheet, shared header/footer, Crisp, and FAQ setup. Its content wrapper is `main-wrapper`.
+- `LandingPageLayout.astro`: SEO, route-specific registered social images, shared Peak PIM application structured data, original Webflow stylesheet, shared header/footer, Crisp, and FAQ setup. Its content wrapper is `main-wrapper`.
 
 ## UI emitters
 
@@ -55,6 +55,12 @@
 - `CustomFieldsCardVisual.astro`: synced, private, and cross-workflow custom-field states for complete workflow cards.
 - `RolesPermissionsHeroVisual.astro`: users, example responsibilities, permission boundaries, and store scope in one Peak workspace.
 - `RolesPermissionsCardVisual.astro`: invitation, role assignment, and access-review states for complete workflow cards.
+- `CollectionsHeroVisual.astro`: one canonical collection with store-specific content, SEO, and product membership coverage inside a Peak workspace.
+- `CollectionsCardVisual.astro`: canonical collection, per-store membership, and scheduled merchandising states for complete workflow cards.
+- `MarketsCatalogsHeroVisual.astro`: editable variant prices across markets, catalogs, currencies, and Shopify stores inside a Peak workspace.
+- `MarketsCatalogsCardVisual.astro`: market setup, catalog scope, and fixed-price states for complete workflow cards.
+- `ProductsVariantsHeroVisual.astro`: one canonical product with intentional field and variant differences across connected Shopify stores.
+- `ProductsVariantsCardVisual.astro`: canonical store versions, option-change preview, and dependency-aware publishing states for complete workflow cards.
 
 ## Selection rules
 

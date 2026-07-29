@@ -40,9 +40,12 @@ export const featureNavigationGroups: FeatureNavigationGroup[] = [
     label: "Manage & Enrich",
     description: "Turn product data into complete, localized content.",
     links: [
+      { label: "Products & variants", href: "/shopify-product-management", description: "Manage the core catalog and every store version." },
+      { label: "Collections", href: "/shopify-collections", description: "Manage collection content and memberships across stores." },
       { label: "Metafields", href: "/shopify-metafield-management", description: "Define and publish typed Shopify data across stores." },
       { label: "Metaobjects", href: "/shopify-metaobjects", description: "Structure custom content once and reuse it." },
       { label: "Translations", href: "/shopify-pim-translations", description: "Manage every locale beside the source." },
+      { label: "Markets & catalogs", href: "/shopify-markets-pricing", description: "Manage international product availability and pricing." },
       { label: "Custom fields", href: "/shopify-custom-fields", description: "Manage synced metafields and private PIM fields." },
     ],
   },

@@ -1,0 +1,54 @@
+---
+import ProductVisualFrame from "../ui/ProductVisualFrame.astro";
+---
+
+<ProductVisualFrame
+  ariaLabel="Peak PIM product workspace showing one Summit Shell Jacket with intentional field and variant differences across US, France, and Germany Shopify stores"
+  section="Products"
+  status="3 stores linked"
+  actionLabel="Publish"
+>
+  <div class="peak-pv-workspace">
+    <aside class="peak-pv-sidebar">
+      <div class="peak-pv-sidebar__title"><strong>Products</strong><span>1,248</span></div>
+      <label><span aria-hidden="true">⌕</span>Search products or variants</label>
+      <small>Catalog</small>
+      <button class="is-active"><b>Summit Shell Jacket</b><em>12 variants · 3 stores</em></button>
+      <button><b>Alpine Parka</b><em>8 variants · 3 stores</em></button>
+      <button><b>Trail Vest</b><em>6 variants · 2 stores</em></button>
+      <button><b>Merino Base Layer</b><em>9 variants · 3 stores</em></button>
+      <small>Variant match</small>
+      <button class="is-result"><i></i><b>SKU-2041</b><em>Black · Medium</em></button>
+    </aside>
+
+    <div class="peak-pv-main">
+      <header class="peak-pv-heading">
+        <div><small>Canonical product</small><strong>Summit Shell Jacket</strong><span>Outdoor apparel</span></div>
+        <div class="peak-pv-stores"><i>US</i><i>FR</i><i>DE</i></div>
+      </header>
+
+      <nav class="peak-pv-tabs" aria-label="Product store views">
+        <button>Master</button><button>United States</button><button>France</button><button>Germany</button><button class="is-active">Multi-stores</button><button>Translations</button>
+      </nav>
+
+      <section class="peak-pv-grid" aria-label="Product fields by Shopify store">
+        <div class="peak-pv-grid__head"><span>Field</span><b><i>US</i>United States</b><b><i>FR</i>France</b><b><i>DE</i>Germany</b></div>
+        <div><span>Title</span><b>Summit Shell Jacket</b><b>Veste Summit Shell</b><b>Summit Shelljacke</b></div>
+        <div><span>Status</span><b><mark>Active</mark></b><b><mark>Active</mark></b><b><mark class="is-draft">Draft</mark></b></div>
+        <div><span>Collections</span><b>Outerwear · New</b><b>Vestes · Nouveautés</b><b>Jacken <em>Add to all</em></b></div>
+        <div><span>Media</span><b>8 files</b><b>8 files</b><b>6 files <em>2 missing</em></b></div>
+        <div class="is-variant-row"><span>Variants</span><b>12 available</b><b>12 available</b><b>10 available <em>2 staged</em></b></div>
+      </section>
+
+      <footer class="peak-pv-footer"><span><i></i>4 draft changes</span><button>Review store differences</button></footer>
+    </div>
+  </div>
+</ProductVisualFrame>
+
+<style>
+  .peak-pv-workspace{display:grid;min-height:450px;grid-template-columns:178px minmax(0,1fr);background:#f6f3ec;color:#191919;font-family:Inter,Arial,sans-serif}.peak-pv-sidebar{display:flex;flex-direction:column;gap:6px;padding:18px 13px;border-right:1px solid #dedbd3;background:#fbfaf7}.peak-pv-sidebar__title{display:flex;align-items:center;justify-content:space-between;padding:0 6px 6px;font-size:10px}.peak-pv-sidebar__title span{padding:6px;border-radius:999px;background:#ece9e2;color:#666;font-size:6px}.peak-pv-sidebar label{display:flex;align-items:center;gap:5px;padding:8px;border:1px solid #dedbd3;border-radius:5px;background:#fff;color:#999;font-size:7px}.peak-pv-sidebar small{margin:8px 6px 0;color:#999;font-size:6px;text-transform:uppercase}.peak-pv-sidebar button{display:grid;gap:2px;padding:8px;border:0;border-radius:5px;background:transparent;color:#555;text-align:left}.peak-pv-sidebar button b{font:600 8px Inter,Arial,sans-serif}.peak-pv-sidebar button em{color:#999;font:normal 6px Inter,Arial,sans-serif}.peak-pv-sidebar button.is-active{background:#e9edff;color:#2845d6}.peak-pv-sidebar button.is-result{grid-template-columns:8px 1fr;background:#fff}.peak-pv-sidebar button.is-result i{width:6px;height:6px;margin-top:3px;border-radius:50%;background:#4f9b64}.peak-pv-sidebar button.is-result em{grid-column:2}.peak-pv-main{min-width:0;padding:20px 21px 16px}.peak-pv-heading{display:flex;align-items:center;justify-content:space-between}.peak-pv-heading>div:first-child{display:grid;grid-template-columns:auto auto;gap:2px 7px}.peak-pv-heading small{grid-column:1/-1;color:#777;font-size:7px}.peak-pv-heading strong{font-size:14px}.peak-pv-heading span{align-self:end;padding:4px 6px;border-radius:999px;background:#ece9e2;color:#666;font-size:6px}.peak-pv-stores{display:flex}.peak-pv-stores i,.peak-pv-grid i{display:grid;width:24px;height:24px;place-items:center;border:2px solid #f6f3ec;border-radius:50%;background:#191919;color:#fff;font:normal 6px Inter,Arial,sans-serif}.peak-pv-stores i+ i{margin-left:-5px}.peak-pv-tabs{display:flex;gap:2px;margin-top:17px;overflow:hidden;border-bottom:1px solid #dcd8d0}.peak-pv-tabs button{flex:none;padding:8px 7px;border:0;border-bottom:2px solid transparent;background:transparent;color:#777;font:500 6px Inter,Arial,sans-serif}.peak-pv-tabs button.is-active{border-bottom-color:#2845d6;color:#2845d6}.peak-pv-grid{margin-top:13px;overflow:hidden;border:1px solid #dedad2;border-radius:7px;background:#fff}.peak-pv-grid>div{display:grid;min-height:42px;align-items:center;grid-template-columns:82px repeat(3,minmax(0,1fr));border-top:1px solid #ebe8e1}.peak-pv-grid>div:first-child{border-top:0;background:#f2efe8}.peak-pv-grid span,.peak-pv-grid b{min-width:0;padding:7px 8px;overflow:hidden;font-size:7px;text-overflow:ellipsis;white-space:nowrap}.peak-pv-grid>div>span{color:#777}.peak-pv-grid>div>b{border-left:1px solid #ebe8e1;font-weight:500}.peak-pv-grid__head b{display:flex;align-items:center;gap:4px;font-weight:600}.peak-pv-grid__head i{width:18px;height:18px;border:0;border-radius:4px}.peak-pv-grid mark{padding:3px 5px;border-radius:999px;background:#edf6ef;color:#438258}.peak-pv-grid mark.is-draft{background:#fff2dc;color:#9b681d}.peak-pv-grid em{float:right;color:#2845d6;font-size:6px;font-style:normal}.peak-pv-grid .is-variant-row b:last-child{background:#f2f4ff;box-shadow:inset 3px 0 #2845d6}.peak-pv-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px}.peak-pv-footer span{display:flex;align-items:center;gap:5px;color:#666;font-size:7px}.peak-pv-footer span i{width:6px;height:6px;border-radius:50%;background:#e2a64a}.peak-pv-footer button{padding:8px 10px;border:1px solid #d5d1c9;border-radius:5px;background:#fff;color:#333;font:600 7px Inter,Arial,sans-serif}
+  @media(max-width:767px){.peak-pv-workspace{min-height:420px;grid-template-columns:1fr}.peak-pv-sidebar{display:none}.peak-pv-main{padding:17px}.peak-pv-tabs button:nth-child(2),.peak-pv-tabs button:nth-child(3),.peak-pv-tabs button:nth-child(4){display:none}.peak-pv-grid>div{grid-template-columns:72px repeat(3,minmax(0,1fr))}.peak-pv-grid span,.peak-pv-grid b{padding-inline:6px}}
+  @media(max-width:479px){.peak-pv-heading span,.peak-pv-tabs button:last-child,.peak-pv-grid>div>:nth-child(4){display:none}.peak-pv-grid>div{grid-template-columns:68px repeat(2,minmax(0,1fr))}.peak-pv-main{padding:14px}.peak-pv-grid em{display:none}.peak-pv-footer{gap:8px}.peak-pv-footer button{padding-inline:8px}}
+  @media(prefers-reduced-motion:no-preference){.peak-pv-grid .is-variant-row b:last-child{animation:peak-pv-stage 3s ease-in-out infinite}@keyframes peak-pv-stage{50%{background:#e8ecff;box-shadow:inset 3px 0 #2845d6,0 0 0 2px rgba(40,69,214,.08)}}}
+  @media(prefers-reduced-motion:reduce){.peak-pv-grid .is-variant-row b:last-child{animation:none}}
+</style>

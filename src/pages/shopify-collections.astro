@@ -1,0 +1,72 @@
+---
+import CardGrid from "../components/sections/CardGrid.astro";
+import CtaBanner from "../components/sections/CtaBanner.astro";
+import Faq from "../components/sections/Faq.astro";
+import FeatureGrid from "../components/sections/FeatureGrid.astro";
+import Hero from "../components/sections/Hero.astro";
+import LogoCloud from "../components/sections/LogoCloud.astro";
+import ProblemGrid from "../components/sections/ProblemGrid.astro";
+import CollectionsCardVisual from "../components/visuals/CollectionsCardVisual.astro";
+import CollectionsHeroVisual from "../components/visuals/CollectionsHeroVisual.astro";
+import { ctaLabels } from "../data/cta-copy";
+import LandingPageLayout from "../layouts/LandingPageLayout.astro";
+
+const appStoreUrl="https://apps.shopify.com/peak-pim";
+
+const problems=[
+  {icon:"store",title:"Every store rebuilds the same collection",description:"Titles, descriptions, handles, images, SEO, and custom fields become another maintenance job in every Shopify admin."},
+  {icon:"grid",title:"Product memberships drift silently",description:"A product joins Holiday Gifts in one store but not another, leaving regional collections incomplete and merchandising teams comparing storefronts by hand."},
+  {icon:"review",title:"Seasonal cleanup gets forgotten",description:"Expired campaign copy, empty collections, and duplicate records stay live because nobody has one account-wide view of what changed where."},
+];
+
+const workflows=[
+  {tagline:"Centralize",title:"One collection, every store",description:"Create one canonical collection, add its store versions, and manage content, images, custom fields, SEO, and translations without rebuilding the record."},
+  {tagline:"Merchandise",title:"Control membership per store",description:"See every product's collection memberships side by side. Add it to one storefront or all stores, then publish a repeatable reconcile to Shopify."},
+  {tagline:"Schedule",title:"Launch and restore campaigns on time",description:"Attach collection titles, descriptions, and membership changes to a Drop so seasonal merchandising publishes and reverts on schedule."},
+];
+
+const features=[
+  {icon:"edit",title:"Edit stores side by side",description:"Use a field-by-store grid to compare titles, descriptions, handles, and SEO, then fix regional drift from one screen."},
+  {icon:"search",title:"Browse large collection catalogs",description:"Switch between list and gallery views, search, filter by field or store, sort results, and see store coverage without opening every record."},
+  {icon:"review",title:"Respect Shopify's collection rules",description:"Manual memberships stay editable. Smart collections are clearly identified and membership controls stay read-only so Peak PIM never fights Shopify's rules engine."},
+  {icon:"file",title:"Move, merge, and check collections",description:"Import or bulk edit collections, export them in their own sheet, merge duplicate store records, and surface empty or divergent collections in Health Center."},
+];
+
+const faqItems=[
+  {question:"What is Shopify collection management?",answer:"Collection management covers the content and merchandising structure of Shopify collections, including titles, descriptions, handles, SEO, images, custom fields, translations, store coverage, and which products belong to each manual collection."},
+  {question:"Can I manage one collection across multiple Shopify stores?",answer:"Yes. Peak PIM keeps one canonical collection with a version for every connected store. You can share the structure while keeping store-specific titles, descriptions, handles, SEO, images, custom fields, and product memberships where needed."},
+  {question:"How do collection memberships work across stores?",answer:"Membership is tracked per product, per collection, and per store. From a product page, you can add the product to a collection in one store or use Add to all stores, then remove individual memberships where a regional assortment differs."},
+  {question:"What happens when I publish a product or collection?",answer:"Publishing a product reconciles the manual collections it joined or left in each target store. Publishing a collection reconciles its product list. The operation is repeatable, interrupted work can retry, and failures remain visible instead of being skipped silently."},
+  {question:"Can Peak PIM edit smart collection memberships?",answer:"No. Shopify calculates smart collection membership from rules, so Peak PIM identifies those collections and keeps manual membership controls read-only. This prevents catalog edits from conflicting with Shopify's rules engine."},
+  {question:"Can collection SEO be different in every store?",answer:"Yes. Each store version can have its own SEO title and meta description. Peak PIM also shows Shopify's fallback behavior as a placeholder so merchandisers can see what the storefront will use when an SEO field is empty."},
+  {question:"Can I schedule collection changes?",answer:"Yes. Collection content and membership changes can be attached to a Drop. Peak PIM publishes them at the scheduled start time and can restore the captured pre-Drop values at the end of a time-boxed campaign."},
+  {question:"Can I import, export, or bulk edit collections?",answer:"Yes. The Import wizard can create or update collections from CSV or Excel files, exports include a dedicated collections sheet, and the bulk editor supports catalog-wide collection changes."},
+  {question:"How does Peak PIM help clean up collection catalogs?",answer:"Equivalent collections imported from separate stores can be merged into one Peak PIM record, with memberships and images carried across. Health Center can flag empty collections per store and include collections in completeness and cross-store divergence checks."},
+];
+
+const faqSchema={"@context":"https://schema.org","@type":"FAQPage",mainEntity:faqItems.map(item=>({"@type":"Question",name:item.question,acceptedAnswer:{"@type":"Answer",text:item.answer}}))};
+---
+
+<LandingPageLayout
+  title="Shopify Collections Management | Peak PIM"
+  description="Create, organize, translate, schedule, and publish Shopify collections and product memberships across every connected store from one PIM."
+  canonicalPath="/shopify-collections"
+  schemaType="SoftwareApplication"
+  additionalSchemas={[faqSchema]}
+  ogTitle="Manage Shopify Collections Across Every Store"
+  ogDescription="Keep collection content, SEO, images, translations, and product memberships connected across every Shopify storefront."
+>
+  <Hero title="One collection, every Shopify store" description="Create one canonical collection, manage each store's content and product memberships, and publish the right merchandising structure everywhere from one workspace." primaryCta={{label:ctaLabels.tryFree,href:appStoreUrl,external:true}} secondaryCta={{label:ctaLabels.seeHowItWorks,href:"#collections-workflow"}}><CollectionsHeroVisual/></Hero>
+
+  <LogoCloud />
+
+  <ProblemGrid tagline="Collections at multi-store scale" title="Merchandising should not multiply with every storefront" description="Shopify collections organize how shoppers discover the catalog. Peak PIM keeps their content and memberships connected while preserving the regional differences that matter." items={problems} link={{label:ctaLabels.learnMore,href:"/shopify-pim-translations"}} />
+
+  <CardGrid id="collections-workflow" tagline="A complete merchandising workflow" title="Build, merchandise, and schedule from one record" description="Keep the collection itself and the products inside it connected from planning through publication." cards={workflows}><CollectionsCardVisual slot="visual-1" mode="canonical"/><CollectionsCardVisual slot="visual-2" mode="memberships"/><CollectionsCardVisual slot="visual-3" mode="schedule"/></CardGrid>
+
+  <FeatureGrid tagline="Built for real collection catalogs" title="See the details that usually drift between stores" description="Peak PIM gives collections the same operational depth as products, from side-by-side editing and Shopify safeguards to imports, merging, and quality checks." features={features} cta={{label:ctaLabels.learnMore,href:"/shopify-catalog-health-center"}} />
+
+  <CtaBanner id="start" title="Run every collection from one place" description="Connect collection content and product memberships across stores, then publish each storefront with a clear, repeatable workflow." primaryLabel={ctaLabels.tryFree} primaryHref={appStoreUrl} secondaryLabel={ctaLabels.learnMore} secondaryHref="/shopify-product-drops" trustLine="10-day free trial. Free setup. No credit card."/>
+
+  <Faq id="faq" title="Frequently asked questions" description="Everything you need to know about managing Shopify collections with Peak PIM." items={faqItems}/>
+</LandingPageLayout>

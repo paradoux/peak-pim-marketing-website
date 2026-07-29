@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 
 const projectRoot = resolve(import.meta.dirname, "..");
 const requiredFiles = [
+  "scripts/generate-og-images.mjs",
   "src/layouts/LandingPageLayout.astro",
   "src/lib/site-url.ts",
   "src/data/cta-copy.ts",
@@ -49,6 +50,12 @@ const requiredFiles = [
   "src/components/visuals/CustomFieldsCardVisual.astro",
   "src/components/visuals/RolesPermissionsHeroVisual.astro",
   "src/components/visuals/RolesPermissionsCardVisual.astro",
+  "src/components/visuals/CollectionsHeroVisual.astro",
+  "src/components/visuals/CollectionsCardVisual.astro",
+  "src/components/visuals/MarketsCatalogsHeroVisual.astro",
+  "src/components/visuals/MarketsCatalogsCardVisual.astro",
+  "src/components/visuals/ProductsVariantsHeroVisual.astro",
+  "src/components/visuals/ProductsVariantsCardVisual.astro",
   "src/pages/design-system.astro",
   "src/pages/shopify-pim-translations.astro",
   "src/pages/shopify-product-import-export.astro",
@@ -60,6 +67,9 @@ const requiredFiles = [
   "src/pages/shopify-metafield-management.astro",
   "src/pages/shopify-custom-fields.astro",
   "src/pages/user-roles-permissions.astro",
+  "src/pages/shopify-collections.astro",
+  "src/pages/shopify-markets-pricing.astro",
+  "src/pages/shopify-product-management.astro",
   "src/pages/build-vs-buy-pim.astro",
   "public/og-build-vs-buy-pim.png",
   "docs/copywriting-system.md",
@@ -121,11 +131,14 @@ for (const slug of [
   "/ai-catalog-connector",
   "/api",
   "/shopify-multi-store-pim",
+  "/shopify-product-management",
+  "/shopify-markets-pricing",
   "/bulk-edit",
   "/shopify-product-import-export",
   "/shopify-media-management",
   "/shopify-pim-translations",
   "/shopify-metaobjects",
+  "/shopify-collections",
   "/shopify-metafield-management",
   "/shopify-custom-fields",
   "/shopify-product-drops",
@@ -151,7 +164,7 @@ const recipeSource = readFileSync(resolve(projectRoot, "src/data/landing-page-re
 const approvedReferences = recipeSource.split("export const excludedDesignSystemPages")[0];
 if (approvedReferences.includes('"/partners"')) failures.push("The unfinished partners page appears in approved references");
 
-for (const page of ["bulk-edit", "design-system", "shopify-pim-translations", "shopify-product-import-export", "shopify-product-drops", "shopify-catalog-health-center", "ai-catalog-connector", "api", "shopify-metaobjects", "shopify-metafield-management", "shopify-custom-fields", "user-roles-permissions", "build-vs-buy-pim"]) {
+for (const page of ["bulk-edit", "design-system", "shopify-pim-translations", "shopify-product-import-export", "shopify-product-drops", "shopify-catalog-health-center", "ai-catalog-connector", "api", "shopify-metaobjects", "shopify-metafield-management", "shopify-custom-fields", "user-roles-permissions", "shopify-collections", "shopify-markets-pricing", "shopify-product-management", "build-vs-buy-pim"]) {
   const file = resolve(projectRoot, "dist", page, "index.html");
   if (!existsSync(file)) {
     failures.push(`Missing built page /${page}; run npm run build first`);
@@ -169,11 +182,14 @@ for (const slug of [
   "ai-catalog-connector",
   "api",
   "shopify-multi-store-pim",
+  "shopify-product-management",
+  "shopify-markets-pricing",
   "bulk-edit",
   "shopify-product-import-export",
   "shopify-media-management",
   "shopify-pim-translations",
   "shopify-metaobjects",
+  "shopify-collections",
   "shopify-metafield-management",
   "shopify-custom-fields",
   "shopify-product-drops",
@@ -198,6 +214,9 @@ for (const feature of [
   { slug: "api", title: "Shopify Multi-Store Catalog API | Peak PIM", aria: "Peak PIM developer API workspace showing a store-specific product update and publish response", crossLink: 'href="/ai-catalog-connector"' },
   { slug: "shopify-metaobjects", title: "Shopify Metaobjects Management | Peak PIM", aria: "Peak PIM metaobject workspace showing a Size Guide definition, typed entry fields, and publishing results across Shopify stores", crossLink: 'href="/ai-catalog-connector"' },
   { slug: "shopify-metafield-management", title: "Shopify Metafield Management | Peak PIM", aria: "Peak PIM metafield definition workspace showing one Material definition linked across US, France, and Germany Shopify stores", crossLink: 'href="/shopify-custom-fields"' },
+  { slug: "shopify-collections", title: "Shopify Collections Management | Peak PIM", aria: "Peak PIM collections workspace showing one Holiday Gifts collection with content, SEO, and product memberships across US, France, and Germany Shopify stores", crossLink: 'href="/shopify-catalog-health-center"', allowMultipleCrossLinks: true },
+  { slug: "shopify-markets-pricing", title: "Shopify Markets &amp; Catalog Pricing | Peak PIM", aria: "Peak PIM Markets and Catalogs workspace showing fixed variant prices across France, Switzerland, United Kingdom, and two Shopify stores", crossLink: 'href="/shopify-product-import-export"', allowMultipleCrossLinks: true },
+  { slug: "shopify-product-management", title: "Shopify Product &amp; Variant Management | Peak PIM", aria: "Peak PIM product workspace showing one Summit Shell Jacket with intentional field and variant differences across US, France, and Germany Shopify stores", crossLink: 'href="/bulk-edit"', allowMultipleCrossLinks: true },
   { slug: "user-roles-permissions", title: "Shopify PIM User Roles &amp; Permissions | Peak PIM", aria: "Peak PIM users and permissions workspace showing a catalog editor with selected stores and separate view, edit, and publish access", crossLink: 'href="/shopify-multi-store-pim"', allowMultipleCrossLinks: true },
 ]) {
   const file = resolve(projectRoot, `dist/${feature.slug}/index.html`);
@@ -217,6 +236,55 @@ for (const feature of [
   for (const className of ["section_header26", "section_logo2", "section_layout237", "section_layout395", "section_layout353", "section_cta51", "section_faq1"]) {
     if (!html.includes(className)) failures.push(`${feature.slug} is missing canonical section: ${className}`);
   }
+}
+
+const featureSeoSlugs = [
+  "ai-catalog-connector",
+  "api",
+  "shopify-catalog-health-center",
+  "shopify-collections",
+  "shopify-custom-fields",
+  "shopify-markets-pricing",
+  "shopify-metafield-management",
+  "shopify-metaobjects",
+  "shopify-pim-translations",
+  "shopify-product-drops",
+  "shopify-product-import-export",
+  "shopify-product-management",
+  "user-roles-permissions",
+];
+
+for (const slug of featureSeoSlugs) {
+  const file = resolve(projectRoot, `dist/${slug}/index.html`);
+  const imageFile = resolve(projectRoot, `public/assets/og/${slug}.png`);
+  if (!existsSync(file)) {
+    failures.push(`Feature SEO check could not find built page: /${slug}`);
+    continue;
+  }
+  if (!existsSync(imageFile)) {
+    failures.push(`Feature SEO check could not find Open Graph image: /assets/og/${slug}.png`);
+    continue;
+  }
+
+  const image = readFileSync(imageFile);
+  const width = image.readUInt32BE(16);
+  const height = image.readUInt32BE(20);
+  if (width !== 1200 || height !== 630) failures.push(`${slug} Open Graph image must be 1200 × 630, got ${width} × ${height}`);
+
+  const html = readFileSync(file, "utf8");
+  const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((match) => JSON.parse(match[1]));
+  const pageSchema = schemas.find((entry) => entry["@type"] === "WebPage");
+  const softwareSchema = schemas.find((entry) => entry["@type"] === "SoftwareApplication");
+  const expectedImage = `https://peak-pim.com/assets/og/${slug}.png`;
+
+  if (!html.includes(`<meta property="og:image" content="${expectedImage}">`)) failures.push(`${slug} is missing its registered Open Graph image`);
+  if (!html.includes(`<meta name="twitter:image" content="${expectedImage}">`)) failures.push(`${slug} is missing its registered Twitter image`);
+  if (!html.includes('<meta name="twitter:card" content="summary_large_image">')) failures.push(`${slug} does not use a large social card`);
+  if (pageSchema?.about?.["@id"] !== "https://peak-pim.com/#software") failures.push(`${slug} is not modeled as a page about Peak PIM`);
+  if (softwareSchema?.name !== "Peak PIM") failures.push(`${slug} does not reference the canonical Peak PIM application`);
+  if (softwareSchema?.applicationCategory !== "BusinessApplication" || softwareSchema?.operatingSystem !== "Web") failures.push(`${slug} application schema is incomplete`);
+  if (softwareSchema?.offers?.map((offer) => offer.price).join(",") !== "99,249") failures.push(`${slug} application schema has outdated public offers`);
+  if (schemas.filter((entry) => entry["@type"] === "SoftwareApplication").length !== 1) failures.push(`${slug} must describe exactly one software application`);
 }
 
 const rolesPermissionsFile = resolve(projectRoot, "dist/user-roles-permissions/index.html");
@@ -344,6 +412,7 @@ if (existsSync(homeFile)) {
   }
   if (footerHtml.includes('site-footer__feature-category-title">Solutions</div>')) failures.push("Solutions must be a dedicated footer column, not a Features sub-column");
   if ((footerHtml.match(/href="\/industry\/fashion" class="footer1_link">Fashion<\/a>/g) ?? []).length !== 1) failures.push("The footer must place Fashion exactly once under Solutions");
+  if (!/href="\/shopify-pim-alternatives"[^>]*>PIM alternatives<\/a><a href="\/build-vs-buy-pim\/"[^>]*>Build vs buy a PIM<\/a>/.test(footerHtml)) failures.push("The footer must place Build vs buy a PIM directly after PIM alternatives");
   if ((footerHtml.match(/class="site-footer__heading-marker"/g) ?? []).length !== 5) failures.push("Every footer column heading must use the shared circle marker");
   if (/⚡️|⛰️|🔍|🤙/.test(footerHtml)) failures.push("The footer still contains decorative column emojis");
   if ((footerHtml.match(/class="footer1_social-link w-inline-block"/g) ?? []).length !== 6) failures.push("The footer must preserve all six original social-network links");
@@ -407,6 +476,11 @@ if (existsSync(sitemapFile)) {
   if (!sitemap.includes("https://peak-pim.com/build-vs-buy-pim/")) failures.push("Sitemap is missing the build-vs-buy URL");
   if (!sitemap.includes("https://peak-pim.com/shopify-custom-fields/")) failures.push("Sitemap is missing the Custom Fields URL");
   if (!sitemap.includes("https://peak-pim.com/shopify-metafield-management/")) failures.push("Sitemap is missing the Metafields URL");
+  if (!sitemap.includes("https://peak-pim.com/shopify-collections/")) failures.push("Sitemap is missing the Collections URL");
+  if (!sitemap.includes("https://peak-pim.com/shopify-markets-pricing/")) failures.push("Sitemap is missing the Markets and Catalogs URL");
+  if (!sitemap.includes("https://peak-pim.com/shopify-product-management/")) failures.push("Sitemap is missing the Product Management URL");
+  if (!sitemap.includes("https://peak-pim.com/blog/")) failures.push("Sitemap is missing the article index URL");
+  if (!sitemap.includes("https://peak-pim.com/guides/")) failures.push("Sitemap is missing the guide index URL");
   if (sitemap.includes("https://peak-pim.com/partners/")) failures.push("Sitemap exposes the unfinished partners page");
   if (sitemapUrls.some((url) => url !== "https://peak-pim.com/" && !url.endsWith("/"))) failures.push("Sitemap contains a URL that redirects to its trailing-slash version");
   if ((sitemap.match(/<lastmod>/g) ?? []).length !== sitemapUrls.length) failures.push("Sitemap last-modified dates are incomplete");
@@ -503,6 +577,9 @@ const homepageLogoBannerPages = [
   "shopify-metaobjects",
   "shopify-metafield-management",
   "shopify-custom-fields",
+  "shopify-collections",
+  "shopify-markets-pricing",
+  "shopify-product-management",
   "user-roles-permissions",
   "shopify-media-management",
   "industry/fashion",
@@ -538,7 +615,8 @@ const robots = readFileSync(resolve(projectRoot, "public/robots.txt"), "utf8");
 if (!robots.includes("Allow: /") || !robots.includes("Sitemap: https://peak-pim.com/sitemap.xml")) failures.push("Crawler discovery directives are incomplete");
 
 const llmsText = readFileSync(resolve(projectRoot, "public/llms.txt"), "utf8");
-for (const featureUrl of ["https://peak-pim.com/shopify-product-import-export/", "https://peak-pim.com/shopify-product-drops/", "https://peak-pim.com/shopify-catalog-health-center/", "https://peak-pim.com/ai-catalog-connector/", "https://peak-pim.com/api/", "https://peak-pim.com/shopify-metaobjects/", "https://peak-pim.com/shopify-metafield-management/", "https://peak-pim.com/shopify-custom-fields/", "https://peak-pim.com/user-roles-permissions/"]) {
+if ((llmsText.match(/^## Current Pricing$/gm) ?? []).length !== 1) failures.push("llms.txt must contain exactly one Current Pricing section");
+for (const featureUrl of ["https://peak-pim.com/shopify-product-import-export/", "https://peak-pim.com/shopify-product-drops/", "https://peak-pim.com/shopify-catalog-health-center/", "https://peak-pim.com/ai-catalog-connector/", "https://peak-pim.com/api/", "https://peak-pim.com/shopify-metaobjects/", "https://peak-pim.com/shopify-collections/", "https://peak-pim.com/shopify-markets-pricing/", "https://peak-pim.com/shopify-product-management/", "https://peak-pim.com/shopify-metafield-management/", "https://peak-pim.com/shopify-custom-fields/", "https://peak-pim.com/user-roles-permissions/"]) {
   if (!llmsText.includes(featureUrl)) failures.push(`Crawler summary is missing feature page: ${featureUrl}`);
 }
 

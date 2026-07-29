@@ -1,0 +1,72 @@
+---
+import CardGrid from "../components/sections/CardGrid.astro";
+import CtaBanner from "../components/sections/CtaBanner.astro";
+import Faq from "../components/sections/Faq.astro";
+import FeatureGrid from "../components/sections/FeatureGrid.astro";
+import Hero from "../components/sections/Hero.astro";
+import LogoCloud from "../components/sections/LogoCloud.astro";
+import ProblemGrid from "../components/sections/ProblemGrid.astro";
+import ProductsVariantsCardVisual from "../components/visuals/ProductsVariantsCardVisual.astro";
+import ProductsVariantsHeroVisual from "../components/visuals/ProductsVariantsHeroVisual.astro";
+import { ctaLabels } from "../data/cta-copy";
+import LandingPageLayout from "../layouts/LandingPageLayout.astro";
+
+const appStoreUrl="https://apps.shopify.com/peak-pim";
+
+const problems=[
+  {icon:"store",title:"Store copies drift apart",description:"Titles, descriptions, status, prices, collections, media, and custom data change independently until nobody knows which product record is correct."},
+  {icon:"grid",title:"Variant structure feels risky to touch",description:"Renaming an option or adding a value can create unexpected combinations, missing SKUs, and different variant sets across storefronts."},
+  {icon:"review",title:"Publishing hides the dependency chain",description:"A product update also affects variants, media, collections, and market prices, but failures are easy to miss when every store is handled separately."},
+];
+
+const workflows=[
+  {tagline:"Model",title:"One canonical product, intentional store versions",description:"Keep the shared identity once, then manage the title, status, pricing, content, media, collections, and custom fields each store actually needs."},
+  {tagline:"Structure",title:"Preview every option change",description:"Rename or reorder options, add values, and see exactly which variants will be kept, created, or affected before the structure changes."},
+  {tagline:"Publish",title:"Draft first, publish deliberately",description:"Review store differences, then publish variants, media, collections, and market prices in order, with a clear outcome for every storefront."},
+];
+
+const features=[
+  {icon:"edit",title:"Edit the whole catalog at once",description:"Filter products and variants, fill values down, update fields in bulk, or move reviewed changes through CSV, Excel, and Google Sheets workflows."},
+  {icon:"image",title:"Enrich every product record",description:"Manage media, metafields, custom fields, metaobjects, and collection memberships beside the product and store versions they support."},
+  {icon:"store",title:"Adapt every market on purpose",description:"Keep per-store content, option names, variant availability, translations, and market prices different where the storefront requires it."},
+  {icon:"review",title:"Operate from one source of truth",description:"Schedule changes with Drops, refresh deliberate Shopify edits, find drift in Health Center, and let approved AI connections work on the same catalog model."},
+];
+
+const faqItems=[
+  {question:"How does Peak PIM organize products across Shopify stores?",answer:"Each real product has one canonical record in Peak PIM and one version for every connected Shopify store that carries it. Shared identity stays connected while store-specific content, status, pricing, collections, media, and variants remain deliberate."},
+  {question:"Can product information be different in each store?",answer:"Yes. The multi-store grid shows each field as a row and every store as a column, so teams can keep differences such as language, status, price, media, collection membership, and assortment visible instead of forcing every store to match."},
+  {question:"Are variants managed as full records?",answer:"Yes. Every variant has its own page with store-specific price, compare-at price, cost, SKU, barcode, weight, customs data, market prices, custom fields, and feature image, plus a multi-store comparison view."},
+  {question:"What happens when I change product options?",answer:"The guided option editor lets you add, rename, or reorder options and values, then previews which variants will be kept, created, or affected before the structure is committed. New variant creation is shown explicitly rather than guessed."},
+  {question:"Can a variant exist in some stores but not others?",answer:"Yes. Variant presence is tracked per store. A product can offer one assortment in the United States and another in France, and a store that cannot receive a variant shows the reason instead of failing silently."},
+  {question:"What happens when I publish a product?",answer:"Peak PIM publishes the selected product versions and handles dependent updates such as variants, media, collection memberships, and market prices in order. Every store reports its own result, while saved work stays in draft until publication."},
+  {question:"How does Refresh from Shopify work?",answer:"Refresh deliberately pulls the current state of a selected store back into Peak PIM when someone changed it directly in Shopify. Pending drafts are guarded so an external refresh does not silently overwrite work in progress."},
+  {question:"Can I bulk edit, import, and export products and variants?",answer:"Yes. Products and variants can be filtered and edited in the bulk grid, mapped from CSV, Excel, or published Google Sheets files, and exported with selected fields across connected stores."},
+  {question:"Can existing products from separate stores be merged?",answer:"Yes. When stores contain separate copies of the same real product, Peak PIM can merge them into one canonical record and map the corresponding variants. This gives established multi-store catalogs a controlled migration path."},
+];
+
+const faqSchema={"@context":"https://schema.org","@type":"FAQPage",mainEntity:faqItems.map(item=>({"@type":"Question",name:item.question,acceptedAnswer:{"@type":"Answer",text:item.answer}}))};
+---
+
+<LandingPageLayout
+  title="Shopify Product & Variant Management | Peak PIM"
+  description="Manage one canonical product with intentional per-store versions, first-class variants, bulk workflows, and controlled publishing across Shopify stores."
+  canonicalPath="/shopify-product-management"
+  schemaType="SoftwareApplication"
+  additionalSchemas={[faqSchema]}
+  ogTitle="Manage Shopify Products and Variants Across Stores"
+  ogDescription="Edit one canonical product, preserve deliberate store differences, preview variant structure changes, and publish the complete record safely."
+>
+  <Hero title="One product. Every store. Always in sync." description="Keep one canonical product for your entire Shopify catalog, edit each store's differences on purpose, and publish products and variants with the full dependency chain visible." primaryCta={{label:ctaLabels.tryFree,href:appStoreUrl,external:true}} secondaryCta={{label:ctaLabels.seeHowItWorks,href:"#product-workflow"}}><ProductsVariantsHeroVisual/></Hero>
+
+  <LogoCloud />
+
+  <ProblemGrid tagline="The core catalog problem" title="A product should not become another disconnected copy per store" description="Peak PIM gives every product and variant one connected identity, with store-specific differences exactly where they belong." items={problems} link={{label:ctaLabels.learnMore,href:"/shopify-multi-store-pim"}} />
+
+  <CardGrid id="product-workflow" tagline="One connected product model" title="Model once, change structure safely, publish with control" description="Manage the shared product, its store versions, and every variant from one coherent workflow." cards={workflows}><ProductsVariantsCardVisual slot="visual-1" mode="canonical"/><ProductsVariantsCardVisual slot="visual-2" mode="options"/><ProductsVariantsCardVisual slot="visual-3" mode="publish"/></CardGrid>
+
+  <FeatureGrid tagline="The catalog everything else runs on" title="Every Peak PIM workflow starts here" description="Bulk operations, enrichment, localization, scheduling, quality control, and AI-assisted work all use the same products, variants, and store versions." features={features} cta={{label:ctaLabels.learnMore,href:"/bulk-edit"}} />
+
+  <CtaBanner id="start" title="Make every product easier to operate" description="Bring products, variants, store differences, and publishing state into one catalog your whole team can understand." primaryLabel={ctaLabels.tryFree} primaryHref={appStoreUrl} secondaryLabel={ctaLabels.learnMore} secondaryHref="/shopify-product-import-export" trustLine="10-day free trial. Free setup. No credit card."/>
+
+  <Faq id="faq" title="Frequently asked questions" description="Everything you need to know about managing Shopify products and variants with Peak PIM." items={faqItems}/>
+</LandingPageLayout>

@@ -3,6 +3,7 @@ import CrispChat from "../components/CrispChat.astro";
 import GlobalWebflowStyles from "../components/GlobalWebflowStyles.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
+import { assets } from "../data/assets";
 import { canonicalUrl as getCanonicalUrl } from "../lib/site-url";
 import "../styles/global.css";
 
@@ -32,27 +33,81 @@ const {
   ogImage,
 } = Astro.props;
 const canonicalUrl = getCanonicalUrl(canonicalPath);
+const organizationId = "https://peak-pim.com/#organization";
+const websiteId = "https://peak-pim.com/#website";
+const softwareId = "https://peak-pim.com/#software";
+const normalizedCanonicalPath = canonicalPath === "/" ? "/" : `/${canonicalPath.replace(/^\/+|\/+$/g, "")}`;
+const registeredFeatureOg = assets.marketing.featureOg[normalizedCanonicalPath as keyof typeof assets.marketing.featureOg];
+const resolvedOgImage = ogImage ?? (schemaType === "SoftwareApplication" ? registeredFeatureOg : undefined);
+const organization = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": organizationId,
+  name: "Peak PIM",
+  url: "https://peak-pim.com/",
+  logo: {
+    "@type": "ImageObject",
+    url: "https://peak-pim.com/assets/logo/peak-logo-large.png",
+  },
+};
+const website = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": websiteId,
+  name: "Peak PIM",
+  url: "https://peak-pim.com/",
+  publisher: { "@id": organizationId },
+};
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": schemaType,
+  "@type": schemaType === "SoftwareApplication" ? "WebPage" : schemaType,
+  "@id": `${canonicalUrl}#webpage`,
   name: title,
   description,
   url: canonicalUrl,
-  isPartOf: {
-    "@type": "WebSite",
-    name: "Peak PIM",
-    url: "https://peak-pim.com/",
-  },
-  publisher: {
-    "@type": "Organization",
-    name: "Peak PIM",
-    url: "https://peak-pim.com/",
-    logo: "https://peak-pim.com/assets/logo/peak-logo-large.png",
-  },
+  isPartOf: { "@id": websiteId },
+  publisher: { "@id": organizationId },
+  ...(schemaType === "SoftwareApplication" ? { about: { "@id": softwareId } } : {}),
   ...schema,
 };
-const structuredData = [jsonLd, ...additionalSchemas];
-const ogImageUrl = ogImage ? new URL(ogImage, "https://peak-pim.com").toString() : undefined;
+const softwareApplication = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "@id": softwareId,
+  name: "Peak PIM",
+  description: "A Shopify-native product information management platform for managing, enriching, and publishing product catalogs across connected stores.",
+  url: "https://peak-pim.com/",
+  applicationCategory: "BusinessApplication",
+  applicationSubCategory: "Product Information Management",
+  operatingSystem: "Web",
+  publisher: { "@id": organizationId },
+  offers: [
+    {
+      "@type": "Offer",
+      name: "Core",
+      price: "99",
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+      url: "https://peak-pim.com/pricing/",
+    },
+    {
+      "@type": "Offer",
+      name: "Elite",
+      price: "249",
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+      url: "https://peak-pim.com/pricing/",
+    },
+  ],
+};
+const structuredData = [
+  organization,
+  website,
+  jsonLd,
+  ...(schemaType === "SoftwareApplication" ? [softwareApplication] : []),
+  ...additionalSchemas,
+];
+const ogImageUrl = resolvedOgImage ? new URL(resolvedOgImage, "https://peak-pim.com").toString() : undefined;
 ---
 
 <!doctype html>
@@ -64,14 +119,20 @@ const ogImageUrl = ogImage ? new URL(ogImage, "https://peak-pim.com").toString()
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
     <meta property="og:type" content={schemaType === "Article" ? "article" : "website"} />
+    <meta property="og:site_name" content="Peak PIM" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={ogDescription} />
     <meta property="og:url" content={canonicalUrl} />
     {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    {ogImageUrl && <meta property="og:image:width" content="1200" />}
+    {ogImageUrl && <meta property="og:image:height" content="630" />}
+    {ogImageUrl && <meta property="og:image:alt" content={`${ogTitle} | Peak PIM`} />}
     <meta name="twitter:card" content={ogImageUrl ? "summary_large_image" : "summary"} />
     <meta name="twitter:title" content={ogTitle} />
     <meta name="twitter:description" content={ogDescription} />
     {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
+    {ogImageUrl && <meta name="twitter:image:alt" content={`${ogTitle} | Peak PIM`} />}
     {noindex && <meta name="robots" content="noindex,nofollow" />}
     <link rel="icon" href="/assets/logo/favicon-peak-pim.png" />
     <link rel="apple-touch-icon" href="/assets/logo/peak-webclip.png" />

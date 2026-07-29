@@ -13,6 +13,21 @@ export const assets = {
   },
   marketing: {
     buildVsBuyOg: "/og-build-vs-buy-pim.png",
+    featureOg: {
+      "/ai-catalog-connector": "/assets/og/ai-catalog-connector.png",
+      "/api": "/assets/og/api.png",
+      "/shopify-catalog-health-center": "/assets/og/shopify-catalog-health-center.png",
+      "/shopify-collections": "/assets/og/shopify-collections.png",
+      "/shopify-custom-fields": "/assets/og/shopify-custom-fields.png",
+      "/shopify-markets-pricing": "/assets/og/shopify-markets-pricing.png",
+      "/shopify-metafield-management": "/assets/og/shopify-metafield-management.png",
+      "/shopify-metaobjects": "/assets/og/shopify-metaobjects.png",
+      "/shopify-pim-translations": "/assets/og/shopify-pim-translations.png",
+      "/shopify-product-drops": "/assets/og/shopify-product-drops.png",
+      "/shopify-product-import-export": "/assets/og/shopify-product-import-export.png",
+      "/shopify-product-management": "/assets/og/shopify-product-management.png",
+      "/user-roles-permissions": "/assets/og/user-roles-permissions.png",
+    },
   },
   testimonials: {
     amelieSamson: "/assets/testimonials/amelie-samson.jpg",

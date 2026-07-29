@@ -64,12 +64,18 @@ All pages also use the original global antialiasing settings (`-webkit-font-smoo
 
 The header mega menu and footer share the feature taxonomy defined in `src/data/site-navigation.ts`. Every new feature page must be added there so it appears consistently in both locations:
 
-- **Connect** — onboarding, Shopify sync, AI connectors, APIs, and integrations.
-- **Manage** — multi-store operations, bulk editing, import/export, media management, Drops, catalog health, and team permissions.
-- **Enrich** — translations, metaobjects, and other structured product-content capabilities.
-- **Solutions** — industry- and team-specific landing pages such as Fashion.
+- **Connect**: onboarding, Shopify sync, AI connectors, APIs, and integrations.
+- **Operate**: multi-store operations, bulk editing, import/export, media management, Drops, catalog health, and team permissions.
+- **Manage & Enrich**: products and variants, collections, metafields, metaobjects, translations, Markets and catalog pricing, custom fields, and other structured product-content capabilities.
+- **Solutions**: industry- and team-specific landing pages such as Fashion.
 
 Choose the category from the visitor's job, not from the internal technical architecture. Do not add page-specific feature links directly to `SiteHeader.astro` or `SiteFooter.astro`; update the shared navigation data instead.
+
+### Landing-page SEO
+
+`LandingPageLayout.astro` owns the shared metadata and structured-data model. Public feature pages must provide a unique title, description, canonical path, Open Graph title, Open Graph description, and FAQ schema. Route-specific 1200 × 630 social images are registered in `src/data/assets.ts` and generated with `npm run generate:og-images`.
+
+Feature pages are described as `WebPage` entities about the single canonical Peak PIM `SoftwareApplication`; do not represent every feature as a separate application. The shared application entity carries the current category, operating system, publisher, and public Core and Elite offers. Every public page belongs in `sitemap.xml` with a source-based modification date and every primary product page belongs in `public/llms.txt`. Keep `/partners`, `/design-system`, `/admin`, and error pages out of the public sitemap.
 
 ## Canonical sections
 
@@ -109,7 +115,7 @@ Peak workspace illustrations use `ProductVisualFrame.astro` and follow the estab
 - small operational labels, realistic Shopify objects, compact radii, and subtle shadows;
 - motion that demonstrates a real state change and resolves to a useful static state when reduced motion is enabled.
 
-Approved feature-specific examples include `TranslationWorkflowDemo.astro`, `TranslationStepVisual.astro`, `TranslationsHeroVisual.astro`, `TranslationsCardVisual.astro`, `BuildVsBuyHeroVisual.astro`, `BuildVsBuyDecisionVisual.astro`, `ImportExportHeroVisual.astro`, `ImportExportCardVisual.astro`, `DropsHeroVisual.astro`, `DropsCardVisual.astro`, `HealthCenterHeroVisual.astro`, `HealthCenterCardVisual.astro`, `AiConnectorHeroVisual.astro`, `AiConnectorCardVisual.astro`, `DeveloperApiHeroVisual.astro`, `DeveloperApiCardVisual.astro`, `MetaobjectsHeroVisual.astro`, `MetaobjectsCardVisual.astro`, `MetafieldsHeroVisual.astro`, `MetafieldsCardVisual.astro`, `CustomFieldsHeroVisual.astro`, `CustomFieldsCardVisual.astro`, `RolesPermissionsHeroVisual.astro`, and `RolesPermissionsCardVisual.astro`. They may explain different operations, but they share the same Peak workspace surfaces, borders, states, and responsive behavior.
+Approved feature-specific examples include `TranslationWorkflowDemo.astro`, `TranslationStepVisual.astro`, `TranslationsHeroVisual.astro`, `TranslationsCardVisual.astro`, `BuildVsBuyHeroVisual.astro`, `BuildVsBuyDecisionVisual.astro`, `ImportExportHeroVisual.astro`, `ImportExportCardVisual.astro`, `DropsHeroVisual.astro`, `DropsCardVisual.astro`, `HealthCenterHeroVisual.astro`, `HealthCenterCardVisual.astro`, `AiConnectorHeroVisual.astro`, `AiConnectorCardVisual.astro`, `DeveloperApiHeroVisual.astro`, `DeveloperApiCardVisual.astro`, `MetaobjectsHeroVisual.astro`, `MetaobjectsCardVisual.astro`, `MetafieldsHeroVisual.astro`, `MetafieldsCardVisual.astro`, `CustomFieldsHeroVisual.astro`, `CustomFieldsCardVisual.astro`, `RolesPermissionsHeroVisual.astro`, `RolesPermissionsCardVisual.astro`, `CollectionsHeroVisual.astro`, `CollectionsCardVisual.astro`, `MarketsCatalogsHeroVisual.astro`, `MarketsCatalogsCardVisual.astro`, `ProductsVariantsHeroVisual.astro`, and `ProductsVariantsCardVisual.astro`. They may explain different operations, but they share the same Peak workspace surfaces, borders, states, and responsive behavior.
 
 Avoid generic illustration metaphors such as sticky notes, arbitrary gradients, oversized arrows, disconnected blobs, or decorative colored panels when a product-workspace view can explain the operation.
 

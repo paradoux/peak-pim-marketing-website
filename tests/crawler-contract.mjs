@@ -48,6 +48,8 @@ if (existsSync(distDirectory)) {
 const sitemap = readFileSync(resolve(projectRoot, "dist/sitemap.xml"), "utf8");
 const sitemapUrls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
 if (!sitemap.includes("<loc>https://peak-pim.com/pricing/</loc>")) failures.push("Sitemap is missing the direct pricing URL");
+if (!sitemap.includes("<loc>https://peak-pim.com/blog/</loc>")) failures.push("Sitemap is missing the article index URL");
+if (!sitemap.includes("<loc>https://peak-pim.com/guides/</loc>")) failures.push("Sitemap is missing the guide index URL");
 if (sitemap.includes("https://peak-pim.com/partners/")) failures.push("Sitemap exposes the unfinished partners page");
 if (sitemapUrls.some((url) => url !== "https://peak-pim.com/" && !url.endsWith("/"))) failures.push("Sitemap contains a redirecting URL");
 if ((sitemap.match(/<lastmod>/g) ?? []).length !== sitemapUrls.length) failures.push("Sitemap last-modified dates are incomplete");
@@ -56,6 +58,7 @@ const robots = readFileSync(resolve(projectRoot, "public/robots.txt"), "utf8");
 if (!robots.includes("Allow: /") || !robots.includes("Sitemap: https://peak-pim.com/sitemap.xml")) failures.push("Crawler discovery directives are incomplete");
 
 const llms = readFileSync(resolve(projectRoot, "public/llms.txt"), "utf8");
+if ((llms.match(/^## Current Pricing$/gm) ?? []).length !== 1) failures.push("llms.txt must contain exactly one Current Pricing section");
 for (const fact of ["Core: $99 per month or $990 per year", "Elite: $249 per month or $2,490 per year", "Enterprise: Custom pricing", "10-day free trial"]) {
   if (!llms.includes(fact)) failures.push(`llms.txt is missing current pricing guidance: ${fact}`);
 }

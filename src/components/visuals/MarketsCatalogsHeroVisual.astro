@@ -1,0 +1,53 @@
+---
+import ProductVisualFrame from "../ui/ProductVisualFrame.astro";
+---
+
+<ProductVisualFrame
+  ariaLabel="Peak PIM Markets and Catalogs workspace showing fixed variant prices across France, Switzerland, United Kingdom, and two Shopify stores"
+  section="Markets & Catalogs"
+  status="4 catalogs ready"
+  actionLabel="Publish prices"
+>
+  <div class="peak-mkt-workspace">
+    <aside class="peak-mkt-sidebar">
+      <div class="peak-mkt-sidebar__title"><strong>Markets</strong><span>6</span></div>
+      <label><span aria-hidden="true">⌕</span>Search markets</label>
+      <small>Store</small>
+      <button class="is-filter"><i></i>All stores</button>
+      <small>Markets</small>
+      <button><b>European Union</b><em>27 countries · EUR</em></button>
+      <button class="is-active"><b>Switzerland</b><em>1 country · CHF</em></button>
+      <button><b>United Kingdom</b><em>1 country · GBP</em></button>
+      <button><b>North America</b><em>2 countries · USD</em></button>
+    </aside>
+
+    <div class="peak-mkt-main">
+      <header class="peak-mkt-heading">
+        <div><small>Price matrix</small><strong>Shell jackets</strong><span>48 variants</span></div>
+        <div class="peak-mkt-stores"><i>EU</i><i>UK</i></div>
+      </header>
+
+      <nav class="peak-mkt-tabs" aria-label="Market pricing views">
+        <button>Overview</button><button>Catalogs</button><button class="is-active">Fixed prices</button><button>Product scope</button>
+      </nav>
+
+      <section class="peak-mkt-grid" aria-label="Variant prices by market and store">
+        <div class="peak-mkt-grid__head"><span>Variant</span><b><i>FR</i>France<em>EUR</em></b><b><i>CH</i>Switzerland<em>CHF</em></b><b><i>GB</i>United Kingdom<em>GBP</em></b></div>
+        <div><span><b>Summit Shell</b><em>Black · S</em></span><mark>€129.00<small>€149.00</small></mark><mark class="peak-mkt-price is-fixed is-focus">CHF 149.00<small>CHF 169.00</small></mark><mark>£119.00<small>£139.00</small></mark></div>
+        <div><span><b>Summit Shell</b><em>Black · M</em></span><mark>€129.00<small>€149.00</small></mark><mark class="peak-mkt-price is-fixed">CHF 149.00<small>CHF 169.00</small></mark><mark>£119.00<small>£139.00</small></mark></div>
+        <div><span><b>Alpine Parka</b><em>Stone · M</em></span><mark>€219.00<small>€249.00</small></mark><mark>+10%<small>Calculated</small></mark><mark>£205.00<small>£229.00</small></mark></div>
+        <div><span><b>Trail Vest</b><em>Olive · L</em></span><mark>€89.00<small>€99.00</small></mark><mark>+10%<small>Calculated</small></mark><mark>£79.00<small>£89.00</small></mark></div>
+      </section>
+
+      <footer class="peak-mkt-footer"><span><i></i>24 fixed prices changed</span><button>Review before publishing</button></footer>
+    </div>
+  </div>
+</ProductVisualFrame>
+
+<style>
+  .peak-mkt-workspace{display:grid;min-height:440px;grid-template-columns:170px minmax(0,1fr);background:#f6f3ec;color:#191919;font-family:Inter,Arial,sans-serif}.peak-mkt-sidebar{display:flex;flex-direction:column;gap:6px;padding:18px 13px;border-right:1px solid #dedbd3;background:#fbfaf7}.peak-mkt-sidebar__title{display:flex;align-items:center;justify-content:space-between;padding:0 6px 6px;font-size:10px}.peak-mkt-sidebar__title span{display:grid;width:22px;height:22px;place-items:center;border-radius:50%;background:#ece9e2;color:#666;font-size:7px}.peak-mkt-sidebar label{display:flex;align-items:center;gap:5px;padding:8px;border:1px solid #dedbd3;border-radius:5px;background:#fff;color:#999;font-size:7px}.peak-mkt-sidebar small{margin:8px 6px 0;color:#999;font-size:6px;text-transform:uppercase}.peak-mkt-sidebar button{display:grid;gap:2px;padding:8px;border:0;border-radius:5px;background:transparent;color:#555;text-align:left}.peak-mkt-sidebar button b{font:600 8px Inter,Arial,sans-serif}.peak-mkt-sidebar button em{color:#999;font:normal 6px Inter,Arial,sans-serif}.peak-mkt-sidebar button.is-active{background:#e9edff;color:#2845d6}.peak-mkt-sidebar button.is-filter{display:flex;align-items:center;gap:6px;background:#fff;font:600 7px Inter,Arial,sans-serif}.peak-mkt-sidebar button.is-filter i{width:6px;height:6px;border-radius:50%;background:#2845d6}.peak-mkt-main{min-width:0;padding:20px 21px 16px}.peak-mkt-heading{display:flex;align-items:center;justify-content:space-between}.peak-mkt-heading>div:first-child{display:grid;grid-template-columns:auto auto;gap:2px 7px}.peak-mkt-heading small{grid-column:1/-1;color:#777;font-size:7px}.peak-mkt-heading strong{font-size:14px}.peak-mkt-heading span{align-self:end;padding:4px 6px;border-radius:999px;background:#ece9e2;color:#666;font-size:6px}.peak-mkt-stores{display:flex}.peak-mkt-stores i{display:grid;width:25px;height:25px;place-items:center;border:2px solid #f6f3ec;border-radius:50%;background:#191919;color:#fff;font:normal 6px Inter,Arial,sans-serif}.peak-mkt-stores i+ i{margin-left:-5px}.peak-mkt-tabs{display:flex;gap:2px;margin-top:17px;border-bottom:1px solid #dcd8d0}.peak-mkt-tabs button{padding:8px 9px;border:0;border-bottom:2px solid transparent;background:transparent;color:#777;font:500 7px Inter,Arial,sans-serif}.peak-mkt-tabs button.is-active{border-bottom-color:#2845d6;color:#2845d6}.peak-mkt-grid{margin-top:13px;overflow:hidden;border:1px solid #dedad2;border-radius:7px;background:#fff}.peak-mkt-grid>div{display:grid;min-height:48px;align-items:center;grid-template-columns:118px repeat(3,minmax(0,1fr));border-top:1px solid #ebe8e1}.peak-mkt-grid>div:first-child{border-top:0;background:#f2efe8}.peak-mkt-grid span,.peak-mkt-grid mark,.peak-mkt-grid__head>b{min-width:0;padding:7px 9px}.peak-mkt-grid>div>span{display:flex;flex-direction:column;color:#777;font-size:7px}.peak-mkt-grid>div>span b{overflow:hidden;color:#333;font-size:7px;text-overflow:ellipsis;white-space:nowrap}.peak-mkt-grid>div>span em{color:#999;font-size:6px;font-style:normal}.peak-mkt-grid mark{display:flex;flex-direction:column;border-left:1px solid #ebe8e1;background:transparent;color:#333;font-size:8px}.peak-mkt-grid mark small{color:#999;font-size:6px;text-decoration:line-through}.peak-mkt-grid__head>b{display:grid;align-items:center;gap:2px 5px;grid-template-columns:20px 1fr;border-left:1px solid #ebe8e1;font-size:7px}.peak-mkt-grid__head i{display:grid;width:18px;height:18px;grid-row:1/3;place-items:center;border-radius:4px;background:#191919;color:#fff;font:normal 6px Inter,Arial,sans-serif}.peak-mkt-grid__head em{color:#999;font-size:6px;font-style:normal}.peak-mkt-grid .is-fixed{background:#f2f4ff;box-shadow:inset 3px 0 #2845d6;color:#2845d6}.peak-mkt-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px}.peak-mkt-footer span{display:flex;align-items:center;gap:5px;color:#666;font-size:7px}.peak-mkt-footer span i{width:6px;height:6px;border-radius:50%;background:#e2a64a}.peak-mkt-footer button{padding:8px 10px;border:1px solid #d5d1c9;border-radius:5px;background:#fff;color:#333;font:600 7px Inter,Arial,sans-serif}
+  @media(max-width:767px){.peak-mkt-workspace{min-height:410px;grid-template-columns:1fr}.peak-mkt-sidebar{display:none}.peak-mkt-main{padding:17px}.peak-mkt-grid>div{grid-template-columns:100px repeat(3,minmax(0,1fr))}.peak-mkt-grid span,.peak-mkt-grid mark,.peak-mkt-grid__head>b{padding-inline:6px}}
+  @media(max-width:479px){.peak-mkt-heading span,.peak-mkt-tabs button:last-child,.peak-mkt-grid>div>:nth-child(4){display:none}.peak-mkt-grid>div{grid-template-columns:88px repeat(2,minmax(0,1fr))}.peak-mkt-main{padding:14px}.peak-mkt-tabs button{padding-inline:7px}.peak-mkt-grid__head em,.peak-mkt-grid mark small{display:none}.peak-mkt-footer{gap:8px}.peak-mkt-footer button{padding-inline:8px}}
+  @media(prefers-reduced-motion:no-preference){.peak-mkt-price.is-fixed.is-focus{animation:peak-mkt-fixed 3s ease-in-out infinite}@keyframes peak-mkt-fixed{50%{background:#e8ecff;box-shadow:inset 3px 0 #2845d6,0 0 0 2px rgba(40,69,214,.1)}}}
+  @media(prefers-reduced-motion:reduce){.peak-mkt-price.is-fixed.is-focus{animation:none}}
+</style>

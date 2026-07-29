@@ -14,6 +14,9 @@ Peak PIM helps Shopify teams:
 - Connect compatible AI assistants to search, compare, draft, and publish catalog work through controlled MCP permissions.
 - Build catalog integrations with an API for master data, store versions, validated updates, and multi-store publishing.
 - Define, edit, localize, import, and publish Shopify metaobject definitions and entries across connected stores.
+- Create, merchandise, translate, schedule, and publish Shopify collections and product memberships across connected stores.
+- Manage Shopify Markets, catalogs, product availability, percentage adjustments, and supported fixed variant prices across connected stores.
+- Manage one canonical product and its variants with deliberate per-store content, assortment, pricing, media, and publishing state.
 - Define synced Shopify metafields and private PIM-only custom fields with typed inputs, validation, multi-store coverage, and bulk workflows.
 - Give catalog teams and agencies individual Peak PIM access with user roles, permissions, and multi-store scope.
 - Set up from the Shopify App Store with a one-click connection.
@@ -35,18 +38,12 @@ Peak PIM helps Shopify teams:
 - [AI catalog connector](https://peak-pim.com/ai-catalog-connector/)
 - [Developer API](https://peak-pim.com/api/)
 - [Shopify metaobjects](https://peak-pim.com/shopify-metaobjects/)
+- [Shopify collections management](https://peak-pim.com/shopify-collections/)
+- [Shopify Markets and catalog pricing](https://peak-pim.com/shopify-markets-pricing/)
+- [Shopify product and variant management](https://peak-pim.com/shopify-product-management/)
 - [Shopify metafield management](https://peak-pim.com/shopify-metafield-management/)
 - [Shopify custom fields and metafields](https://peak-pim.com/shopify-custom-fields/)
 - [User roles and permissions](https://peak-pim.com/user-roles-permissions/)
-
-## Current Pricing
-
-Pricing last reviewed on 2026-07-24. The pricing page is the source of truth.
-
-- Core: $99 per month or $990 per year. Includes 1,500 SKUs, 2 connected Shopify stores, 3 seats, and 100GB files.
-- Elite: $249 per month or $2,490 per year. Includes 5,000 SKUs, 3 connected Shopify stores, 15 seats, and 500GB files.
-- Enterprise: Custom pricing with custom SKU, Shopify store, seat, and file limits. Includes free setup, full onboarding, and dedicated support.
-- Every plan includes free setup and a 10-day free trial. No credit card is required for the trial.
 
 ## Current Pricing
 
