@@ -94,6 +94,12 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
     await featureToggle.press("Enter");
     await expect(featureToggle).toHaveAttribute("aria-expanded", "true");
     await expect(header.locator(".feature-mega-menu__title")).toHaveText(["Connect", "Operate", "Manage & Enrich"]);
+    await expect(header.locator('.feature-mega-menu__group[aria-labelledby="feature-group-connect"] .feature-mega-menu__link-title')).toHaveText([
+      "1-click setup",
+      "Shopify sync",
+      "AI Connector (MCP)",
+      "API",
+    ]);
     await expect(header.locator('.feature-mega-menu__group[aria-labelledby="feature-group-operate"] .feature-mega-menu__link-title')).toHaveText([
       "Multi-store",
       "Bulk edit",
@@ -212,7 +218,7 @@ test("health-center · responsive analysis and repair contract", async ({ page }
 });
 
 for (const feature of [
-  { name: "ai-connector", path: "/ai-catalog-connector", aria: "Peak PIM AI connector conversation showing a merchant asking about missing SEO descriptions and reviewing catalog results", motion: ".peak-ai-message.is-assistant" },
+  { name: "ai-connector", path: "/ai-catalog-connector", aria: "Peak PIM AI Connector (MCP) conversation showing a merchant asking about missing SEO descriptions and reviewing catalog results", motion: ".peak-ai-message.is-assistant" },
   { name: "developer-api", path: "/api", aria: "Peak PIM developer API workspace showing a store-specific product update and publish response", motion: ".peak-api-divider" },
   { name: "metaobjects", path: "/shopify-metaobjects", aria: "Peak PIM metaobject workspace showing a Size Guide definition, typed entry fields, and publishing results across Shopify stores", motion: ".peak-mo-stores > div" },
   { name: "metafields", path: "/shopify-metafield-management", aria: "Peak PIM metafield definition workspace showing one Material definition linked across US, France, and Germany Shopify stores", motion: ".peak-mf-coverage > div:last-of-type" },

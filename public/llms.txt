@@ -11,7 +11,7 @@ Peak PIM helps Shopify teams:
 - Import supplier CSV, Excel, and Google Sheets files with a before-and-after review, and export multiple stores into one workbook.
 - Schedule product drops, sale prices, and catalog changes that publish and revert automatically.
 - Check and repair catalog health across Shopify synchronization, stores, completeness, translations, collections, and files.
-- Connect compatible AI assistants to search, compare, draft, and publish catalog work through controlled MCP permissions.
+- Use the Peak PIM AI Connector (MCP) with compatible assistants to search, compare, draft, and publish catalog work through controlled permissions.
 - Build catalog integrations with an API for master data, store versions, validated updates, and multi-store publishing.
 - Define, edit, localize, import, and publish Shopify metaobject definitions and entries across connected stores.
 - Create, merchandise, translate, schedule, and publish Shopify collections and product memberships across connected stores.
@@ -35,7 +35,7 @@ Peak PIM helps Shopify teams:
 - [Shopify product import and export](https://peak-pim.com/shopify-product-import-export/)
 - [Shopify product drops and scheduled price changes](https://peak-pim.com/shopify-product-drops/)
 - [Shopify catalog Health Center](https://peak-pim.com/shopify-catalog-health-center/)
-- [AI catalog connector](https://peak-pim.com/ai-catalog-connector/)
+- [AI Connector (MCP) for Shopify catalogs](https://peak-pim.com/ai-catalog-connector/)
 - [Developer API](https://peak-pim.com/api/)
 - [Shopify metaobjects](https://peak-pim.com/shopify-metaobjects/)
 - [Shopify collections management](https://peak-pim.com/shopify-collections/)

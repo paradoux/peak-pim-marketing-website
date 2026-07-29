@@ -37,7 +37,7 @@ const faqItems=[
   {question:"How are concurrent updates handled?",answer:"Update requests include the record revision. If another change has advanced that revision, Peak PIM rejects the stale write with HTTP 409 so the client can refresh and resolve it deliberately."},
   {question:"Does an API update immediately change Shopify?",answer:"No. Updates are draft-first. The client sends a separate publish request when the validated change is ready for the selected storefronts."},
   {question:"Where can I access the API documentation?",answer:"Public documentation is not yet available. Talk to the Peak PIM team for current API access, endpoint details, and integration guidance."},
-  {question:"How is the API related to the AI Connector?",answer:"The AI Connector exposes the same catalog capabilities as typed conversational tools over a remote MCP server. Use the REST API for custom software, or the connector when an off-the-shelf AI assistant is the interface."},
+  {question:"How is the API related to the AI Connector (MCP)?",answer:"The AI Connector (MCP) exposes the same catalog capabilities as typed conversational tools over a remote MCP server. Use the REST API for custom software, or the connector when an off-the-shelf AI assistant is the interface."},
 ];
 const faqSchema={"@context":"https://schema.org","@type":"FAQPage",mainEntity:faqItems.map(item=>({"@type":"Question",name:item.question,acceptedAnswer:{"@type":"Answer",text:item.answer}}))};
 ---

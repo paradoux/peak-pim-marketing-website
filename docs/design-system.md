@@ -64,7 +64,7 @@ All pages also use the original global antialiasing settings (`-webkit-font-smoo
 
 The header mega menu and footer share the feature taxonomy defined in `src/data/site-navigation.ts`. Every new feature page must be added there so it appears consistently in both locations:
 
-- **Connect**: onboarding, Shopify sync, AI connectors, APIs, and integrations.
+- **Connect**: onboarding, Shopify sync, the AI Connector (MCP), APIs, and integrations.
 - **Operate**: multi-store operations, bulk editing, import/export, media management, Drops, catalog health, and team permissions.
 - **Manage & Enrich**: products and variants, collections, metafields, metaobjects, translations, Markets and catalog pricing, custom fields, and other structured product-content capabilities.
 - **Solutions**: industry- and team-specific landing pages such as Fashion.

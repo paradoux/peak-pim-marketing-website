@@ -210,7 +210,7 @@ for (const slug of [
 }
 
 for (const feature of [
-  { slug: "ai-catalog-connector", title: "AI Catalog Connector for Shopify | Peak PIM", aria: "Peak PIM AI connector conversation showing a merchant asking about missing SEO descriptions and reviewing catalog results", crossLink: 'href="/api"' },
+  { slug: "ai-catalog-connector", title: "AI Connector (MCP) for Shopify | Peak PIM", aria: "Peak PIM AI Connector (MCP) conversation showing a merchant asking about missing SEO descriptions and reviewing catalog results", crossLink: 'href="/api"' },
   { slug: "api", title: "Shopify Multi-Store Catalog API | Peak PIM", aria: "Peak PIM developer API workspace showing a store-specific product update and publish response", crossLink: 'href="/ai-catalog-connector"' },
   { slug: "shopify-metaobjects", title: "Shopify Metaobjects Management | Peak PIM", aria: "Peak PIM metaobject workspace showing a Size Guide definition, typed entry fields, and publishing results across Shopify stores", crossLink: 'href="/ai-catalog-connector"' },
   { slug: "shopify-metafield-management", title: "Shopify Metafield Management | Peak PIM", aria: "Peak PIM metafield definition workspace showing one Material definition linked across US, France, and Germany Shopify stores", crossLink: 'href="/shopify-custom-fields"' },

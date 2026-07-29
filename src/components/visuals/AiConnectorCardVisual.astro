@@ -2,8 +2,8 @@
 type Props={mode:"connect"|"permissions"|"control"};
 const {mode}=Astro.props;
 ---
-<div class:list={["peak-ai-card",`is-${mode}`]} role="img" aria-label={mode==="connect"?"Three step setup for connecting an AI assistant to Peak PIM":mode==="permissions"?"Peak PIM AI access level controls":"Peak PIM AI activity log and disconnect control"}>
-  {mode==="connect"&&<ol><li><i>1</i><span><small>Peak PIM settings</small><b>Copy connector URL</b></span><em>Copied</em></li><li><i>2</i><span><small>Claude or ChatGPT</small><b>Add custom connector</b></span></li><li><i>3</i><span><small>Secure approval</small><b>Authorize in browser</b></span><em>OAuth</em></li></ol>}
+<div class:list={["peak-ai-card",`is-${mode}`]} role="img" aria-label={mode==="connect"?"Three step setup for connecting an MCP-compatible AI assistant to Peak PIM":mode==="permissions"?"Peak PIM MCP connector access level controls":"Peak PIM MCP connector activity log and disconnect control"}>
+  {mode==="connect"&&<ol><li><i>1</i><span><small>Peak PIM settings</small><b>Copy MCP connector URL</b></span><em>Copied</em></li><li><i>2</i><span><small>Claude or ChatGPT</small><b>Add custom connector</b></span></li><li><i>3</i><span><small>Secure approval</small><b>Authorize in browser</b></span><em>OAuth</em></li></ol>}
   {mode==="permissions"&&<div class="peak-ai-levels"><span><i></i><b>Read only</b><small>Search and inspect</small></span><span class="is-selected"><i></i><b>Read &amp; update</b><small>Create validated drafts</small><em>Selected</em></span><span><i></i><b>Read, update &amp; publish</b><small>Explicit storefront actions</small></span></div>}
   {mode==="control"&&<div class="peak-ai-control"><div><small>AI activity</small><b>12 catalog actions today</b></div><span><i>✓</i><b>3 descriptions drafted</b><small>No storefront changes</small></span><span><i>↗</i><b>1 product published</b><small>French store · Approved</small></span><button>Disconnect all assistants</button></div>}
 </div>

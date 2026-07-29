@@ -7,7 +7,7 @@ const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const outputDirectory = resolve(projectRoot, "public/assets/og");
 
 const featurePages = [
-  { slug: "ai-catalog-connector", title: "AI Catalog Connector", detail: "Controlled catalog work from AI assistants" },
+  { slug: "ai-catalog-connector", title: "AI Connector (MCP)", detail: "Controlled catalog work from MCP-compatible AI assistants" },
   { slug: "api", title: "Developer API", detail: "One API for every Shopify catalog workflow" },
   { slug: "shopify-catalog-health-center", title: "Catalog Health Center", detail: "Find and fix catalog issues across every store" },
   { slug: "shopify-collections", title: "Collections Management", detail: "Connected merchandising across Shopify stores" },

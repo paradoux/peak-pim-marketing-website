@@ -19,8 +19,8 @@ export const featureNavigationGroups: FeatureNavigationGroup[] = [
     links: [
       { label: "1-click setup", href: "/1-click-setup", description: "Connect a Shopify store in minutes." },
       { label: "Shopify sync", href: "/shopify-sync", description: "Keep every catalog change flowing to Shopify." },
-      { label: "AI Connector", href: "/ai-catalog-connector", description: "Work with your catalog from AI assistants." },
-      { label: "Developer API", href: "/api", description: "Build custom catalog workflows and integrations." },
+      { label: "AI Connector (MCP)", href: "/ai-catalog-connector", description: "Connect MCP-compatible AI assistants to your catalog." },
+      { label: "API", href: "/api", description: "Build custom catalog workflows and integrations." },
     ],
   },
   {
