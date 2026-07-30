@@ -491,6 +491,9 @@ if (existsSync(pricingFile)) {
   for (const feature of ["Shopify sync", "Amazon sync", "Media management", "Health Center", "Markets &amp; catalogs", "AI Connector (MCP)", "Drops", "Automations"]) {
     if (!html.includes(`<span>${feature}</span>`)) failures.push(`Pricing matrix is missing feature: ${feature}`);
   }
+  for (const feature of ["AI Connector (MCP)", "Drops", "Health Center", "Markets &amp; catalogs"]) {
+    if (!html.includes(`<span>${feature}</span><span class="feature-status-badge">New</span>`)) failures.push(`Pricing matrix is missing the New badge for: ${feature}`);
+  }
   for (const href of ["/shopify-sync", "/shopify-media-management", "/shopify-catalog-health-center", "/shopify-markets-pricing"]) {
     if (!html.includes(`href="${href}" class="pricing-feature-popover__link"`)) failures.push(`Pricing matrix is missing feature detail link: ${href}`);
   }

@@ -5,6 +5,7 @@ export type SiteNavigationLink = {
   external?: boolean;
   crisp?: boolean;
   comingSoon?: boolean;
+  badge?: "New";
 };
 
 export type FeatureNavigationGroup = {
@@ -21,7 +22,7 @@ export const featureNavigationGroups: FeatureNavigationGroup[] = [
       { label: "1-click setup", href: "/1-click-setup", description: "Connect a Shopify store in minutes." },
       { label: "Shopify sync", href: "/shopify-sync", description: "Keep every catalog change flowing to Shopify." },
       { label: "Amazon sync", href: "", description: "Synchronize catalog data with Amazon marketplaces.", comingSoon: true },
-      { label: "AI Connector (MCP)", href: "/ai-catalog-connector", description: "Connect MCP-compatible AI assistants to your catalog." },
+      { label: "AI Connector (MCP)", href: "/ai-catalog-connector", description: "Connect MCP-compatible AI assistants to your catalog.", badge: "New" },
       { label: "API", href: "/api", description: "Build custom catalog workflows and integrations." },
     ],
   },
@@ -33,9 +34,9 @@ export const featureNavigationGroups: FeatureNavigationGroup[] = [
       { label: "Bulk edit", href: "/bulk-edit", description: "Change thousands of records at once." },
       { label: "Import & export", href: "/shopify-product-import-export", description: "Move spreadsheet data in and out safely." },
       { label: "Media management", href: "/shopify-media-management", description: "Organize product media in one library." },
-      { label: "Drops", href: "/shopify-product-drops", description: "Schedule changes and automatic rollbacks." },
+      { label: "Drops", href: "/shopify-product-drops", description: "Schedule changes and automatic rollbacks.", badge: "New" },
       { label: "Automations", href: "", description: "Run repeatable catalog workflows automatically.", comingSoon: true },
-      { label: "Health Center", href: "/shopify-catalog-health-center", description: "Find catalog issues before customers do." },
+      { label: "Health Center", href: "/shopify-catalog-health-center", description: "Find catalog issues before customers do.", badge: "New" },
       { label: "Users & permissions", href: "/user-roles-permissions", description: "Give each teammate the right access." },
     ],
   },
@@ -48,7 +49,7 @@ export const featureNavigationGroups: FeatureNavigationGroup[] = [
       { label: "Metafields", href: "/shopify-metafield-management", description: "Define and publish typed Shopify data across stores." },
       { label: "Metaobjects", href: "/shopify-metaobjects", description: "Structure custom content once and reuse it." },
       { label: "Translations", href: "/shopify-pim-translations", description: "Manage every locale beside the source." },
-      { label: "Markets & catalogs", href: "/shopify-markets-pricing", description: "Manage international product availability and pricing." },
+      { label: "Markets & catalogs", href: "/shopify-markets-pricing", description: "Manage international product availability and pricing.", badge: "New" },
       { label: "Custom fields", href: "/shopify-custom-fields", description: "Manage synced metafields and private PIM fields." },
     ],
   },

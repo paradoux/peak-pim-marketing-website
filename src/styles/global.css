@@ -257,7 +257,7 @@ html {
 }
 
 .site-main .pricing-feature-coming-soon,
-.feature-coming-soon-badge {
+.feature-status-badge {
   display: inline-flex;
   align-items: center;
   width: fit-content;
@@ -473,6 +473,12 @@ html {
   align-items: center;
   gap: 0.45rem;
   cursor: default;
+}
+
+.site-footer__feature-link {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
 }
 
 .site-footer__coming-soon:hover {

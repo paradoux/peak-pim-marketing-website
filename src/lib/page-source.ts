@@ -295,7 +295,8 @@ function renderPricingFeatureMatrix() {
             .map((value, index) => `<div class="pricing54_row-content${index === 0 ? " is-first" : ""}">${renderPricingPlanValue(value)}</div>`)
             .join("");
 
-          return `<div class="w-layout-grid pricing54_row"><div class="pricing54_feature"><div class="pricing-feature-name"><span>${escapeHtml(feature.label)}</span>${renderPricingInfo(feature.label, feature.description, feature.href)}</div></div>${values}</div>`;
+          const badge = feature.badge ? `<span class="feature-status-badge">${escapeHtml(feature.badge)}</span>` : "";
+          return `<div class="w-layout-grid pricing54_row"><div class="pricing54_feature"><div class="pricing-feature-name"><span>${escapeHtml(feature.label)}</span>${badge}${renderPricingInfo(feature.label, feature.description, feature.href)}</div></div>${values}</div>`;
         })
         .join("");
 

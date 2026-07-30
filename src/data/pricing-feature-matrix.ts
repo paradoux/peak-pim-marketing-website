@@ -4,6 +4,7 @@ export type PricingFeature = {
   label: string;
   description: string;
   href?: string;
+  badge?: "New";
   values: [PricingPlanValue, PricingPlanValue, PricingPlanValue];
 };
 
@@ -69,6 +70,7 @@ export const pricingFeatureGroups: PricingFeatureGroup[] = [
         label: "AI Connector (MCP)",
         description: "Connect MCP-compatible AI assistants to controlled catalog search and draft workflows.",
         href: "/ai-catalog-connector",
+        badge: "New",
         values: [true, true, true],
       },
       {
@@ -111,6 +113,7 @@ export const pricingFeatureGroups: PricingFeatureGroup[] = [
         label: "Drops",
         description: "Schedule product and price changes, publish them at the right time, and restore captured values automatically.",
         href: "/shopify-product-drops",
+        badge: "New",
         values: [false, true, true],
       },
       {
@@ -122,6 +125,7 @@ export const pricingFeatureGroups: PricingFeatureGroup[] = [
         label: "Health Center",
         description: "Run catalog checks, inspect issues, fix the affected records, and confirm the result.",
         href: "/shopify-catalog-health-center",
+        badge: "New",
         values: [true, true, true],
       },
       {
@@ -170,6 +174,7 @@ export const pricingFeatureGroups: PricingFeatureGroup[] = [
         label: "Markets & catalogs",
         description: "Manage international product availability, catalog rules, and supported market prices.",
         href: "/shopify-markets-pricing",
+        badge: "New",
         values: [true, true, true],
       },
       {

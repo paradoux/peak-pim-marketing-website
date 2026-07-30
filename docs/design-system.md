@@ -77,6 +77,8 @@ Choose the category from the visitor's job, not from the internal technical arch
 
 Features announced before launch use `comingSoon: true`. Render them as non-interactive text with the shared `Coming soon` badge in the header and footer. Do not assign a placeholder URL, open a chat, or send visitors to an unrelated page. On pricing, show `Coming soon` for every plan until real entitlements have been approved.
 
+Recently launched features use `badge: "New"` in both shared navigation and the pricing matrix. Their links remain active. Use the same compact status badge beside the feature name in the header, footer, and pricing table; do not add separate promotional rows or change plan entitlements.
+
 The pricing feature matrix uses the same Connect, Operate, and Manage & Enrich taxonomy. Plan limits stay in their own group. Every product-feature row includes a native, keyboard-accessible information disclosure with concise explanatory copy and a `Learn more` link when a dedicated landing page exists. Keep the matrix content in `src/data/pricing-feature-matrix.ts` so navigation labels, plan entitlements, and pricing explanations remain easy to audit.
 
 ### Landing-page SEO

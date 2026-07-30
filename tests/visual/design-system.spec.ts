@@ -26,7 +26,7 @@ const viewports = [
 
 async function prepare(page: Page, path: string, width: number, height: number) {
   await page.setViewportSize({ width, height });
-  await page.goto(path, { waitUntil: "networkidle" });
+  await page.goto(path, { waitUntil: "domcontentloaded" });
   await page.addStyleTag({ content: ".crisp-client { display: none !important; }" });
   await page.evaluate(() => document.fonts.ready);
 }
@@ -111,6 +111,13 @@ test("pricing · categorized feature matrix and accessible information controls"
       "Onboarding call",
       "Dedicated account manager",
     ]);
+    await expect(matrix.locator(".pricing-feature-name:has(.feature-status-badge) > span:first-child")).toHaveText([
+      "AI Connector (MCP)",
+      "Drops",
+      "Health Center",
+      "Markets & catalogs",
+    ]);
+    await expect(matrix.locator(".pricing-feature-name .feature-status-badge")).toHaveText(["New", "New", "New", "New"]);
     await expect(matrix.locator(".pricing54_top-row-content .heading-style-h6")).toHaveText(["Core", "Elite", "Enterprise"]);
     expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
   }
@@ -240,7 +247,19 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
       "Users & permissions",
     ]);
     await expect(header.locator(".feature-mega-menu__link.is-coming-soon .feature-mega-menu__link-title")).toHaveText(["Amazon sync", "Automations"]);
-    await expect(header.locator(".feature-mega-menu__link.is-coming-soon")).not.toHaveAttribute("href");
+    expect(await header.locator(".feature-mega-menu__link.is-coming-soon").evaluateAll((elements) => elements.every((element) => !element.hasAttribute("href")))).toBe(true);
+    await expect(header.locator(".feature-mega-menu__link:has(.feature-status-badge):not(.is-coming-soon) .feature-mega-menu__link-title")).toHaveText([
+      "AI Connector (MCP)",
+      "Drops",
+      "Health Center",
+      "Markets & catalogs",
+    ]);
+    await expect(header.locator(".feature-mega-menu__link:has(.feature-status-badge):not(.is-coming-soon) .feature-status-badge")).toHaveText([
+      "New",
+      "New",
+      "New",
+      "New",
+    ]);
 
     for (const path of featurePaths) {
       if (path !== "/industry/fashion") {
@@ -263,7 +282,7 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
     const footer = page.locator(".site-footer");
     await expect(footer.locator(".footer1_link-column")).toHaveCount(5);
     await expect(footer.locator(".site-footer__feature-category-title")).toHaveText(["Connect", "Operate", "Manage & Enrich"]);
-    await expect(footer.locator('.site-footer__feature-category:nth-child(3) .footer1_link')).toHaveText([
+    await expect(footer.locator('.site-footer__feature-category:nth-child(3) .footer1_link > span:first-child')).toHaveText([
       "Products & variants",
       "Collections",
       "Metafields",
@@ -274,7 +293,14 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
     ]);
     await expect(footer.locator(".site-footer__solutions-column")).toContainText("Fashion");
     await expect(footer.locator(".site-footer__coming-soon > span:first-child")).toHaveText(["Amazon sync", "Automations"]);
-    await expect(footer.locator(".site-footer__coming-soon")).not.toHaveAttribute("href");
+    expect(await footer.locator(".site-footer__coming-soon").evaluateAll((elements) => elements.every((element) => !element.hasAttribute("href")))).toBe(true);
+    await expect(footer.locator(".site-footer__feature-link > span:first-child")).toHaveText([
+      "AI Connector (MCP)",
+      "Drops",
+      "Health Center",
+      "Markets & catalogs",
+    ]);
+    await expect(footer.locator(".site-footer__feature-link .feature-status-badge")).toHaveText(["New", "New", "New", "New"]);
     await expect(footer.locator(".site-footer__column-heading")).toHaveText(["Features", "Solutions", "Compare", "Peak", "Connect"]);
     await expect(footer.locator(".footer1_link-column").filter({ hasText: "Compare" }).locator(".footer1_link").nth(0)).toHaveText("PIM alternatives");
     await expect(footer.locator(".footer1_link-column").filter({ hasText: "Compare" }).locator(".footer1_link").nth(1)).toHaveText("Build vs buy a PIM");
@@ -453,7 +479,7 @@ test("build vs buy · responsive comparison and SEO contract", async ({ page }) 
   for (const width of [2048, 1440, 992, 768, 767, 375]) {
     await prepare(page, "/build-vs-buy-pim", width, 1000);
     await expect(page.locator("h1")).toHaveCount(1);
-    await expect(page.locator("h2")).toHaveCount(7);
+    await expect(page.locator("main h2")).toHaveCount(7);
     expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
     await expect(page.locator(".peak-comparison-table__card")).toHaveCount(2);
     await expect(page.locator(".pricing50_row")).toHaveCount(7);
