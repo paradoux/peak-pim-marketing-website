@@ -79,7 +79,7 @@ test("pricing · categorized feature matrix and accessible information controls"
       "Manage & Enrich",
       "Support",
     ]);
-    await expect(matrix.locator(".pricing-feature-info")).toHaveCount(27);
+    await expect(matrix.locator(".pricing-feature-info")).toHaveCount(29);
     await expect(matrix.locator(".pricing-feature-name")).toContainText([
       "Connected Shopify stores",
       "Seats",
@@ -87,6 +87,7 @@ test("pricing · categorized feature matrix and accessible information controls"
       "File storage",
       "1-click setup",
       "Shopify sync",
+      "Amazon sync",
       "AI Connector (MCP)",
       "API",
       "Multi-store management",
@@ -94,6 +95,7 @@ test("pricing · categorized feature matrix and accessible information controls"
       "Import & export",
       "Media management",
       "Drops",
+      "Automations",
       "Health Center",
       "Users & permissions",
       "Products & variants",
@@ -223,6 +225,7 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
     await expect(header.locator('.feature-mega-menu__group[aria-labelledby="feature-group-connect"] .feature-mega-menu__link-title')).toHaveText([
       "1-click setup",
       "Shopify sync",
+      "Amazon sync",
       "AI Connector (MCP)",
       "API",
     ]);
@@ -232,9 +235,12 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
       "Import & export",
       "Media management",
       "Drops",
+      "Automations",
       "Health Center",
       "Users & permissions",
     ]);
+    await expect(header.locator(".feature-mega-menu__link.is-coming-soon .feature-mega-menu__link-title")).toHaveText(["Amazon sync", "Automations"]);
+    await expect(header.locator(".feature-mega-menu__link.is-coming-soon")).not.toHaveAttribute("href");
 
     for (const path of featurePaths) {
       if (path !== "/industry/fashion") {
@@ -267,6 +273,8 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
       "Custom fields",
     ]);
     await expect(footer.locator(".site-footer__solutions-column")).toContainText("Fashion");
+    await expect(footer.locator(".site-footer__coming-soon > span:first-child")).toHaveText(["Amazon sync", "Automations"]);
+    await expect(footer.locator(".site-footer__coming-soon")).not.toHaveAttribute("href");
     await expect(footer.locator(".site-footer__column-heading")).toHaveText(["Features", "Solutions", "Compare", "Peak", "Connect"]);
     await expect(footer.locator(".footer1_link-column").filter({ hasText: "Compare" }).locator(".footer1_link").nth(0)).toHaveText("PIM alternatives");
     await expect(footer.locator(".footer1_link-column").filter({ hasText: "Compare" }).locator(".footer1_link").nth(1)).toHaveText("Build vs buy a PIM");

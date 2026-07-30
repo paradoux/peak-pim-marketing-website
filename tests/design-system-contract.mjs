@@ -467,8 +467,8 @@ if (existsSync(pricingFile)) {
   if (html.includes("unlimited stores")) failures.push("Pricing page still contains the outdated unlimited-stores claim");
   if (html.includes("next billing cycle")) failures.push("Pricing schema conflicts with the visible plan-change policy");
   if (!schema.offers?.every((offer) => offer.availability === "https://schema.org/InStock")) failures.push("Pricing schema does not describe the live plans as available");
-  if (schema.featureList?.length !== 27) failures.push("Pricing schema feature list is incomplete");
-  if (!schema.offers?.every((offer) => offer.additionalProperty?.length === 27)) failures.push("Pricing schema offers are not generated from the complete pricing matrix");
+  if (schema.featureList?.length !== 29) failures.push("Pricing schema feature list is incomplete");
+  if (!schema.offers?.every((offer) => offer.additionalProperty?.length === 29)) failures.push("Pricing schema offers are not generated from the complete pricing matrix");
   const schemaFeatureValue = (planName, featureName) => schema.offers
     ?.find((offer) => offer.name === planName)
     ?.additionalProperty?.find((property) => property.name === featureName)?.value;
@@ -477,6 +477,8 @@ if (existsSync(pricingFile)) {
     ["Elite", "Drops", "Included"],
     ["Enterprise", "Metaobjects", "Included"],
     ["Elite", "Custom fields", "Included"],
+    ["Core", "Amazon sync", "Coming soon"],
+    ["Enterprise", "Automations", "Coming soon"],
   ]) {
     if (schemaFeatureValue(planName, featureName) !== expectedValue) failures.push(`Pricing schema has an incorrect ${planName} value for ${featureName}`);
   }
@@ -486,13 +488,13 @@ if (existsSync(pricingFile)) {
   for (const category of ["Plan limits", "Connect", "Operate", "Manage &amp; Enrich", "Support"]) {
     if (!html.includes(`class="heading-style-h6">${category}</div>`)) failures.push(`Pricing matrix is missing category: ${category}`);
   }
-  for (const feature of ["Shopify sync", "Media management", "Health Center", "Markets &amp; catalogs", "AI Connector (MCP)", "Drops"]) {
+  for (const feature of ["Shopify sync", "Amazon sync", "Media management", "Health Center", "Markets &amp; catalogs", "AI Connector (MCP)", "Drops", "Automations"]) {
     if (!html.includes(`<span>${feature}</span>`)) failures.push(`Pricing matrix is missing feature: ${feature}`);
   }
   for (const href of ["/shopify-sync", "/shopify-media-management", "/shopify-catalog-health-center", "/shopify-markets-pricing"]) {
     if (!html.includes(`href="${href}" class="pricing-feature-popover__link"`)) failures.push(`Pricing matrix is missing feature detail link: ${href}`);
   }
-  if ((html.match(/class="pricing-feature-info"/g) ?? []).length !== 27) failures.push("Pricing matrix information disclosures are incomplete");
+  if ((html.match(/class="pricing-feature-info"/g) ?? []).length !== 29) failures.push("Pricing matrix information disclosures are incomplete");
   if (!html.includes('summary aria-label="About Shopify sync"')) failures.push("Pricing matrix information controls are not accessibly labelled");
 }
 

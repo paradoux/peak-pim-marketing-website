@@ -61,6 +61,11 @@ export const pricingFeatureGroups: PricingFeatureGroup[] = [
         values: [true, true, true],
       },
       {
+        label: "Amazon sync",
+        description: "Synchronize catalog data with Amazon marketplaces from Peak PIM. This feature is coming soon.",
+        values: ["Coming soon", "Coming soon", "Coming soon"],
+      },
+      {
         label: "AI Connector (MCP)",
         description: "Connect MCP-compatible AI assistants to controlled catalog search and draft workflows.",
         href: "/ai-catalog-connector",
@@ -107,6 +112,11 @@ export const pricingFeatureGroups: PricingFeatureGroup[] = [
         description: "Schedule product and price changes, publish them at the right time, and restore captured values automatically.",
         href: "/shopify-product-drops",
         values: [false, true, true],
+      },
+      {
+        label: "Automations",
+        description: "Build repeatable rules that run catalog workflows automatically. This feature is coming soon.",
+        values: ["Coming soon", "Coming soon", "Coming soon"],
       },
       {
         label: "Health Center",

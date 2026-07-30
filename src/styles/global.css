@@ -256,6 +256,24 @@ html {
   font-weight: 500;
 }
 
+.site-main .pricing-feature-coming-soon,
+.feature-coming-soon-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 1.35rem;
+  padding: 0.2rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(40, 69, 214, 0.1);
+  color: var(--color-brand-blue);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.035em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 .site-footer {
   position: relative;
 }
@@ -385,6 +403,22 @@ html {
   line-height: 1.25;
 }
 
+.feature-mega-menu__link-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.feature-mega-menu__link.is-coming-soon {
+  cursor: default;
+}
+
+.feature-mega-menu__link.is-coming-soon:hover {
+  background: transparent;
+  transform: none;
+}
+
 .feature-mega-menu__link-description {
   color: var(--color-muted);
   font-size: 0.72rem;
@@ -432,6 +466,17 @@ html {
   letter-spacing: 0.06em;
   line-height: 1.3;
   text-transform: uppercase;
+}
+
+.site-footer__coming-soon {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: default;
+}
+
+.site-footer__coming-soon:hover {
+  color: inherit;
 }
 
 @media screen and (max-width: 991px) {

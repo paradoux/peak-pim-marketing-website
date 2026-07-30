@@ -270,6 +270,10 @@ function renderPricingPlanValue(value: PricingPlanValue) {
     return `<span class="pricing-feature-unavailable">Not included</span>`;
   }
 
+  if (value === "Coming soon") {
+    return `<span class="pricing-feature-coming-soon">Coming soon</span>`;
+  }
+
   return `<span>${escapeHtml(value)}</span>`;
 }
 

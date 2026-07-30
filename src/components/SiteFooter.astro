@@ -52,7 +52,10 @@ const featureColumnHtml = `
         <div class="site-footer__feature-category">
           <div class="site-footer__feature-category-title">${escapeHtml(group.label)}</div>
           <div class="footer1_link-list">
-            ${group.links.map((link) => `<a href="${escapeHtml(link.href)}" class="footer1_link">${escapeHtml(link.label)}</a>`).join("")}
+            ${group.links.map((link) => link.comingSoon
+              ? `<span class="footer1_link site-footer__coming-soon" aria-disabled="true"><span>${escapeHtml(link.label)}</span><span class="feature-coming-soon-badge">Coming soon</span></span>`
+              : `<a href="${escapeHtml(link.href)}" class="footer1_link">${escapeHtml(link.label)}</a>`
+            ).join("")}
           </div>
         </div>
       `).join("")}

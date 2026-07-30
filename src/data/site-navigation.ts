@@ -4,6 +4,7 @@ export type SiteNavigationLink = {
   description?: string;
   external?: boolean;
   crisp?: boolean;
+  comingSoon?: boolean;
 };
 
 export type FeatureNavigationGroup = {
@@ -19,6 +20,7 @@ export const featureNavigationGroups: FeatureNavigationGroup[] = [
     links: [
       { label: "1-click setup", href: "/1-click-setup", description: "Connect a Shopify store in minutes." },
       { label: "Shopify sync", href: "/shopify-sync", description: "Keep every catalog change flowing to Shopify." },
+      { label: "Amazon sync", href: "", description: "Synchronize catalog data with Amazon marketplaces.", comingSoon: true },
       { label: "AI Connector (MCP)", href: "/ai-catalog-connector", description: "Connect MCP-compatible AI assistants to your catalog." },
       { label: "API", href: "/api", description: "Build custom catalog workflows and integrations." },
     ],
@@ -32,6 +34,7 @@ export const featureNavigationGroups: FeatureNavigationGroup[] = [
       { label: "Import & export", href: "/shopify-product-import-export", description: "Move spreadsheet data in and out safely." },
       { label: "Media management", href: "/shopify-media-management", description: "Organize product media in one library." },
       { label: "Drops", href: "/shopify-product-drops", description: "Schedule changes and automatic rollbacks." },
+      { label: "Automations", href: "", description: "Run repeatable catalog workflows automatically.", comingSoon: true },
       { label: "Health Center", href: "/shopify-catalog-health-center", description: "Find catalog issues before customers do." },
       { label: "Users & permissions", href: "/user-roles-permissions", description: "Give each teammate the right access." },
     ],

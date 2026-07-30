@@ -20,7 +20,15 @@ const featureGroupsHtml = featureNavigationGroups.filter((group) => group.label 
       </div>
     </div>
     <div class="feature-mega-menu__links">
-      ${group.links.map((link) => `
+      ${group.links.map((link) => link.comingSoon ? `
+        <div class="feature-mega-menu__link is-coming-soon" aria-disabled="true">
+          <span class="feature-mega-menu__link-heading">
+            <span class="feature-mega-menu__link-title">${escapeHtml(link.label)}</span>
+            <span class="feature-coming-soon-badge">Coming soon</span>
+          </span>
+          <span class="feature-mega-menu__link-description">${escapeHtml(link.description ?? "")}</span>
+        </div>
+      ` : `
         <a href="${escapeHtml(link.href)}" class="feature-mega-menu__link">
           <span class="feature-mega-menu__link-title">${escapeHtml(link.label)}</span>
           <span class="feature-mega-menu__link-description">${escapeHtml(link.description ?? "")}</span>

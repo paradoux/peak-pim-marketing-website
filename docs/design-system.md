@@ -68,12 +68,14 @@ All pages also use the original global antialiasing settings (`-webkit-font-smoo
 
 The header mega menu and footer share the feature taxonomy defined in `src/data/site-navigation.ts`. Every new feature page must be added there so it appears consistently in both locations:
 
-- **Connect**: onboarding, Shopify sync, the AI Connector (MCP), APIs, and integrations.
-- **Operate**: multi-store operations, bulk editing, import/export, media management, Drops, catalog health, and team permissions.
+- **Connect**: onboarding, Shopify sync, Amazon sync, the AI Connector (MCP), APIs, and integrations.
+- **Operate**: multi-store operations, bulk editing, import/export, media management, Drops, Automations, catalog health, and team permissions.
 - **Manage & Enrich**: products and variants, collections, metafields, metaobjects, translations, Markets and catalog pricing, custom fields, and other structured product-content capabilities.
 - **Solutions**: industry- and team-specific landing pages such as Fashion.
 
 Choose the category from the visitor's job, not from the internal technical architecture. Do not add page-specific feature links directly to `SiteHeader.astro` or `SiteFooter.astro`; update the shared navigation data instead.
+
+Features announced before launch use `comingSoon: true`. Render them as non-interactive text with the shared `Coming soon` badge in the header and footer. Do not assign a placeholder URL, open a chat, or send visitors to an unrelated page. On pricing, show `Coming soon` for every plan until real entitlements have been approved.
 
 The pricing feature matrix uses the same Connect, Operate, and Manage & Enrich taxonomy. Plan limits stay in their own group. Every product-feature row includes a native, keyboard-accessible information disclosure with concise explanatory copy and a `Learn more` link when a dedicated landing page exists. Keep the matrix content in `src/data/pricing-feature-matrix.ts` so navigation labels, plan entitlements, and pricing explanations remain easy to audit.
 
