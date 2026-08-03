@@ -69,13 +69,17 @@ All pages also use the original global antialiasing settings (`-webkit-font-smoo
 The header mega menu and footer share the feature taxonomy defined in `src/data/site-navigation.ts`. Every new feature page must be added there so it appears consistently in both locations:
 
 - **Connect**: onboarding, Shopify sync, Amazon sync, the AI Connector (MCP), APIs, and integrations.
-- **Operate**: multi-store operations, bulk editing, import/export, media management, Drops, Automations, catalog health, and team permissions.
+- **Operate**: multi-store operations, bulk editing, import/export, media management, Drops, Automations, catalog scores, backups and history, global search, catalog health, and team permissions.
 - **Manage & Enrich**: products and variants, collections, metafields, metaobjects, translations, Markets and catalog pricing, custom fields, and other structured product-content capabilities.
 - **Solutions**: industry- and team-specific landing pages such as Fashion.
+
+The self-guided product experience uses one shared `Live demo` navigation link from `exploreNavigationLinks`. Keep it in the Resources footer column, as a secondary CTA beneath the Peak footer logo, and as a discreet utility link in the Features mega menu. The Resources column also owns Product Updates. In the footer bottom bar, keep the Privacy Policy beside the copyright and place the icon-only social links on the right with enough clearance for the chat launcher; preserve their accessible names. Stack these elements cleanly when the row no longer fits. The demo opens in a new tab and must not replace the global `Book a demo` and `Get Peak PIM` actions.
 
 Choose the category from the visitor's job, not from the internal technical architecture. Do not add page-specific feature links directly to `SiteHeader.astro` or `SiteFooter.astro`; update the shared navigation data instead.
 
 Features announced before launch use `comingSoon: true`. Render them as non-interactive text with the shared `Coming soon` badge in the header and footer. Do not assign a placeholder URL, open a chat, or send visitors to an unrelated page. On pricing, show `Coming soon` for every plan until real entitlements have been approved.
+
+When a feature category grows beyond a comfortable single column, keep the taxonomy intact and use the shared `is-dense` two-column treatment on desktop. Return to one column in responsive navigation and footer layouts so labels, descriptions, and status badges remain readable.
 
 Recently launched features use `badge: "New"` in both shared navigation and the pricing matrix. Their links remain active. Use the same compact status badge beside the feature name in the header, footer, and pricing table; do not add separate promotional rows or change plan entitlements.
 

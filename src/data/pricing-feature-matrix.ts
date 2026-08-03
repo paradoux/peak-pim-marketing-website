@@ -122,6 +122,21 @@ export const pricingFeatureGroups: PricingFeatureGroup[] = [
         values: ["Coming soon", "Coming soon", "Coming soon"],
       },
       {
+        label: "Scores",
+        description: "Measure catalog quality with built-in SEO, LLM readiness, and custom scores. This feature is coming soon.",
+        values: ["Coming soon", "Coming soon", "Coming soon"],
+      },
+      {
+        label: "Backups & History",
+        description: "Restore previous catalog values and see who changed what and when. This feature is coming soon.",
+        values: ["Coming soon", "Coming soon", "Coming soon"],
+      },
+      {
+        label: "Global search",
+        description: "Find any product, variant, image, metaobject entry, or other catalog record instantly. This feature is coming soon.",
+        values: ["Coming soon", "Coming soon", "Coming soon"],
+      },
+      {
         label: "Health Center",
         description: "Run catalog checks, inspect issues, fix the affected records, and confirm the result.",
         href: "/shopify-catalog-health-center",

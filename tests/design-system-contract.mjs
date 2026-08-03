@@ -406,7 +406,7 @@ if (existsSync(homeFile)) {
     failures.push("Homepage hero must show Try for free first and Book a demo second using the canonical button variants");
   }
   if ((footerHtml.match(/class="footer1_link-column/g) ?? []).length !== 5) failures.push("The shared footer must contain the Features area plus four dedicated link columns");
-  for (const heading of ["Features", "Solutions", "Peak", "Compare", "Connect"]) {
+  for (const heading of ["Features", "Solutions", "Compare", "Peak", "Resources"]) {
     if (!footerHtml.includes(`aria-hidden="true"></span>${heading}</div>`)) failures.push(`The shared footer is missing its marked column: ${heading}`);
   }
   for (const group of ["Connect", "Operate", "Manage &amp; Enrich"]) {
@@ -467,8 +467,8 @@ if (existsSync(pricingFile)) {
   if (html.includes("unlimited stores")) failures.push("Pricing page still contains the outdated unlimited-stores claim");
   if (html.includes("next billing cycle")) failures.push("Pricing schema conflicts with the visible plan-change policy");
   if (!schema.offers?.every((offer) => offer.availability === "https://schema.org/InStock")) failures.push("Pricing schema does not describe the live plans as available");
-  if (schema.featureList?.length !== 29) failures.push("Pricing schema feature list is incomplete");
-  if (!schema.offers?.every((offer) => offer.additionalProperty?.length === 29)) failures.push("Pricing schema offers are not generated from the complete pricing matrix");
+  if (schema.featureList?.length !== 32) failures.push("Pricing schema feature list is incomplete");
+  if (!schema.offers?.every((offer) => offer.additionalProperty?.length === 32)) failures.push("Pricing schema offers are not generated from the complete pricing matrix");
   const schemaFeatureValue = (planName, featureName) => schema.offers
     ?.find((offer) => offer.name === planName)
     ?.additionalProperty?.find((property) => property.name === featureName)?.value;
@@ -479,6 +479,9 @@ if (existsSync(pricingFile)) {
     ["Elite", "Custom fields", "Included"],
     ["Core", "Amazon sync", "Coming soon"],
     ["Enterprise", "Automations", "Coming soon"],
+    ["Core", "Scores", "Coming soon"],
+    ["Elite", "Backups & History", "Coming soon"],
+    ["Enterprise", "Global search", "Coming soon"],
   ]) {
     if (schemaFeatureValue(planName, featureName) !== expectedValue) failures.push(`Pricing schema has an incorrect ${planName} value for ${featureName}`);
   }
@@ -488,7 +491,7 @@ if (existsSync(pricingFile)) {
   for (const category of ["Plan limits", "Connect", "Operate", "Manage &amp; Enrich", "Support"]) {
     if (!html.includes(`class="heading-style-h6">${category}</div>`)) failures.push(`Pricing matrix is missing category: ${category}`);
   }
-  for (const feature of ["Shopify sync", "Amazon sync", "Media management", "Health Center", "Markets &amp; catalogs", "AI Connector (MCP)", "Drops", "Automations"]) {
+  for (const feature of ["Shopify sync", "Amazon sync", "Media management", "Health Center", "Markets &amp; catalogs", "AI Connector (MCP)", "Drops", "Automations", "Scores", "Backups &amp; History", "Global search"]) {
     if (!html.includes(`<span>${feature}</span>`)) failures.push(`Pricing matrix is missing feature: ${feature}`);
   }
   for (const feature of ["AI Connector (MCP)", "Drops", "Health Center", "Markets &amp; catalogs"]) {
@@ -497,8 +500,14 @@ if (existsSync(pricingFile)) {
   for (const href of ["/shopify-sync", "/shopify-media-management", "/shopify-catalog-health-center", "/shopify-markets-pricing"]) {
     if (!html.includes(`href="${href}" class="pricing-feature-popover__link"`)) failures.push(`Pricing matrix is missing feature detail link: ${href}`);
   }
-  if ((html.match(/class="pricing-feature-info"/g) ?? []).length !== 29) failures.push("Pricing matrix information disclosures are incomplete");
+  if ((html.match(/class="pricing-feature-info"/g) ?? []).length !== 32) failures.push("Pricing matrix information disclosures are incomplete");
   if (!html.includes('summary aria-label="About Shopify sync"')) failures.push("Pricing matrix information controls are not accessibly labelled");
+  if (!html.includes('<a href="https://app.peak-pim.com/" target="_blank" rel="noopener" class="footer1_link">Live demo</a>')) failures.push("Shared footer is missing the external Live demo link");
+  if (!html.includes('site-footer__column-heading"><span class="site-footer__heading-marker" aria-hidden="true"></span>Resources</div>')) failures.push("Shared footer is missing the Resources column");
+  if (!html.includes('class="footer1_link-list site-footer__social-links site-footer__bottom-social-links"')) failures.push("Shared footer social icons are not grouped in the bottom bar");
+  if (!html.includes('class="site-footer__logo-cta"><a href="https://app.peak-pim.com/" target="_blank" rel="noopener" class="button is-secondary w-button">Live demo</a>')) failures.push("Shared footer is missing the Live demo CTA beneath the Peak logo");
+  if (html.includes('site-footer__column-heading"><span class="site-footer__heading-marker" aria-hidden="true"></span>Connect</div>')) failures.push("Shared footer still contains the retired Connect column");
+  if (!html.includes('<a href="https://app.peak-pim.com/" target="_blank" rel="noopener" class="feature-mega-menu__demo-link">Live demo<span aria-hidden="true">&rarr;</span></a>')) failures.push("Features mega menu is missing the external Live demo link");
 }
 
 const sitemapFile = resolve(projectRoot, "dist/sitemap.xml");
@@ -521,6 +530,7 @@ if (existsSync(sitemapFile)) {
     "Get Peak PIM",
     "Try for free",
     "Book a demo",
+    "Live demo",
     "Talk to us",
     "See pricing",
     "See how it works",

@@ -36,6 +36,9 @@ export const featureNavigationGroups: FeatureNavigationGroup[] = [
       { label: "Media management", href: "/shopify-media-management", description: "Organize product media in one library." },
       { label: "Drops", href: "/shopify-product-drops", description: "Schedule changes and automatic rollbacks.", badge: "New" },
       { label: "Automations", href: "", description: "Run repeatable catalog workflows automatically.", comingSoon: true },
+      { label: "Scores", href: "", description: "Measure SEO, LLM readiness, and your own catalog standards.", comingSoon: true },
+      { label: "Backups & History", href: "", description: "Restore catalog data and trace every change.", comingSoon: true },
+      { label: "Global search", href: "", description: "Find any catalog record from one search.", comingSoon: true },
       { label: "Health Center", href: "/shopify-catalog-health-center", description: "Find catalog issues before customers do.", badge: "New" },
       { label: "Users & permissions", href: "/user-roles-permissions", description: "Give each teammate the right access." },
     ],
@@ -64,8 +67,9 @@ export const featureNavigationGroups: FeatureNavigationGroup[] = [
 
 export const exploreNavigationLinks: SiteNavigationLink[] = [
   { label: "Pricing", href: "/pricing/" },
+  { label: "Live demo", href: "https://app.peak-pim.com/", external: true },
   { label: "Help Center", href: "https://help.peak-pim.com/en/", external: true },
-  { label: "Product updates", href: "https://www.linkedin.com/company/peak-pim/posts/", external: true },
+  { label: "Product Updates", href: "https://www.linkedin.com/company/peak-pim/posts/", external: true },
   { label: "Mission", href: "/mission" },
   { label: "Contact", href: "#", crisp: true },
 ];

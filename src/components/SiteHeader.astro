@@ -1,6 +1,6 @@
 ---
 import { getSharedHeaderHtml } from "../lib/page-source";
-import { featureNavigationGroups } from "../data/site-navigation";
+import { exploreNavigationLinks, featureNavigationGroups } from "../data/site-navigation";
 
 function escapeHtml(value: string) {
   return value
@@ -11,7 +11,7 @@ function escapeHtml(value: string) {
 }
 
 const featureGroupsHtml = featureNavigationGroups.filter((group) => group.label !== "Solutions").map((group) => `
-  <section class="feature-mega-menu__group" aria-labelledby="feature-group-${group.label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}">
+  <section class="feature-mega-menu__group${group.label === "Operate" ? " is-dense" : ""}" aria-labelledby="feature-group-${group.label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}">
     <div class="feature-mega-menu__group-heading">
       <span class="feature-mega-menu__marker" aria-hidden="true"></span>
       <div>
@@ -40,6 +40,11 @@ const featureGroupsHtml = featureNavigationGroups.filter((group) => group.label 
     </div>
   </section>
 `).join("");
+const liveDemoLink = exploreNavigationLinks.find((link) => link.href === "https://app.peak-pim.com/");
+
+if (!liveDemoLink) {
+  throw new Error("The shared navigation is missing the Live demo link.");
+}
 
 const featureMenuHtml = `
   <nav class="navbar10_dropdown-list w-dropdown-list" id="w-dropdown-list-0" aria-labelledby="w-dropdown-toggle-0" aria-label="Peak PIM features" style="opacity: 0;">
@@ -48,6 +53,7 @@ const featureMenuHtml = `
         <div class="feature-mega-menu__intro">
           <span class="feature-mega-menu__eyebrow">One Shopify PIM. Every catalog workflow.</span>
           <p>Connect all your stores, plug in your stack, and run your entire catalog from one place.</p>
+          <a href="${escapeHtml(liveDemoLink.href)}" target="_blank" rel="noopener" class="feature-mega-menu__demo-link">${escapeHtml(liveDemoLink.label)}<span aria-hidden="true">&rarr;</span></a>
         </div>
         <div class="feature-mega-menu__grid">${featureGroupsHtml}</div>
       </div>

@@ -1,5 +1,6 @@
 ---
-import { comparisonNavigationLinks, featureNavigationGroups } from "../data/site-navigation";
+import { comparisonNavigationLinks, exploreNavigationLinks, featureNavigationGroups } from "../data/site-navigation";
+import { ctaExceptions } from "../data/cta-copy";
 import { getSharedFooterHtml } from "../lib/page-source";
 
 function escapeHtml(value: string) {
@@ -8,6 +9,22 @@ function escapeHtml(value: string) {
     .replaceAll('"', "&quot;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;");
+}
+
+function extractDivElement(html: string, startIndex: number) {
+  if (startIndex < 0 || !html.startsWith("<div", startIndex)) return "";
+
+  const tagPattern = /<div\b[^>]*>|<\/div>/g;
+  tagPattern.lastIndex = startIndex;
+  let depth = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = tagPattern.exec(html))) {
+    depth += match[0].startsWith("</") ? -1 : 1;
+    if (depth === 0) return html.slice(startIndex, tagPattern.lastIndex);
+  }
+
+  return "";
 }
 
 const originalFooterHtml = getSharedFooterHtml()
@@ -49,7 +66,7 @@ const featureColumnHtml = `
     <div class="margin-bottom margin-small"><div class="text-weight-semibold site-footer__column-heading"><span class="site-footer__heading-marker" aria-hidden="true"></span>Features</div></div>
     <div class="site-footer__feature-categories">
       ${featureNavigationGroups.filter((group) => group.label !== "Solutions").map((group) => `
-        <div class="site-footer__feature-category">
+        <div class="site-footer__feature-category${group.label === "Operate" ? " is-dense" : ""}">
           <div class="site-footer__feature-category-title">${escapeHtml(group.label)}</div>
           <div class="footer1_link-list">
             ${group.links.map((link) => link.comingSoon
@@ -67,9 +84,42 @@ const featureColumnHtml = `
 const headingMarker = '<span class="site-footer__heading-marker" aria-hidden="true"></span>';
 const solutionsGroup = featureNavigationGroups.find((group) => group.label === "Solutions");
 const buildVsBuyLink = comparisonNavigationLinks.find((link) => link.href === "/build-vs-buy-pim/");
+const liveDemoLink = exploreNavigationLinks.find((link) => link.href === "https://app.peak-pim.com/");
+const productUpdatesLink = exploreNavigationLinks.find((link) => link.href === "https://www.linkedin.com/company/peak-pim/posts/");
+const originalConnectColumnHtml = extractDivElement(originalFooterHtml, connectColumnStart);
+const socialListStart = originalConnectColumnHtml.indexOf('<div class="footer1_link-list">');
+const originalSocialListHtml = extractDivElement(originalConnectColumnHtml, socialListStart);
+const leftWrapperStart = originalFooterHtml.indexOf('<div class="footer1_left-wrapper">');
+const originalLeftWrapperHtml = extractDivElement(originalFooterHtml, leftWrapperStart);
 
-if (!solutionsGroup || !buildVsBuyLink) {
+if (
+  !solutionsGroup ||
+  !buildVsBuyLink ||
+  !liveDemoLink ||
+  !productUpdatesLink ||
+  !originalConnectColumnHtml ||
+  !originalSocialListHtml ||
+  !originalLeftWrapperHtml
+) {
   throw new Error("The footer is missing a required shared-navigation group or link.");
+}
+
+const socialListHtml = originalSocialListHtml
+  .replace('class="footer1_link-list"', 'class="footer1_link-list site-footer__social-links site-footer__bottom-social-links"')
+  .replaceAll('target="_blank"', 'target="_blank" rel="noopener"');
+const logoCtaHtml = `<div class="site-footer__logo-cta"><a href="${escapeHtml(liveDemoLink.href)}" target="_blank" rel="noopener" class="button is-secondary w-button">${escapeHtml(ctaExceptions.liveDemo)}</a></div>`;
+const leftWrapperHtml = originalLeftWrapperHtml.slice(0, -6) + logoCtaHtml + "</div>";
+const footerPrefixHtml = originalFooterHtml
+  .slice(0, featureColumnStart)
+  .replace(originalLeftWrapperHtml, leftWrapperHtml);
+const originalFooterSuffixHtml = originalFooterHtml.slice(connectColumnStart + originalConnectColumnHtml.length);
+const footerSuffixHtml = originalFooterSuffixHtml.replace(
+  '<div class="footer1_credit-text">© 2026 Peak PIM. All rights reserved.</div><div class="w-layout-grid footer1_legal-list">',
+  `<div class="footer1_credit-text">© 2026 Peak PIM. All rights reserved.</div>${socialListHtml}<div class="w-layout-grid footer1_legal-list">`,
+);
+
+if (footerSuffixHtml === originalFooterSuffixHtml) {
+  throw new Error("The social links could not be moved into the footer bottom bar.");
 }
 
 const solutionsColumnHtml = `
@@ -81,7 +131,9 @@ const solutionsColumnHtml = `
   </div>`;
 const peakColumnHtml = originalFooterHtml
   .slice(peakColumnStart, compareColumnStart)
-  .replace(peakHeading, `<div class="text-weight-semibold site-footer__column-heading">${headingMarker}Peak</div>`);
+  .replace('<div class="footer1_link-column">', '<div class="footer1_link-column site-footer__peak-column">')
+  .replace(peakHeading, `<div class="text-weight-semibold site-footer__column-heading">${headingMarker}Peak</div>`)
+  .replace('<a href="https://www.linkedin.com/company/peak-pim/posts/" target="_blank" class="footer1_link">Product Updates</a>', "");
 const compareColumnHtml = originalFooterHtml
   .slice(compareColumnStart, connectColumnStart)
   .replace(compareHeading, `<div class="text-weight-semibold site-footer__column-heading">${headingMarker}Compare</div>`)
@@ -89,15 +141,21 @@ const compareColumnHtml = originalFooterHtml
     '<a href="/shopify-pim-alternatives" class="footer1_link">PIM alternatives</a>',
     `<a href="/shopify-pim-alternatives" class="footer1_link">PIM alternatives</a><a href="${escapeHtml(buildVsBuyLink.href)}" class="footer1_link">${escapeHtml(buildVsBuyLink.label)}</a>`,
   );
-const connectColumnHtml = originalFooterHtml
-  .slice(connectColumnStart)
-  .replace(connectHeading, `<div class="text-weight-semibold site-footer__column-heading">${headingMarker}Connect</div>`);
-const footerHtml = originalFooterHtml.slice(0, featureColumnStart)
+const resourcesColumnHtml = `
+  <div class="footer1_link-column site-footer__resources-column">
+    <div class="margin-bottom margin-xsmall"><div class="text-weight-semibold site-footer__column-heading">${headingMarker}Resources</div></div>
+    <div class="footer1_link-list">
+      <a href="${escapeHtml(liveDemoLink.href)}" target="_blank" rel="noopener" class="footer1_link">${escapeHtml(liveDemoLink.label)}</a>
+      <a href="${escapeHtml(productUpdatesLink.href)}" target="_blank" rel="noopener" class="footer1_link">${escapeHtml(productUpdatesLink.label)}</a>
+    </div>
+  </div>`;
+const footerHtml = footerPrefixHtml
   + featureColumnHtml
   + solutionsColumnHtml
   + compareColumnHtml
   + peakColumnHtml
-  + connectColumnHtml;
+  + resourcesColumnHtml
+  + footerSuffixHtml;
 ---
 
 <div class="site-footer" set:html={footerHtml} />

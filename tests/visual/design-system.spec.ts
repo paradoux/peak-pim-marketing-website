@@ -79,7 +79,7 @@ test("pricing · categorized feature matrix and accessible information controls"
       "Manage & Enrich",
       "Support",
     ]);
-    await expect(matrix.locator(".pricing-feature-info")).toHaveCount(29);
+    await expect(matrix.locator(".pricing-feature-info")).toHaveCount(32);
     await expect(matrix.locator(".pricing-feature-name")).toContainText([
       "Connected Shopify stores",
       "Seats",
@@ -96,6 +96,9 @@ test("pricing · categorized feature matrix and accessible information controls"
       "Media management",
       "Drops",
       "Automations",
+      "Scores",
+      "Backups & History",
+      "Global search",
       "Health Center",
       "Users & permissions",
       "Products & variants",
@@ -229,6 +232,10 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
     await featureToggle.press("Enter");
     await expect(featureToggle).toHaveAttribute("aria-expanded", "true");
     await expect(header.locator(".feature-mega-menu__title")).toHaveText(["Connect", "Operate", "Manage & Enrich"]);
+    const headerLiveDemoLink = header.locator('.feature-mega-menu__demo-link[href="https://app.peak-pim.com/"]');
+    await expect(headerLiveDemoLink).toHaveText("Live demo→");
+    await expect(headerLiveDemoLink).toHaveAttribute("target", "_blank");
+    await expect(headerLiveDemoLink).toHaveAttribute("rel", "noopener");
     await expect(header.locator('.feature-mega-menu__group[aria-labelledby="feature-group-connect"] .feature-mega-menu__link-title')).toHaveText([
       "1-click setup",
       "Shopify sync",
@@ -243,11 +250,20 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
       "Media management",
       "Drops",
       "Automations",
+      "Scores",
+      "Backups & History",
+      "Global search",
       "Health Center",
       "Users & permissions",
     ]);
-    await expect(header.locator(".feature-mega-menu__link.is-coming-soon .feature-mega-menu__link-title")).toHaveText(["Amazon sync", "Automations"]);
+    await expect(header.locator(".feature-mega-menu__link.is-coming-soon .feature-mega-menu__link-title")).toHaveText(["Amazon sync", "Automations", "Scores", "Backups & History", "Global search"]);
     expect(await header.locator(".feature-mega-menu__link.is-coming-soon").evaluateAll((elements) => elements.every((element) => !element.hasAttribute("href")))).toBe(true);
+    const operateHeaderColumns = await header.locator('.feature-mega-menu__group[aria-labelledby="feature-group-operate"] .feature-mega-menu__links').evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(" ").length);
+    expect(operateHeaderColumns).toBe(width >= 992 ? 2 : 1);
+    if (width === 1440) {
+      const dropdownFit = await header.locator(".navbar10_dropdown-list").evaluate((element) => element.scrollHeight <= element.clientHeight + 1);
+      expect(dropdownFit).toBe(true);
+    }
     await expect(header.locator(".feature-mega-menu__link:has(.feature-status-badge):not(.is-coming-soon) .feature-mega-menu__link-title")).toHaveText([
       "AI Connector (MCP)",
       "Drops",
@@ -292,8 +308,10 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
       "Custom fields",
     ]);
     await expect(footer.locator(".site-footer__solutions-column")).toContainText("Fashion");
-    await expect(footer.locator(".site-footer__coming-soon > span:first-child")).toHaveText(["Amazon sync", "Automations"]);
+    await expect(footer.locator(".site-footer__coming-soon > span:first-child")).toHaveText(["Amazon sync", "Automations", "Scores", "Backups & History", "Global search"]);
     expect(await footer.locator(".site-footer__coming-soon").evaluateAll((elements) => elements.every((element) => !element.hasAttribute("href")))).toBe(true);
+    const operateFooterColumns = await footer.locator(".site-footer__feature-category.is-dense .footer1_link-list").evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(" ").length);
+    expect(operateFooterColumns).toBe(width >= 992 ? 2 : 1);
     await expect(footer.locator(".site-footer__feature-link > span:first-child")).toHaveText([
       "AI Connector (MCP)",
       "Drops",
@@ -301,13 +319,48 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
       "Markets & catalogs",
     ]);
     await expect(footer.locator(".site-footer__feature-link .feature-status-badge")).toHaveText(["New", "New", "New", "New"]);
-    await expect(footer.locator(".site-footer__column-heading")).toHaveText(["Features", "Solutions", "Compare", "Peak", "Connect"]);
+    await expect(footer.locator(".site-footer__column-heading")).toHaveText(["Features", "Solutions", "Compare", "Peak", "Resources"]);
     await expect(footer.locator(".footer1_link-column").filter({ hasText: "Compare" }).locator(".footer1_link").nth(0)).toHaveText("PIM alternatives");
     await expect(footer.locator(".footer1_link-column").filter({ hasText: "Compare" }).locator(".footer1_link").nth(1)).toHaveText("Build vs buy a PIM");
     await expect(footer.locator('a[href="/build-vs-buy-pim/"]')).toHaveCount(1);
+    const resourcesLiveDemoLink = footer.locator('.site-footer__resources-column a[href="https://app.peak-pim.com/"]');
+    await expect(resourcesLiveDemoLink).toHaveText("Live demo");
+    await expect(resourcesLiveDemoLink).toHaveAttribute("target", "_blank");
+    await expect(resourcesLiveDemoLink).toHaveAttribute("rel", "noopener");
+    const logoLiveDemoCta = footer.locator('.footer1_left-wrapper .site-footer__logo-cta a[href="https://app.peak-pim.com/"]');
+    await expect(logoLiveDemoCta).toHaveText("Live demo");
+    await expect(logoLiveDemoCta).toHaveClass(/button is-secondary w-button/);
+    await expect(footer.locator(".site-footer__resources-column .footer1_link")).toHaveText(["Live demo", "Product Updates"]);
+    await expect(footer.locator(".site-footer__peak-column")).not.toContainText("Live demo");
+    await expect(footer.locator(".site-footer__peak-column")).not.toContainText("Product Updates");
     await expect(footer.locator(".site-footer__heading-marker")).toHaveCount(5);
-    await expect(footer.locator(".footer1_social-link")).toHaveCount(6);
-    await expect(footer.locator(".footer1_social-link .icon-embed-xsmall")).toHaveCount(6);
+    await expect(footer.locator(".footer1_bottom-wrapper .site-footer__bottom-social-links .footer1_social-link")).toHaveCount(6);
+    await expect(footer.locator(".footer1_bottom-wrapper .site-footer__bottom-social-links .icon-embed-xsmall")).toHaveCount(6);
+    await expect(footer.locator(".footer1_left-wrapper .site-footer__social-links")).toHaveCount(0);
+    const footerBottomLayout = await footer.locator(".footer1_bottom-wrapper").evaluate((element) => {
+      const wrapper = element.getBoundingClientRect();
+      const credit = element.querySelector(".footer1_credit-text")?.getBoundingClientRect();
+      const privacy = element.querySelector(".footer1_legal-list")?.getBoundingClientRect();
+      const social = element.querySelector(".site-footer__bottom-social-links")?.getBoundingClientRect();
+      return {
+        wrapper: { left: wrapper.left, right: wrapper.right },
+        credit: credit ? { left: credit.left, right: credit.right, top: credit.top } : null,
+        privacy: privacy ? { left: privacy.left, right: privacy.right, top: privacy.top } : null,
+        social: social ? { left: social.left, right: social.right, top: social.top } : null,
+      };
+    });
+    expect(footerBottomLayout.credit).not.toBeNull();
+    expect(footerBottomLayout.privacy).not.toBeNull();
+    expect(footerBottomLayout.social).not.toBeNull();
+    for (const item of [footerBottomLayout.credit!, footerBottomLayout.privacy!, footerBottomLayout.social!]) {
+      expect(item.left).toBeGreaterThanOrEqual(footerBottomLayout.wrapper.left - 1);
+      expect(item.right).toBeLessThanOrEqual(footerBottomLayout.wrapper.right + 1);
+    }
+    if (width >= 992) {
+      expect(Math.abs(footerBottomLayout.credit!.top - footerBottomLayout.privacy!.top)).toBeLessThanOrEqual(1);
+      expect(Math.abs(footerBottomLayout.credit!.top - footerBottomLayout.social!.top)).toBeLessThanOrEqual(8);
+      expect(footerBottomLayout.privacy!.right).toBeLessThan(footerBottomLayout.social!.left);
+    }
     const footerColumns = await footer.locator(".footer1_menu-wrapper").evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(" ").length);
     const featureColumns = await footer.locator(".site-footer__feature-categories").evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(" ").length);
     expect(footerColumns).toBe(width >= 992 ? 4 : width >= 768 ? 2 : 1);

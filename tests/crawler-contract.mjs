@@ -22,8 +22,8 @@ if (!existsSync(pricingFile)) {
   if (html.includes("unlimited stores")) failures.push("Pricing still contains the outdated unlimited-stores claim");
   if (html.includes("next billing cycle")) failures.push("Pricing schema conflicts with the visible plan-change policy");
   if (!schema.offers?.every((offer) => offer.availability === "https://schema.org/InStock")) failures.push("Pricing schema does not mark every live plan as available");
-  if (schema.featureList?.length !== 29) failures.push("Pricing schema feature list is incomplete");
-  if (!schema.offers?.every((offer) => offer.additionalProperty?.length === 29)) failures.push("Pricing offers do not expose the complete feature matrix");
+  if (schema.featureList?.length !== 32) failures.push("Pricing schema feature list is incomplete");
+  if (!schema.offers?.every((offer) => offer.additionalProperty?.length === 32)) failures.push("Pricing offers do not expose the complete feature matrix");
 
   const schemaFeatureValue = (planName, featureName) => schema.offers
     ?.find((offer) => offer.name === planName)
@@ -36,6 +36,9 @@ if (!existsSync(pricingFile)) {
     ["Elite", "Custom fields", "Included"],
     ["Core", "Amazon sync", "Coming soon"],
     ["Enterprise", "Automations", "Coming soon"],
+    ["Core", "Scores", "Coming soon"],
+    ["Elite", "Backups & History", "Coming soon"],
+    ["Enterprise", "Global search", "Coming soon"],
   ]) {
     if (schemaFeatureValue(planName, featureName) !== expectedValue) failures.push(`Pricing schema has an incorrect ${planName} value for ${featureName}`);
   }
