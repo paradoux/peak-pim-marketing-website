@@ -44,6 +44,8 @@ export async function GET() {
     { slug: "guides", source: "src/pages/guides/index.astro" },
   ].map((page) => ({ url: canonicalUrl(page.slug), lastModified: sourceLastModified(page.source) }));
   const designSystemPages = [
+    "ai-assistant",
+    "history",
     "shopify-pim-translations",
     "shopify-product-import-export",
     "shopify-product-drops",

@@ -13,10 +13,12 @@ import PricingComparison from "../components/sections/PricingComparison.astro";
 import ProblemGrid from "../components/sections/ProblemGrid.astro";
 import Testimonial from "../components/sections/Testimonial.astro";
 import BuildVsBuyHeroVisual from "../components/visuals/BuildVsBuyHeroVisual.astro";
+import AiAssistantCardVisual from "../components/visuals/AiAssistantCardVisual.astro";
 import AiConnectorCardVisual from "../components/visuals/AiConnectorCardVisual.astro";
 import DeveloperApiCardVisual from "../components/visuals/DeveloperApiCardVisual.astro";
 import DropsCardVisual from "../components/visuals/DropsCardVisual.astro";
 import HealthCenterCardVisual from "../components/visuals/HealthCenterCardVisual.astro";
+import HistoryCardVisual from "../components/visuals/HistoryCardVisual.astro";
 import ImportExportCardVisual from "../components/visuals/ImportExportCardVisual.astro";
 import MetaobjectsCardVisual from "../components/visuals/MetaobjectsCardVisual.astro";
 import RolesPermissionsCardVisual from "../components/visuals/RolesPermissionsCardVisual.astro";
@@ -62,6 +64,18 @@ const healthCenterVisuals = [
   { tagline: "Detect", title: "On-demand analysis", description: "The latest catalog-health counts and timestamps stay visible until the merchant runs the theme again." },
   { tagline: "Drill down", title: "Issues in context", description: "Each health count leads to the exact records, stores, fields, languages, collections, or files behind it." },
   { tagline: "Fix", title: "Repair in place", description: "Harmonize, fill, publish, dismiss, and cleanup actions remain inside the same product workspace." },
+];
+
+const historyVisuals = [
+  { tagline: "Saved", title: "Every team edit", description: "Authors, sources, timestamps, and field-level before and after values keep draft work understandable." },
+  { tagline: "Published", title: "The store delta", description: "Several saved edits resolve into the one before-and-after change that actually reached a store." },
+  { tagline: "Investigate", title: "Grouped account activity", description: "Filters and grouped operations keep bulk edits, imports, Drops, and other high-volume work readable." },
+];
+
+const aiAssistantVisuals = [
+  { tagline: "Ask", title: "Current-page context", description: "The in-app panel uses the open product and selected store to understand short merchant questions." },
+  { tagline: "Approve", title: "Before-and-after drafts", description: "Every proposed write remains a visible draft card with separate approval and denial controls." },
+  { tagline: "Publish", title: "A separate live decision", description: "A saved draft only reaches the storefront after another explicit confirmation, with the action recorded in History." },
 ];
 
 const aiConnectorVisuals = [
@@ -154,6 +168,16 @@ const pricingRows = [
     <HealthCenterCardVisual slot="visual-1" mode="detect" />
     <HealthCenterCardVisual slot="visual-2" mode="drill" />
     <HealthCenterCardVisual slot="visual-3" mode="fix" />
+  </CardGrid>
+  <CardGrid tagline="Catalog accountability" title="History separates edits from live store changes" description="Saved work, published deltas, and grouped activity use the same complete-card structure and Peak workspace states." cards={historyVisuals}>
+    <HistoryCardVisual slot="visual-1" mode="saved" />
+    <HistoryCardVisual slot="visual-2" mode="published" />
+    <HistoryCardVisual slot="visual-3" mode="activity" />
+  </CardGrid>
+  <CardGrid tagline="AI inside Peak PIM" title="The Assistant reads before it writes" description="Context, draft approval, and publishing confirmation use the canonical complete-card structure and Peak workspace states." cards={aiAssistantVisuals}>
+    <AiAssistantCardVisual slot="visual-1" mode="context" />
+    <AiAssistantCardVisual slot="visual-2" mode="approval" />
+    <AiAssistantCardVisual slot="visual-3" mode="publish" />
   </CardGrid>
   <CardGrid tagline="Conversational catalog work" title="AI connections use explicit Peak controls" description="Setup, permissions, and activity stay grounded in the same product-workspace visual language." cards={aiConnectorVisuals}>
     <AiConnectorCardVisual slot="visual-1" mode="connect" />

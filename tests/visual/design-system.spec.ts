@@ -2,11 +2,13 @@ import { expect, test, type Page } from "@playwright/test";
 
 const pages = [
   { name: "catalogue", path: "/design-system" },
+  { name: "ai-assistant", path: "/ai-assistant" },
   { name: "bulk-edit", path: "/bulk-edit" },
   { name: "translations", path: "/shopify-pim-translations" },
   { name: "import-export", path: "/shopify-product-import-export" },
   { name: "drops", path: "/shopify-product-drops" },
   { name: "health-center", path: "/shopify-catalog-health-center" },
+  { name: "history", path: "/history" },
   { name: "ai-connector", path: "/ai-catalog-connector" },
   { name: "developer-api", path: "/api" },
   { name: "metaobjects", path: "/shopify-metaobjects" },
@@ -82,7 +84,7 @@ test("pricing · categorized feature matrix and accessible information controls"
       "Manage & Enrich",
       "Support",
     ]);
-    await expect(matrix.locator(".pricing-feature-info")).toHaveCount(32);
+    await expect(matrix.locator(".pricing-feature-info")).toHaveCount(34);
     await expect(matrix.locator(".pricing-feature-name")).toContainText([
       "Connected Shopify stores",
       "Seats",
@@ -93,6 +95,7 @@ test("pricing · categorized feature matrix and accessible information controls"
       "Amazon sync",
       "AI Connector (MCP)",
       "API",
+      "AI Assistant",
       "Multi-store management",
       "Bulk edit",
       "Import & export",
@@ -100,7 +103,8 @@ test("pricing · categorized feature matrix and accessible information controls"
       "Drops",
       "Automations",
       "Scores",
-      "Backups & History",
+      "History",
+      "Backups",
       "Global search",
       "Health Center",
       "Users & permissions",
@@ -119,11 +123,13 @@ test("pricing · categorized feature matrix and accessible information controls"
     ]);
     await expect(matrix.locator(".pricing-feature-name:has(.feature-status-badge) > span:first-child")).toHaveText([
       "AI Connector (MCP)",
+      "AI Assistant",
       "Drops",
+      "History",
       "Health Center",
       "Markets & catalogs",
     ]);
-    await expect(matrix.locator(".pricing-feature-name .feature-status-badge")).toHaveText(["New", "New", "New", "New"]);
+    await expect(matrix.locator(".pricing-feature-name .feature-status-badge")).toHaveText(["New", "New", "New", "New", "New", "New"]);
     await expect(matrix.locator(".pricing54_top-row-content .heading-style-h6")).toHaveText(["Core", "Elite", "Enterprise"]);
     expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
   }
@@ -204,6 +210,7 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
     "/1-click-setup",
     "/shopify-sync",
     "/ai-catalog-connector",
+    "/ai-assistant",
     "/api",
     "/shopify-multi-store-pim",
     "/shopify-product-management",
@@ -217,6 +224,7 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
     "/shopify-metafield-management",
     "/shopify-custom-fields",
     "/shopify-product-drops",
+    "/history",
     "/shopify-catalog-health-center",
     "/user-roles-permissions",
     "/industry/fashion",
@@ -247,6 +255,7 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
       "API",
     ]);
     await expect(header.locator('.feature-mega-menu__group[aria-labelledby="feature-group-operate"] .feature-mega-menu__link-title')).toHaveText([
+      "AI Assistant",
       "Multi-store",
       "Bulk edit",
       "Import & export",
@@ -254,12 +263,13 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
       "Drops",
       "Automations",
       "Scores",
-      "Backups & History",
+      "History",
+      "Backups",
       "Global search",
       "Health Center",
       "Users & permissions",
     ]);
-    await expect(header.locator(".feature-mega-menu__link.is-coming-soon .feature-mega-menu__link-title")).toHaveText(["Amazon sync", "Automations", "Scores", "Backups & History", "Global search"]);
+    await expect(header.locator(".feature-mega-menu__link.is-coming-soon .feature-mega-menu__link-title")).toHaveText(["Amazon sync", "Automations", "Scores", "Backups", "Global search"]);
     expect(await header.locator(".feature-mega-menu__link.is-coming-soon").evaluateAll((elements) => elements.every((element) => !element.hasAttribute("href")))).toBe(true);
     const operateHeaderColumns = await header.locator('.feature-mega-menu__group[aria-labelledby="feature-group-operate"] .feature-mega-menu__links').evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(" ").length);
     expect(operateHeaderColumns).toBe(width >= 992 ? 2 : 1);
@@ -269,11 +279,15 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
     }
     await expect(header.locator(".feature-mega-menu__link:has(.feature-status-badge):not(.is-coming-soon) .feature-mega-menu__link-title")).toHaveText([
       "AI Connector (MCP)",
+      "AI Assistant",
       "Drops",
+      "History",
       "Health Center",
       "Markets & catalogs",
     ]);
     await expect(header.locator(".feature-mega-menu__link:has(.feature-status-badge):not(.is-coming-soon) .feature-status-badge")).toHaveText([
+      "New",
+      "New",
       "New",
       "New",
       "New",
@@ -311,17 +325,19 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
       "Custom fields",
     ]);
     await expect(footer.locator(".site-footer__solutions-column")).toContainText("Fashion");
-    await expect(footer.locator(".site-footer__coming-soon > span:first-child")).toHaveText(["Amazon sync", "Automations", "Scores", "Backups & History", "Global search"]);
+    await expect(footer.locator(".site-footer__coming-soon > span:first-child")).toHaveText(["Amazon sync", "Automations", "Scores", "Backups", "Global search"]);
     expect(await footer.locator(".site-footer__coming-soon").evaluateAll((elements) => elements.every((element) => !element.hasAttribute("href")))).toBe(true);
     const operateFooterColumns = await footer.locator(".site-footer__feature-category.is-dense .footer1_link-list").evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(" ").length);
     expect(operateFooterColumns).toBe(width >= 992 ? 2 : 1);
     await expect(footer.locator(".site-footer__feature-link > span:first-child")).toHaveText([
       "AI Connector (MCP)",
+      "AI Assistant",
       "Drops",
+      "History",
       "Health Center",
       "Markets & catalogs",
     ]);
-    await expect(footer.locator(".site-footer__feature-link .feature-status-badge")).toHaveText(["New", "New", "New", "New"]);
+    await expect(footer.locator(".site-footer__feature-link .feature-status-badge")).toHaveText(["New", "New", "New", "New", "New", "New"]);
     await expect(footer.locator(".site-footer__column-heading")).toHaveText(["Features", "Solutions", "Compare", "Peak", "Resources"]);
     await expect(footer.locator(".footer1_link-column").filter({ hasText: "Compare" }).locator(".footer1_link").nth(0)).toHaveText("PIM alternatives");
     await expect(footer.locator(".footer1_link-column").filter({ hasText: "Compare" }).locator(".footer1_link").nth(1)).toHaveText("Build vs buy a PIM");
@@ -435,6 +451,7 @@ test("health-center · responsive analysis and repair contract", async ({ page }
 
 for (const feature of [
   { name: "ai-connector", path: "/ai-catalog-connector", aria: "Peak PIM AI Connector (MCP) conversation showing a merchant asking about missing SEO descriptions and reviewing catalog results", motion: ".peak-ai-message.is-assistant" },
+  { name: "ai-assistant", path: "/ai-assistant", aria: "Peak PIM AI Assistant beside a Shopify product, finding missing catalog fields, preparing a before-and-after draft, and asking for separate publishing approval", motion: ".peak-assistant-diff" },
   { name: "developer-api", path: "/api", aria: "Peak PIM developer API workspace showing a store-specific product update and publish response", motion: ".peak-api-divider" },
   { name: "metaobjects", path: "/shopify-metaobjects", aria: "Peak PIM metaobject workspace showing a Size Guide definition, typed entry fields, and publishing results across Shopify stores", motion: ".peak-mo-stores > div" },
   { name: "metafields", path: "/shopify-metafield-management", aria: "Peak PIM metafield definition workspace showing one Material definition linked across US, France, and Germany Shopify stores", motion: ".peak-mf-coverage > div:last-of-type" },
@@ -443,6 +460,7 @@ for (const feature of [
   { name: "collections", path: "/shopify-collections", aria: "Peak PIM collections workspace showing one Holiday Gifts collection with content, SEO, and product memberships across US, France, and Germany Shopify stores", motion: ".peak-col-grid .is-membership b:last-child" },
   { name: "markets-catalogs", path: "/shopify-markets-pricing", aria: "Peak PIM Markets and Catalogs workspace showing fixed variant prices across France, Switzerland, United Kingdom, and two Shopify stores", motion: ".peak-mkt-price.is-fixed.is-focus" },
   { name: "products-variants", path: "/shopify-product-management", aria: "Peak PIM product workspace showing one Summit Shell Jacket with intentional field and variant differences across US, France, and Germany Shopify stores", motion: ".peak-pv-grid .is-variant-row b:last-child" },
+  { name: "history", path: "/history", aria: "Peak PIM History workspace showing saved catalog edits, published store changes, authors, sources, and field-level before and after values", motion: ".peak-history-published" },
 ]) {
   test(`${feature.name} · responsive product and interaction contract`, async ({ page }) => {
     for (const width of [1440, 1100, 992, 768, 767, 540, 375]) {

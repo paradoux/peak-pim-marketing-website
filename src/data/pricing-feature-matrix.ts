@@ -86,6 +86,13 @@ export const pricingFeatureGroups: PricingFeatureGroup[] = [
     description: "Run day-to-day catalog work from one operational hub.",
     features: [
       {
+        label: "AI Assistant",
+        description: "Use your own Anthropic or OpenAI API key to ask about the catalog, approve proposed drafts, and confirm every publish separately.",
+        href: "/ai-assistant",
+        badge: "New",
+        values: [true, true, true],
+      },
+      {
         label: "Multi-store management",
         description: "Review and update store-specific product data from one shared catalog.",
         href: "/shopify-multi-store-pim",
@@ -127,8 +134,15 @@ export const pricingFeatureGroups: PricingFeatureGroup[] = [
         values: ["Coming soon", "Coming soon", "Coming soon"],
       },
       {
-        label: "Backups & History",
-        description: "Restore previous catalog values and see who changed what and when. This feature is coming soon.",
+        label: "History",
+        description: "Track every saved edit and published store change with its author, source, timestamp, and field-level before and after.",
+        href: "/history",
+        badge: "New",
+        values: [true, true, true],
+      },
+      {
+        label: "Backups",
+        description: "Restore catalog data to an earlier point when something goes wrong. This feature is coming soon.",
         values: ["Coming soon", "Coming soon", "Coming soon"],
       },
       {

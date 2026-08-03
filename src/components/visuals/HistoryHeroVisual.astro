@@ -1,0 +1,341 @@
+---
+import ProductVisualFrame from "../ui/ProductVisualFrame.astro";
+---
+
+<ProductVisualFrame
+  ariaLabel="Peak PIM History workspace showing saved catalog edits, published store changes, authors, sources, and field-level before and after values"
+  section="History"
+  status="Activity · Live"
+  actionLabel="Filter"
+>
+  <div class="peak-history-workspace">
+    <aside class="peak-history-sidebar">
+      <strong>Activity</strong>
+      <span class="is-active"><i aria-hidden="true"></i>All activity</span>
+      <span><i aria-hidden="true"></i>Products</span>
+      <span><i aria-hidden="true"></i>Collections</span>
+      <span><i aria-hidden="true"></i>Imports</span>
+      <small>Store scope</small>
+      <b>All stores</b>
+      <b>France</b>
+      <b>United States</b>
+    </aside>
+
+    <div class="peak-history-main">
+      <div class="peak-history-heading">
+        <div><small>Account activity</small><strong>Catalog history</strong></div>
+        <em>Today · 24 events</em>
+      </div>
+
+      <div class="peak-history-tabs" aria-hidden="true">
+        <span class="is-active">Saved changes <b>18</b></span>
+        <span>Published changes <b>6</b></span>
+      </div>
+
+      <div class="peak-history-filters">
+        <span>All stores</span><span>Products</span><span>All actions</span><strong>Newest first</strong>
+      </div>
+
+      <div class="peak-history-content">
+        <div class="peak-history-feed">
+          <article>
+            <i class="is-user" aria-hidden="true">SM</i>
+            <div><header><strong>Sam · Bulk edit</strong><time>09:14</time></header><p>Ridge Jacket · Price</p><footer><del>$119</del><b>$109</b><span>France</span></footer></div>
+          </article>
+          <article>
+            <i class="is-ai" aria-hidden="true">AI</i>
+            <div><header><strong>AI assistant · Draft</strong><time>09:11</time></header><p>Trail Pack · SEO description</p><footer><del>Empty</del><b>Added content</b><span>US</span></footer></div>
+          </article>
+          <article>
+            <i class="is-job" aria-hidden="true">↓</i>
+            <div><header><strong>Supplier import · 200 items</strong><time>08:52</time></header><p>Grouped operation</p><footer><b>184 updated</b><span>3 stores</span></footer></div>
+          </article>
+        </div>
+
+        <div class="peak-history-collapse">
+          <header><small>Edited is not published</small><strong>One live delta</strong></header>
+          <div class="peak-history-saved">
+            <span><time>09:02</time><del>$129</del><b>$124</b></span>
+            <span><time>09:08</time><del>$124</del><b>$119</b></span>
+            <span><time>09:14</time><del>$119</del><b>$109</b></span>
+          </div>
+          <div class="peak-history-arrow" aria-hidden="true">↓</div>
+          <div class="peak-history-published">
+            <span>Published · France</span><time>09:21</time>
+            <div><del>$129</del><b>$109</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ProductVisualFrame>
+
+<style>
+  .peak-history-workspace {
+    display: grid;
+    min-height: 465px;
+    grid-template-columns: 156px minmax(0, 1fr);
+    background: #f6f3ec;
+    color: #191919;
+    font-family: Inter, Arial, sans-serif;
+    text-align: left;
+  }
+
+  .peak-history-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 22px 14px;
+    border-right: 1px solid #e1ded7;
+    background: #fbfaf7;
+    color: #717171;
+    font-size: 9px;
+  }
+
+  .peak-history-sidebar > strong {
+    margin: 0 8px 8px;
+    color: #191919;
+    font-size: 10px;
+  }
+
+  .peak-history-sidebar > span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 8px;
+    border-radius: 5px;
+  }
+
+  .peak-history-sidebar > span i {
+    width: 6px;
+    height: 6px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: #bbb;
+  }
+
+  .peak-history-sidebar > span.is-active {
+    background: #e9edff;
+    color: #2845d6;
+    font-weight: 700;
+  }
+
+  .peak-history-sidebar > span.is-active i { background: #2845d6; }
+
+  .peak-history-sidebar > small {
+    margin: 13px 8px 0;
+    color: #999;
+    font-size: 8px;
+    text-transform: uppercase;
+  }
+
+  .peak-history-sidebar > b {
+    margin: 0 8px;
+    color: #555;
+    font-size: 8px;
+    font-weight: 600;
+  }
+
+  .peak-history-main {
+    min-width: 0;
+    padding: 24px;
+  }
+
+  .peak-history-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #dedbd4;
+  }
+
+  .peak-history-heading > div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .peak-history-heading small,
+  .peak-history-collapse small { color: #777; font-size: 8px; }
+  .peak-history-heading strong { font-size: 13px; }
+
+  .peak-history-heading > em {
+    padding: 5px 8px;
+    border-radius: 999px;
+    background: #e8f4eb;
+    color: #287447;
+    font-size: 8px;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .peak-history-tabs {
+    display: flex;
+    gap: 20px;
+    margin-top: 14px;
+    border-bottom: 1px solid #dedbd4;
+  }
+
+  .peak-history-tabs span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 2px 9px;
+    color: #777;
+    font-size: 8px;
+    font-weight: 700;
+  }
+
+  .peak-history-tabs span.is-active {
+    margin-bottom: -1px;
+    border-bottom: 2px solid #2845d6;
+    color: #191919;
+  }
+
+  .peak-history-tabs b {
+    padding: 2px 5px;
+    border-radius: 999px;
+    background: #efede8;
+    font-size: 7px;
+  }
+
+  .peak-history-filters {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 12px 0;
+  }
+
+  .peak-history-filters span,
+  .peak-history-filters strong {
+    padding: 5px 7px;
+    border: 1px solid #dedbd4;
+    border-radius: 4px;
+    background: #fff;
+    color: #666;
+    font-size: 7px;
+  }
+
+  .peak-history-filters strong { margin-left: auto; background: transparent; }
+
+  .peak-history-content {
+    display: grid;
+    align-items: start;
+    gap: 12px;
+    grid-template-columns: minmax(0, 1.18fr) minmax(165px, 0.82fr);
+  }
+
+  .peak-history-feed { display: grid; gap: 8px; }
+
+  .peak-history-feed article {
+    display: grid;
+    align-items: start;
+    gap: 9px;
+    padding: 10px;
+    border: 1px solid #dedbd4;
+    border-radius: 6px;
+    background: #fff;
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .peak-history-feed article > i {
+    display: grid;
+    width: 25px;
+    height: 25px;
+    place-items: center;
+    border-radius: 50%;
+    background: #edeae4;
+    color: #555;
+    font-size: 7px;
+    font-style: normal;
+    font-weight: 800;
+  }
+
+  .peak-history-feed article > i.is-ai { background: #e9edff; color: #2845d6; }
+  .peak-history-feed article > i.is-job { background: #e8f4eb; color: #287447; }
+
+  .peak-history-feed article > div { min-width: 0; }
+  .peak-history-feed header { display: flex; justify-content: space-between; gap: 8px; }
+  .peak-history-feed header strong { overflow: hidden; font-size: 8px; text-overflow: ellipsis; white-space: nowrap; }
+  .peak-history-feed time { color: #888; font-size: 7px; }
+  .peak-history-feed p { margin: 3px 0 7px; color: #666; font-size: 7px; }
+  .peak-history-feed footer { display: flex; align-items: center; gap: 5px; font-size: 7px; }
+  .peak-history-feed footer del { color: #999; }
+  .peak-history-feed footer b { color: #2845d6; }
+  .peak-history-feed footer span { margin-left: auto; padding: 3px 5px; border-radius: 3px; background: #f1efe9; color: #666; }
+
+  .peak-history-collapse {
+    padding: 11px;
+    border: 1px solid #dedbd4;
+    border-radius: 7px;
+    background: #fff;
+  }
+
+  .peak-history-collapse > header {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #ece9e3;
+  }
+
+  .peak-history-collapse > header strong { font-size: 9px; }
+  .peak-history-saved { display: grid; gap: 5px; margin-top: 8px; }
+
+  .peak-history-saved span {
+    display: grid;
+    align-items: center;
+    gap: 5px;
+    padding: 6px;
+    border-radius: 4px;
+    background: #f7f5f0;
+    font-size: 7px;
+    grid-template-columns: 1fr auto auto;
+  }
+
+  .peak-history-saved del { color: #999; }
+  .peak-history-saved b { color: #2845d6; }
+  .peak-history-arrow { margin: 5px 0; color: #aaa; font-size: 10px; text-align: center; }
+
+  .peak-history-published {
+    padding: 8px;
+    border: 1px solid #bddbc6;
+    border-radius: 5px;
+    background: #f2faf4;
+    animation: peak-history-publish 3.6s ease-in-out infinite;
+  }
+
+  .peak-history-published > span,
+  .peak-history-published > time { font-size: 7px; }
+  .peak-history-published > span { color: #287447; font-weight: 700; }
+  .peak-history-published > time { float: right; color: #777; }
+  .peak-history-published > div { display: flex; justify-content: flex-end; gap: 7px; margin-top: 7px; font-size: 9px; }
+  .peak-history-published del { color: #999; }
+  .peak-history-published b { color: #287447; }
+
+  @keyframes peak-history-publish {
+    0%, 65%, 100% { box-shadow: 0 0 0 0 rgba(40, 116, 71, 0); }
+    75% { box-shadow: 0 0 0 3px rgba(40, 116, 71, 0.13); }
+  }
+
+  @media (max-width: 767px) {
+    .peak-history-workspace { min-height: 430px; grid-template-columns: 1fr; }
+    .peak-history-sidebar { display: none; }
+    .peak-history-main { padding: 16px; }
+    .peak-history-content { grid-template-columns: minmax(0, 1.1fr) minmax(135px, 0.9fr); }
+    .peak-history-filters span:nth-child(3) { display: none; }
+  }
+
+  @media (max-width: 479px) {
+    .peak-history-main { padding: 12px; }
+    .peak-history-content { grid-template-columns: 1fr; }
+    .peak-history-feed article:nth-child(3) { display: none; }
+    .peak-history-collapse { padding: 9px; }
+    .peak-history-tabs { gap: 12px; }
+    .peak-history-filters strong { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .peak-history-published { animation: none; }
+  }
+</style>

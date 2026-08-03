@@ -1,0 +1,331 @@
+---
+import ProductVisualFrame from "../ui/ProductVisualFrame.astro";
+---
+
+<ProductVisualFrame
+  ariaLabel="Peak PIM AI Assistant beside a Shopify product, finding missing catalog fields, preparing a before-and-after draft, and asking for separate publishing approval"
+  section="AI Assistant"
+  status="Catalog connected"
+  actionLabel="Review changes"
+>
+  <div class="peak-assistant-workspace">
+    <section class="peak-assistant-context" aria-hidden="true">
+      <div class="peak-assistant-context__heading">
+        <span>Product · France</span>
+        <strong>Summit Shell Jacket</strong>
+        <small>Active · SKU SUM-SHELL-01</small>
+      </div>
+      <div class="peak-assistant-score">
+        <span>Completeness</span>
+        <strong>78%</strong>
+        <i><b></b></i>
+      </div>
+      <div class="peak-assistant-fields">
+        <span><i class="is-ready"></i><b>Title</b><em>Ready</em></span>
+        <span><i class="is-missing"></i><b>SEO description</b><em>Missing</em></span>
+        <span><i class="is-missing"></i><b>Care instructions</b><em>Missing</em></span>
+        <span><i class="is-ready"></i><b>Media</b><em>6 files</em></span>
+      </div>
+      <div class="peak-assistant-store-note">
+        <span>Store context</span>
+        <b>France differs from master</b>
+        <small>Compare-at price · Description</small>
+      </div>
+    </section>
+
+    <section class="peak-assistant-panel">
+      <div class="peak-assistant-panel__head">
+        <span class="peak-assistant-mark">AI</span>
+        <span><strong>Peak Assistant</strong><small>Using this product and France store context</small></span>
+        <i aria-hidden="true"></i>
+      </div>
+      <div class="peak-assistant-chat">
+        <div class="peak-assistant-message is-user">What is missing here?</div>
+        <div class="peak-assistant-message is-assistant">
+          <span class="peak-assistant-avatar">AI</span>
+          <p>I found <strong>2 missing fields</strong> on the France version and one difference from the master product.</p>
+          <small>Read only · No changes made</small>
+        </div>
+        <div class="peak-assistant-diff">
+          <div class="peak-assistant-diff__head">
+            <span><small>Proposed draft</small><strong>SEO description · France</strong></span>
+            <em>Needs approval</em>
+          </div>
+          <div class="peak-assistant-values">
+            <span><small>Before</small><del>Empty</del></span>
+            <span><small>After</small><b>Waterproof shell for changing mountain weather.</b></span>
+          </div>
+          <div class="peak-assistant-diff__actions"><button>Deny</button><button class="is-primary">Approve draft</button></div>
+        </div>
+        <div class="peak-assistant-publish">
+          <span><i>✓</i><b>Draft approved</b><small>Saved in Peak PIM</small></span>
+          <button>Confirm publish to France</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</ProductVisualFrame>
+
+<style>
+  .peak-assistant-workspace {
+    display: grid;
+    min-height: 470px;
+    grid-template-columns: minmax(190px, 0.72fr) minmax(0, 1.55fr);
+    background: #f6f3ec;
+  }
+
+  .peak-assistant-context {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 24px 18px;
+    border-right: 1px solid #dfdcd5;
+    background: #fbfaf7;
+  }
+
+  .peak-assistant-context__heading,
+  .peak-assistant-context__heading strong,
+  .peak-assistant-context__heading small {
+    display: block;
+  }
+
+  .peak-assistant-context__heading span,
+  .peak-assistant-context__heading small,
+  .peak-assistant-score span,
+  .peak-assistant-store-note span,
+  .peak-assistant-store-note small {
+    color: #858585;
+    font-size: 8px;
+  }
+
+  .peak-assistant-context__heading strong {
+    margin: 5px 0 3px;
+    font-size: 13px;
+  }
+
+  .peak-assistant-score,
+  .peak-assistant-store-note {
+    padding: 12px;
+    border: 1px solid #e2dfd8;
+    border-radius: 8px;
+    background: #fff;
+  }
+
+  .peak-assistant-score strong {
+    display: block;
+    margin-top: 3px;
+    font-size: 16px;
+  }
+
+  .peak-assistant-score > i {
+    display: block;
+    height: 5px;
+    margin-top: 8px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #e8e5de;
+  }
+
+  .peak-assistant-score > i b {
+    display: block;
+    width: 78%;
+    height: 100%;
+    border-radius: inherit;
+    background: #2845d6;
+  }
+
+  .peak-assistant-fields {
+    display: grid;
+    gap: 5px;
+  }
+
+  .peak-assistant-fields span {
+    display: grid;
+    grid-template-columns: 7px 1fr auto;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 8px;
+    border-bottom: 1px solid #ece9e2;
+    font-size: 8px;
+  }
+
+  .peak-assistant-fields i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+  }
+
+  .peak-assistant-fields i.is-ready { background: #53a86d; }
+  .peak-assistant-fields i.is-missing { background: #d7aa47; }
+  .peak-assistant-fields em { color: #858585; font-size: 7px; font-style: normal; }
+  .peak-assistant-store-note b { display: block; margin: 5px 0 3px; font-size: 9px; }
+
+  .peak-assistant-panel {
+    min-width: 0;
+    padding: 20px;
+  }
+
+  .peak-assistant-panel__head {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 13px;
+    border: 1px solid #e2dfd8;
+    border-radius: 9px 9px 0 0;
+    background: #fff;
+  }
+
+  .peak-assistant-mark,
+  .peak-assistant-avatar {
+    display: grid;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: 5px;
+    background: #191919;
+    color: #fff;
+    font-size: 7px;
+    font-weight: 800;
+  }
+
+  .peak-assistant-mark { width: 25px; height: 25px; }
+  .peak-assistant-avatar { width: 22px; height: 22px; }
+  .peak-assistant-panel__head > span:nth-child(2) { display: flex; flex-direction: column; }
+  .peak-assistant-panel__head strong { font-size: 9px; }
+  .peak-assistant-panel__head small { color: #858585; font-size: 7px; }
+  .peak-assistant-panel__head > i { width: 7px; height: 7px; margin-left: auto; border-radius: 50%; background: #53a86d; }
+
+  .peak-assistant-chat {
+    display: grid;
+    gap: 10px;
+    padding: 16px;
+    border: 1px solid #e2dfd8;
+    border-top: 0;
+    border-radius: 0 0 9px 9px;
+    background: #f2efe8;
+  }
+
+  .peak-assistant-message {
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 8px;
+    line-height: 1.4;
+  }
+
+  .peak-assistant-message.is-user {
+    max-width: 58%;
+    margin-left: auto;
+    background: #191919;
+    color: #fff;
+  }
+
+  .peak-assistant-message.is-assistant {
+    display: grid;
+    max-width: 82%;
+    grid-template-columns: 22px 1fr;
+    gap: 8px;
+    background: #fff;
+  }
+
+  .peak-assistant-message p { margin: 0; }
+  .peak-assistant-message small { grid-column: 2; color: #4c925f; font-size: 7px; }
+
+  .peak-assistant-diff {
+    overflow: hidden;
+    border: 1px solid #cdd4fa;
+    border-radius: 9px;
+    background: #fff;
+    box-shadow: 0 8px 20px rgba(40, 69, 214, 0.08);
+  }
+
+  .peak-assistant-diff__head,
+  .peak-assistant-diff__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+  }
+
+  .peak-assistant-diff__head { border-bottom: 1px solid #ece9e2; }
+  .peak-assistant-diff__head > span { display: flex; flex-direction: column; }
+  .peak-assistant-diff__head small { color: #858585; font-size: 7px; }
+  .peak-assistant-diff__head strong { font-size: 9px; }
+  .peak-assistant-diff__head em { margin-left: auto; padding: 4px 6px; border-radius: 999px; background: #eef1ff; color: #2845d6; font-size: 6px; font-style: normal; }
+
+  .peak-assistant-values {
+    display: grid;
+    grid-template-columns: 0.72fr 1.28fr;
+    gap: 8px;
+    padding: 10px 12px;
+  }
+
+  .peak-assistant-values span {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px;
+    border-radius: 6px;
+    background: #f6f3ec;
+  }
+
+  .peak-assistant-values small { color: #858585; font-size: 6px; }
+  .peak-assistant-values del { color: #888; font-size: 8px; }
+  .peak-assistant-values b { font-size: 8px; line-height: 1.35; }
+  .peak-assistant-diff__actions { justify-content: flex-end; border-top: 1px solid #ece9e2; }
+  .peak-assistant-diff button,
+  .peak-assistant-publish button { padding: 7px 9px; border: 1px solid #d8d5ce; border-radius: 6px; background: #fff; color: #191919; font: 700 7px/1 Inter, Arial, sans-serif; }
+  .peak-assistant-diff button.is-primary,
+  .peak-assistant-publish button { border-color: #2845d6; background: #2845d6; color: #fff; }
+
+  .peak-assistant-publish {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid #cfe2d4;
+    border-radius: 8px;
+    background: #eff8f1;
+  }
+
+  .peak-assistant-publish span {
+    display: grid;
+    flex: 1;
+    grid-template-columns: 20px 1fr;
+    align-items: center;
+  }
+
+  .peak-assistant-publish i { display: grid; width: 17px; height: 17px; grid-row: 1 / 3; place-items: center; border-radius: 50%; background: #53a86d; color: #fff; font-size: 7px; font-style: normal; }
+  .peak-assistant-publish b { font-size: 8px; }
+  .peak-assistant-publish small { grid-column: 2; color: #5d8065; font-size: 6px; }
+
+  @media (max-width: 767px) {
+    .peak-assistant-workspace { min-height: 430px; grid-template-columns: 1fr; }
+    .peak-assistant-context { display: none; }
+    .peak-assistant-panel { padding: 13px; }
+    .peak-assistant-chat { padding: 12px; }
+    .peak-assistant-message.is-user { max-width: 75%; }
+  }
+
+  @media (max-width: 479px) {
+    .peak-assistant-workspace { min-height: 405px; }
+    .peak-assistant-panel__head small,
+    .peak-assistant-message.is-assistant small { display: none; }
+    .peak-assistant-message.is-assistant { max-width: 94%; }
+    .peak-assistant-values { grid-template-columns: 0.62fr 1.38fr; }
+    .peak-assistant-publish { align-items: stretch; flex-direction: column; }
+    .peak-assistant-publish button { width: 100%; }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .peak-assistant-diff { animation: peak-assistant-review 3.8s ease-in-out infinite; }
+    @keyframes peak-assistant-review {
+      0%, 20% { border-color: #e2dfd8; box-shadow: none; }
+      42%, 82% { border-color: #8ea0f0; box-shadow: 0 8px 20px rgba(40, 69, 214, 0.12); }
+      100% { border-color: #cdd4fa; box-shadow: 0 8px 20px rgba(40, 69, 214, 0.08); }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .peak-assistant-diff { animation: none; }
+  }
+</style>

@@ -22,8 +22,8 @@ if (!existsSync(pricingFile)) {
   if (html.includes("unlimited stores")) failures.push("Pricing still contains the outdated unlimited-stores claim");
   if (html.includes("next billing cycle")) failures.push("Pricing schema conflicts with the visible plan-change policy");
   if (!schema.offers?.every((offer) => offer.availability === "https://schema.org/InStock")) failures.push("Pricing schema does not mark every live plan as available");
-  if (schema.featureList?.length !== 32) failures.push("Pricing schema feature list is incomplete");
-  if (!schema.offers?.every((offer) => offer.additionalProperty?.length === 32)) failures.push("Pricing offers do not expose the complete feature matrix");
+  if (schema.featureList?.length !== 34) failures.push("Pricing schema feature list is incomplete");
+  if (!schema.offers?.every((offer) => offer.additionalProperty?.length === 34)) failures.push("Pricing offers do not expose the complete feature matrix");
 
   const schemaFeatureValue = (planName, featureName) => schema.offers
     ?.find((offer) => offer.name === planName)
@@ -37,7 +37,9 @@ if (!existsSync(pricingFile)) {
     ["Core", "Amazon sync", "Coming soon"],
     ["Enterprise", "Automations", "Coming soon"],
     ["Core", "Scores", "Coming soon"],
-    ["Elite", "Backups & History", "Coming soon"],
+    ["Core", "AI Assistant", "Included"],
+    ["Elite", "History", "Included"],
+    ["Core", "Backups", "Coming soon"],
     ["Enterprise", "Global search", "Coming soon"],
   ]) {
     if (schemaFeatureValue(planName, featureName) !== expectedValue) failures.push(`Pricing schema has an incorrect ${planName} value for ${featureName}`);
@@ -70,6 +72,8 @@ const sitemapUrls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => m
 if (!sitemap.includes("<loc>https://peak-pim.com/pricing/</loc>")) failures.push("Sitemap is missing the direct pricing URL");
 if (!sitemap.includes("<loc>https://peak-pim.com/blog/</loc>")) failures.push("Sitemap is missing the article index URL");
 if (!sitemap.includes("<loc>https://peak-pim.com/guides/</loc>")) failures.push("Sitemap is missing the guide index URL");
+if (!sitemap.includes("<loc>https://peak-pim.com/history/</loc>")) failures.push("Sitemap is missing the History URL");
+if (!sitemap.includes("<loc>https://peak-pim.com/ai-assistant/</loc>")) failures.push("Sitemap is missing the AI Assistant URL");
 if (sitemap.includes("https://peak-pim.com/partners/")) failures.push("Sitemap exposes the unfinished partners page");
 if (sitemapUrls.some((url) => url !== "https://peak-pim.com/" && !url.endsWith("/"))) failures.push("Sitemap contains a redirecting URL");
 if ((sitemap.match(/<lastmod>/g) ?? []).length !== sitemapUrls.length) failures.push("Sitemap last-modified dates are incomplete");
@@ -78,6 +82,8 @@ const robots = readFileSync(resolve(projectRoot, "public/robots.txt"), "utf8");
 if (!robots.includes("Allow: /") || !robots.includes("Sitemap: https://peak-pim.com/sitemap.xml")) failures.push("Crawler discovery directives are incomplete");
 
 const llms = readFileSync(resolve(projectRoot, "public/llms.txt"), "utf8");
+if (!llms.includes("[Shopify catalog change history](https://peak-pim.com/history/)")) failures.push("llms.txt is missing the History page");
+if (!llms.includes("[AI Assistant for Shopify catalog management](https://peak-pim.com/ai-assistant/)")) failures.push("llms.txt is missing the AI Assistant page");
 if ((llms.match(/^## Current Pricing$/gm) ?? []).length !== 1) failures.push("llms.txt must contain exactly one Current Pricing section");
 for (const fact of ["Core: $99 per month or $990 per year", "Elite: $249 per month or $2,490 per year", "Enterprise: Custom pricing", "10-day free trial"]) {
   if (!llms.includes(fact)) failures.push(`llms.txt is missing current pricing guidance: ${fact}`);

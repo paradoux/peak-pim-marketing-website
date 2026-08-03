@@ -1,0 +1,194 @@
+---
+import CardGrid from "../components/sections/CardGrid.astro";
+import CtaBanner from "../components/sections/CtaBanner.astro";
+import Faq from "../components/sections/Faq.astro";
+import FeatureGrid from "../components/sections/FeatureGrid.astro";
+import Hero from "../components/sections/Hero.astro";
+import LogoCloud from "../components/sections/LogoCloud.astro";
+import ProblemGrid from "../components/sections/ProblemGrid.astro";
+import AiAssistantCardVisual from "../components/visuals/AiAssistantCardVisual.astro";
+import AiAssistantHeroVisual from "../components/visuals/AiAssistantHeroVisual.astro";
+import { ctaLabels } from "../data/cta-copy";
+import LandingPageLayout from "../layouts/LandingPageLayout.astro";
+
+const appStoreUrl = "https://apps.shopify.com/peak-pim";
+
+const problems = [
+  {
+    icon: "search",
+    title: "Generic AI cannot see the catalog",
+    description: "Pasting product copy into a separate chat removes the products, variants, fields, stores, and health data that make an answer useful.",
+  },
+  {
+    icon: "store",
+    title: "The current page is part of the question",
+    description: "When you are already reviewing one product and one store, the assistant should understand what “here” means without another round of explanation.",
+  },
+  {
+    icon: "review",
+    title: "AI actions need visible boundaries",
+    description: "Teams need to see the proposed values, approve drafts, and confirm publishing separately before an assistant changes anything customers can see.",
+  },
+];
+
+const workflow = [
+  {
+    tagline: "Ask",
+    title: "Start with the page in front of you",
+    description: "Open the panel beside a product, store, or account view. The assistant reads that context, searches the real catalog, and explains what needs attention.",
+  },
+  {
+    tagline: "Approve",
+    title: "Review every proposed change",
+    description: "Writes arrive as field-level before-and-after cards. Approve or deny each proposal, and approved values save as drafts through Peak PIM's normal validation.",
+  },
+  {
+    tagline: "Publish",
+    title: "Confirm the storefront action separately",
+    description: "A saved draft never becomes permission to publish. The assistant asks again before sending any approved change to a selected Shopify store.",
+  },
+];
+
+const assistantFeatures = [
+  {
+    icon: "search",
+    title: "Let safe reads run freely",
+    description: "Search, browse, summarize, compare stores, and run catalog health analyses without interrupting the conversation with unnecessary approvals.",
+  },
+  {
+    icon: "code",
+    title: "Bring your own AI and API key",
+    description: "Connect an Anthropic or OpenAI API key, choose an available Claude or OpenAI model, and pay the provider directly for model usage.",
+  },
+  {
+    icon: "review",
+    title: "Keep every AI edit auditable",
+    description: "Assistant changes appear in History with their author, source, timestamp, and before-and-after values, just like work from another teammate.",
+  },
+  {
+    icon: "publish",
+    title: "Keep hard limits in place",
+    description: "The assistant has no delete capability. Catalog content is treated as data, so text inside a product record cannot give the assistant new instructions.",
+  },
+];
+
+const faqItems = [
+  {
+    question: "What is the Peak PIM AI Assistant?",
+    answer: "It is a conversational panel inside Peak PIM that can read your catalog, understand the page and store you are viewing, prepare validated draft changes, and publish only after a separate confirmation.",
+  },
+  {
+    question: "What can I ask the Assistant?",
+    answer: "You can ask what needs attention, which products are missing content, where stores disagree, why publishing failed, what is scheduled to change, or for a summary of the product currently open. It can also run supported Health Center analyses and prepare fixes for review.",
+  },
+  {
+    question: "Which AI providers can I use?",
+    answer: "The Assistant currently supports Anthropic and OpenAI through your own API key. You choose an available Claude or OpenAI model and pay the provider directly for its usage.",
+  },
+  {
+    question: "Can I use my Claude or ChatGPT subscription?",
+    answer: "No. The in-app Assistant connects with an Anthropic or OpenAI API key, not a Claude or ChatGPT consumer subscription. Adding the key is a separate setup step in Peak PIM.",
+  },
+  {
+    question: "Can the Assistant change catalog data without approval?",
+    answer: "No. It can read and analyze freely, but every field change is presented as a before-and-after proposal. You approve or deny it, and an approved value is saved as a draft.",
+  },
+  {
+    question: "Can approval of a draft also publish it?",
+    answer: "No. Publishing is a separate action with its own explicit confirmation every time. Approving a proposed edit never grants permission to send that draft live to a store.",
+  },
+  {
+    question: "Can the Assistant delete products or other catalog data?",
+    answer: "No. Delete capabilities are not available to the Assistant.",
+  },
+  {
+    question: "Are AI changes recorded in History?",
+    answer: "Yes. Assistant edits are attributed to the Assistant and recorded with their before-and-after values. History provides the context needed to recover a previous value manually, but it does not currently offer one-click version restore.",
+  },
+  {
+    question: "How is the AI Assistant different from the AI Connector (MCP)?",
+    answer: "The AI Assistant runs inside Peak PIM and uses your Anthropic or OpenAI API key. The AI Connector uses MCP to bring Peak PIM catalog tools into compatible external assistants such as Claude or eligible ChatGPT workspaces. They provide AI inside and outside your PIM respectively.",
+  },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
+---
+
+<LandingPageLayout
+  title="AI Assistant for Shopify Catalog Management | Peak PIM"
+  description="Use an AI assistant inside Peak PIM to inspect Shopify catalog data, prepare approved drafts, and publish only after a separate confirmation."
+  canonicalPath="/ai-assistant"
+  schemaType="SoftwareApplication"
+  schema={{
+    alternativeHeadline: "Peak PIM AI Assistant",
+    keywords: ["Shopify AI assistant", "AI product catalog management", "AI PIM assistant", "catalog AI"],
+  }}
+  additionalSchemas={[faqSchema]}
+  ogTitle="An AI Assistant Inside Your Shopify PIM"
+  ogDescription="Ask about real catalog data, approve every proposed draft, and confirm publishing separately with the Peak PIM AI Assistant."
+>
+  <Hero
+    title="Your catalog's new teammate"
+    description="Ask Peak PIM what needs attention, review the exact changes it prepares, and decide what becomes a draft or goes live. The Assistant reads before it writes and asks before it acts."
+    primaryCta={{ label: ctaLabels.tryFree, href: appStoreUrl, external: true }}
+    secondaryCta={{ label: ctaLabels.seeHowItWorks, href: "#assistant-workflow" }}
+  >
+    <AiAssistantHeroVisual />
+  </Hero>
+
+  <LogoCloud />
+
+  <ProblemGrid
+    tagline="AI with working context"
+    title="Talk to the catalog you are already managing"
+    description="The Assistant uses Peak PIM's real catalog tools and the page you have open, then keeps draft approval and storefront publishing as two separate decisions."
+    items={problems}
+    link={{ label: ctaLabels.learnMore, href: "/ai-catalog-connector" }}
+  />
+
+  <CardGrid
+    id="assistant-workflow"
+    tagline="Find, approve, publish"
+    title="Complete the catalog loop in one conversation"
+    description="Move from a contextual question to a reviewed draft, then make a separate decision about what reaches the storefront."
+    cards={workflow}
+  >
+    <AiAssistantCardVisual slot="visual-1" mode="context" />
+    <AiAssistantCardVisual slot="visual-2" mode="approval" />
+    <AiAssistantCardVisual slot="visual-3" mode="publish" />
+  </CardGrid>
+
+  <FeatureGrid
+    id="assistant-safety"
+    tagline="Built for trusted catalog work"
+    title="Useful autonomy with clear limits"
+    description="The Assistant can drive the workflows Peak PIM already knows how to run while keeping your provider choice, approvals, publishing decisions, and activity record visible."
+    features={assistantFeatures}
+    cta={{ label: ctaLabels.learnMore, href: "/history" }}
+  />
+
+  <CtaBanner
+    id="start"
+    title="Put catalog context inside the conversation"
+    description="Connect your AI provider, ask about the catalog in front of you, and keep every write and publish under your control."
+    primaryLabel={ctaLabels.tryFree}
+    primaryHref={appStoreUrl}
+    secondaryLabel={ctaLabels.bookDemo}
+    trustLine="10-day free trial. Free setup. No credit card."
+  />
+
+  <Faq
+    id="faq"
+    title="Frequently asked questions"
+    description="Everything you need to know about using the AI Assistant inside Peak PIM."
+    items={faqItems}
+  />
+</LandingPageLayout>

@@ -71,7 +71,7 @@ All pages also use the original global antialiasing settings (`-webkit-font-smoo
 The header mega menu and footer share the feature taxonomy defined in `src/data/site-navigation.ts`. Every new feature page must be added there so it appears consistently in both locations:
 
 - **Connect**: onboarding, Shopify sync, Amazon sync, the AI Connector (MCP), APIs, and integrations.
-- **Operate**: multi-store operations, bulk editing, import/export, media management, Drops, Automations, catalog scores, backups and history, global search, catalog health, and team permissions.
+- **Operate**: the in-app AI Assistant, multi-store operations, bulk editing, import/export, media management, Drops, Automations, catalog scores, History, global search, catalog health, and team permissions.
 - **Manage & Enrich**: products and variants, collections, metafields, metaobjects, translations, Markets and catalog pricing, custom fields, and other structured product-content capabilities.
 - **Solutions**: industry- and team-specific landing pages such as Fashion.
 
@@ -132,6 +132,10 @@ Peak workspace illustrations use `ProductVisualFrame.astro` and follow the estab
 - motion that demonstrates a real state change and resolves to a useful static state when reduced motion is enabled.
 
 Approved feature-specific product examples include `TranslationWorkflowDemo.astro`, `TranslationStepVisual.astro`, `TranslationsHeroVisual.astro`, `TranslationsCardVisual.astro`, `BuildVsBuyDecisionVisual.astro`, `ImportExportHeroVisual.astro`, `ImportExportCardVisual.astro`, `DropsHeroVisual.astro`, `DropsCardVisual.astro`, `HealthCenterHeroVisual.astro`, `HealthCenterCardVisual.astro`, `AiConnectorHeroVisual.astro`, `AiConnectorCardVisual.astro`, `DeveloperApiHeroVisual.astro`, `DeveloperApiCardVisual.astro`, `MetaobjectsHeroVisual.astro`, `MetaobjectsCardVisual.astro`, `MetafieldsHeroVisual.astro`, `MetafieldsCardVisual.astro`, `CustomFieldsHeroVisual.astro`, `CustomFieldsCardVisual.astro`, `RolesPermissionsHeroVisual.astro`, `RolesPermissionsCardVisual.astro`, `CollectionsHeroVisual.astro`, `CollectionsCardVisual.astro`, `MarketsCatalogsHeroVisual.astro`, `MarketsCatalogsCardVisual.astro`, `ProductsVariantsHeroVisual.astro`, and `ProductsVariantsCardVisual.astro`. They may explain different operations, but they share the same Peak workspace surfaces, borders, states, and responsive behavior.
+
+History uses `HistoryHeroVisual.astro` and `HistoryCardVisual.astro` to distinguish saved edits from published store changes, attribute human, job, and AI activity, and show field-level before and after values without implying one-click rollback.
+
+The AI Assistant uses `AiAssistantHeroVisual.astro` and `AiAssistantCardVisual.astro` to show page-aware catalog reads, before-and-after draft approval, and separate storefront publishing confirmation. Keep it distinct from the external AI Connector (MCP): the Assistant is AI inside Peak PIM with a merchant-provided Anthropic or OpenAI API key, while MCP connects compatible external assistants to Peak PIM.
 
 `BuildVsBuyHeroVisual.astro` is the approved evidence-image exception requested for the comparison page. It uses a registered authentic screenshot inside a responsive, rounded evidence card with Peak styling. Do not reuse that raster treatment for product demonstrations.
 

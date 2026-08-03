@@ -1,0 +1,156 @@
+---
+type Props = { mode: "saved" | "published" | "activity" };
+const { mode } = Astro.props;
+---
+
+<div class:list={["peak-history-card-visual", `is-${mode}`]} role="img" aria-label={
+  mode === "saved"
+    ? "Peak PIM saved-change timeline showing authors and field-level before and after values"
+    : mode === "published"
+      ? "Peak PIM published-change timeline showing the exact delta sent to a Shopify store"
+      : "Peak PIM account activity filtered by store, item type, and grouped bulk operation"
+}>
+  <div class="peak-history-card-bar"><i></i><i></i><i></i><span></span></div>
+
+  {mode === "saved" && (
+    <div class="peak-history-card-body">
+      <div class="peak-history-card-top"><span>Saved changes</span><strong>Newest first</strong></div>
+      <div class="peak-history-card-feed">
+        <article><i>SM</i><div><b>Price updated</b><small>Sam · Detail page · 09:14</small><span><del>$119</del><em>$109</em></span></div></article>
+        <article><i class="is-ai">AI</i><div><b>SEO description added</b><small>AI assistant · Draft · 09:11</small><span><del>Empty</del><em>Added content</em></span></div></article>
+        <article><i class="is-job">↓</i><div><b>Supplier import</b><small>Grouped operation · 200 items</small><span><em>184 updated</em></span></div></article>
+      </div>
+    </div>
+  )}
+
+  {mode === "published" && (
+    <div class="peak-history-card-body">
+      <div class="peak-history-card-top"><span>Published changes</span><strong>France</strong></div>
+      <div class="peak-history-card-saved">
+        <span><time>09:02</time><del>$129</del><b>$124</b></span>
+        <span><time>09:08</time><del>$124</del><b>$119</b></span>
+        <span><time>09:14</time><del>$119</del><b>$109</b></span>
+      </div>
+      <div class="peak-history-card-arrow">3 saved edits <i>↓</i> 1 published delta</div>
+      <div class="peak-history-card-live"><header><b>France · Published</b><time>09:21</time></header><span><del>$129</del><em>$109</em></span></div>
+    </div>
+  )}
+
+  {mode === "activity" && (
+    <div class="peak-history-card-body">
+      <div class="peak-history-card-top"><span>Account activity</span><strong>24 events</strong></div>
+      <div class="peak-history-card-filters"><span>All stores</span><span>Products</span><span>All actions</span></div>
+      <div class="peak-history-card-group">
+        <header><i>↓</i><span><b>Bulk edit · 200 items</b><small>Sam · 3 stores · 08:52</small></span></header>
+        <div><span>Products updated</span><b>184</b></div>
+        <div><span>Variants updated</span><b>16</b></div>
+        <footer>Open grouped changes</footer>
+      </div>
+    </div>
+  )}
+</div>
+
+<style>
+  .peak-history-card-visual {
+    width: 100%;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    border-radius: 8px 8px 0 0;
+    background: #f6f3ec;
+    color: #191919;
+    font-family: Inter, Arial, sans-serif;
+    text-align: left;
+  }
+
+  .peak-history-card-bar {
+    display: flex;
+    height: 32px;
+    align-items: center;
+    gap: 5px;
+    padding: 0 12px;
+    background: #191919;
+  }
+
+  .peak-history-card-bar i { width: 5px; height: 5px; border-radius: 50%; background: #777; }
+  .peak-history-card-bar span { width: 42px; height: 5px; margin-left: auto; border-radius: 999px; background: #363636; }
+  .peak-history-card-body { padding: 9%; }
+
+  .peak-history-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8%;
+    color: #777;
+    font-size: clamp(7px, 0.7vw, 10px);
+    font-weight: 700;
+  }
+
+  .peak-history-card-top strong { padding: 5px 7px; border-radius: 999px; background: #eceffa; color: #2845d6; font-size: clamp(6px, 0.58vw, 8px); }
+  .peak-history-card-feed { display: grid; gap: 7px; }
+
+  .peak-history-card-feed article {
+    display: grid;
+    align-items: start;
+    gap: 8px;
+    padding: 8px;
+    border: 1px solid #dfddd7;
+    border-radius: 5px;
+    background: #fff;
+    grid-template-columns: auto 1fr;
+  }
+
+  .peak-history-card-feed article > i {
+    display: grid;
+    width: 23px;
+    height: 23px;
+    place-items: center;
+    border-radius: 50%;
+    background: #edeae4;
+    color: #555;
+    font-size: clamp(5px, 0.5vw, 7px);
+    font-style: normal;
+    font-weight: 800;
+  }
+
+  .peak-history-card-feed article > i.is-ai { background: #e9edff; color: #2845d6; }
+  .peak-history-card-feed article > i.is-job { background: #e8f4eb; color: #287447; }
+  .peak-history-card-feed article > div { display: flex; min-width: 0; flex-direction: column; gap: 2px; }
+  .peak-history-card-feed b { font-size: clamp(6px, 0.62vw, 8px); }
+  .peak-history-card-feed small { overflow: hidden; color: #777; font-size: clamp(5px, 0.5vw, 7px); text-overflow: ellipsis; white-space: nowrap; }
+  .peak-history-card-feed article span { display: flex; gap: 6px; margin-top: 3px; font-size: clamp(5px, 0.53vw, 7px); }
+  .peak-history-card-feed del { color: #999; }
+  .peak-history-card-feed em { color: #2845d6; font-style: normal; font-weight: 700; }
+
+  .peak-history-card-saved { display: grid; gap: 6px; }
+  .peak-history-card-saved span { display: grid; align-items: center; gap: 6px; padding: 7px 8px; border: 1px solid #e2dfd9; border-radius: 5px; background: #fff; font-size: clamp(6px, 0.58vw, 8px); grid-template-columns: 1fr auto auto; }
+  .peak-history-card-saved time { color: #777; }
+  .peak-history-card-saved del { color: #999; }
+  .peak-history-card-saved b { color: #2845d6; }
+
+  .peak-history-card-arrow { margin: 6% 0; color: #777; font-size: clamp(6px, 0.55vw, 8px); text-align: center; }
+  .peak-history-card-arrow i { margin: 0 4px; color: #2845d6; font-style: normal; }
+  .peak-history-card-live { padding: 10px; border: 1px solid #bddbc6; border-radius: 6px; background: #f2faf4; }
+  .peak-history-card-live header { display: flex; justify-content: space-between; gap: 8px; font-size: clamp(6px, 0.58vw, 8px); }
+  .peak-history-card-live header b { color: #287447; }
+  .peak-history-card-live time { color: #777; }
+  .peak-history-card-live > span { display: flex; justify-content: flex-end; gap: 8px; margin-top: 9px; font-size: clamp(7px, 0.68vw, 9px); }
+  .peak-history-card-live del { color: #999; }
+  .peak-history-card-live em { color: #287447; font-style: normal; font-weight: 800; }
+
+  .peak-history-card-filters { display: flex; gap: 5px; margin-bottom: 8%; }
+  .peak-history-card-filters span { padding: 5px 7px; border: 1px solid #dfddd7; border-radius: 4px; background: #fff; color: #666; font-size: clamp(5px, 0.52vw, 7px); }
+  .peak-history-card-group { overflow: hidden; border: 1px solid #dfddd7; border-radius: 6px; background: #fff; }
+  .peak-history-card-group header { display: grid; align-items: center; gap: 8px; padding: 10px; border-bottom: 1px solid #ece9e3; grid-template-columns: auto 1fr; }
+  .peak-history-card-group header > i { display: grid; width: 24px; height: 24px; place-items: center; border-radius: 5px; background: #e9edff; color: #2845d6; font-size: 9px; font-style: normal; font-weight: 800; }
+  .peak-history-card-group header span { display: flex; min-width: 0; flex-direction: column; gap: 2px; }
+  .peak-history-card-group header b { font-size: clamp(6px, 0.62vw, 8px); }
+  .peak-history-card-group header small { color: #777; font-size: clamp(5px, 0.5vw, 7px); }
+  .peak-history-card-group > div { display: flex; justify-content: space-between; padding: 9px 10px; border-bottom: 1px solid #ece9e3; color: #666; font-size: clamp(6px, 0.58vw, 8px); }
+  .peak-history-card-group > div b { color: #191919; }
+  .peak-history-card-group footer { padding: 9px 10px; color: #2845d6; font-size: clamp(6px, 0.58vw, 8px); font-weight: 700; text-align: right; }
+
+  @media (max-width: 479px) {
+    .peak-history-card-body { padding: 8%; }
+  }
+</style>

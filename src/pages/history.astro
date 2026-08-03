@@ -1,0 +1,190 @@
+---
+import CardGrid from "../components/sections/CardGrid.astro";
+import CtaBanner from "../components/sections/CtaBanner.astro";
+import Faq from "../components/sections/Faq.astro";
+import FeatureGrid from "../components/sections/FeatureGrid.astro";
+import Hero from "../components/sections/Hero.astro";
+import LogoCloud from "../components/sections/LogoCloud.astro";
+import ProblemGrid from "../components/sections/ProblemGrid.astro";
+import HistoryCardVisual from "../components/visuals/HistoryCardVisual.astro";
+import HistoryHeroVisual from "../components/visuals/HistoryHeroVisual.astro";
+import { ctaLabels } from "../data/cta-copy";
+import LandingPageLayout from "../layouts/LandingPageLayout.astro";
+
+const appStoreUrl = "https://apps.shopify.com/peak-pim";
+
+const problems = [
+  {
+    icon: "review",
+    title: "The current value hides the story",
+    description: "A price, title, or metafield can look wrong without showing what it replaced, who changed it, or whether the new value ever reached a store.",
+  },
+  {
+    icon: "publish",
+    title: "Edited and published are different facts",
+    description: "Several draft edits can happen before one publish. Teams need to see both the work inside Peak PIM and the final delta that actually went live.",
+  },
+  {
+    icon: "store",
+    title: "More people and stores create more questions",
+    description: "Shared catalog work becomes difficult to explain when agencies, regional teams, imports, scheduled operations, and AI assistants all make changes.",
+  },
+];
+
+const workflow = [
+  {
+    tagline: "Saved",
+    title: "Follow every edit before it goes live",
+    description: "See creations, updates, deletions, links, unlinks, and reverted values with their author, source, time, and exact field-level before and after.",
+  },
+  {
+    tagline: "Published",
+    title: "See what each store actually received",
+    description: "Review the final delta published to every store, including failed publishes and their errors. Multiple draft edits collapse into the one change that shipped.",
+  },
+  {
+    tagline: "Investigate",
+    title: "Find the full story from one timeline",
+    description: "Open an item's History tab or filter account-wide Activity by store, item type, and action to understand what happened while you were away.",
+  },
+];
+
+const historyFeatures = [
+  {
+    icon: "edit",
+    title: "Read the value before and after",
+    description: "Every entry identifies the changed field and preserves both values, so your team can understand the decision before making another edit.",
+  },
+  {
+    icon: "review",
+    title: "Know who or what made the change",
+    description: "Activity is attributed to a teammate, Peak support, a background job, or an AI assistant. AI Assistant and MCP activity stay clearly labeled and fully auditable.",
+  },
+  {
+    icon: "grid",
+    title: "Keep bulk work readable",
+    description: "Bulk edits, supplier imports, Harmonize fixes, and Drop apply or revert events stay grouped as operations instead of flooding the timeline with disconnected rows.",
+  },
+  {
+    icon: "file",
+    title: "Keep context after the item is gone",
+    description: "Deleted products and other catalog records retain a readable timeline by name. The activity record does not disappear with its subject.",
+  },
+];
+
+const faqItems = [
+  {
+    question: "What does Peak PIM History record?",
+    answer: "History records catalog creations, updates, deletions, links, unlinks, reverted values, and publishing outcomes. Each entry includes the time, actor, source, affected item and store, and field-level before and after values when applicable.",
+  },
+  {
+    question: "What is the difference between Saved changes and Published changes?",
+    answer: "Saved changes show the edits made inside Peak PIM before they go live. Published changes show the final delta that actually reached each store. If a price is edited three times before publishing, Saved changes shows all three edits while Published changes shows the one before-and-after delta sent to the store.",
+  },
+  {
+    question: "Where can I see catalog history?",
+    answer: "Each product, variant, collection, and supported catalog item has its own History tab. The account-wide Activity page combines catalog events and can be filtered by store, item type, and action.",
+  },
+  {
+    question: "Does a product timeline include variant changes?",
+    answer: "Yes. A product timeline includes changes to its variants so the complete product story remains visible in one place.",
+  },
+  {
+    question: "Are AI changes identified in History?",
+    answer: "Yes. Changes made by the Peak PIM AI Assistant or through the AI Connector (MCP) are labeled as AI activity and include the same author, source, timestamp, and before-and-after context as other catalog changes.",
+  },
+  {
+    question: "How are bulk edits, imports, and Drops displayed?",
+    answer: "High-volume operations are grouped under their source, such as Bulk edit, Supplier import, Harmonize, or Drop. A Drop records both the apply event and its automatic revert, while the group keeps hundreds of related changes readable.",
+  },
+  {
+    question: "What happens to the history of a deleted item?",
+    answer: "Its timeline remains readable by item name. Deleting the catalog record does not erase the activity that explains what happened to it.",
+  },
+  {
+    question: "Can I restore an older version from History?",
+    answer: "History does not offer one-click version restore today. It preserves the before value for every recorded field change, so your team always has the context needed to recover a value manually without guessing.",
+  },
+  {
+    question: "Does History show failed publishes?",
+    answer: "Yes. Published changes are recorded per store, and a failed publish remains visible with its error instead of appearing as though the new value reached the storefront.",
+  },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
+---
+
+<LandingPageLayout
+  title="Shopify Catalog Change History & Audit Trail | Peak PIM"
+  description="Track every Shopify catalog edit and publish with author, source, timestamp, store, and field-level before-and-after values in Peak PIM."
+  canonicalPath="/history"
+  schemaType="SoftwareApplication"
+  additionalSchemas={[faqSchema]}
+  ogTitle="Shopify Catalog History With Every Before and After"
+  ogDescription="See who changed each catalog value, how it changed, and what actually reached every Shopify store."
+>
+  <Hero
+    title="Who changed what, when"
+    description="See every saved edit and every published change across products, variants, collections, and stores. Each entry records the author, source, time, and field-level before and after."
+    primaryCta={{ label: ctaLabels.tryFree, href: appStoreUrl, external: true }}
+    secondaryCta={{ label: ctaLabels.seeHowItWorks, href: "#history-workflow" }}
+  >
+    <HistoryHeroVisual />
+  </Hero>
+
+  <LogoCloud />
+
+  <ProblemGrid
+    tagline="Catalog context"
+    title="Know how every value got here"
+    description="History gives teams enough context to understand a catalog change before changing it again. It separates the work your team saved from the update customers could actually see."
+    items={problems}
+    link={{ label: ctaLabels.learnMore, href: "/shopify-catalog-health-center" }}
+  />
+
+  <CardGrid
+    id="history-workflow"
+    tagline="Two lenses, one timeline"
+    title="See the edit and the publish separately"
+    description="Move from every draft decision to the exact store update it produced, then investigate a single item or the whole account from the same activity model."
+    cards={workflow}
+  >
+    <HistoryCardVisual slot="visual-1" mode="saved" />
+    <HistoryCardVisual slot="visual-2" mode="published" />
+    <HistoryCardVisual slot="visual-3" mode="activity" />
+  </CardGrid>
+
+  <FeatureGrid
+    id="history-context"
+    tagline="Built for catalog teams"
+    title="Accountability without guesswork"
+    description="History turns team activity into shared context. Agencies can answer client questions, operators can understand bulk work, and AI-assisted catalog changes remain as auditable as human edits."
+    features={historyFeatures}
+    cta={{ label: ctaLabels.learnMore, href: "/ai-assistant" }}
+  />
+
+  <CtaBanner
+    id="start"
+    title="Give every catalog change a clear story"
+    description="Track the edit, the publish, the person or process behind it, and the exact values before and after across every store."
+    primaryLabel={ctaLabels.tryFree}
+    primaryHref={appStoreUrl}
+    secondaryLabel={ctaLabels.bookDemo}
+    trustLine="10-day free trial. Free setup. No credit card."
+  />
+
+  <Faq
+    id="faq"
+    title="Frequently asked questions"
+    description="Everything you need to know about catalog change history and activity tracking in Peak PIM."
+    items={faqItems}
+  />
+</LandingPageLayout>

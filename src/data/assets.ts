@@ -15,6 +15,8 @@ export const assets = {
     buildVsBuyOg: "/og-build-vs-buy-pim.png",
     buildVsBuyMaintenanceExample: "/assets/marketing/build-vs-buy-maintenance-example.webp",
     featureOg: {
+      "/ai-assistant": "/assets/og/ai-assistant.png",
+      "/history": "/assets/og/history.png",
       "/ai-catalog-connector": "/assets/og/ai-catalog-connector.png",
       "/api": "/assets/og/api.png",
       "/shopify-catalog-health-center": "/assets/og/shopify-catalog-health-center.png",

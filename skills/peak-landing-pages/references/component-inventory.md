@@ -45,6 +45,8 @@
 - `HealthCenterCardVisual.astro`: compact analysis, issue drill-down, and cross-store repair states for complete workflow cards.
 - `AiConnectorHeroVisual.astro`: conversational catalog search and draft review inside the canonical Peak product window.
 - `AiConnectorCardVisual.astro`: remote connection, permission, and activity-control states for complete workflow cards.
+- `AiAssistantHeroVisual.astro`: page-aware in-app conversation with before-and-after draft approval and a separate publish confirmation.
+- `AiAssistantCardVisual.astro`: current-page context, draft approval, and confirmed publishing states for complete workflow cards.
 - `DeveloperApiHeroVisual.astro`: store-specific PATCH and publish requests beside the unified catalog model.
 - `DeveloperApiCardVisual.astro`: compact query, revision-safe update, and multi-store publish states.
 - `MetaobjectsHeroVisual.astro`: definition, typed entry fields, and multi-store publishing outcomes in one Peak workspace.
@@ -61,6 +63,8 @@
 - `MarketsCatalogsCardVisual.astro`: market setup, catalog scope, and fixed-price states for complete workflow cards.
 - `ProductsVariantsHeroVisual.astro`: one canonical product with intentional field and variant differences across connected Shopify stores.
 - `ProductsVariantsCardVisual.astro`: canonical store versions, option-change preview, and dependency-aware publishing states for complete workflow cards.
+- `HistoryHeroVisual.astro`: account activity with saved and published lenses, authors, sources, and one final store delta.
+- `HistoryCardVisual.astro`: saved changes, published changes, and grouped account activity states for complete workflow cards.
 
 ## Selection rules
 

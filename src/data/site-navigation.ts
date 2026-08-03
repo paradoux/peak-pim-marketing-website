@@ -30,6 +30,7 @@ export const featureNavigationGroups: FeatureNavigationGroup[] = [
     label: "Operate",
     description: "Run day-to-day catalog work from one operational hub.",
     links: [
+      { label: "AI Assistant", href: "/ai-assistant", description: "Ask, approve drafts, and confirm publishing in one conversation.", badge: "New" },
       { label: "Multi-store", href: "/shopify-multi-store-pim", description: "Control every store from one catalog." },
       { label: "Bulk edit", href: "/bulk-edit", description: "Change thousands of records at once." },
       { label: "Import & export", href: "/shopify-product-import-export", description: "Move spreadsheet data in and out safely." },
@@ -37,7 +38,8 @@ export const featureNavigationGroups: FeatureNavigationGroup[] = [
       { label: "Drops", href: "/shopify-product-drops", description: "Schedule changes and automatic rollbacks.", badge: "New" },
       { label: "Automations", href: "", description: "Run repeatable catalog workflows automatically.", comingSoon: true },
       { label: "Scores", href: "", description: "Measure SEO, LLM readiness, and your own catalog standards.", comingSoon: true },
-      { label: "Backups & History", href: "", description: "Restore catalog data and trace every change.", comingSoon: true },
+      { label: "History", href: "/history", description: "See who changed what, when, and what went live.", badge: "New" },
+      { label: "Backups", href: "", description: "Restore catalog data when you need to roll back.", comingSoon: true },
       { label: "Global search", href: "", description: "Find any catalog record from one search.", comingSoon: true },
       { label: "Health Center", href: "/shopify-catalog-health-center", description: "Find catalog issues before customers do.", badge: "New" },
       { label: "Users & permissions", href: "/user-roles-permissions", description: "Give each teammate the right access." },

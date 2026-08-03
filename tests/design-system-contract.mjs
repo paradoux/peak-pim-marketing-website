@@ -42,6 +42,8 @@ const requiredFiles = [
   "src/components/visuals/HealthCenterCardVisual.astro",
   "src/components/visuals/AiConnectorHeroVisual.astro",
   "src/components/visuals/AiConnectorCardVisual.astro",
+  "src/components/visuals/AiAssistantHeroVisual.astro",
+  "src/components/visuals/AiAssistantCardVisual.astro",
   "src/components/visuals/DeveloperApiHeroVisual.astro",
   "src/components/visuals/DeveloperApiCardVisual.astro",
   "src/components/visuals/MetaobjectsHeroVisual.astro",
@@ -58,12 +60,15 @@ const requiredFiles = [
   "src/components/visuals/MarketsCatalogsCardVisual.astro",
   "src/components/visuals/ProductsVariantsHeroVisual.astro",
   "src/components/visuals/ProductsVariantsCardVisual.astro",
+  "src/components/visuals/HistoryHeroVisual.astro",
+  "src/components/visuals/HistoryCardVisual.astro",
   "src/pages/design-system.astro",
   "src/pages/shopify-pim-translations.astro",
   "src/pages/shopify-product-import-export.astro",
   "src/pages/shopify-product-drops.astro",
   "src/pages/shopify-catalog-health-center.astro",
   "src/pages/ai-catalog-connector.astro",
+  "src/pages/ai-assistant.astro",
   "src/pages/api.astro",
   "src/pages/shopify-metaobjects.astro",
   "src/pages/shopify-metafield-management.astro",
@@ -73,6 +78,7 @@ const requiredFiles = [
   "src/pages/shopify-markets-pricing.astro",
   "src/pages/shopify-product-management.astro",
   "src/pages/build-vs-buy-pim.astro",
+  "src/pages/history.astro",
   "public/og-build-vs-buy-pim.png",
   "docs/copywriting-system.md",
   "skills/peak-landing-pages/SKILL.md",
@@ -131,6 +137,7 @@ for (const slug of [
   "/1-click-setup",
   "/shopify-sync",
   "/ai-catalog-connector",
+  "/ai-assistant",
   "/api",
   "/shopify-multi-store-pim",
   "/shopify-product-management",
@@ -145,6 +152,7 @@ for (const slug of [
   "/shopify-custom-fields",
   "/shopify-product-drops",
   "/shopify-catalog-health-center",
+  "/history",
   "/user-roles-permissions",
   "/industry/fashion",
 ]) {
@@ -166,7 +174,7 @@ const recipeSource = readFileSync(resolve(projectRoot, "src/data/landing-page-re
 const approvedReferences = recipeSource.split("export const excludedDesignSystemPages")[0];
 if (approvedReferences.includes('"/partners"')) failures.push("The unfinished partners page appears in approved references");
 
-for (const page of ["bulk-edit", "design-system", "shopify-pim-translations", "shopify-product-import-export", "shopify-product-drops", "shopify-catalog-health-center", "ai-catalog-connector", "api", "shopify-metaobjects", "shopify-metafield-management", "shopify-custom-fields", "user-roles-permissions", "shopify-collections", "shopify-markets-pricing", "shopify-product-management", "build-vs-buy-pim"]) {
+for (const page of ["bulk-edit", "design-system", "shopify-pim-translations", "shopify-product-import-export", "shopify-product-drops", "shopify-catalog-health-center", "ai-catalog-connector", "ai-assistant", "api", "shopify-metaobjects", "shopify-metafield-management", "shopify-custom-fields", "user-roles-permissions", "shopify-collections", "shopify-markets-pricing", "shopify-product-management", "history", "build-vs-buy-pim"]) {
   const file = resolve(projectRoot, "dist", page, "index.html");
   if (!existsSync(file)) {
     failures.push(`Missing built page /${page}; run npm run build first`);
@@ -178,10 +186,39 @@ for (const page of ["bulk-edit", "design-system", "shopify-pim-translations", "s
   if (!html.includes("main-wrapper")) failures.push(`/${page} is missing the canonical main wrapper`);
 }
 
+const historyHtml = readFileSync(resolve(projectRoot, "dist/history/index.html"), "utf8");
+if (!historyHtml.includes("History does not offer one-click version restore today.")) {
+  failures.push("History must state the current manual-recovery limitation honestly");
+}
+
+const aiAssistantHtml = readFileSync(resolve(projectRoot, "dist/ai-assistant/index.html"), "utf8");
+for (const requiredFact of [
+  "Anthropic or OpenAI API key",
+  "Publishing is a separate action with its own explicit confirmation every time.",
+  "Delete capabilities are not available to the Assistant.",
+  'href="/history"',
+  'href="/ai-catalog-connector"',
+]) {
+  if (!aiAssistantHtml.includes(requiredFact)) failures.push(`AI Assistant page is missing required product guidance: ${requiredFact}`);
+}
+if (aiAssistantHtml.includes("Gemini")) failures.push("AI Assistant page must not claim Gemini support");
+for (const file of ["src/pages/ai-assistant.astro", "src/components/visuals/AiAssistantHeroVisual.astro", "src/components/visuals/AiAssistantCardVisual.astro"]) {
+  if (readFileSync(resolve(projectRoot, file), "utf8").includes("—")) failures.push(`${file} contains a prohibited em dash`);
+}
+const aiConnectorHtml = readFileSync(resolve(projectRoot, "dist/ai-catalog-connector/index.html"), "utf8");
+for (const href of ['href="/ai-assistant"', 'href="/api"', 'href="/history"']) {
+  if (!aiConnectorHtml.includes(href)) failures.push(`AI Connector page is missing complementary AI navigation: ${href}`);
+}
+for (const page of ["ai-catalog-connector", "shopify-catalog-health-center", "shopify-product-drops"]) {
+  const html = readFileSync(resolve(projectRoot, `dist/${page}/index.html`), "utf8");
+  if (!html.includes('href="/history"')) failures.push(`/${page} is missing its reciprocal History cross-link`);
+}
+
 for (const slug of [
   "1-click-setup",
   "shopify-sync",
   "ai-catalog-connector",
+  "ai-assistant",
   "api",
   "shopify-multi-store-pim",
   "shopify-product-management",
@@ -197,6 +234,7 @@ for (const slug of [
   "shopify-product-drops",
   "shopify-catalog-health-center",
   "user-roles-permissions",
+  "history",
   "industry/fashion",
 ]) {
   const file = resolve(projectRoot, `dist/${slug}/index.html`);
@@ -213,6 +251,7 @@ for (const slug of [
 
 for (const feature of [
   { slug: "ai-catalog-connector", title: "AI Connector (MCP) for Shopify | Peak PIM", aria: "Peak PIM AI Connector (MCP) conversation showing a merchant asking about missing SEO descriptions and reviewing catalog results", crossLink: 'href="/api"' },
+  { slug: "ai-assistant", title: "AI Assistant for Shopify Catalog Management | Peak PIM", aria: "Peak PIM AI Assistant beside a Shopify product, finding missing catalog fields, preparing a before-and-after draft, and asking for separate publishing approval", crossLink: 'href="/ai-catalog-connector"', allowMultipleCrossLinks: true },
   { slug: "api", title: "Shopify Multi-Store Catalog API | Peak PIM", aria: "Peak PIM developer API workspace showing a store-specific product update and publish response", crossLink: 'href="/ai-catalog-connector"' },
   { slug: "shopify-metaobjects", title: "Shopify Metaobjects Management | Peak PIM", aria: "Peak PIM metaobject workspace showing a Size Guide definition, typed entry fields, and publishing results across Shopify stores", crossLink: 'href="/ai-catalog-connector"' },
   { slug: "shopify-metafield-management", title: "Shopify Metafield Management | Peak PIM", aria: "Peak PIM metafield definition workspace showing one Material definition linked across US, France, and Germany Shopify stores", crossLink: 'href="/shopify-custom-fields"' },
@@ -220,6 +259,7 @@ for (const feature of [
   { slug: "shopify-markets-pricing", title: "Shopify Markets &amp; Catalog Pricing | Peak PIM", aria: "Peak PIM Markets and Catalogs workspace showing fixed variant prices across France, Switzerland, United Kingdom, and two Shopify stores", crossLink: 'href="/shopify-product-import-export"', allowMultipleCrossLinks: true },
   { slug: "shopify-product-management", title: "Shopify Product &amp; Variant Management | Peak PIM", aria: "Peak PIM product workspace showing one Summit Shell Jacket with intentional field and variant differences across US, France, and Germany Shopify stores", crossLink: 'href="/bulk-edit"', allowMultipleCrossLinks: true },
   { slug: "user-roles-permissions", title: "Shopify PIM User Roles &amp; Permissions | Peak PIM", aria: "Peak PIM users and permissions workspace showing a catalog editor with selected stores and separate view, edit, and publish access", crossLink: 'href="/shopify-multi-store-pim"', allowMultipleCrossLinks: true },
+  { slug: "history", title: "Shopify Catalog Change History &amp; Audit Trail | Peak PIM", aria: "Peak PIM History workspace showing saved catalog edits, published store changes, authors, sources, and field-level before and after values", crossLink: 'href="/ai-assistant"', allowMultipleCrossLinks: true },
 ]) {
   const file = resolve(projectRoot, `dist/${feature.slug}/index.html`);
   if (!existsSync(file)) continue;
@@ -242,6 +282,7 @@ for (const feature of [
 
 const featureSeoSlugs = [
   "ai-catalog-connector",
+  "ai-assistant",
   "api",
   "shopify-catalog-health-center",
   "shopify-collections",
@@ -254,6 +295,7 @@ const featureSeoSlugs = [
   "shopify-product-import-export",
   "shopify-product-management",
   "user-roles-permissions",
+  "history",
 ];
 
 for (const slug of featureSeoSlugs) {
@@ -467,8 +509,8 @@ if (existsSync(pricingFile)) {
   if (html.includes("unlimited stores")) failures.push("Pricing page still contains the outdated unlimited-stores claim");
   if (html.includes("next billing cycle")) failures.push("Pricing schema conflicts with the visible plan-change policy");
   if (!schema.offers?.every((offer) => offer.availability === "https://schema.org/InStock")) failures.push("Pricing schema does not describe the live plans as available");
-  if (schema.featureList?.length !== 32) failures.push("Pricing schema feature list is incomplete");
-  if (!schema.offers?.every((offer) => offer.additionalProperty?.length === 32)) failures.push("Pricing schema offers are not generated from the complete pricing matrix");
+  if (schema.featureList?.length !== 34) failures.push("Pricing schema feature list is incomplete");
+  if (!schema.offers?.every((offer) => offer.additionalProperty?.length === 34)) failures.push("Pricing schema offers are not generated from the complete pricing matrix");
   const schemaFeatureValue = (planName, featureName) => schema.offers
     ?.find((offer) => offer.name === planName)
     ?.additionalProperty?.find((property) => property.name === featureName)?.value;
@@ -480,7 +522,9 @@ if (existsSync(pricingFile)) {
     ["Core", "Amazon sync", "Coming soon"],
     ["Enterprise", "Automations", "Coming soon"],
     ["Core", "Scores", "Coming soon"],
-    ["Elite", "Backups & History", "Coming soon"],
+    ["Core", "AI Assistant", "Included"],
+    ["Elite", "History", "Included"],
+    ["Core", "Backups", "Coming soon"],
     ["Enterprise", "Global search", "Coming soon"],
   ]) {
     if (schemaFeatureValue(planName, featureName) !== expectedValue) failures.push(`Pricing schema has an incorrect ${planName} value for ${featureName}`);
@@ -491,16 +535,16 @@ if (existsSync(pricingFile)) {
   for (const category of ["Plan limits", "Connect", "Operate", "Manage &amp; Enrich", "Support"]) {
     if (!html.includes(`class="heading-style-h6">${category}</div>`)) failures.push(`Pricing matrix is missing category: ${category}`);
   }
-  for (const feature of ["Shopify sync", "Amazon sync", "Media management", "Health Center", "Markets &amp; catalogs", "AI Connector (MCP)", "Drops", "Automations", "Scores", "Backups &amp; History", "Global search"]) {
+  for (const feature of ["Shopify sync", "Amazon sync", "AI Assistant", "Media management", "Health Center", "Markets &amp; catalogs", "AI Connector (MCP)", "Drops", "Automations", "Scores", "History", "Backups", "Global search"]) {
     if (!html.includes(`<span>${feature}</span>`)) failures.push(`Pricing matrix is missing feature: ${feature}`);
   }
-  for (const feature of ["AI Connector (MCP)", "Drops", "Health Center", "Markets &amp; catalogs"]) {
+  for (const feature of ["AI Connector (MCP)", "AI Assistant", "Drops", "History", "Health Center", "Markets &amp; catalogs"]) {
     if (!html.includes(`<span>${feature}</span><span class="feature-status-badge">New</span>`)) failures.push(`Pricing matrix is missing the New badge for: ${feature}`);
   }
   for (const href of ["/shopify-sync", "/shopify-media-management", "/shopify-catalog-health-center", "/shopify-markets-pricing"]) {
     if (!html.includes(`href="${href}" class="pricing-feature-popover__link"`)) failures.push(`Pricing matrix is missing feature detail link: ${href}`);
   }
-  if ((html.match(/class="pricing-feature-info"/g) ?? []).length !== 32) failures.push("Pricing matrix information disclosures are incomplete");
+  if ((html.match(/class="pricing-feature-info"/g) ?? []).length !== 34) failures.push("Pricing matrix information disclosures are incomplete");
   if (!html.includes('summary aria-label="About Shopify sync"')) failures.push("Pricing matrix information controls are not accessibly labelled");
   if (!html.includes('<a href="https://app.peak-pim.com/demo" target="_blank" rel="noopener" class="footer1_link">Live demo</a>')) failures.push("Shared footer is missing the external Live demo link");
   if (!html.includes('site-footer__column-heading"><span class="site-footer__heading-marker" aria-hidden="true"></span>Resources</div>')) failures.push("Shared footer is missing the Resources column");
@@ -522,6 +566,8 @@ if (existsSync(sitemapFile)) {
   if (!sitemap.includes("https://peak-pim.com/shopify-product-management/")) failures.push("Sitemap is missing the Product Management URL");
   if (!sitemap.includes("https://peak-pim.com/blog/")) failures.push("Sitemap is missing the article index URL");
   if (!sitemap.includes("https://peak-pim.com/guides/")) failures.push("Sitemap is missing the guide index URL");
+  if (!sitemap.includes("https://peak-pim.com/history/")) failures.push("Sitemap is missing the History URL");
+  if (!sitemap.includes("https://peak-pim.com/ai-assistant/")) failures.push("Sitemap is missing the AI Assistant URL");
   if (sitemap.includes("https://peak-pim.com/partners/")) failures.push("Sitemap exposes the unfinished partners page");
   if (sitemapUrls.some((url) => url !== "https://peak-pim.com/" && !url.endsWith("/"))) failures.push("Sitemap contains a URL that redirects to its trailing-slash version");
   if ((sitemap.match(/<lastmod>/g) ?? []).length !== sitemapUrls.length) failures.push("Sitemap last-modified dates are incomplete");
@@ -618,6 +664,7 @@ const homepageLogoBannerPages = [
   "shopify-product-import-export",
   "shopify-product-drops",
   "shopify-catalog-health-center",
+  "ai-assistant",
   "ai-catalog-connector",
   "api",
   "shopify-pim-translations",
@@ -663,7 +710,7 @@ if (!robots.includes("Allow: /") || !robots.includes("Sitemap: https://peak-pim.
 
 const llmsText = readFileSync(resolve(projectRoot, "public/llms.txt"), "utf8");
 if ((llmsText.match(/^## Current Pricing$/gm) ?? []).length !== 1) failures.push("llms.txt must contain exactly one Current Pricing section");
-for (const featureUrl of ["https://peak-pim.com/shopify-product-import-export/", "https://peak-pim.com/shopify-product-drops/", "https://peak-pim.com/shopify-catalog-health-center/", "https://peak-pim.com/ai-catalog-connector/", "https://peak-pim.com/api/", "https://peak-pim.com/shopify-metaobjects/", "https://peak-pim.com/shopify-collections/", "https://peak-pim.com/shopify-markets-pricing/", "https://peak-pim.com/shopify-product-management/", "https://peak-pim.com/shopify-metafield-management/", "https://peak-pim.com/shopify-custom-fields/", "https://peak-pim.com/user-roles-permissions/"]) {
+for (const featureUrl of ["https://peak-pim.com/shopify-product-import-export/", "https://peak-pim.com/shopify-product-drops/", "https://peak-pim.com/shopify-catalog-health-center/", "https://peak-pim.com/ai-assistant/", "https://peak-pim.com/ai-catalog-connector/", "https://peak-pim.com/api/", "https://peak-pim.com/shopify-metaobjects/", "https://peak-pim.com/shopify-collections/", "https://peak-pim.com/shopify-markets-pricing/", "https://peak-pim.com/shopify-product-management/", "https://peak-pim.com/shopify-metafield-management/", "https://peak-pim.com/shopify-custom-fields/", "https://peak-pim.com/user-roles-permissions/"]) {
   if (!llmsText.includes(featureUrl)) failures.push(`Crawler summary is missing feature page: ${featureUrl}`);
 }
 
