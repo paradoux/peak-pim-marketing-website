@@ -10,6 +10,8 @@ export const ctaLabels = {
   learnMore: "Learn more",
 } as const;
 
+export const bookDemoUrl = "https://calendar.app.google/M9DEEDbc6AxRaNNX6";
+
 export type CanonicalCtaLabel = (typeof ctaLabels)[keyof typeof ctaLabels];
 
 export const canonicalCtaLabels = Object.values(ctaLabels);
@@ -59,7 +61,7 @@ export function normalizeCtaLabel(label: string): CanonicalCtaLabel | string {
 export function normalizeCtaCopyInHtml(html: string) {
   return html.replace(
     /<(a|button)\b([^>]*)>[\s\S]*?<\/\1>/gi,
-    (ctaHtml, _tagName, attributes) => {
+    (ctaHtml, tagName, attributes) => {
       const className = String(attributes).match(/class=(["'])(.*?)\1/i)?.[2] ?? "";
       if (!className.split(/\s+/).includes("button")) return ctaHtml;
 
@@ -67,6 +69,23 @@ export function normalizeCtaCopyInHtml(html: string) {
 
       for (const [legacyLabel, canonicalLabel] of Object.entries(legacyCtaLabels)) {
         normalized = normalized.replaceAll(`>${legacyLabel}<`, `>${canonicalLabel}<`);
+      }
+
+      if (String(tagName).toLowerCase() === "a" && normalized.includes(`>${ctaLabels.bookDemo}<`)) {
+        normalized = normalized.replace(/^<a\b([^>]*)>/i, (_openingTag, rawAttributes) => {
+          let nextAttributes = String(rawAttributes)
+            .replace(/\sdata-open-crisp(?:=(["'])[^"']*\1)?/gi, "")
+            .replace(/\starget=(["'])[^"']*\1/gi, "")
+            .replace(/\srel=(["'])[^"']*\1/gi, "");
+
+          if (/\shref=(["'])[^"']*\1/i.test(nextAttributes)) {
+            nextAttributes = nextAttributes.replace(/\shref=(["'])[^"']*\1/i, ` href="${bookDemoUrl}"`);
+          } else {
+            nextAttributes += ` href="${bookDemoUrl}"`;
+          }
+
+          return `<a${nextAttributes} target="_blank" rel="noopener">`;
+        });
       }
 
       return normalized;

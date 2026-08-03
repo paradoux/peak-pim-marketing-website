@@ -402,7 +402,7 @@ if (existsSync(homeFile)) {
   const html = readFileSync(homeFile, "utf8");
   const heroHtml = html.match(/<header class="section_landing-big_hero-header"[\s\S]*?<div class="landing-big_hero-header_image-wrapper">/)?.[0] ?? "";
   const footerHtml = html.match(/<footer class="footer1_component"[\s\S]*?<\/footer>/)?.[0] ?? "";
-  if (!/href="https:\/\/apps\.shopify\.com\/peak-pim"[^>]*class="button w-button">Try for free<\/a>[\s\S]*?data-open-crisp=""[^>]*class="button is-secondary w-button">Book a demo<\/a>/.test(heroHtml)) {
+  if (!/href="https:\/\/apps\.shopify\.com\/peak-pim"[^>]*class="button w-button">Try for free<\/a>[\s\S]*?<a(?=[^>]*href="https:\/\/calendar\.app\.google\/M9DEEDbc6AxRaNNX6")(?=[^>]*target="_blank")(?=[^>]*rel="noopener")[^>]*class="button is-secondary w-button"[^>]*>Book a demo<\/a>/.test(heroHtml)) {
     failures.push("Homepage hero must show Try for free first and Book a demo second using the canonical button variants");
   }
   if ((footerHtml.match(/class="footer1_link-column/g) ?? []).length !== 5) failures.push("The shared footer must contain the Features area plus four dedicated link columns");
@@ -502,12 +502,12 @@ if (existsSync(pricingFile)) {
   }
   if ((html.match(/class="pricing-feature-info"/g) ?? []).length !== 32) failures.push("Pricing matrix information disclosures are incomplete");
   if (!html.includes('summary aria-label="About Shopify sync"')) failures.push("Pricing matrix information controls are not accessibly labelled");
-  if (!html.includes('<a href="https://app.peak-pim.com/" target="_blank" rel="noopener" class="footer1_link">Live demo</a>')) failures.push("Shared footer is missing the external Live demo link");
+  if (!html.includes('<a href="https://app.peak-pim.com/demo" target="_blank" rel="noopener" class="footer1_link">Live demo</a>')) failures.push("Shared footer is missing the external Live demo link");
   if (!html.includes('site-footer__column-heading"><span class="site-footer__heading-marker" aria-hidden="true"></span>Resources</div>')) failures.push("Shared footer is missing the Resources column");
   if (!html.includes('class="footer1_link-list site-footer__social-links site-footer__bottom-social-links"')) failures.push("Shared footer social icons are not grouped in the bottom bar");
-  if (!html.includes('class="site-footer__logo-cta"><a href="https://app.peak-pim.com/" target="_blank" rel="noopener" class="button is-secondary w-button">Live demo</a>')) failures.push("Shared footer is missing the Live demo CTA beneath the Peak logo");
+  if (!html.includes('class="site-footer__logo-cta"><a href="https://app.peak-pim.com/demo" target="_blank" rel="noopener" class="button is-secondary w-button">Live demo</a>')) failures.push("Shared footer is missing the Live demo CTA beneath the Peak logo");
   if (html.includes('site-footer__column-heading"><span class="site-footer__heading-marker" aria-hidden="true"></span>Connect</div>')) failures.push("Shared footer still contains the retired Connect column");
-  if (!html.includes('<a href="https://app.peak-pim.com/" target="_blank" rel="noopener" class="feature-mega-menu__demo-link">Live demo<span aria-hidden="true">&rarr;</span></a>')) failures.push("Features mega menu is missing the external Live demo link");
+  if (!html.includes('<a href="https://app.peak-pim.com/demo" target="_blank" rel="noopener" class="feature-mega-menu__demo-link">Live demo<span aria-hidden="true">&rarr;</span></a>')) failures.push("Features mega menu is missing the external Live demo link");
 }
 
 const sitemapFile = resolve(projectRoot, "dist/sitemap.xml");
@@ -568,6 +568,11 @@ if (existsSync(sitemapFile)) {
         .trim();
 
       if (!approvedCtas.has(label)) failures.push(`${pathname} contains non-approved CTA copy: ${label}`);
+      if (label === "Book a demo") {
+        if (!match[2].includes('href="https://calendar.app.google/M9DEEDbc6AxRaNNX6"')) failures.push(`${pathname} contains a Book a demo CTA with the wrong destination`);
+        if (!match[2].includes('target="_blank"') || !match[2].includes('rel="noopener"')) failures.push(`${pathname} contains a Book a demo CTA that does not open safely in a new tab`);
+        if (/data-open-crisp/i.test(match[2])) failures.push(`${pathname} contains a Book a demo CTA that still opens Crisp`);
+      }
     }
   }
 }

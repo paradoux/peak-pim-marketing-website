@@ -40,7 +40,7 @@ const featureGroupsHtml = featureNavigationGroups.filter((group) => group.label 
     </div>
   </section>
 `).join("");
-const liveDemoLink = exploreNavigationLinks.find((link) => link.href === "https://app.peak-pim.com/");
+const liveDemoLink = exploreNavigationLinks.find((link) => link.href === "https://app.peak-pim.com/demo");
 
 if (!liveDemoLink) {
   throw new Error("The shared navigation is missing the Live demo link.");

@@ -67,7 +67,7 @@ export const featureNavigationGroups: FeatureNavigationGroup[] = [
 
 export const exploreNavigationLinks: SiteNavigationLink[] = [
   { label: "Pricing", href: "/pricing/" },
-  { label: "Live demo", href: "https://app.peak-pim.com/", external: true },
+  { label: "Live demo", href: "https://app.peak-pim.com/demo", external: true },
   { label: "Help Center", href: "https://help.peak-pim.com/en/", external: true },
   { label: "Product Updates", href: "https://www.linkedin.com/company/peak-pim/posts/", external: true },
   { label: "Mission", href: "/mission" },

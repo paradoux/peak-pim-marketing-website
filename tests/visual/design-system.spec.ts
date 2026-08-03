@@ -51,7 +51,10 @@ test("homepage · hero CTA pair is responsive and uses canonical actions", async
     await expect(actions).toHaveCount(2);
     await expect(actions).toHaveText(["Try for free", "Book a demo"]);
     await expect(actions.nth(0)).toHaveAttribute("href", "https://apps.shopify.com/peak-pim");
-    await expect(actions.nth(1)).toHaveAttribute("data-open-crisp", "");
+    await expect(actions.nth(1)).toHaveAttribute("href", "https://calendar.app.google/M9DEEDbc6AxRaNNX6");
+    await expect(actions.nth(1)).toHaveAttribute("target", "_blank");
+    await expect(actions.nth(1)).toHaveAttribute("rel", "noopener");
+    await expect(actions.nth(1)).not.toHaveAttribute("data-open-crisp", "");
     await expect(actions.nth(0)).toBeVisible();
     await expect(actions.nth(1)).toBeVisible();
     const pricingPreviewCta = page.getByRole("link", { name: "See pricing", exact: true });
@@ -232,7 +235,7 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
     await featureToggle.press("Enter");
     await expect(featureToggle).toHaveAttribute("aria-expanded", "true");
     await expect(header.locator(".feature-mega-menu__title")).toHaveText(["Connect", "Operate", "Manage & Enrich"]);
-    const headerLiveDemoLink = header.locator('.feature-mega-menu__demo-link[href="https://app.peak-pim.com/"]');
+    const headerLiveDemoLink = header.locator('.feature-mega-menu__demo-link[href="https://app.peak-pim.com/demo"]');
     await expect(headerLiveDemoLink).toHaveText("Live demo→");
     await expect(headerLiveDemoLink).toHaveAttribute("target", "_blank");
     await expect(headerLiveDemoLink).toHaveAttribute("rel", "noopener");
@@ -323,11 +326,11 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
     await expect(footer.locator(".footer1_link-column").filter({ hasText: "Compare" }).locator(".footer1_link").nth(0)).toHaveText("PIM alternatives");
     await expect(footer.locator(".footer1_link-column").filter({ hasText: "Compare" }).locator(".footer1_link").nth(1)).toHaveText("Build vs buy a PIM");
     await expect(footer.locator('a[href="/build-vs-buy-pim/"]')).toHaveCount(1);
-    const resourcesLiveDemoLink = footer.locator('.site-footer__resources-column a[href="https://app.peak-pim.com/"]');
+    const resourcesLiveDemoLink = footer.locator('.site-footer__resources-column a[href="https://app.peak-pim.com/demo"]');
     await expect(resourcesLiveDemoLink).toHaveText("Live demo");
     await expect(resourcesLiveDemoLink).toHaveAttribute("target", "_blank");
     await expect(resourcesLiveDemoLink).toHaveAttribute("rel", "noopener");
-    const logoLiveDemoCta = footer.locator('.footer1_left-wrapper .site-footer__logo-cta a[href="https://app.peak-pim.com/"]');
+    const logoLiveDemoCta = footer.locator('.footer1_left-wrapper .site-footer__logo-cta a[href="https://app.peak-pim.com/demo"]');
     await expect(logoLiveDemoCta).toHaveText("Live demo");
     await expect(logoLiveDemoCta).toHaveClass(/button is-secondary w-button/);
     await expect(footer.locator(".site-footer__resources-column .footer1_link")).toHaveText(["Live demo", "Product Updates"]);

@@ -56,6 +56,8 @@ The Webflow stylesheet owns sizing and interaction behavior. Do not override it 
 
 Button appearance comes from the canonical primitives above; button wording comes from `docs/copywriting-system.md` and `src/data/cta-copy.ts`. The approved vocabulary is `Get Peak PIM`, `Try for free`, `Book a demo`, `Talk to us`, `See pricing`, `See how it works`, `See the comparison` (or compact `See comparison`), and `Learn more`.
 
+`Book a demo` always opens the shared Google Calendar booking URL from `src/data/cta-copy.ts` in a new tab. It must never trigger Crisp. Reserve Crisp for `Talk to us`, Contact, and other explicitly approved conversation actions.
+
 ### Lead capture modal
 
 Use the shared `LeadCaptureModal.astro` system for email capture. Never recreate a form or modal inside a landing page, and never expose a Make.com webhook URL in browser code. Register offer copy and trigger rules in `src/data/lead-offers.ts`, then open it with `data-lead-modal="offer-id"`. See `docs/lead-capture.md` for configuration, privacy, Turnstile, and Make scenario details.

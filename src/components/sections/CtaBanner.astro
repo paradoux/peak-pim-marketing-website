@@ -1,6 +1,6 @@
 ---
 import Button from "../ui/Button.astro";
-import { ctaLabels, type CtaLabel } from "../../data/cta-copy";
+import { bookDemoUrl, ctaLabels, type CtaLabel } from "../../data/cta-copy";
 
 type Props = {
   id?: string;
@@ -22,11 +22,15 @@ const {
   primaryLabel = ctaLabels.tryFree,
   primaryHref = "https://apps.shopify.com/peak-pim",
   secondaryLabel = ctaLabels.bookDemo,
-  secondaryHref = "#",
-  secondaryExternal = false,
-  secondaryCrisp = true,
+  secondaryHref = bookDemoUrl,
+  secondaryExternal = true,
+  secondaryCrisp = false,
   trustLine,
 } = Astro.props;
+const isBookDemo = secondaryLabel === ctaLabels.bookDemo;
+const resolvedSecondaryHref = isBookDemo ? bookDemoUrl : secondaryHref;
+const resolvedSecondaryExternal = isBookDemo ? true : secondaryExternal;
+const resolvedSecondaryCrisp = isBookDemo ? false : secondaryCrisp;
 ---
 
 <section id={id} class="section_cta51 peak-cta-banner color-scheme-1">
@@ -44,7 +48,7 @@ const {
             <div class="margin-top margin-medium">
               <div class="button-group is-center">
                 <Button href={primaryHref} variant="alternate" external>{primaryLabel}</Button>
-                <Button href={secondaryHref} variant="secondary-alternate" external={secondaryExternal} crisp={secondaryCrisp}>{secondaryLabel}</Button>
+                <Button href={resolvedSecondaryHref} variant="secondary-alternate" external={resolvedSecondaryExternal} crisp={resolvedSecondaryCrisp}>{secondaryLabel}</Button>
               </div>
             </div>
             {trustLine && <p class="peak-cta-banner__trust text-size-small">{trustLine}</p>}
