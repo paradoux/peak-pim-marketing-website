@@ -1,0 +1,169 @@
+---
+import ProductVisualFrame from "../ui/ProductVisualFrame.astro";
+---
+
+<ProductVisualFrame
+  ariaLabel="Peak PIM Global Search command palette finding a Shopify variant by SKU across products, media, fields, pages, and connected stores"
+  section="Global Search"
+  status="All stores"
+  actionLabel="⌘K / Ctrl+K"
+>
+  <div class="peak-search-workspace">
+    <aside class="peak-search-sidebar" aria-hidden="true">
+      <strong>Catalog</strong>
+      <span class="is-active"><i></i>Products</span>
+      <span><i></i>Collections</span>
+      <span><i></i>Media</span>
+      <span><i></i>Metaobjects</span>
+      <small>Operations</small>
+      <span><i></i>Bulk edit</span>
+      <span><i></i>Health Center</span>
+    </aside>
+
+    <div class="peak-search-page" aria-hidden="true">
+      <header><div><small>Products</small><strong>All products</strong></div><span>1,248 items</span></header>
+      <div class="peak-search-page-filters"><span>All stores</span><span>All statuses</span><b>Filter</b></div>
+      <div class="peak-search-page-row"><i></i><div><strong>Summit Shell Jacket</strong><small>SUM-SHELL-RED</small></div><span>3 stores</span></div>
+      <div class="peak-search-page-row"><i></i><div><strong>Trail Runner Pro</strong><small>TRP-W-38</small></div><span>France</span></div>
+      <div class="peak-search-page-row"><i></i><div><strong>Merino Base Layer</strong><small>MBL-BLK-M</small></div><span>2 stores</span></div>
+    </div>
+
+    <section class="peak-search-palette">
+      <div class="peak-search-input">
+        <span aria-hidden="true">⌕</span>
+        <strong>TRP-W-38</strong>
+        <kbd>esc</kbd>
+      </div>
+
+      <div class="peak-search-recent"><span>Search the entire account</span><b>13 types</b></div>
+
+      <div class="peak-search-group">
+        <header><span>Variants</span><b>Exact match</b></header>
+        <article class="is-selected">
+          <i>V</i>
+          <div><strong>Trail Runner Pro · Women · Size 38</strong><small>SKU TRP-W-38 · Trail Runner Pro</small></div>
+          <em>France</em>
+        </article>
+      </div>
+
+      <div class="peak-search-group peak-search-secondary">
+        <header><span>More matches</span><b>Grouped by type</b></header>
+        <article><i class="is-media">M</i><div><strong>trail-runner-pro-side.webp</strong><small>Alt text · Trail Runner Pro, women, side view</small></div><em>Media</em></article>
+        <article><i class="is-field">#</i><div><strong>care_instructions</strong><small>Metafield definition · Product</small></div><em>Schema</em></article>
+        <article><i class="is-page">↗</i><div><strong>Bulk edit</strong><small>Go to page</small></div><em>Navigation</em></article>
+      </div>
+
+      <footer><span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span><span><kbd>↵</kbd> Open</span><span>See all results</span></footer>
+    </section>
+  </div>
+</ProductVisualFrame>
+
+<style>
+  .peak-search-workspace {
+    position: relative;
+    display: grid;
+    min-height: 465px;
+    overflow: hidden;
+    grid-template-columns: 150px minmax(0, 1fr);
+    background: #f6f3ec;
+    color: #191919;
+    font-family: Inter, Arial, sans-serif;
+    text-align: left;
+  }
+
+  .peak-search-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 22px 13px;
+    border-right: 1px solid #e0ddd6;
+    background: #fbfaf7;
+    color: #777;
+    font-size: 8px;
+  }
+
+  .peak-search-sidebar strong { margin: 0 8px 9px; color: #191919; font-size: 10px; }
+  .peak-search-sidebar small { margin: 14px 8px 3px; color: #999; font-size: 7px; text-transform: uppercase; }
+  .peak-search-sidebar span { display: flex; align-items: center; gap: 8px; padding: 8px; border-radius: 5px; }
+  .peak-search-sidebar span i { width: 6px; height: 6px; border: 1px solid #aaa; border-radius: 2px; }
+  .peak-search-sidebar span.is-active { background: #e9edff; color: #2845d6; font-weight: 700; }
+  .peak-search-sidebar span.is-active i { border-color: #2845d6; background: #2845d6; }
+
+  .peak-search-page { min-width: 0; padding: 25px; opacity: .38; filter: blur(.35px); }
+  .peak-search-page header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 15px; border-bottom: 1px solid #dedbd4; }
+  .peak-search-page header div { display: flex; flex-direction: column; gap: 3px; }
+  .peak-search-page header small { color: #777; font-size: 8px; }
+  .peak-search-page header strong { font-size: 13px; }
+  .peak-search-page header > span { padding: 5px 8px; border-radius: 999px; background: #edeae4; font-size: 7px; }
+  .peak-search-page-filters { display: flex; gap: 6px; padding: 14px 0; }
+  .peak-search-page-filters span,
+  .peak-search-page-filters b { padding: 6px 8px; border: 1px solid #dedbd4; border-radius: 4px; background: #fff; font-size: 7px; font-weight: 600; }
+  .peak-search-page-filters b { margin-left: auto; background: #191919; color: #fff; }
+  .peak-search-page-row { display: grid; align-items: center; gap: 9px; padding: 11px 8px; border-top: 1px solid #e1ded8; grid-template-columns: auto 1fr auto; }
+  .peak-search-page-row > i { width: 25px; height: 25px; border-radius: 4px; background: #dedbd4; }
+  .peak-search-page-row > div { display: flex; min-width: 0; flex-direction: column; gap: 3px; }
+  .peak-search-page-row strong { font-size: 8px; }
+  .peak-search-page-row small,
+  .peak-search-page-row > span { color: #777; font-size: 7px; }
+
+  .peak-search-palette {
+    position: absolute;
+    z-index: 2;
+    top: 43px;
+    left: 50%;
+    width: min(530px, calc(100% - 70px));
+    overflow: hidden;
+    transform: translateX(-39%);
+    border: 1px solid #cfcac1;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, .98);
+    box-shadow: 0 24px 60px rgba(24, 24, 24, .18);
+  }
+
+  .peak-search-input { display: grid; align-items: center; gap: 9px; min-height: 52px; padding: 0 14px; border-bottom: 1px solid #e4e1db; grid-template-columns: auto 1fr auto; }
+  .peak-search-input > span { color: #2845d6; font-size: 20px; }
+  .peak-search-input strong { font-size: 12px; font-weight: 600; }
+  .peak-search-palette kbd { padding: 3px 5px; border: 1px solid #d8d4cc; border-radius: 4px; background: #f4f2ed; color: #777; font-family: Inter, Arial, sans-serif; font-size: 7px; box-shadow: none; }
+  .peak-search-recent { display: flex; justify-content: space-between; padding: 9px 14px 5px; color: #888; font-size: 7px; }
+  .peak-search-recent b { color: #2845d6; }
+  .peak-search-group { padding: 4px 8px 2px; }
+  .peak-search-group header { display: flex; justify-content: space-between; padding: 5px 6px; color: #888; font-size: 7px; text-transform: uppercase; }
+  .peak-search-group header b { color: #2845d6; font-size: 6px; }
+  .peak-search-group article { display: grid; align-items: center; gap: 9px; padding: 8px; border-radius: 6px; grid-template-columns: auto minmax(0, 1fr) auto; }
+  .peak-search-group article.is-selected { background: #e9edff; outline: 1px solid #d6ddff; }
+  .peak-search-group article > i { display: grid; width: 25px; height: 25px; place-items: center; border-radius: 5px; background: #191919; color: #fff; font-size: 8px; font-style: normal; font-weight: 800; }
+  .peak-search-group article > i.is-media { background: #f2e8d8; color: #8a5e20; }
+  .peak-search-group article > i.is-field { background: #e5efe8; color: #287447; }
+  .peak-search-group article > i.is-page { background: #ece9e3; color: #555; }
+  .peak-search-group article > div { display: flex; min-width: 0; flex-direction: column; gap: 2px; }
+  .peak-search-group article strong { overflow: hidden; font-size: 8px; text-overflow: ellipsis; white-space: nowrap; }
+  .peak-search-group article small { overflow: hidden; color: #777; font-size: 7px; text-overflow: ellipsis; white-space: nowrap; }
+  .peak-search-group article em { padding: 4px 6px; border-radius: 999px; background: #f1efe9; color: #666; font-size: 6px; font-style: normal; }
+  .peak-search-palette footer { display: flex; align-items: center; gap: 12px; padding: 9px 14px; border-top: 1px solid #e4e1db; color: #777; font-size: 6px; }
+  .peak-search-palette footer span:last-child { margin-left: auto; color: #2845d6; font-weight: 700; }
+  .peak-search-palette footer kbd { margin-right: 2px; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .peak-search-group article.is-selected { animation: peak-search-match 2.5s ease-in-out infinite; }
+  }
+
+  @keyframes peak-search-match {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(40, 69, 214, 0); }
+    45% { box-shadow: 0 0 0 4px rgba(40, 69, 214, .09); }
+  }
+
+  @media (max-width: 767px) {
+    .peak-search-workspace { grid-template-columns: 86px minmax(0, 1fr); }
+    .peak-search-sidebar { padding-inline: 8px; }
+    .peak-search-palette { left: 50%; width: calc(100% - 36px); transform: translateX(-46%); }
+  }
+
+  @media (max-width: 479px) {
+    .peak-search-workspace { min-height: 390px; grid-template-columns: 1fr; }
+    .peak-search-sidebar { display: none; }
+    .peak-search-page { padding: 18px; }
+    .peak-search-palette { top: 28px; left: 50%; width: calc(100% - 24px); transform: translateX(-50%); }
+    .peak-search-secondary article:last-child { display: none; }
+    .peak-search-palette footer { gap: 7px; }
+  }
+</style>

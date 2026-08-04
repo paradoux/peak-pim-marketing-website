@@ -1,0 +1,104 @@
+---
+type Props = { mode: "shortcut" | "results" | "destination" };
+const { mode } = Astro.props;
+---
+
+<div class:list={["peak-search-card", `is-${mode}`]} role="img" aria-label={
+  mode === "shortcut"
+    ? "Peak PIM Global Search opening from any page with Command K or Control K"
+    : mode === "results"
+      ? "Peak PIM Global Search ranking exact, prefix, and substring matches by catalog type"
+      : "Peak PIM Global Search opening the exact Shopify variant and matching store version"
+}>
+  <div class="peak-search-card-bar"><i></i><i></i><i></i><span></span></div>
+
+  {mode === "shortcut" && (
+    <div class="peak-search-card-body peak-search-shortcut">
+      <div class="peak-search-mini-nav"><span></span><span></span><span></span><span></span></div>
+      <div class="peak-search-shortcut-copy"><small>From anywhere</small><strong>Open Global Search</strong></div>
+      <div class="peak-search-keys"><kbd>⌘</kbd><b>+</b><kbd>K</kbd><em>or</em><kbd>Ctrl</kbd><b>+</b><kbd>K</kbd></div>
+      <div class="peak-search-mini-palette"><span>⌕</span><b>Search products, SKUs, files, fields…</b></div>
+    </div>
+  )}
+
+  {mode === "results" && (
+    <div class="peak-search-card-body peak-search-results">
+      <div class="peak-search-card-query"><span>⌕</span><b>merino</b><kbd>esc</kbd></div>
+      <small>Ranked results</small>
+      <article class="is-exact"><i>1</i><div><b>Merino Base Layer</b><span>Exact · Product</span></div><em>US</em></article>
+      <article><i>2</i><div><b>Merino care image.webp</b><span>Prefix · Media alt text</span></div><em>Media</em></article>
+      <article><i>3</i><div><b>Winter layers</b><span>Substring · Collection tag</span></div><em>Collection</em></article>
+    </div>
+  )}
+
+  {mode === "destination" && (
+    <div class="peak-search-card-body peak-search-destination">
+      <div class="peak-search-destination-top"><span>Variant</span><strong>France</strong></div>
+      <div class="peak-search-breadcrumb">Products / Trail Runner Pro / TRP-W-38</div>
+      <div class="peak-search-destination-record">
+        <i>38</i>
+        <div><small>Trail Runner Pro</small><b>Women · Size 38</b><span>SKU TRP-W-38</span></div>
+      </div>
+      <div class="peak-search-destination-fields"><span><small>Status</small><b>Active</b></span><span><small>Store</small><b>France</b></span><span><small>Price</small><b>€129</b></span></div>
+      <footer>Exact SKU match <b>Opened directly ↗</b></footer>
+    </div>
+  )}
+</div>
+
+<style>
+  .peak-search-card { width: 100%; overflow: hidden; aspect-ratio: 1 / 1; border-radius: 8px 8px 0 0; background: #f6f3ec; color: #191919; font-family: Inter, Arial, sans-serif; text-align: left; }
+  .peak-search-card-bar { display: flex; height: 32px; align-items: center; gap: 5px; padding: 0 12px; background: #191919; }
+  .peak-search-card-bar i { width: 5px; height: 5px; border-radius: 50%; background: #777; }
+  .peak-search-card-bar span { width: 42px; height: 5px; margin-left: auto; border-radius: 999px; background: #363636; }
+  .peak-search-card-body { position: relative; height: calc(100% - 32px); padding: 9%; }
+  .peak-search-mini-nav { position: absolute; inset: 0 auto 0 0; display: flex; width: 18%; flex-direction: column; gap: 8%; padding: 10% 5%; border-right: 1px solid #dedbd5; background: #fbfaf7; opacity: .55; }
+  .peak-search-mini-nav span { width: 100%; aspect-ratio: 1; border-radius: 3px; background: #dedbd5; }
+  .peak-search-shortcut-copy { display: flex; margin-left: 16%; flex-direction: column; gap: 4px; text-align: center; }
+  .peak-search-shortcut-copy small { color: #777; font-size: clamp(6px, .58vw, 8px); }
+  .peak-search-shortcut-copy strong { font-size: clamp(10px, 1.08vw, 15px); }
+  .peak-search-keys { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; gap: 5px; margin: 15% 0 13% 16%; }
+  .peak-search-keys kbd { display: grid; min-width: 30px; height: 30px; place-items: center; padding: 0 7px; border: 1px solid #cbc6bd; border-radius: 6px; background: #fff; font-family: Inter, Arial, sans-serif; font-size: clamp(7px, .72vw, 10px); font-weight: 800; box-shadow: 0 3px 0 #d8d4cc; }
+  .peak-search-keys b,
+  .peak-search-keys em { color: #777; font-size: clamp(6px, .55vw, 8px); font-style: normal; }
+  .peak-search-mini-palette { position: relative; z-index: 1; display: grid; align-items: center; gap: 7px; margin-left: 16%; padding: 10px; border: 1px solid #d5d1ca; border-radius: 7px; background: #fff; box-shadow: 0 12px 28px rgba(25,25,25,.1); grid-template-columns: auto 1fr; }
+  .peak-search-mini-palette span { color: #2845d6; font-size: 15px; }
+  .peak-search-mini-palette b { overflow: hidden; color: #777; font-size: clamp(6px, .58vw, 8px); font-weight: 500; text-overflow: ellipsis; white-space: nowrap; }
+
+  .peak-search-card-query { display: grid; align-items: center; gap: 7px; padding: 9px; border: 1px solid #d6d1ca; border-radius: 6px; background: #fff; grid-template-columns: auto 1fr auto; }
+  .peak-search-card-query > span { color: #2845d6; font-size: 14px; }
+  .peak-search-card-query b { font-size: clamp(7px, .68vw, 9px); }
+  .peak-search-card-query kbd { padding: 3px 4px; border: 1px solid #ddd9d2; border-radius: 3px; background: #f4f2ed; color: #888; font-family: Inter, Arial, sans-serif; font-size: 6px; }
+  .peak-search-results > small { display: block; margin: 7% 0 3%; color: #888; font-size: clamp(5px, .52vw, 7px); text-transform: uppercase; }
+  .peak-search-results article { display: grid; align-items: center; gap: 7px; margin-top: 5px; padding: 7px; border: 1px solid #e2ded7; border-radius: 5px; background: #fff; grid-template-columns: auto 1fr auto; }
+  .peak-search-results article.is-exact { border-color: #cbd3ff; background: #e9edff; }
+  .peak-search-results article > i { display: grid; width: 21px; height: 21px; place-items: center; border-radius: 4px; background: #edeae4; color: #777; font-size: 7px; font-style: normal; font-weight: 800; }
+  .peak-search-results article.is-exact > i { background: #2845d6; color: #fff; }
+  .peak-search-results article > div { display: flex; min-width: 0; flex-direction: column; gap: 2px; }
+  .peak-search-results article b { overflow: hidden; font-size: clamp(6px, .58vw, 8px); text-overflow: ellipsis; white-space: nowrap; }
+  .peak-search-results article span { color: #777; font-size: clamp(5px, .48vw, 6px); }
+  .peak-search-results article em { color: #666; font-size: clamp(5px, .48vw, 6px); font-style: normal; }
+
+  .peak-search-destination-top { display: flex; align-items: center; justify-content: space-between; color: #777; font-size: clamp(6px, .58vw, 8px); }
+  .peak-search-destination-top strong { padding: 5px 7px; border-radius: 999px; background: #e9edff; color: #2845d6; font-size: clamp(5px, .5vw, 7px); }
+  .peak-search-breadcrumb { margin: 8% 0; overflow: hidden; color: #777; font-size: clamp(5px, .52vw, 7px); text-overflow: ellipsis; white-space: nowrap; }
+  .peak-search-destination-record { display: grid; align-items: center; gap: 10px; padding: 10px; border: 1px solid #dedbd4; border-radius: 6px; background: #fff; grid-template-columns: auto 1fr; }
+  .peak-search-destination-record > i { display: grid; width: 38px; height: 38px; place-items: center; border-radius: 6px; background: #191919; color: #fff; font-size: clamp(8px, .8vw, 11px); font-style: normal; font-weight: 800; }
+  .peak-search-destination-record > div { display: flex; flex-direction: column; gap: 2px; }
+  .peak-search-destination-record small { color: #777; font-size: clamp(5px, .5vw, 7px); }
+  .peak-search-destination-record b { font-size: clamp(7px, .68vw, 9px); }
+  .peak-search-destination-record span { color: #2845d6; font-size: clamp(5px, .54vw, 7px); font-weight: 700; }
+  .peak-search-destination-fields { display: grid; gap: 5px; margin-top: 7%; grid-template-columns: repeat(3, 1fr); }
+  .peak-search-destination-fields > span { display: flex; flex-direction: column; gap: 3px; padding: 8px; border: 1px solid #e0ddd6; border-radius: 5px; background: #fff; }
+  .peak-search-destination-fields small { color: #888; font-size: clamp(5px, .48vw, 6px); }
+  .peak-search-destination-fields b { font-size: clamp(6px, .58vw, 8px); }
+  .peak-search-destination footer { display: flex; justify-content: space-between; gap: 8px; margin-top: 8%; color: #777; font-size: clamp(5px, .52vw, 7px); }
+  .peak-search-destination footer b { color: #2845d6; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .peak-search-mini-palette { animation: peak-search-card-lift 2.7s ease-in-out infinite; }
+    .peak-search-results article.is-exact { animation: peak-search-card-match 2.7s ease-in-out infinite; }
+  }
+
+  @keyframes peak-search-card-lift { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+  @keyframes peak-search-card-match { 0%, 100% { box-shadow: 0 0 0 0 rgba(40,69,214,0); } 50% { box-shadow: 0 0 0 3px rgba(40,69,214,.08); } }
+</style>

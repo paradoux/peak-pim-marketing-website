@@ -40,7 +40,7 @@ if (!existsSync(pricingFile)) {
     ["Core", "AI Assistant", "Included"],
     ["Elite", "History", "Included"],
     ["Core", "Backups", "Coming soon"],
-    ["Enterprise", "Global search", "Coming soon"],
+    ["Enterprise", "Global search", "Included"],
   ]) {
     if (schemaFeatureValue(planName, featureName) !== expectedValue) failures.push(`Pricing schema has an incorrect ${planName} value for ${featureName}`);
   }
@@ -73,6 +73,7 @@ if (!sitemap.includes("<loc>https://peak-pim.com/pricing/</loc>")) failures.push
 if (!sitemap.includes("<loc>https://peak-pim.com/blog/</loc>")) failures.push("Sitemap is missing the article index URL");
 if (!sitemap.includes("<loc>https://peak-pim.com/guides/</loc>")) failures.push("Sitemap is missing the guide index URL");
 if (!sitemap.includes("<loc>https://peak-pim.com/history/</loc>")) failures.push("Sitemap is missing the History URL");
+if (!sitemap.includes("<loc>https://peak-pim.com/search/</loc>")) failures.push("Sitemap is missing the Global Search URL");
 if (!sitemap.includes("<loc>https://peak-pim.com/ai-assistant/</loc>")) failures.push("Sitemap is missing the AI Assistant URL");
 if (sitemap.includes("https://peak-pim.com/partners/")) failures.push("Sitemap exposes the unfinished partners page");
 if (sitemapUrls.some((url) => url !== "https://peak-pim.com/" && !url.endsWith("/"))) failures.push("Sitemap contains a redirecting URL");
@@ -83,6 +84,7 @@ if (!robots.includes("Allow: /") || !robots.includes("Sitemap: https://peak-pim.
 
 const llms = readFileSync(resolve(projectRoot, "public/llms.txt"), "utf8");
 if (!llms.includes("[Shopify catalog change history](https://peak-pim.com/history/)")) failures.push("llms.txt is missing the History page");
+if (!llms.includes("[Global Search for Shopify catalogs](https://peak-pim.com/search/)")) failures.push("llms.txt is missing the Global Search page");
 if (!llms.includes("[AI Assistant for Shopify catalog management](https://peak-pim.com/ai-assistant/)")) failures.push("llms.txt is missing the AI Assistant page");
 if ((llms.match(/^## Current Pricing$/gm) ?? []).length !== 1) failures.push("llms.txt must contain exactly one Current Pricing section");
 for (const fact of ["Core: $99 per month or $990 per year", "Elite: $249 per month or $2,490 per year", "Enterprise: Custom pricing", "10-day free trial"]) {

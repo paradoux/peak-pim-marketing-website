@@ -62,6 +62,8 @@ const requiredFiles = [
   "src/components/visuals/ProductsVariantsCardVisual.astro",
   "src/components/visuals/HistoryHeroVisual.astro",
   "src/components/visuals/HistoryCardVisual.astro",
+  "src/components/visuals/GlobalSearchHeroVisual.astro",
+  "src/components/visuals/GlobalSearchCardVisual.astro",
   "src/pages/design-system.astro",
   "src/pages/shopify-pim-translations.astro",
   "src/pages/shopify-product-import-export.astro",
@@ -79,6 +81,7 @@ const requiredFiles = [
   "src/pages/shopify-product-management.astro",
   "src/pages/build-vs-buy-pim.astro",
   "src/pages/history.astro",
+  "src/pages/search.astro",
   "public/og-build-vs-buy-pim.png",
   "docs/copywriting-system.md",
   "skills/peak-landing-pages/SKILL.md",
@@ -153,6 +156,7 @@ for (const slug of [
   "/shopify-product-drops",
   "/shopify-catalog-health-center",
   "/history",
+  "/search",
   "/user-roles-permissions",
   "/industry/fashion",
 ]) {
@@ -174,7 +178,7 @@ const recipeSource = readFileSync(resolve(projectRoot, "src/data/landing-page-re
 const approvedReferences = recipeSource.split("export const excludedDesignSystemPages")[0];
 if (approvedReferences.includes('"/partners"')) failures.push("The unfinished partners page appears in approved references");
 
-for (const page of ["bulk-edit", "design-system", "shopify-pim-translations", "shopify-product-import-export", "shopify-product-drops", "shopify-catalog-health-center", "ai-catalog-connector", "ai-assistant", "api", "shopify-metaobjects", "shopify-metafield-management", "shopify-custom-fields", "user-roles-permissions", "shopify-collections", "shopify-markets-pricing", "shopify-product-management", "history", "build-vs-buy-pim"]) {
+for (const page of ["bulk-edit", "design-system", "shopify-pim-translations", "shopify-product-import-export", "shopify-product-drops", "shopify-catalog-health-center", "ai-catalog-connector", "ai-assistant", "api", "shopify-metaobjects", "shopify-metafield-management", "shopify-custom-fields", "user-roles-permissions", "shopify-collections", "shopify-markets-pricing", "shopify-product-management", "history", "search", "build-vs-buy-pim"]) {
   const file = resolve(projectRoot, "dist", page, "index.html");
   if (!existsSync(file)) {
     failures.push(`Missing built page /${page}; run npm run build first`);
@@ -246,6 +250,7 @@ for (const slug of [
   "shopify-catalog-health-center",
   "user-roles-permissions",
   "history",
+  "search",
   "industry/fashion",
 ]) {
   const file = resolve(projectRoot, `dist/${slug}/index.html`);
@@ -271,6 +276,7 @@ for (const feature of [
   { slug: "shopify-product-management", title: "Shopify Product &amp; Variant Management | Peak PIM", aria: "Peak PIM product workspace showing one Summit Shell Jacket with intentional field and variant differences across US, France, and Germany Shopify stores", crossLink: 'href="/bulk-edit"', allowMultipleCrossLinks: true },
   { slug: "user-roles-permissions", title: "Shopify PIM User Roles &amp; Permissions | Peak PIM", aria: "Peak PIM users and permissions workspace showing a catalog editor with selected stores and separate view, edit, and publish access", crossLink: 'href="/shopify-multi-store-pim"', allowMultipleCrossLinks: true },
   { slug: "history", title: "Shopify Catalog Change History &amp; Audit Trail | Peak PIM", aria: "Peak PIM History workspace showing saved catalog edits, published store changes, authors, sources, and field-level before and after values", crossLink: 'href="/ai-assistant"', allowMultipleCrossLinks: true },
+  { slug: "search", title: "Global Search for Shopify Catalogs | Peak PIM", aria: "Peak PIM Global Search command palette finding a Shopify variant by SKU across products, media, fields, pages, and connected stores", crossLink: 'href="/ai-assistant"', allowMultipleCrossLinks: true },
 ]) {
   const file = resolve(projectRoot, `dist/${feature.slug}/index.html`);
   if (!existsSync(file)) continue;
@@ -307,6 +313,7 @@ const featureSeoSlugs = [
   "shopify-product-management",
   "user-roles-permissions",
   "history",
+  "search",
 ];
 
 for (const slug of featureSeoSlugs) {
@@ -536,7 +543,7 @@ if (existsSync(pricingFile)) {
     ["Core", "AI Assistant", "Included"],
     ["Elite", "History", "Included"],
     ["Core", "Backups", "Coming soon"],
-    ["Enterprise", "Global search", "Coming soon"],
+    ["Enterprise", "Global search", "Included"],
   ]) {
     if (schemaFeatureValue(planName, featureName) !== expectedValue) failures.push(`Pricing schema has an incorrect ${planName} value for ${featureName}`);
   }
@@ -549,10 +556,10 @@ if (existsSync(pricingFile)) {
   for (const feature of ["Shopify sync", "Amazon sync", "AI Assistant", "Media management", "Health Center", "Markets &amp; catalogs", "AI Connector (MCP)", "Drops", "Automations", "Scores", "History", "Backups", "Global search"]) {
     if (!html.includes(`<span>${feature}</span>`)) failures.push(`Pricing matrix is missing feature: ${feature}`);
   }
-  for (const feature of ["AI Connector (MCP)", "AI Assistant", "Drops", "History", "Health Center", "Markets &amp; catalogs"]) {
+  for (const feature of ["AI Connector (MCP)", "AI Assistant", "Drops", "History", "Global search", "Health Center", "Markets &amp; catalogs"]) {
     if (!html.includes(`<span>${feature}</span><span class="feature-status-badge">New</span>`)) failures.push(`Pricing matrix is missing the New badge for: ${feature}`);
   }
-  for (const href of ["/shopify-sync", "/shopify-media-management", "/shopify-catalog-health-center", "/shopify-markets-pricing"]) {
+  for (const href of ["/shopify-sync", "/shopify-media-management", "/search", "/shopify-catalog-health-center", "/shopify-markets-pricing"]) {
     if (!html.includes(`href="${href}" class="pricing-feature-popover__link"`)) failures.push(`Pricing matrix is missing feature detail link: ${href}`);
   }
   if ((html.match(/class="pricing-feature-info"/g) ?? []).length !== 34) failures.push("Pricing matrix information disclosures are incomplete");
@@ -581,6 +588,7 @@ if (existsSync(sitemapFile)) {
   if (!sitemap.includes("https://peak-pim.com/blog/")) failures.push("Sitemap is missing the article index URL");
   if (!sitemap.includes("https://peak-pim.com/guides/")) failures.push("Sitemap is missing the guide index URL");
   if (!sitemap.includes("https://peak-pim.com/history/")) failures.push("Sitemap is missing the History URL");
+  if (!sitemap.includes("https://peak-pim.com/search/")) failures.push("Sitemap is missing the Global Search URL");
   if (!sitemap.includes("https://peak-pim.com/ai-assistant/")) failures.push("Sitemap is missing the AI Assistant URL");
   if (sitemap.includes("https://peak-pim.com/partners/")) failures.push("Sitemap exposes the unfinished partners page");
   if (sitemapUrls.some((url) => url !== "https://peak-pim.com/" && !url.endsWith("/"))) failures.push("Sitemap contains a URL that redirects to its trailing-slash version");

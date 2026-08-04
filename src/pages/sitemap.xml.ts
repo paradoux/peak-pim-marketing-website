@@ -46,6 +46,7 @@ export async function GET() {
   const designSystemPages = [
     "ai-assistant",
     "history",
+    "search",
     "shopify-pim-translations",
     "shopify-product-import-export",
     "shopify-product-drops",

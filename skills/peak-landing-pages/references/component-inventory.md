@@ -65,6 +65,8 @@
 - `ProductsVariantsCardVisual.astro`: canonical store versions, option-change preview, and dependency-aware publishing states for complete workflow cards.
 - `HistoryHeroVisual.astro`: account activity with saved and published lenses, authors, sources, and one final store delta.
 - `HistoryCardVisual.astro`: saved changes, published changes, and grouped account activity states for complete workflow cards.
+- `GlobalSearchHeroVisual.astro`: account-wide command palette with grouped catalog, schema, store, and navigation results inside the canonical Peak product window.
+- `GlobalSearchCardVisual.astro`: keyboard shortcut, ranked results, and exact record destination states for complete workflow cards.
 
 ## Selection rules
 

@@ -17,6 +17,7 @@ export const assets = {
     featureOg: {
       "/ai-assistant": "/assets/og/ai-assistant.png",
       "/history": "/assets/og/history.png",
+      "/search": "/assets/og/search.png",
       "/ai-catalog-connector": "/assets/og/ai-catalog-connector.png",
       "/api": "/assets/og/api.png",
       "/shopify-catalog-health-center": "/assets/og/shopify-catalog-health-center.png",

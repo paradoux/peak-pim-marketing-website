@@ -1,0 +1,191 @@
+---
+import CardGrid from "../components/sections/CardGrid.astro";
+import CtaBanner from "../components/sections/CtaBanner.astro";
+import Faq from "../components/sections/Faq.astro";
+import FeatureGrid from "../components/sections/FeatureGrid.astro";
+import Hero from "../components/sections/Hero.astro";
+import LogoCloud from "../components/sections/LogoCloud.astro";
+import ProblemGrid from "../components/sections/ProblemGrid.astro";
+import GlobalSearchCardVisual from "../components/visuals/GlobalSearchCardVisual.astro";
+import GlobalSearchHeroVisual from "../components/visuals/GlobalSearchHeroVisual.astro";
+import { ctaLabels } from "../data/cta-copy";
+import LandingPageLayout from "../layouts/LandingPageLayout.astro";
+
+const appStoreUrl = "https://apps.shopify.com/peak-pim";
+
+const problems = [
+  {
+    icon: "search",
+    title: "Section-by-section search slows the work",
+    description: "Finding a SKU, file, field, or store version should not begin with choosing which part of the admin might contain it.",
+  },
+  {
+    icon: "file",
+    title: "The useful identifiers are often buried",
+    description: "Variant SKUs, media alt text, filenames, tags, and definition keys matter to operators, but they are rarely searchable from the same place.",
+  },
+  {
+    icon: "store",
+    title: "Every connected store adds another place to look",
+    description: "The same catalog record can have different store versions. Without account-wide search, teams repeat the same investigation store by store.",
+  },
+];
+
+const workflow = [
+  {
+    tagline: "Open",
+    title: "Start from anywhere",
+    description: "Press ⌘K on Mac or Ctrl+K on Windows from any Peak PIM page. The same command palette is always one keystroke away.",
+  },
+  {
+    tagline: "Find",
+    title: "Let exact matches rise first",
+    description: "Type a name, SKU, tag, filename, alt text, handle, or definition key. Exact matches beat prefixes and substrings, with results grouped by type.",
+  },
+  {
+    tagline: "Go",
+    title: "Land where the work lives",
+    description: "Open the exact variant, file, field definition, store version, or app page. Paste a SKU and go straight to the variant itself.",
+  },
+];
+
+const searchFeatures = [
+  {
+    icon: "grid",
+    title: "Search thirteen catalog types",
+    description: "Find products, variants, collections, metaobject entries, media, markets, catalogs, schema definitions, pages, blogs, and posts from one query.",
+  },
+  {
+    icon: "review",
+    title: "See context before opening",
+    description: "A variant shows its parent product, an entry shows its definition, and a multi-store result identifies the store version that matched.",
+  },
+  {
+    icon: "search",
+    title: "Use it as a command bar",
+    description: "Search app destinations such as Bulk Edit, Drops, Health Center, and settings alongside catalog data, then jump there without navigating menus.",
+  },
+  {
+    icon: "clock",
+    title: "Move at keyboard speed",
+    description: "Open, type, use the arrow keys, and press Enter. Recent selections resurface on the same device so repeated work gets even faster.",
+  },
+];
+
+const faqItems = [
+  {
+    question: "What can Peak PIM Global Search find?",
+    answer: "Global Search finds products, variants, collections, metaobject entries, media files, markets, catalogs, metafield definitions, custom fields, metaobject definitions, pages, blogs, blog posts, and navigation destinations in Peak PIM.",
+  },
+  {
+    question: "Can I search for a variant by SKU?",
+    answer: "Yes. Paste or type a SKU and Global Search returns the matching variant as its own destination, with its parent product for context. Opening the result takes you directly to that variant.",
+  },
+  {
+    question: "Does Global Search search full descriptions and metafield values?",
+    answer: "No. Global Search matches the identifiers operators use most: names, titles, SKUs, tags, vendors, filenames, alt text, handles, and definition keys. It does not currently perform full-text search across product descriptions or metafield values.",
+  },
+  {
+    question: "Does it search across all connected stores?",
+    answer: "Yes. One query searches the account across connected stores. When a store-specific version caused the match, the result identifies that store so you can open the right record confidently.",
+  },
+  {
+    question: "Can I find media files by alt text?",
+    answer: "Yes. Media results can match filenames, tags, and alt text, which makes it easier to find an image even when you do not remember which product currently uses it.",
+    link: { label: ctaLabels.learnMore, href: "/shopify-media-management" },
+  },
+  {
+    question: "Can I search metafield and metaobject definitions?",
+    answer: "Yes. Global Search includes metafield definitions by key, custom fields, and metaobject definitions. You can search for a schema element such as care_instructions instead of hunting through settings.",
+  },
+  {
+    question: "Can Global Search open pages inside Peak PIM?",
+    answer: "Yes. The command palette matches app pages such as Bulk Edit, Drops, Health Center, and settings from the first character, so it works as both catalog search and app navigation.",
+  },
+  {
+    question: "How are search results ranked?",
+    answer: "Exact matches rank ahead of prefix matches, which rank ahead of substring matches. Within the same match tier, fresher records appear first. Results are grouped by type and include enough context to distinguish similar records.",
+  },
+  {
+    question: "Does Global Search remember recent results?",
+    answer: "Yes. Recent selections can resurface when you reopen Global Search on the same device, helping you return to frequently used records and pages quickly.",
+  },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
+---
+
+<LandingPageLayout
+  title="Global Search for Shopify Catalogs | Peak PIM"
+  description="Search products, variants, SKUs, media, metafield definitions, custom fields, and app pages across every Shopify store with one command palette."
+  canonicalPath="/search"
+  schemaType="SoftwareApplication"
+  additionalSchemas={[faqSchema]}
+  ogTitle="Search Your Entire Shopify Catalog From One Command Bar"
+  ogDescription="Press Command K or Control K to find products, variants, SKUs, media, fields, pages, and store versions from anywhere in Peak PIM."
+>
+  <Hero
+    title="Everything, one keystroke away"
+    description="Press ⌘K or Ctrl+K anywhere in Peak PIM. Search products, variants, files, fields, pages, and every store from one account-wide palette, then jump straight to the result."
+    primaryCta={{ label: ctaLabels.tryFree, href: appStoreUrl, external: true }}
+    secondaryCta={{ label: ctaLabels.seeHowItWorks, href: "#search-workflow" }}
+  >
+    <GlobalSearchHeroVisual />
+  </Hero>
+
+  <LogoCloud />
+
+  <ProblemGrid
+    tagline="The catalog navigation problem"
+    title="Stop deciding where to search before you can search"
+    description="Global Search removes the first question from every lookup. Type what you know and search the whole account in one pass, with the matching type and store shown in the result."
+    items={problems}
+    link={{ label: ctaLabels.learnMore, href: "/shopify-product-management" }}
+  />
+
+  <CardGrid
+    id="search-workflow"
+    tagline="Open, type, go"
+    title="From one shortcut to the exact record"
+    description="Use the same fast workflow whether you know a SKU, remember part of a filename, need a definition key, or simply want to open another Peak PIM page."
+    cards={workflow}
+  >
+    <GlobalSearchCardVisual slot="visual-1" mode="shortcut" />
+    <GlobalSearchCardVisual slot="visual-2" mode="results" />
+    <GlobalSearchCardVisual slot="visual-3" mode="destination" />
+  </CardGrid>
+
+  <FeatureGrid
+    id="search-capabilities"
+    tagline="Built for daily operators"
+    title="One search across the catalog and the app"
+    description="Global Search treats a SKU, an image, a field definition, a store version, and a destination page as parts of the same operating system for product data."
+    features={searchFeatures}
+    cta={{ label: ctaLabels.learnMore, href: "/ai-assistant" }}
+  />
+
+  <CtaBanner
+    id="start"
+    title="Drive the catalog instead of navigating it"
+    description="Find the exact product, variant, file, field, page, or store version you need and get back to the work in one keystroke."
+    primaryLabel={ctaLabels.tryFree}
+    primaryHref={appStoreUrl}
+    secondaryLabel={ctaLabels.bookDemo}
+    trustLine="10-day free trial. Free setup. No credit card."
+  />
+
+  <Faq
+    id="faq"
+    title="Frequently asked questions"
+    description="Everything you need to know about Global Search in Peak PIM."
+    items={faqItems}
+  />
+</LandingPageLayout>

@@ -147,8 +147,10 @@ export const pricingFeatureGroups: PricingFeatureGroup[] = [
       },
       {
         label: "Global search",
-        description: "Find any product, variant, image, metaobject entry, or other catalog record instantly. This feature is coming soon.",
-        values: ["Coming soon", "Coming soon", "Coming soon"],
+        description: "Find products, variants, SKUs, media, definitions, store content, and app pages from one account-wide command palette.",
+        href: "/search",
+        badge: "New",
+        values: [true, true, true],
       },
       {
         label: "Health Center",

@@ -137,6 +137,8 @@ Approved feature-specific product examples include `TranslationWorkflowDemo.astr
 
 History uses `HistoryHeroVisual.astro` and `HistoryCardVisual.astro` to distinguish saved edits from published store changes, attribute human, job, and AI activity, and show field-level before and after values without implying one-click rollback.
 
+Global Search uses `GlobalSearchHeroVisual.astro` and `GlobalSearchCardVisual.astro` to show the account-wide command palette, honest searchable identifiers, grouped result context, keyboard navigation, and direct record destinations. Do not imply full-text search across product descriptions or metafield values.
+
 The AI Assistant uses `AiAssistantHeroVisual.astro` and `AiAssistantCardVisual.astro` to show page-aware catalog reads, before-and-after draft approval, and separate storefront publishing confirmation. Keep it distinct from the external AI Connector (MCP): the Assistant is AI inside Peak PIM with a merchant-provided Anthropic or OpenAI API key, while MCP connects compatible external assistants to Peak PIM.
 
 `BuildVsBuyHeroVisual.astro` is the approved evidence-image exception requested for the comparison page. It uses a registered authentic screenshot inside a responsive, rounded evidence card with Peak styling. Do not reuse that raster treatment for product demonstrations.

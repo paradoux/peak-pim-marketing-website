@@ -19,6 +19,7 @@ import DeveloperApiCardVisual from "../components/visuals/DeveloperApiCardVisual
 import DropsCardVisual from "../components/visuals/DropsCardVisual.astro";
 import HealthCenterCardVisual from "../components/visuals/HealthCenterCardVisual.astro";
 import HistoryCardVisual from "../components/visuals/HistoryCardVisual.astro";
+import GlobalSearchCardVisual from "../components/visuals/GlobalSearchCardVisual.astro";
 import ImportExportCardVisual from "../components/visuals/ImportExportCardVisual.astro";
 import MetaobjectsCardVisual from "../components/visuals/MetaobjectsCardVisual.astro";
 import RolesPermissionsCardVisual from "../components/visuals/RolesPermissionsCardVisual.astro";
@@ -70,6 +71,12 @@ const historyVisuals = [
   { tagline: "Saved", title: "Every team edit", description: "Authors, sources, timestamps, and field-level before and after values keep draft work understandable." },
   { tagline: "Published", title: "The store delta", description: "Several saved edits resolve into the one before-and-after change that actually reached a store." },
   { tagline: "Investigate", title: "Grouped account activity", description: "Filters and grouped operations keep bulk edits, imports, Drops, and other high-volume work readable." },
+];
+
+const globalSearchVisuals = [
+  { tagline: "Open", title: "One keyboard shortcut", description: "Command K and Control K open the same account-wide palette from anywhere in Peak PIM." },
+  { tagline: "Find", title: "Ranked catalog results", description: "Exact, prefix, and substring matches stay grouped by type with the context needed to choose confidently." },
+  { tagline: "Go", title: "The exact destination", description: "A matching SKU opens its variant, while files, fields, store versions, and app pages lead straight to their own workspace." },
 ];
 
 const aiAssistantVisuals = [
@@ -173,6 +180,11 @@ const pricingRows = [
     <HistoryCardVisual slot="visual-1" mode="saved" />
     <HistoryCardVisual slot="visual-2" mode="published" />
     <HistoryCardVisual slot="visual-3" mode="activity" />
+  </CardGrid>
+  <CardGrid tagline="Account-wide navigation" title="Global Search keeps every destination one keystroke away" description="Keyboard shortcuts, grouped results, and exact record destinations use the same complete-card structure and Peak workspace states." cards={globalSearchVisuals}>
+    <GlobalSearchCardVisual slot="visual-1" mode="shortcut" />
+    <GlobalSearchCardVisual slot="visual-2" mode="results" />
+    <GlobalSearchCardVisual slot="visual-3" mode="destination" />
   </CardGrid>
   <CardGrid tagline="AI inside Peak PIM" title="The Assistant reads before it writes" description="Context, draft approval, and publishing confirmation use the canonical complete-card structure and Peak workspace states." cards={aiAssistantVisuals}>
     <AiAssistantCardVisual slot="visual-1" mode="context" />

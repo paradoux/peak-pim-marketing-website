@@ -9,6 +9,7 @@ const pages = [
   { name: "drops", path: "/shopify-product-drops" },
   { name: "health-center", path: "/shopify-catalog-health-center" },
   { name: "history", path: "/history" },
+  { name: "global-search", path: "/search" },
   { name: "ai-connector", path: "/ai-catalog-connector" },
   { name: "developer-api", path: "/api" },
   { name: "metaobjects", path: "/shopify-metaobjects" },
@@ -126,10 +127,11 @@ test("pricing · categorized feature matrix and accessible information controls"
       "AI Assistant",
       "Drops",
       "History",
+      "Global search",
       "Health Center",
       "Markets & catalogs",
     ]);
-    await expect(matrix.locator(".pricing-feature-name .feature-status-badge")).toHaveText(["New", "New", "New", "New", "New", "New"]);
+    await expect(matrix.locator(".pricing-feature-name .feature-status-badge")).toHaveText(["New", "New", "New", "New", "New", "New", "New"]);
     await expect(matrix.locator(".pricing54_top-row-content .heading-style-h6")).toHaveText(["Core", "Elite", "Enterprise"]);
     expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
   }
@@ -225,6 +227,7 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
     "/shopify-custom-fields",
     "/shopify-product-drops",
     "/history",
+    "/search",
     "/shopify-catalog-health-center",
     "/user-roles-permissions",
     "/industry/fashion",
@@ -269,7 +272,7 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
       "Health Center",
       "Users & permissions",
     ]);
-    await expect(header.locator(".feature-mega-menu__link.is-coming-soon .feature-mega-menu__link-title")).toHaveText(["Amazon sync", "Automations", "Scores", "Backups", "Global search"]);
+    await expect(header.locator(".feature-mega-menu__link.is-coming-soon .feature-mega-menu__link-title")).toHaveText(["Amazon sync", "Automations", "Scores", "Backups"]);
     expect(await header.locator(".feature-mega-menu__link.is-coming-soon").evaluateAll((elements) => elements.every((element) => !element.hasAttribute("href")))).toBe(true);
     const operateHeaderColumns = await header.locator('.feature-mega-menu__group[aria-labelledby="feature-group-operate"] .feature-mega-menu__links').evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(" ").length);
     expect(operateHeaderColumns).toBe(width >= 992 ? 2 : 1);
@@ -282,10 +285,12 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
       "AI Assistant",
       "Drops",
       "History",
+      "Global search",
       "Health Center",
       "Markets & catalogs",
     ]);
     await expect(header.locator(".feature-mega-menu__link:has(.feature-status-badge):not(.is-coming-soon) .feature-status-badge")).toHaveText([
+      "New",
       "New",
       "New",
       "New",
@@ -325,7 +330,7 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
       "Custom fields",
     ]);
     await expect(footer.locator(".site-footer__solutions-column")).toContainText("Fashion");
-    await expect(footer.locator(".site-footer__coming-soon > span:first-child")).toHaveText(["Amazon sync", "Automations", "Scores", "Backups", "Global search"]);
+    await expect(footer.locator(".site-footer__coming-soon > span:first-child")).toHaveText(["Amazon sync", "Automations", "Scores", "Backups"]);
     expect(await footer.locator(".site-footer__coming-soon").evaluateAll((elements) => elements.every((element) => !element.hasAttribute("href")))).toBe(true);
     const operateFooterColumns = await footer.locator(".site-footer__feature-category.is-dense .footer1_link-list").evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(" ").length);
     expect(operateFooterColumns).toBe(width >= 992 ? 2 : 1);
@@ -334,10 +339,11 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
       "AI Assistant",
       "Drops",
       "History",
+      "Global search",
       "Health Center",
       "Markets & catalogs",
     ]);
-    await expect(footer.locator(".site-footer__feature-link .feature-status-badge")).toHaveText(["New", "New", "New", "New", "New", "New"]);
+    await expect(footer.locator(".site-footer__feature-link .feature-status-badge")).toHaveText(["New", "New", "New", "New", "New", "New", "New"]);
     await expect(footer.locator(".site-footer__column-heading")).toHaveText(["Features", "Solutions", "Compare", "Peak", "Resources"]);
     await expect(footer.locator(".footer1_link-column").filter({ hasText: "Compare" }).locator(".footer1_link").nth(0)).toHaveText("PIM alternatives");
     await expect(footer.locator(".footer1_link-column").filter({ hasText: "Compare" }).locator(".footer1_link").nth(1)).toHaveText("Build vs buy a PIM");
@@ -462,6 +468,7 @@ for (const feature of [
   { name: "markets-catalogs", path: "/shopify-markets-pricing", aria: "Peak PIM Markets and Catalogs workspace showing fixed variant prices across France, Switzerland, United Kingdom, and two Shopify stores", motion: ".peak-mkt-price.is-fixed.is-focus" },
   { name: "products-variants", path: "/shopify-product-management", aria: "Peak PIM product workspace showing one Summit Shell Jacket with intentional field and variant differences across US, France, and Germany Shopify stores", motion: ".peak-pv-grid .is-variant-row b:last-child" },
   { name: "history", path: "/history", aria: "Peak PIM History workspace showing saved catalog edits, published store changes, authors, sources, and field-level before and after values", motion: ".peak-history-published" },
+  { name: "global-search", path: "/search", aria: "Peak PIM Global Search command palette finding a Shopify variant by SKU across products, media, fields, pages, and connected stores", motion: ".peak-search-group article.is-selected" },
 ]) {
   test(`${feature.name} · responsive product and interaction contract`, async ({ page }) => {
     for (const width of [1440, 1100, 992, 768, 767, 540, 375]) {

@@ -40,7 +40,7 @@ export const featureNavigationGroups: FeatureNavigationGroup[] = [
       { label: "Scores", href: "", description: "Measure SEO, LLM readiness, and your own catalog standards.", comingSoon: true },
       { label: "History", href: "/history", description: "See who changed what, when, and what went live.", badge: "New" },
       { label: "Backups", href: "", description: "Restore catalog data when you need to roll back.", comingSoon: true },
-      { label: "Global search", href: "", description: "Find any catalog record from one search.", comingSoon: true },
+      { label: "Global search", href: "/search", description: "Find catalog data and app pages from one command bar.", badge: "New" },
       { label: "Health Center", href: "/shopify-catalog-health-center", description: "Find catalog issues before customers do.", badge: "New" },
       { label: "Users & permissions", href: "/user-roles-permissions", description: "Give each teammate the right access." },
     ],
