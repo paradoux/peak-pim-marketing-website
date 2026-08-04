@@ -3,7 +3,7 @@ import { getSharedLogoBannerHtml } from "../../lib/page-source";
 
 type Props = { title?: string };
 
-const { title = "Already trusted by top merchants" } = Astro.props;
+const { title = "Trusted by 50+ top merchants worldwide" } = Astro.props;
 
 function escapeHtml(value: string) {
   return value
@@ -22,7 +22,7 @@ const logoCloudHtml = getSharedLogoBannerHtml()
   .replace('class="logo2_logo-list"', 'class="logo2_logo-list peak-logo-cloud__list"')
   .replaceAll('class="logo2_wrapper"', 'class="logo2_wrapper peak-logo-cloud__item"')
   .replace(
-    '<h2 class="heading-style-h6">Already trusted by top merchants</h2>',
+    /<h2 class="heading-style-h6">[^<]*<\/h2>/,
     `<h2 class="heading-style-h6">${escapeHtml(title)}</h2>`,
   )
   .replace(/<img\b([^>]*)>/g, (_tag, attributes: string) => {

@@ -64,6 +64,10 @@ Pricing last reviewed on 2026-07-24. The pricing page is the source of truth.
 
 - [PIM for Shopify fashion brands](https://peak-pim.com/industry/fashion/)
 
+## Customer Stories
+
+- [How Maéli Paris saves hours every week with Peak PIM](https://peak-pim.com/customers/maeli-paris/)
+
 ## Comparisons
 
 - [Build vs buy a Shopify PIM](https://peak-pim.com/build-vs-buy-pim/)
@@ -76,7 +80,7 @@ Pricing last reviewed on 2026-07-24. The pricing page is the source of truth.
 
 ## Company
 
-- [Mission](https://peak-pim.com/mission/)
+- [Built to last: Peak PIM's mission](https://peak-pim.com/mission/) - Peak PIM is independent and profitable, and is built by the team behind SyncBase with a long-term commitment to Shopify merchants.
 - [Privacy policy](https://peak-pim.com/legals/privacy/)
 - [Shopify App Store listing](https://apps.shopify.com/peak-pim)
 

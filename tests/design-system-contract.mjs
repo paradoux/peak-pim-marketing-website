@@ -26,6 +26,9 @@ const requiredFiles = [
   "src/components/sections/ComparisonTable.astro",
   "src/components/sections/PricingComparison.astro",
   "src/components/sections/DecisionGuide.astro",
+  "src/components/sections/CustomerStoryHero.astro",
+  "src/components/sections/CustomerStoryStats.astro",
+  "src/components/sections/CustomerStoryChapter.astro",
   "src/components/sections/Faq.astro",
   "src/components/visuals/TranslationWorkflowDemo.astro",
   "src/components/visuals/TranslationStepVisual.astro",
@@ -64,6 +67,7 @@ const requiredFiles = [
   "src/components/visuals/HistoryCardVisual.astro",
   "src/components/visuals/GlobalSearchHeroVisual.astro",
   "src/components/visuals/GlobalSearchCardVisual.astro",
+  "src/components/visuals/MaeliSetupVisual.astro",
   "src/pages/design-system.astro",
   "src/pages/shopify-pim-translations.astro",
   "src/pages/shopify-product-import-export.astro",
@@ -82,6 +86,9 @@ const requiredFiles = [
   "src/pages/build-vs-buy-pim.astro",
   "src/pages/history.astro",
   "src/pages/search.astro",
+  "src/pages/customers/maeli-paris.astro",
+  "public/assets/testimonials/amelie-samson-maeli-paris.webp",
+  "public/assets/og/maeli-paris-customer-story.png",
   "public/og-build-vs-buy-pim.png",
   "docs/copywriting-system.md",
   "skills/peak-landing-pages/SKILL.md",
@@ -108,6 +115,9 @@ const canonicalContracts = {
   "src/components/sections/ComparisonTable.astro": ["peak-comparison-table", "peak-comparison-table__card", "section_comparison14", "comparison14_grid-list", "comparison14_card"],
   "src/components/sections/PricingComparison.astro": ["peak-pricing-comparison", "section_pricing50", "pricing50_top-row", "pricing50_row"],
   "src/components/sections/DecisionGuide.astro": ["peak-decision-guide", "section_layout4", "layout4_content", "layout4_item-list"],
+  "src/components/sections/CustomerStoryHero.astro": ["peak-customer-story-hero", "section_header84", "header84_card", "heading-style-h1"],
+  "src/components/sections/CustomerStoryStats.astro": ["peak-customer-story-stats", "section_stats26", "stats26_list", "stats26_number"],
+  "src/components/sections/CustomerStoryChapter.astro": ["peak-customer-story-chapter", "section_layout358", "layout358_card", "layout358_image-wrapper", "heading-style-h3"],
 };
 
 for (const [file, contracts] of Object.entries(canonicalContracts)) {
@@ -120,6 +130,11 @@ for (const [file, contracts] of Object.entries(canonicalContracts)) {
 
 const designSystemSource = readFileSync(resolve(projectRoot, "src/pages/design-system.astro"), "utf8");
 if (/from ["'][^"']*partners/i.test(designSystemSource)) failures.push("The catalogue imports the unfinished partners page");
+
+const leadModalSource = readFileSync(resolve(projectRoot, "src/components/LeadCaptureModal.astro"), "utf8");
+for (const contract of ["lead-modal__proof", "amelieSamsonMaeliParis", "Founder, Maéli Paris", 'href="/customers/maeli-paris"']) {
+  if (!leadModalSource.includes(contract)) failures.push(`Lead modal is missing customer-proof contract: ${contract}`);
+}
 
 const partnersBuildFile = resolve(projectRoot, "dist/partners/index.html");
 if (existsSync(partnersBuildFile)) failures.push("The unfinished partners page was included in the production build");
@@ -186,7 +201,7 @@ const recipeSource = readFileSync(resolve(projectRoot, "src/data/landing-page-re
 const approvedReferences = recipeSource.split("export const excludedDesignSystemPages")[0];
 if (approvedReferences.includes('"/partners"')) failures.push("The unfinished partners page appears in approved references");
 
-for (const page of ["bulk-edit", "design-system", "shopify-pim-translations", "shopify-product-import-export", "shopify-product-drops", "shopify-catalog-health-center", "ai-catalog-connector", "ai-assistant", "api", "shopify-metaobjects", "shopify-metafield-management", "shopify-custom-fields", "user-roles-permissions", "shopify-collections", "shopify-markets-pricing", "shopify-product-management", "history", "search", "build-vs-buy-pim"]) {
+for (const page of ["bulk-edit", "design-system", "shopify-pim-translations", "shopify-product-import-export", "shopify-product-drops", "shopify-catalog-health-center", "ai-catalog-connector", "ai-assistant", "api", "shopify-metaobjects", "shopify-metafield-management", "shopify-custom-fields", "user-roles-permissions", "shopify-collections", "shopify-markets-pricing", "shopify-product-management", "history", "search", "build-vs-buy-pim", "customers/maeli-paris"]) {
   const file = resolve(projectRoot, "dist", page, "index.html");
   if (!existsSync(file)) {
     failures.push(`Missing built page /${page}; run npm run build first`);
@@ -260,6 +275,7 @@ for (const slug of [
   "history",
   "search",
   "industry/fashion",
+  "customers/maeli-paris",
 ]) {
   const file = resolve(projectRoot, `dist/${slug}/index.html`);
   if (!existsSync(file)) {
@@ -355,6 +371,31 @@ for (const slug of featureSeoSlugs) {
   if (softwareSchema?.applicationCategory !== "BusinessApplication" || softwareSchema?.operatingSystem !== "Web") failures.push(`${slug} application schema is incomplete`);
   if (softwareSchema?.offers?.map((offer) => offer.price).join(",") !== "99,249") failures.push(`${slug} application schema has outdated public offers`);
   if (schemas.filter((entry) => entry["@type"] === "SoftwareApplication").length !== 1) failures.push(`${slug} must describe exactly one software application`);
+}
+
+const maeliStoryFile = resolve(projectRoot, "dist/customers/maeli-paris/index.html");
+const maeliStoryImage = resolve(projectRoot, "public/assets/og/maeli-paris-customer-story.png");
+if (existsSync(maeliStoryFile) && existsSync(maeliStoryImage)) {
+  const html = readFileSync(maeliStoryFile, "utf8");
+  const mainHtml = html.match(/<main\b[\s\S]*?<\/main>/i)?.[0] ?? "";
+  const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((match) => JSON.parse(match[1]));
+  const image = readFileSync(maeliStoryImage);
+  if (image.readUInt32BE(16) !== 1200 || image.readUInt32BE(20) !== 630) failures.push("Maéli Paris customer-story Open Graph image must be 1200 × 630");
+  if (!html.includes("<title>How Maéli Paris Saves Hours Every Week With Peak PIM</title>")) failures.push("Maéli Paris customer-story title tag is incorrect");
+  if (!html.includes('rel="canonical" href="https://peak-pim.com/customers/maeli-paris/"')) failures.push("Maéli Paris customer-story canonical URL is incorrect");
+  if (!html.includes('property="og:image" content="https://peak-pim.com/assets/og/maeli-paris-customer-story.png"')) failures.push("Maéli Paris customer story is missing its registered Open Graph image");
+  if (!html.includes('src="/assets/testimonials/amelie-samson-maeli-paris.webp"')) failures.push("Maéli Paris customer story is missing Amélie's registered portrait");
+  for (const fact of ["One afternoon", "Every week", "Several languages", "went wrong about one time in two", "Translations and MCP"]) {
+    if (!mainHtml.includes(fact)) failures.push(`Maéli Paris customer story is missing supplied operating fact: ${fact}`);
+  }
+  for (const className of ["peak-customer-story-hero", "peak-customer-story-stats", "peak-problem-grid", "peak-testimonial", "peak-customer-story-chapter", "peak-feature-grid", "peak-cta-banner", "peak-faq"]) {
+    if (!mainHtml.includes(className)) failures.push(`Maéli Paris customer story is missing canonical section: ${className}`);
+  }
+  if (!schemas.some((entry) => entry["@type"] === "Article" && entry.about?.name === "Maéli Paris")) failures.push("Maéli Paris customer story Article schema is missing or incomplete");
+  if (!schemas.some((entry) => entry["@type"] === "Review" && entry.author?.name === "Amélie Samson")) failures.push("Maéli Paris customer story Review schema is missing or incomplete");
+  if (!schemas.some((entry) => entry["@type"] === "FAQPage" && entry.mainEntity?.length === 5)) failures.push("Maéli Paris customer story FAQ schema is missing or incomplete");
+} else {
+  failures.push("Maéli Paris customer story or its Open Graph image is missing");
 }
 
 const rolesPermissionsFile = resolve(projectRoot, "dist/user-roles-permissions/index.html");
@@ -486,6 +527,7 @@ if (existsSync(homeFile)) {
   if (footerHtml.includes('site-footer__feature-category-title">Solutions</div>')) failures.push("Solutions must be a dedicated footer column, not a Features sub-column");
   if ((footerHtml.match(/href="\/industry\/fashion" class="footer1_link">Fashion<\/a>/g) ?? []).length !== 1) failures.push("The footer must place Fashion exactly once under Solutions");
   if (!/href="\/shopify-pim-alternatives"[^>]*>PIM alternatives<\/a><a href="\/build-vs-buy-pim\/"[^>]*>Build vs buy a PIM<\/a>/.test(footerHtml)) failures.push("The footer must place Build vs buy a PIM directly after PIM alternatives");
+  if (!/href="\/pricing\/"[^>]*>Pricing<\/a><a href="https:\/\/apps\.shopify\.com\/peak-pim\/reviews" target="_blank" rel="noopener"[^>]*>Reviews<\/a><a href="\/customers\/maeli-paris\/"[^>]*>Testimonials<\/a>/.test(footerHtml)) failures.push("The footer must place Reviews and Testimonials directly after Pricing in the Peak column");
   if ((footerHtml.match(/class="site-footer__heading-marker"/g) ?? []).length !== 5) failures.push("Every footer column heading must use the shared circle marker");
   if (/⚡️|⛰️|🔍|🤙/.test(footerHtml)) failures.push("The footer still contains decorative column emojis");
   if ((footerHtml.match(/class="footer1_social-link w-inline-block"/g) ?? []).length !== 6) failures.push("The footer must preserve all six original social-network links");
@@ -737,8 +779,8 @@ for (const slug of homepageLogoBannerPages) {
 
   if (!bannerHtml) failures.push(`/${slug} is missing the homepage logo banner`);
   if ((mainHtml.match(/\bsection_logo3\b/g) ?? []).length) failures.push(`/${slug} still contains the retired scrolling logo banner`);
-  if (!bannerHtml.includes(">Already trusted by top merchants</h2>")) failures.push(`/${slug} does not use the homepage logo-banner heading`);
-  if ((bannerHtml.match(/\blogo2_wrapper\b/g) ?? []).length !== 4) failures.push(`/${slug} does not use the homepage four-logo set`);
+  if (!bannerHtml.includes(">Trusted by 50+ top merchants worldwide</h2>")) failures.push(`/${slug} does not use the homepage logo-banner heading`);
+  if ((bannerHtml.match(/\blogo2_wrapper\b/g) ?? []).length !== 5) failures.push(`/${slug} does not use the homepage five-logo set`);
   for (const logoFile of homepageLogoFiles) {
     if (!bannerHtml.includes(logoFile)) failures.push(`/${slug} is missing homepage customer logo: ${logoFile}`);
   }

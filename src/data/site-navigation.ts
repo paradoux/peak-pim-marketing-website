@@ -76,6 +76,8 @@ export const resourceNavigationLinks: SiteNavigationLink[] = [
 
 export const exploreNavigationLinks: SiteNavigationLink[] = [
   { label: "Pricing", href: "/pricing/" },
+  { label: "Reviews", href: "https://apps.shopify.com/peak-pim/reviews", external: true },
+  { label: "Testimonials", href: "/customers/maeli-paris/" },
   ...resourceNavigationLinks,
   { label: "Mission", href: "/mission" },
   { label: "Contact", href: "#", crisp: true },

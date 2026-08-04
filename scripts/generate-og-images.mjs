@@ -26,6 +26,8 @@ const featurePages = [
 ];
 
 const logo = readFileSync(resolve(projectRoot, "public/assets/logo/peak-logo-large.png")).toString("base64");
+const maeliLogo = readFileSync(resolve(projectRoot, "public/mirror/6a02fa863eea804db7dc36f9_Maeli-Black-logo-138c12bb52.png")).toString("base64");
+const ameliePortrait = readFileSync(resolve(projectRoot, "public/assets/testimonials/amelie-samson-maeli-paris.webp")).toString("base64");
 const spaceGrotesk = readFileSync(resolve(projectRoot, "public/mirror/fonts/V8mDoQDjQSkFtoMM3T6r8E7mPbF4Cw-4ecc7e89b7.woff2")).toString("base64");
 const inter = readFileSync(resolve(projectRoot, "public/mirror/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7-6ab57b19c6.woff2")).toString("base64");
 
@@ -102,6 +104,48 @@ function template(feature) {
 </html>`;
 }
 
+function customerStoryTemplate() {
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <style>
+      @font-face { font-family: "Space Grotesk"; src: url(data:font/woff2;base64,${spaceGrotesk}) format("woff2"); font-weight: 300 700; }
+      @font-face { font-family: "Inter"; src: url(data:font/woff2;base64,${inter}) format("woff2"); font-weight: 300 700; }
+      * { box-sizing: border-box; }
+      html, body { width: 1200px; height: 630px; margin: 0; overflow: hidden; }
+      body { background: #f5f1e9; color: #181818; font-family: "Inter", sans-serif; }
+      main { display: grid; width: 100%; height: 100%; grid-template-columns: 1.1fr .9fr; }
+      .copy { display: flex; padding: 52px 58px 48px; flex-direction: column; }
+      .peak { width: 190px; height: auto; object-fit: contain; object-position: left center; }
+      .customer { width: 150px; height: 66px; margin-top: auto; object-fit: contain; object-position: left center; }
+      .eyebrow { margin: 22px 0 16px; color: #2845d6; font-size: 18px; font-weight: 750; letter-spacing: .09em; text-transform: uppercase; }
+      h1 { max-width: 650px; margin: 0; font-family: "Space Grotesk", sans-serif; font-size: 64px; font-weight: 600; letter-spacing: -.05em; line-height: .98; text-wrap: balance; }
+      p { max-width: 610px; margin: 22px 0 0; color: #54514c; font-size: 22px; line-height: 1.35; text-wrap: balance; }
+      .portrait { position: relative; min-width: 0; overflow: hidden; }
+      .portrait::after { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(245,241,233,.18), transparent 22%); content: ""; }
+      .portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 27%; }
+      .caption { position: absolute; right: 28px; bottom: 28px; z-index: 2; padding: 11px 15px; border-radius: 999px; background: rgba(24,24,24,.84); color: white; font-size: 14px; backdrop-filter: blur(8px); }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="copy">
+        <img class="peak" src="data:image/png;base64,${logo}" alt="">
+        <img class="customer" src="data:image/png;base64,${maeliLogo}" alt="">
+        <div class="eyebrow">Customer story</div>
+        <h1>How Maéli Paris gets hours back every week</h1>
+        <p>One-afternoon setup, scheduled fabric Drops, and one multilingual product workflow.</p>
+      </section>
+      <section class="portrait">
+        <img src="data:image/webp;base64,${ameliePortrait}" alt="">
+        <span class="caption">Amélie Samson · Maéli Paris</span>
+      </section>
+    </main>
+  </body>
+</html>`;
+}
+
 mkdirSync(outputDirectory, { recursive: true });
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });
@@ -112,5 +156,9 @@ for (const feature of featurePages) {
   await page.screenshot({ path: resolve(outputDirectory, `${feature.slug}.png`), type: "png" });
 }
 
+await page.setContent(customerStoryTemplate(), { waitUntil: "load" });
+await page.evaluate(() => document.fonts.ready);
+await page.screenshot({ path: resolve(outputDirectory, "maeli-paris-customer-story.png"), type: "png" });
+
 await browser.close();
-console.log(`Generated ${featurePages.length} Open Graph images in public/assets/og.`);
+console.log(`Generated ${featurePages.length + 1} Open Graph images in public/assets/og.`);

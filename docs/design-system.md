@@ -33,6 +33,9 @@ Use the component filename and its `peak-*` alias when discussing, selecting, te
 | `ComparisonTable.astro` | `peak-comparison-table` | `section_comparison14` |
 | `PricingComparison.astro` | `peak-pricing-comparison` | `section_pricing50` |
 | `DecisionGuide.astro` | `peak-decision-guide` | `section_layout4` |
+| `CustomerStoryHero.astro` | `peak-customer-story-hero` | `section_header84` |
+| `CustomerStoryStats.astro` | `peak-customer-story-stats` | `section_stats26` |
+| `CustomerStoryChapter.astro` | `peak-customer-story-chapter` | `section_layout358` |
 
 Child elements use the same BEM-style namespace, such as `peak-feature-grid__card` and `peak-faq__question`. New component behavior and tests should target these semantic aliases. Legacy classes remain present solely to inherit the approved Webflow appearance and existing third-party interactions.
 
@@ -113,8 +116,13 @@ Feature pages are described as `WebPage` entities about the single canonical Pea
 - `ComparisonTable.astro` exposes `peak-comparison-table` and emits the two-card `section_comparison14` structure.
 - `PricingComparison.astro` exposes `peak-pricing-comparison` and emits the responsive `section_pricing50` ownership and pricing table.
 - `DecisionGuide.astro` exposes `peak-decision-guide` and emits the split `section_layout4` decision structure.
+- `CustomerStoryHero.astro` exposes `peak-customer-story-hero` and emits the editorial split `section_header84` structure with a registered customer portrait and logo.
+- `CustomerStoryStats.astro` exposes `peak-customer-story-stats` and emits the existing dark `section_stats26` proof summary without inventing unsupported metrics.
+- `CustomerStoryChapter.astro` exposes `peak-customer-story-chapter` and emits the alternating `section_layout358` editorial chapter used for real setup, workflow, and outcome narratives.
 
 Keep page content in the route. Keep hierarchy, spacing, classes, buttons, and interaction logic inside the reusable components.
+
+Customer stories use registered portraits and logos, verified quotes, and outcomes supplied or approved by the customer. Never turn a product capability into an attributed customer claim without evidence. Compose the story from `CustomerStoryHero`, `CustomerStoryStats`, the existing `Testimonial`, alternating `CustomerStoryChapter` sections, `CtaBanner`, and `Faq`.
 
 Use `CardGrid` when the approved reference shows complete bordered cards. Use `FeatureSteps` only when the approved reference uses the unbordered `layout239` step treatment. `FeatureGrid` accepts exactly four items and preserves the original `content-item-1` through `content-item-4` sticky behavior from `/1-click-setup`; consolidate content or choose another canonical section instead of adding a fifth card. The component measures the tallest natural card and synchronizes all four card heights after fonts load and whenever the viewport changes, preventing earlier cards from showing behind the final card at any responsive width.
 

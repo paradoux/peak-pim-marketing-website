@@ -75,6 +75,7 @@ if (!sitemap.includes("<loc>https://peak-pim.com/guides/</loc>")) failures.push(
 if (!sitemap.includes("<loc>https://peak-pim.com/history/</loc>")) failures.push("Sitemap is missing the History URL");
 if (!sitemap.includes("<loc>https://peak-pim.com/search/</loc>")) failures.push("Sitemap is missing the Global Search URL");
 if (!sitemap.includes("<loc>https://peak-pim.com/ai-assistant/</loc>")) failures.push("Sitemap is missing the AI Assistant URL");
+if (!sitemap.includes("<loc>https://peak-pim.com/customers/maeli-paris/</loc>")) failures.push("Sitemap is missing the Maéli Paris customer story URL");
 if (sitemap.includes("https://peak-pim.com/partners/")) failures.push("Sitemap exposes the unfinished partners page");
 if (sitemapUrls.some((url) => url !== "https://peak-pim.com/" && !url.endsWith("/"))) failures.push("Sitemap contains a redirecting URL");
 if ((sitemap.match(/<lastmod>/g) ?? []).length !== sitemapUrls.length) failures.push("Sitemap last-modified dates are incomplete");
@@ -86,6 +87,30 @@ const llms = readFileSync(resolve(projectRoot, "public/llms.txt"), "utf8");
 if (!llms.includes("[Shopify catalog change history](https://peak-pim.com/history/)")) failures.push("llms.txt is missing the History page");
 if (!llms.includes("[Global Search for Shopify catalogs](https://peak-pim.com/search/)")) failures.push("llms.txt is missing the Global Search page");
 if (!llms.includes("[AI Assistant for Shopify catalog management](https://peak-pim.com/ai-assistant/)")) failures.push("llms.txt is missing the AI Assistant page");
+if (!llms.includes("[How Maéli Paris saves hours every week with Peak PIM](https://peak-pim.com/customers/maeli-paris/)")) failures.push("llms.txt is missing the Maéli Paris customer story");
+if (!llms.includes("[Built to last: Peak PIM's mission](https://peak-pim.com/mission/)")) failures.push("llms.txt is missing Peak PIM's long-term company story");
+
+const missionFile = resolve(projectRoot, "dist/mission/index.html");
+if (!existsSync(missionFile)) {
+  failures.push("Missing built Mission page");
+} else {
+  const html = readFileSync(missionFile, "utf8");
+  for (const fact of [
+    "We are on a mission",
+    "All this time lost managing product chaos",
+    "give every Shopify merchant full control over their product data",
+    "SyncBase",
+    "world’s leading integration between Shopify and Airtable",
+    "Peak PIM is profitable",
+    "next decade and beyond",
+  ]) {
+    if (!html.includes(fact)) failures.push(`Mission page is missing long-term trust proof: ${fact}`);
+  }
+  if (!html.includes('class="mission-founder-photo"') || !html.includes("peak-pim-founders-tech-for-retail.jpg")) failures.push("Mission page is missing the founders' shared photo");
+  if (!html.includes('rel="canonical" href="https://peak-pim.com/mission/"')) failures.push("Mission canonical URL is incorrect");
+  if (!html.includes('"url": "https://peak-pim.com/mission/"')) failures.push("Mission structured-data URL is not canonical");
+  if (html.includes("<title>Our Mission | Peak PIM</title>")) failures.push("Mission page still contains its retired metadata title");
+}
 if ((llms.match(/^## Current Pricing$/gm) ?? []).length !== 1) failures.push("llms.txt must contain exactly one Current Pricing section");
 for (const fact of ["Core: $99 per month or $990 per year", "Elite: $249 per month or $2,490 per year", "Enterprise: Custom pricing", "10-day free trial"]) {
   if (!llms.includes(fact)) failures.push(`llms.txt is missing current pricing guidance: ${fact}`);

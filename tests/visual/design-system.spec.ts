@@ -19,6 +19,7 @@ const pages = [
   { name: "collections", path: "/shopify-collections" },
   { name: "markets-catalogs", path: "/shopify-markets-pricing" },
   { name: "products-variants", path: "/shopify-product-management" },
+  { name: "maeli-customer-story", path: "/customers/maeli-paris" },
 ] as const;
 
 const viewports = [
@@ -74,6 +75,34 @@ test("homepage · hero CTA pair is responsive and uses canonical actions", async
       await pricingPreviewCta.click();
       await expect(page).toHaveURL(/\/pricing\/$/);
     }
+  }
+});
+
+test("lead modal · customer proof and trial form share one responsive layout", async ({ page }) => {
+  for (const viewport of [
+    { name: "desktop", width: 1440, height: 900 },
+    { name: "mobile", width: 375, height: 812 },
+  ]) {
+    await prepare(page, "/?lead-modal=30-day-extended-trial", viewport.width, viewport.height);
+    const dialog = page.locator("[data-lead-modal-root]");
+    await dialog.waitFor({ state: "visible" });
+    await expect(dialog.locator(".lead-modal__proof-image")).toBeVisible();
+    await expect(dialog.locator(".lead-modal__proof-logo")).toBeVisible();
+    await expect(dialog.locator("blockquote")).toContainText("Peak PIM changed how we work");
+    await expect(dialog.locator(".lead-modal__proof-link")).toHaveAttribute("href", "/customers/maeli-paris");
+    await expect(dialog.locator("[data-lead-modal-title]")).toHaveText("Get your 30 days extended trial");
+    await expect(dialog.locator("input[name='email']")).toBeVisible();
+
+    const layout = await dialog.locator(".lead-modal__layout").evaluate((element) => {
+      const proof = element.querySelector(".lead-modal__proof")?.getBoundingClientRect();
+      const state = element.querySelector(".lead-modal__state")?.getBoundingClientRect();
+      return proof && state ? { proofLeft: proof.left, proofTop: proof.top, proofRight: proof.right, proofBottom: proof.bottom, stateLeft: state.left, stateTop: state.top } : null;
+    });
+    expect(layout).not.toBeNull();
+    if (viewport.name === "desktop") expect(layout!.proofRight).toBeLessThanOrEqual(layout!.stateLeft + 1);
+    if (viewport.name === "mobile") expect(layout!.proofBottom).toBeLessThanOrEqual(layout!.stateTop + 1);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+    await expect(page).toHaveScreenshot(`lead-modal-social-proof-${viewport.name}.png`, { animations: "disabled", fullPage: false, maxDiffPixelRatio: 0.015 });
   }
 });
 
@@ -786,8 +815,8 @@ test("translations · logo strip matches the homepage and FAQ matches the featur
   await prepare(page, "/shopify-pim-translations", 1440, 1000);
   const translationStyles = await page.evaluate(readStyles, selectors);
   await expect(page.locator(".section_logo2.color-scheme-2")).toHaveCount(1);
-  await expect(page.locator(".section_logo2 .logo2_wrapper")).toHaveCount(4);
-  await expect(page.locator(".section_logo2 h2")).toHaveText("Already trusted by top merchants");
+  await expect(page.locator(".section_logo2 .logo2_wrapper")).toHaveCount(5);
+  await expect(page.locator(".section_logo2 h2")).toHaveText("Trusted by 50+ top merchants worldwide");
   await expect(page.locator(".section_faq1 h2")).toHaveText("Frequently asked questions");
 
   await prepare(page, "/shopify-media-management", 1440, 1000);
@@ -795,8 +824,8 @@ test("translations · logo strip matches the homepage and FAQ matches the featur
 
   await prepare(page, "/industry/fashion", 1440, 1000);
   expect(await page.evaluate(readStyles, selectors.slice(0, 2))).toEqual(translationStyles.slice(0, 2));
-  await expect(page.locator(".section_logo2 .logo2_wrapper")).toHaveCount(4);
-  await expect(page.locator(".section_logo2 h2")).toHaveText("Already trusted by top merchants");
+  await expect(page.locator(".section_logo2 .logo2_wrapper")).toHaveCount(5);
+  await expect(page.locator(".section_logo2 h2")).toHaveText("Trusted by 50+ top merchants worldwide");
 });
 
 test("translations · uses the original global font smoothing", async ({ page }) => {

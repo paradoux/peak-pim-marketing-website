@@ -1,0 +1,33 @@
+---
+type Stat = { value: string; title: string; description: string };
+type Props = { title: string; items: Stat[] };
+
+const { title, items } = Astro.props;
+---
+
+<section class="section_stats26 peak-customer-story-stats color-scheme-4">
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="padding-section-large">
+        <div class="stats26_component peak-customer-story-stats__component">
+          <div class="margin-bottom margin-xxlarge">
+            <div class="w-layout-grid stats26_content">
+              <div class="stats26_content-left"><h2 class="heading-style-h3">{title}</h2></div>
+            </div>
+          </div>
+          <div class="w-layout-grid stats26_list peak-customer-story-stats__list">
+            {items.map((item) => (
+              <article class="stats26_item peak-customer-story-stats__item">
+                <div class="margin-bottom margin-large"><div class="stats26_number">{item.value}</div></div>
+                <div class="stats26_item-content">
+                  <h3 class="heading-style-h6">{item.title}</h3>
+                  <div class="margin-top margin-xxsmall"><p>{item.description}</p></div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

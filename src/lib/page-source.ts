@@ -22,6 +22,23 @@ function innerMatch(html: string, pattern: RegExp) {
   return html.match(pattern)?.[1] ?? "";
 }
 
+const sharedLogoBannerTitle = "Trusted by 50+ top merchants worldwide";
+const lafaurieLogoBannerHtml = '<div class="logo2_wrapper"><img width="145" alt="Lafaurie" src="/mirror/6a2020f720923338455d7fb6_LAFAURIE-White-logo-56221a8ad1.png" loading="lazy" class="logo2_logo"></div>';
+
+function updateSharedLogoBanner(html: string) {
+  const withTitle = html.replace(
+    '<h2 class="heading-style-h6">Already trusted by top merchants</h2>',
+    `<h2 class="heading-style-h6">${sharedLogoBannerTitle}</h2>`,
+  );
+
+  if (withTitle.includes('alt="Lafaurie"')) return withTitle;
+
+  return withTitle.replace(
+    /(<div[^>]*class="logo2_wrapper"[^>]*><img[^>]*Du-Bruit-Dans-La-Cuisine[^>]*><\/div>)/,
+    `$1${lafaurieLogoBannerHtml}`,
+  );
+}
+
 const sharedHeaderHtml = normalizeCtaCopyInHtml(
   firstMatch(
     homeHtml,
@@ -32,7 +49,9 @@ const sharedHeaderHtml = normalizeCtaCopyInHtml(
 const sharedGlobalStylesHtml = firstMatch(homeHtml, /<div class="global-styles">[\s\S]*?<\/div><\/div>/);
 
 const sharedFooterHtml = normalizeCtaCopyInHtml(firstMatch(homeHtml, /<footer class="footer1_component"[\s\S]*?<\/footer>/));
-const sharedLogoBannerHtml = firstMatch(homeHtml, /<section class="section_logo2 color-scheme-2">[\s\S]*?<\/section>/);
+const sharedLogoBannerHtml = updateSharedLogoBanner(
+  firstMatch(homeHtml, /<section class="section_logo2 color-scheme-2">[\s\S]*?<\/section>/),
+);
 const featurePageSlugs = new Set(featureNavigationGroups.flatMap((group) => group.links.map((link) => link.href.replace(/^\//, "").replace(/\/$/, ""))));
 
 export function getPage(slug = "") {
@@ -61,7 +80,11 @@ export function getPageDocument(page: PageDefinition) {
 
 function applyContentCorrections(html: string, page: PageDefinition) {
   if (page.slug === "") {
-    return correctHomepagePricingCta(html);
+    return correctHomepagePricingCta(updateSharedLogoBanner(html));
+  }
+
+  if (page.slug === "mission") {
+    return improveMissionPage(html);
   }
 
   if (["shopify-media-management", "industry/fashion"].includes(page.slug)) {
@@ -121,6 +144,41 @@ function applyContentCorrections(html: string, page: PageDefinition) {
     .replaceAll("Account manager", "Dedicated support");
 
   return removePricingFeature(removePricingFeature(withCurrentLimits, enterprisePlanCardStart, "Metaobjects"), enterprisePlanCardStart, "Translations");
+}
+
+function improveMissionPage(html: string) {
+  const previousTitle = "Our Mission | Peak PIM";
+  const currentTitle = "Built to Last: Our Mission | Peak PIM";
+  const previousDescription = "Peak PIM is fixing the missing piece in Shopify: product data management. One place to manage, enrich, and sync your entire catalog across every store.";
+  const currentDescription = "Peak PIM is on a mission to give Shopify merchants control over product data. Built by the team behind SyncBase, Peak PIM is independent and profitable.";
+  const previousOrganizationDescription = "Peak PIM is the product management layer Shopify is missing. One place to manage, enrich, and sync your entire catalog: across every store, without the mess.";
+  const currentOrganizationDescription = "Peak PIM is an independent, profitable Shopify PIM built by the team behind SyncBase to give merchants control over product data.";
+  const missionSectionPattern = /<section class="section_content7 color-scheme-1">[\s\S]*?<\/section>/;
+  const missionSection = `<section class="section_content7 mission-page-copy color-scheme-1"><div class="w-embed"><style>
+.mission-page-copy .mission-page-title { font-size: clamp(2.5rem, 4vw, 3rem); line-height: 1.08; }
+.mission-page-copy .text-rich-text { font-size: 1.125rem; line-height: 1.55; }
+.mission-page-copy .mission-small-heading { margin-top: 1.5rem; margin-bottom: .5rem; font-size: 1.5rem; line-height: 1.25; }
+.mission-page-copy .mission-founder-signature { margin-top: 3rem; margin-bottom: 1.25rem; }
+.mission-page-copy .mission-founder-figure { width: 100%; max-width: none; margin: 0; }
+.mission-page-copy .mission-founder-photo { display: block; width: 100%; max-width: 32rem; height: auto; margin: 0; border: 1px solid var(--border-color--border-primary, #d8d4cc); border-radius: 1.25rem; object-fit: cover; box-shadow: 0 14px 40px rgba(19, 19, 19, .08); }
+@media screen and (max-width: 767px) {
+  .mission-page-copy .mission-page-title { font-size: 2.25rem; }
+  .mission-page-copy .text-rich-text { font-size: 1rem; }
+  .mission-page-copy .mission-small-heading { margin-top: 1.25rem; margin-bottom: .4rem; font-size: 1.375rem; }
+  .mission-page-copy .mission-founder-photo { border-radius: 1rem; }
+}
+</style></div><div class="padding-global"><div class="container-large"><div class="padding-section-large"><div class="content7_component"><div class="max-width-large align-center"><div class="content7_content-wrapper"><div class="margin-bottom margin-small"><h1 id="w-node-_3966a95b-603b-30a2-4c89-71b26fd2f4f5-08d220d8" class="heading-style-h3 mission-page-title">We are on a mission</h1></div><div class="text-rich-text w-richtext"><p>Shopify is one of the most powerful platforms ever built for merchants.</p><p>Setting up a store, managing payments, running campaigns and everything else. Shopify handles all of it beautifully. It is why millions of brands run on it.</p><h2 class="mission-small-heading">The problem we are fixing</h2><p>But product data? That is a different story.</p><p>Merchants spend hours every week wrestling with spreadsheets, copying information between apps, and fixing descriptions that somehow got out of sync between stores. Titles are wrong on one store. Images are missing on another. Variants do not match. It never ends.</p><p>All this time lost managing product chaos is time not spent building the brand, launching new products, or growing sales. <strong>So we are fixing it.</strong></p><h2 class="mission-small-heading">What we are building</h2><p>Peak PIM is the product management layer Shopify is missing. One place to manage, enrich, and publish an entire catalog across every store, without the mess.</p><p>Our goal is simple: give every Shopify merchant full control over their product data, without the complexity of enterprise tools built for someone else.</p><p><strong>More clarity. More control. More time to focus on what actually moves the business forward.</strong></p><h2 class="mission-small-heading">Built from experience</h2><p>This mission is also shaping the company we are building.</p><p>We have been part of the Shopify ecosystem for years. Before Peak PIM, we built SyncBase, and we still run it today. It has grown into the world’s leading integration between Shopify and Airtable.</p><p>Building and operating SyncBase taught us that launching a product is only the beginning. The real work is making it dependable, supporting the people who rely on it, and improving it year after year. We are bringing that same commitment to Peak PIM.</p><h2 class="mission-small-heading">Independent by design</h2><p>We made another deliberate choice: we have not raised outside funding. Peak PIM is profitable.</p><p>We are building at the pace of a durable company, not around fundraising announcements or an investor timetable. We do not need to burn cash to justify a valuation or depend on the next round to keep going. Our independence lets us make patient decisions around the product, the mission, and the merchants we serve.</p><h2 class="mission-small-heading">Driven by the mission</h2><p>We care deeply about this work. We have put years of thought, time, and effort into understanding how merchants manage product data, and we are passionate about turning that work into a tool they genuinely enjoy using every day.</p><p><strong>We intend to keep building it for the next decade and beyond.</strong></p><p class="mission-founder-signature">Axel and Théau<br>Co-founders of Peak PIM</p><figure class="mission-founder-figure"><img class="mission-founder-photo" src="/assets/team/peak-pim-founders-tech-for-retail.jpg" alt="Axel and Théau, co-founders of Peak PIM, at Tech for Retail" width="1400" height="1027" loading="lazy"></figure></div></div></div></div></div></div></div></div></section>`;
+
+  if (!html.includes(previousTitle) || !html.includes(previousDescription) || !html.includes(previousOrganizationDescription) || !missionSectionPattern.test(html)) {
+    throw new Error("The Mission page could not be upgraded with the long-term company story.");
+  }
+
+  return html
+    .replaceAll(previousTitle, currentTitle)
+    .replaceAll(previousDescription, currentDescription)
+    .replaceAll(previousOrganizationDescription, currentOrganizationDescription)
+    .replace('"url": "/mission"', '"url": "https://peak-pim.com/mission/"')
+    .replace(missionSectionPattern, missionSection);
 }
 
 function correctHomepagePricingCta(html: string) {

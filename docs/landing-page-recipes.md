@@ -37,6 +37,21 @@ Reference `/industry/fashion`. Reuse its editorial hero, statistics, logo proof,
 
 Reference the finished `/vs/*` routes. Reuse their comparison hero, verdict, tables, decision guide, migration section, FAQ, and CTA. Keep competitor claims sourced and current.
 
+## Customer story page
+
+Reference `/customers/maeli-paris` and the closest approved industry page.
+
+1. `CustomerStoryHero` with a registered portrait and customer logo
+2. `CustomerStoryStats` using only verified operating facts
+3. Problem framing from the customer's previous workflow
+4. Existing `Testimonial` with a verified quote
+5. Alternating `CustomerStoryChapter` sections for setup, recurring workflows, and outcomes
+6. Capability summary
+7. `CtaBanner`
+8. Topic-specific `Faq`
+
+Keep narration distinct from attributed quotation. A customer quote must already be approved; supporting prose may only state outcomes supplied by the customer or user.
+
 ## Copy rules
 
 - Follow `docs/copywriting-system.md` for voice and CTA copy.

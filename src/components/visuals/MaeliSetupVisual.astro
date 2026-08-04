@@ -1,0 +1,165 @@
+---
+import ProductVisualFrame from "../ui/ProductVisualFrame.astro";
+---
+
+<ProductVisualFrame
+  ariaLabel="Peak PIM onboarding checklist showing a Maéli Paris store connected, catalog imported, and workspace ready in one afternoon"
+  section="Setup"
+  status="Catalog ready"
+  actionLabel="Start managing"
+>
+  <div class="peak-maeli-setup">
+    <div class="peak-maeli-setup__summary">
+      <small>Maéli Paris</small>
+      <strong>Ready in one afternoon</strong>
+      <p>The connected catalog is imported, reviewed, and ready for the next product update.</p>
+      <span><i></i></span>
+      <em>Setup complete</em>
+    </div>
+    <div class="peak-maeli-setup__steps">
+      <article class="is-done"><i>✓</i><div><small>Step 1</small><b>Connect the Shopify store</b><span>Products, variants, collections, and media discovered</span></div></article>
+      <article class="is-done"><i>✓</i><div><small>Step 2</small><b>Import the existing catalog</b><span>Current product information preserved</span></div></article>
+      <article class="is-done"><i>✓</i><div><small>Step 3</small><b>Review the first sync</b><span>Draft and live states checked before work begins</span></div></article>
+      <article class="is-ready"><i>4</i><div><small>Ready</small><b>Run the catalog from Peak PIM</b><span>Weekly launches and translations share one workflow</span></div></article>
+    </div>
+  </div>
+</ProductVisualFrame>
+
+<style>
+  .peak-maeli-setup {
+    display: grid;
+    min-height: 390px;
+    padding: 1.5rem;
+    gap: 1rem;
+    background: #f6f3ec;
+    grid-template-columns: minmax(9rem, 0.75fr) minmax(0, 1.25fr);
+  }
+
+  .peak-maeli-setup__summary,
+  .peak-maeli-setup__steps article {
+    border: 1px solid #dedbd4;
+    border-radius: 0.55rem;
+    background: white;
+  }
+
+  .peak-maeli-setup__summary {
+    display: flex;
+    padding: 1.25rem;
+    flex-direction: column;
+  }
+
+  .peak-maeli-setup__summary small,
+  .peak-maeli-setup__steps small {
+    color: #777;
+    font-size: 0.48rem;
+    text-transform: uppercase;
+  }
+
+  .peak-maeli-setup__summary strong {
+    margin-top: 0.5rem;
+    font-size: 1.3rem;
+    letter-spacing: -0.04em;
+    line-height: 1.02;
+  }
+
+  .peak-maeli-setup__summary p {
+    margin: 0.75rem 0 0;
+    color: #666;
+    font-size: 0.56rem;
+    line-height: 1.55;
+  }
+
+  .peak-maeli-setup__summary > span {
+    height: 0.4rem;
+    margin-top: auto;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #e2e2e2;
+  }
+
+  .peak-maeli-setup__summary > span i {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: #53a86d;
+  }
+
+  .peak-maeli-setup__summary em {
+    margin-top: 0.5rem;
+    color: #36874e;
+    font-size: 0.5rem;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .peak-maeli-setup__steps {
+    display: grid;
+    gap: 0.65rem;
+  }
+
+  .peak-maeli-setup__steps article {
+    display: grid;
+    align-items: center;
+    padding: 0.85rem;
+    gap: 0.7rem;
+    grid-template-columns: 1.6rem minmax(0, 1fr);
+  }
+
+  .peak-maeli-setup__steps article > i {
+    display: grid;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    background: #dff1e4;
+    color: #36874e;
+    font-size: 0.62rem;
+    font-style: normal;
+    font-weight: 700;
+    place-items: center;
+  }
+
+  .peak-maeli-setup__steps article > div {
+    display: grid;
+    min-width: 0;
+    gap: 0.15rem;
+  }
+
+  .peak-maeli-setup__steps b {
+    font-size: 0.62rem;
+  }
+
+  .peak-maeli-setup__steps span {
+    overflow: hidden;
+    color: #777;
+    font-size: 0.48rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .peak-maeli-setup__steps .is-ready {
+    border-color: #8293eb;
+    box-shadow: 0 0 0 0.2rem rgba(40, 69, 214, 0.08);
+  }
+
+  .peak-maeli-setup__steps .is-ready > i {
+    background: #2845d6;
+    color: white;
+  }
+
+  @media (max-width: 767px) {
+    .peak-maeli-setup {
+      min-height: 350px;
+      padding: 1rem;
+      grid-template-columns: 1fr;
+    }
+
+    .peak-maeli-setup__summary {
+      min-height: 8.5rem;
+    }
+
+    .peak-maeli-setup__steps article {
+      padding: 0.7rem;
+    }
+  }
+</style>

@@ -1,5 +1,5 @@
 export type LandingPageArchetype = {
-  id: "feature" | "use-case" | "industry" | "comparison";
+  id: "feature" | "use-case" | "industry" | "comparison" | "customer-story";
   name: string;
   purpose: string;
   requiredSections: string[];
@@ -39,6 +39,14 @@ export const landingPageArchetypes: LandingPageArchetype[] = [
     requiredSections: ["Split comparison hero", "Verdict", "Side-by-side table", "Pricing comparison", "Decision guide", "Migration steps", "CTA", "FAQ"],
     optionalSections: ["Product workflow", "Testimonial"],
     approvedReferences: ["/vs/shopify-admin", "/vs/akeneo", "/vs/plytix", "/vs/catsy", "/vs/quable"],
+  },
+  {
+    id: "customer-story",
+    name: "Customer story",
+    purpose: "Show how a real merchant changed a recurring catalog workflow using verified customer proof.",
+    requiredSections: ["Editorial customer hero", "Verified operating facts", "Customer quote", "Workflow chapters", "CTA", "Topic FAQ"],
+    optionalSections: ["Problem framing", "Capability summary"],
+    approvedReferences: ["/customers/maeli-paris", "/industry/fashion"],
   },
 ];
 

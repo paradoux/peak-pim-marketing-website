@@ -84,6 +84,8 @@ const featureColumnHtml = `
 const headingMarker = '<span class="site-footer__heading-marker" aria-hidden="true"></span>';
 const solutionsGroup = featureNavigationGroups.find((group) => group.label === "Solutions");
 const buildVsBuyLink = comparisonNavigationLinks.find((link) => link.href === "/build-vs-buy-pim/");
+const reviewsLink = exploreNavigationLinks.find((link) => link.href === "https://apps.shopify.com/peak-pim/reviews");
+const maeliUseCaseLink = exploreNavigationLinks.find((link) => link.href === "/customers/maeli-paris/");
 const liveDemoLink = exploreNavigationLinks.find((link) => link.href === "https://app.peak-pim.com/demo");
 const helpCenterLink = exploreNavigationLinks.find((link) => link.href === "https://help.peak-pim.com/en/");
 const productUpdatesLink = exploreNavigationLinks.find((link) => link.href === "https://www.linkedin.com/company/peak-pim/posts/");
@@ -97,6 +99,8 @@ const originalLeftWrapperHtml = extractDivElement(originalFooterHtml, leftWrappe
 if (
   !solutionsGroup ||
   !buildVsBuyLink ||
+  !reviewsLink ||
+  !maeliUseCaseLink ||
   !liveDemoLink ||
   !helpCenterLink ||
   !productUpdatesLink ||
@@ -137,6 +141,10 @@ const peakColumnHtml = originalFooterHtml
   .slice(peakColumnStart, compareColumnStart)
   .replace('<div class="footer1_link-column">', '<div class="footer1_link-column site-footer__peak-column">')
   .replace(peakHeading, `<div class="text-weight-semibold site-footer__column-heading">${headingMarker}Peak</div>`)
+  .replace(
+    '<a href="/pricing/" class="footer1_link">Pricing</a>',
+    `<a href="/pricing/" class="footer1_link">Pricing</a><a href="${escapeHtml(reviewsLink.href)}" target="_blank" rel="noopener" class="footer1_link">${escapeHtml(reviewsLink.label)}</a><a href="${escapeHtml(maeliUseCaseLink.href)}" class="footer1_link">${escapeHtml(maeliUseCaseLink.label)}</a>`,
+  )
   .replace('<a href="https://help.peak-pim.com/en/" target="_blank" rel="noopener" class="footer1_link">Help Center</a>', "")
   .replace('<a href="https://www.linkedin.com/company/peak-pim/posts/" target="_blank" class="footer1_link">Product Updates</a>', "");
 const compareColumnHtml = originalFooterHtml

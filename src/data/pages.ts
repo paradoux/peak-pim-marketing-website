@@ -50,9 +50,9 @@ export const pages: PageDefinition[] = [
   {
     slug: "mission",
     source: "mission.html",
-    title: "Our Mission | Peak PIM",
+    title: "Built to Last: Our Mission | Peak PIM",
     description:
-      "Peak PIM is fixing the missing piece in Shopify: product data management. One place to manage, enrich, and sync your entire catalog across every store.",
+      "Peak PIM is on a mission to give Shopify merchants control over product data. Built by the team behind SyncBase, Peak PIM is independent and profitable.",
     h1: "We are on a mission",
   },
   {

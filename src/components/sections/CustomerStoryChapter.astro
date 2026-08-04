@@ -1,0 +1,78 @@
+---
+import Button from "../ui/Button.astro";
+import type { CtaLabel } from "../../data/cta-copy";
+
+type Props = {
+  id?: string;
+  title: string;
+  lead: string;
+  tagline: string;
+  cardTitle: string;
+  body: string;
+  reverse?: boolean;
+  link?: { label: CtaLabel; href: string };
+};
+
+const { id, title, lead, tagline, cardTitle, body, reverse = false, link } = Astro.props;
+---
+
+<section id={id} class="section_layout358 peak-customer-story-chapter color-scheme-1">
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="padding-section-large">
+        <div class="layout358_component peak-customer-story-chapter__component">
+          <div class="margin-bottom margin-xxlarge">
+            <div class="text-align-center">
+              <div class="max-width-large align-center">
+                <div class="margin-bottom margin-small"><h2 class="heading-style-h2">{title}</h2></div>
+                <p class="text-size-medium">{lead}</p>
+              </div>
+            </div>
+          </div>
+          <div class="w-layout-grid layout358_grid-list">
+            <article class="layout358_card peak-customer-story-chapter__card">
+              {reverse ? (
+                <>
+                  <div class="layout358_card-content peak-customer-story-chapter__content">
+                    <div class="layout358_card-content-top">
+                      <div class="margin-bottom margin-xxsmall"><div class="tag is-text">{tagline}</div></div>
+                      <div class="margin-bottom margin-small"><h3 class="heading-style-h3">{cardTitle}</h3></div>
+                      <p>{body}</p>
+                    </div>
+                    {link && <div class="margin-top margin-medium"><div class="button-group"><Button href={link.href} variant="link">{link.label}</Button></div></div>}
+                  </div>
+                  <div class="layout358_image-wrapper peak-customer-story-chapter__visual"><slot name="visual" /></div>
+                </>
+              ) : (
+                <>
+                  <div class="layout358_image-wrapper peak-customer-story-chapter__visual"><slot name="visual" /></div>
+                  <div class="layout358_card-content peak-customer-story-chapter__content">
+                    <div class="layout358_card-content-top">
+                      <div class="margin-bottom margin-xxsmall"><div class="tag is-text">{tagline}</div></div>
+                      <div class="margin-bottom margin-small"><h3 class="heading-style-h3">{cardTitle}</h3></div>
+                      <p>{body}</p>
+                    </div>
+                    {link && <div class="margin-top margin-medium"><div class="button-group"><Button href={link.href} variant="link">{link.label}</Button></div></div>}
+                  </div>
+                </>
+              )}
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .peak-customer-story-chapter__visual {
+    display: flex;
+    align-items: center;
+    padding: clamp(0.75rem, 2vw, 1.25rem);
+    background: #f2eee6;
+  }
+
+  .peak-customer-story-chapter__visual :global(.peak-product-visual-embed) {
+    width: 100%;
+  }
+</style>

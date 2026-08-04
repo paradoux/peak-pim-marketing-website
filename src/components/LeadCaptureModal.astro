@@ -1,5 +1,6 @@
 ---
 import { defaultLeadOfferId, leadOffers } from "../data/lead-offers";
+import { assets } from "../data/assets";
 
 // Turnstile site keys are public by design. Keep the production key here so
 // direct Cloudflare Pages uploads always include bot protection; local and
@@ -16,58 +17,79 @@ const turnstileSiteKey =
       </svg>
     </button>
 
-    <div class="lead-modal__content" data-lead-modal-form-state>
-      <p class="lead-modal__eyebrow" data-lead-modal-eyebrow></p>
-      <h2 id="lead-modal-title" data-lead-modal-title></h2>
-      <p class="lead-modal__description" id="lead-modal-description" data-lead-modal-description></p>
-
-      <form class="lead-modal__form" data-lead-form novalidate>
-        <input type="hidden" name="offer" value={defaultLeadOfferId} />
-
-        <div class="lead-modal__field">
-          <input id="lead-capture-email" name="email" type="email" inputmode="email" autocomplete="email" maxlength="254" placeholder="myemail@gmail.com" aria-label="Email address" required />
+    <div class="lead-modal__layout">
+      <aside class="lead-modal__proof" aria-label="Maéli Paris customer testimonial">
+        <div class="lead-modal__proof-image-wrapper">
+          <img
+            src={assets.testimonials.amelieSamsonMaeliParis}
+            alt="Amélie Samson, founder of Maéli Paris"
+            class="lead-modal__proof-image"
+            loading="lazy"
+          />
         </div>
-
-        <div class="lead-modal__honeypot" aria-hidden="true">
-          <label for="lead-capture-company-website">Company website</label>
-          <input id="lead-capture-company-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        <div class="lead-modal__proof-content">
+          <img src={assets.customerLogos.dark.maeli} alt="Maéli Paris" class="lead-modal__proof-logo" loading="lazy" />
+          <blockquote>“Peak PIM changed how we work.”</blockquote>
+          <p><strong>Amélie Samson</strong><span>Founder, Maéli Paris</span></p>
+          <a href="/customers/maeli-paris" class="lead-modal__proof-link">Learn more</a>
         </div>
+      </aside>
 
-        {
-          turnstileSiteKey && (
-            <div class="lead-modal__turnstile">
-              <div
-                class="cf-turnstile"
-                data-sitekey={turnstileSiteKey}
-                data-theme="light"
-                data-size="flexible"
-                data-appearance="interaction-only"
-                data-language="en"
-                data-action="lead_capture"
-              />
+      <div class="lead-modal__state">
+        <div class="lead-modal__content" data-lead-modal-form-state>
+          <p class="lead-modal__eyebrow" data-lead-modal-eyebrow></p>
+          <h2 id="lead-modal-title" data-lead-modal-title></h2>
+          <p class="lead-modal__description" id="lead-modal-description" data-lead-modal-description></p>
+
+          <form class="lead-modal__form" data-lead-form novalidate>
+            <input type="hidden" name="offer" value={defaultLeadOfferId} />
+
+            <div class="lead-modal__field">
+              <input id="lead-capture-email" name="email" type="email" inputmode="email" autocomplete="email" maxlength="254" placeholder="myemail@gmail.com" aria-label="Email address" required />
             </div>
-          )
-        }
 
-        <p class="lead-modal__error" data-lead-form-error role="alert" hidden></p>
+            <div class="lead-modal__honeypot" aria-hidden="true">
+              <label for="lead-capture-company-website">Company website</label>
+              <input id="lead-capture-company-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+            </div>
 
-        <button class="lead-modal__submit" type="submit" data-lead-submit>
-          <span data-lead-submit-label></span>
-          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 6l4 4-4 4"></path></svg>
-        </button>
+            {
+              turnstileSiteKey && (
+                <div class="lead-modal__turnstile">
+                  <div
+                    class="cf-turnstile"
+                    data-sitekey={turnstileSiteKey}
+                    data-theme="light"
+                    data-size="flexible"
+                    data-appearance="interaction-only"
+                    data-language="en"
+                    data-action="lead_capture"
+                  />
+                </div>
+              )
+            }
 
-        <div class="lead-modal__badges" data-lead-modal-badges aria-label="Trial benefits"></div>
-      </form>
-    </div>
+            <p class="lead-modal__error" data-lead-form-error role="alert" hidden></p>
 
-    <div class="lead-modal__success" data-lead-modal-success hidden tabindex="-1">
-      <span class="lead-modal__success-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24"><path d="m6 12 4 4 8-9"></path></svg>
-      </span>
-      <p class="lead-modal__eyebrow">Request received</p>
-      <h2 data-lead-success-title></h2>
-      <p data-lead-success-description></p>
-      <button class="lead-modal__secondary" type="button" data-lead-modal-close>Got it</button>
+            <button class="lead-modal__submit" type="submit" data-lead-submit>
+              <span data-lead-submit-label></span>
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 6l4 4-4 4"></path></svg>
+            </button>
+
+            <div class="lead-modal__badges" data-lead-modal-badges aria-label="Trial benefits"></div>
+          </form>
+        </div>
+
+        <div class="lead-modal__success" data-lead-modal-success hidden tabindex="-1">
+          <span class="lead-modal__success-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="m6 12 4 4 8-9"></path></svg>
+          </span>
+          <p class="lead-modal__eyebrow">Request received</p>
+          <h2 data-lead-success-title></h2>
+          <p data-lead-success-description></p>
+          <button class="lead-modal__secondary" type="button" data-lead-modal-close>Got it</button>
+        </div>
+      </div>
     </div>
   </div>
 </dialog>
@@ -372,7 +394,7 @@ const turnstileSiteKey =
 
 <style>
   .lead-modal {
-    width: min(calc(100% - 2rem), 34rem);
+    width: min(calc(100% - 2rem), 68rem);
     max-width: none;
     max-height: min(90svh, 48rem);
     margin: auto;
@@ -393,7 +415,95 @@ const turnstileSiteKey =
   .lead-modal__panel {
     position: relative;
     min-height: 100%;
-    padding: clamp(2rem, 5vw, 3.25rem);
+  }
+
+  .lead-modal__layout {
+    display: grid;
+    height: min(42rem, calc(100svh - 4rem));
+    min-height: 37rem;
+    grid-template-columns: minmax(19rem, 0.92fr) minmax(0, 1.08fr);
+  }
+
+  .lead-modal__proof {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--color-ink);
+    color: white;
+  }
+
+  .lead-modal__proof-image-wrapper {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .lead-modal__proof-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 28%;
+  }
+
+  .lead-modal__proof-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+    min-height: 100%;
+    padding: 8rem 1.65rem 1.7rem;
+    flex-direction: column;
+    background: linear-gradient(180deg, transparent 42%, rgba(26, 26, 26, 0.12) 57%, rgba(26, 26, 26, 0.9) 100%);
+  }
+
+  .lead-modal__proof-logo {
+    width: 6.5rem;
+    height: 2.1rem;
+    object-fit: contain;
+    object-position: left center;
+  }
+
+  .lead-modal__proof blockquote {
+    margin: 1rem 0;
+    font-family: var(--font-heading);
+    font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.26;
+  }
+
+  .lead-modal__proof-content > p {
+    display: flex;
+    margin: 0;
+    flex-direction: column;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.76rem;
+    line-height: 1.45;
+  }
+
+  .lead-modal__proof-content > p strong {
+    color: white;
+  }
+
+  .lead-modal__proof-link {
+    display: inline-block;
+    margin-top: 0.9rem;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.75rem;
+    font-weight: 650;
+    text-underline-offset: 0.22rem;
+  }
+
+  .lead-modal__proof-link:hover {
+    color: white;
+  }
+
+  .lead-modal__state {
+    display: grid;
+    align-content: center;
+    min-width: 0;
+    padding: clamp(2.5rem, 5vw, 4.25rem);
   }
 
   .lead-modal__close {
@@ -598,7 +708,7 @@ const turnstileSiteKey =
   }
 
   .lead-modal__success {
-    padding: 1rem 0 0;
+    padding: 0;
     outline: none;
     text-align: center;
   }
@@ -632,20 +742,58 @@ const turnstileSiteKey =
     color: var(--color-ink);
   }
 
-  @media (max-width: 479px) {
+  @media (max-width: 767px) {
     .lead-modal {
       width: calc(100% - 1rem);
       max-height: calc(100svh - 1rem);
       border-radius: 0.75rem;
     }
 
-    .lead-modal__panel {
+    .lead-modal__layout {
+      height: auto;
+      min-height: 0;
+      grid-template-columns: 1fr;
+    }
+
+    .lead-modal__proof {
+      display: grid;
+      min-height: 13rem;
+      border-right: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      grid-template-columns: minmax(7rem, 36%) minmax(0, 1fr);
+      grid-template-rows: 1fr;
+    }
+
+    .lead-modal__proof-image-wrapper {
+      position: static;
+    }
+
+    .lead-modal__proof-content {
+      display: flex;
+      justify-content: center;
+      min-height: 0;
+      padding: 1.1rem 1.15rem;
+      flex-direction: column;
+      background: transparent;
+    }
+
+    .lead-modal__proof blockquote {
+      margin: 0.7rem 0;
+      font-size: 0.92rem;
+    }
+
+    .lead-modal__proof-link {
+      margin-top: 0.5rem;
+    }
+
+    .lead-modal__state {
       padding: 2rem 1.25rem 1.5rem;
     }
 
     .lead-modal__close {
       top: 0.75rem;
       right: 0.75rem;
+      background: #f5f0e8;
     }
   }
 

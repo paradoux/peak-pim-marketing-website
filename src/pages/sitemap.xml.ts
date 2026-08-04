@@ -66,6 +66,9 @@ export async function GET() {
     url: canonicalUrl(slug),
     lastModified: sourceLastModified(`src/pages/${slug}.astro`),
   }));
+  const customerStoryEntries = [
+    { slug: "customers/maeli-paris", source: "src/pages/customers/maeli-paris.astro" },
+  ].map((page) => ({ url: canonicalUrl(page.slug), lastModified: sourceLastModified(page.source) }));
   const articleEntries = articles.map((entry) => ({
     url: entryUrl("articles", entry),
     lastModified: isoDate(entry.data.updatedDate ?? entry.data.publishDate),
@@ -74,7 +77,7 @@ export async function GET() {
     url: entryUrl("guides", entry),
     lastModified: isoDate(entry.data.updatedDate ?? entry.data.publishDate),
   }));
-  const entries = [...staticEntries, ...collectionIndexEntries, ...designSystemEntries, ...articleEntries, ...guideEntries];
+  const entries = [...staticEntries, ...collectionIndexEntries, ...designSystemEntries, ...customerStoryEntries, ...articleEntries, ...guideEntries];
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

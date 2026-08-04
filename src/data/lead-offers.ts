@@ -52,6 +52,7 @@ export const leadOffers = {
         "/vs/",
         "/build-vs-buy-pim",
         "/replace-your-shopify-app-stack",
+        "/customers/",
       ],
       excludedPathPrefixes: ["/pricing", "/legals", "/admin", "/design-system"],
     },

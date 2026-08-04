@@ -14,6 +14,9 @@ export const assets = {
   marketing: {
     buildVsBuyOg: "/og-build-vs-buy-pim.png",
     buildVsBuyMaintenanceExample: "/assets/marketing/build-vs-buy-maintenance-example.webp",
+    customerStories: {
+      maeliParisOg: "/assets/og/maeli-paris-customer-story.png",
+    },
     featureOg: {
       "/ai-assistant": "/assets/og/ai-assistant.png",
       "/history": "/assets/og/history.png",
@@ -35,7 +38,11 @@ export const assets = {
   },
   testimonials: {
     amelieSamson: "/assets/testimonials/amelie-samson.jpg",
+    amelieSamsonMaeliParis: "/assets/testimonials/amelie-samson-maeli-paris.webp",
     simonTordjman: "/assets/testimonials/simon-tordjman-du-bruit-dans-la-cuisine.webp",
+  },
+  team: {
+    foundersTechForRetail: "/assets/team/peak-pim-founders-tech-for-retail.jpg",
   },
   customerLogos: {
     light: {

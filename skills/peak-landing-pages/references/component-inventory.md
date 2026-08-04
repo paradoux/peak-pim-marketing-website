@@ -28,6 +28,9 @@
 - `ComparisonTable.astro`: `peak-comparison-table` (`section_comparison14`); two-card operational comparison.
 - `PricingComparison.astro`: `peak-pricing-comparison` (`section_pricing50`); responsive pricing and ownership rows.
 - `DecisionGuide.astro`: `peak-decision-guide` (`section_layout4`); decision criteria paired with a registered visual.
+- `CustomerStoryHero.astro`: `peak-customer-story-hero` (`section_header84`); editorial customer hero with a registered portrait, logo, and canonical actions.
+- `CustomerStoryStats.astro`: `peak-customer-story-stats` (`section_stats26`); verified customer operating facts in the existing dark proof strip.
+- `CustomerStoryChapter.astro`: `peak-customer-story-chapter` (`section_layout358`); alternating editorial chapters pairing customer workflow copy with a registered Peak product visual.
 
 ## Product visuals
 

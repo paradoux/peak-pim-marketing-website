@@ -4,6 +4,9 @@ import CardGrid from "../components/sections/CardGrid.astro";
 import ComparisonHero from "../components/sections/ComparisonHero.astro";
 import ComparisonTable from "../components/sections/ComparisonTable.astro";
 import ComparisonVerdict from "../components/sections/ComparisonVerdict.astro";
+import CustomerStoryChapter from "../components/sections/CustomerStoryChapter.astro";
+import CustomerStoryHero from "../components/sections/CustomerStoryHero.astro";
+import CustomerStoryStats from "../components/sections/CustomerStoryStats.astro";
 import DecisionGuide from "../components/sections/DecisionGuide.astro";
 import Faq from "../components/sections/Faq.astro";
 import FeatureGrid from "../components/sections/FeatureGrid.astro";
@@ -23,6 +26,7 @@ import GlobalSearchCardVisual from "../components/visuals/GlobalSearchCardVisual
 import ImportExportCardVisual from "../components/visuals/ImportExportCardVisual.astro";
 import MetaobjectsCardVisual from "../components/visuals/MetaobjectsCardVisual.astro";
 import RolesPermissionsCardVisual from "../components/visuals/RolesPermissionsCardVisual.astro";
+import MaeliSetupVisual from "../components/visuals/MaeliSetupVisual.astro";
 import TranslationStepVisual from "../components/visuals/TranslationStepVisual.astro";
 import TranslationWorkflowDemo from "../components/visuals/TranslationWorkflowDemo.astro";
 import TranslationsCardVisual from "../components/visuals/TranslationsCardVisual.astro";
@@ -131,6 +135,12 @@ const comparisonMetrics = [
 const pricingRows = [
   { label: "Application", left: "Custom build", right: "Subscription" },
   { label: "Shopify maintenance", left: "Internal", right: "Included" },
+];
+
+const customerStoryStats = [
+  { value: "One afternoon", title: "Verified setup fact", description: "Customer-story metrics must come from approved customer evidence." },
+  { value: "Every week", title: "Recurring workflow", description: "The operating cadence makes the product impact concrete." },
+  { value: "Several languages", title: "Catalog scope", description: "Use supplied scope without inventing an unsupported count." },
 ];
 ---
 
@@ -247,6 +257,29 @@ const pricingRows = [
   </DecisionGuide>
   <FeatureGrid tagline="Canonical sections" title="The approved component inventory" description="Use the semantic peak-* names; each wrapper preserves the exact HTML hierarchy and legacy Webflow classes underneath." features={features} />
   <Testimonial quote="Peak PIM changed how we work. Shopify handles our storefront and Peak PIM runs everything about our catalog on top of it." name="Amélie Samson" role="Founder, Maéli Paris" image={assets.testimonials.amelieSamson} companyLogo={assets.customerLogos.light.maeli} />
+  <CustomerStoryHero
+    headingLevel="h2"
+    title="Approved customer-story hero"
+    description="Customer stories pair a verified operating outcome with a registered portrait, logo, and canonical actions."
+    image={assets.testimonials.amelieSamsonMaeliParis}
+    imageAlt="Amélie Samson, founder of Maéli Paris"
+    companyLogo={assets.customerLogos.light.maeli}
+    companyName="Maéli Paris"
+    primaryCta={{ label: ctaLabels.tryFree, href: "https://apps.shopify.com/peak-pim", external: true }}
+    secondaryCta={{ label: ctaLabels.seeHowItWorks, href: "#customer-story-pattern" }}
+  />
+  <CustomerStoryStats title="Approved customer-story proof summary" items={customerStoryStats} />
+  <CustomerStoryChapter
+    id="customer-story-pattern"
+    title="Approved customer-story chapter"
+    lead="Each chapter connects a supplied customer fact to the real Peak PIM workflow behind it."
+    tagline="Setup"
+    cardTitle="Narrative and product proof stay together"
+    body="Use verified customer context in the copy and a responsive Peak workspace visual to explain the operation without inventing a new page-level design language."
+    link={{ label: ctaLabels.learnMore, href: "/1-click-setup" }}
+  >
+    <MaeliSetupVisual slot="visual" />
+  </CustomerStoryChapter>
   <CtaBanner title="Build the next page from the system" description="Keep the original Peak PIM hierarchy and interactions, then adapt only the story and product demonstration." primaryLabel={ctaLabels.learnMore} primaryHref="/shopify-pim-translations" />
   <Faq title="Design-system rules" description="The non-negotiable rules for creating new Peak PIM landing pages." items={faqItems} />
 </LandingPageLayout>

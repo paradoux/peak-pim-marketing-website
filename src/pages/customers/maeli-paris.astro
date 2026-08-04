@@ -1,0 +1,181 @@
+---
+import CtaBanner from "../../components/sections/CtaBanner.astro";
+import CustomerStoryChapter from "../../components/sections/CustomerStoryChapter.astro";
+import CustomerStoryHero from "../../components/sections/CustomerStoryHero.astro";
+import CustomerStoryStats from "../../components/sections/CustomerStoryStats.astro";
+import Faq from "../../components/sections/Faq.astro";
+import FeatureGrid from "../../components/sections/FeatureGrid.astro";
+import ProblemGrid from "../../components/sections/ProblemGrid.astro";
+import Testimonial from "../../components/sections/Testimonial.astro";
+import DropsHeroVisual from "../../components/visuals/DropsHeroVisual.astro";
+import MaeliSetupVisual from "../../components/visuals/MaeliSetupVisual.astro";
+import TranslationsHeroVisual from "../../components/visuals/TranslationsHeroVisual.astro";
+import { assets } from "../../data/assets";
+import { ctaLabels } from "../../data/cta-copy";
+import LandingPageLayout from "../../layouts/LandingPageLayout.astro";
+
+const appStoreUrl = "https://apps.shopify.com/peak-pim";
+const canonicalPath = "/customers/maeli-paris";
+const title = "How Maéli Paris Saves Hours Every Week With Peak PIM";
+const description = "See how Maéli Paris set up Peak PIM in one afternoon, schedules weekly fabric Drops, and maintains a multilingual Shopify catalog with Translations and MCP.";
+const quote = "Peak PIM changed how we work. Shopify handles our storefront and Peak PIM runs everything about our catalog on top of it. I can't imagine going back!";
+
+const stats = [
+  { value: "One afternoon", title: "From install to a working catalog", description: "Maéli Paris connected its store, imported the existing catalog, and started operating from Peak PIM the same day." },
+  { value: "Every week", title: "New fabrics released on schedule", description: "Weekly catalog changes can be prepared during working hours and published automatically at the right moment." },
+  { value: "Several languages", title: "One multilingual catalog to maintain", description: "Translations and MCP help the team prepare, review, and keep localized product content current." },
+];
+
+const beforePeak = [
+  { icon: "clock", title: "Launches reached into the weekend", description: "Weekly fabric releases meant logging in outside normal working hours to import and publish the latest product data." },
+  { icon: "review", title: "The process was hard to trust", description: "The manual weekend routine went wrong about one time in two, which turned a launch into a troubleshooting session." },
+  { icon: "edit", title: "Languages multiplied the upkeep", description: "Every catalog update also had to remain accurate across several languages without losing the connection to the source product." },
+];
+
+const outcomes = [
+  { icon: "clock", title: "Working hours stay for work", description: "Launch preparation happens ahead of time, so the team no longer plans its catalog around a weekend login." },
+  { icon: "publish", title: "Weekly Drops run on schedule", description: "Product and price changes publish at the selected time, with a clear preview of what will reach the storefront." },
+  { icon: "store", title: "One product stays one product", description: "Localized titles, descriptions, fields, and store versions remain connected to the same catalog record." },
+  { icon: "review", title: "AI work remains reviewable", description: "MCP helps prepare translation work while Peak PIM keeps the drafts visible for a person to review before publishing." },
+];
+
+const faqItems = [
+  { question: "How long did it take Maéli Paris to set up Peak PIM?", answer: "Maéli Paris connected its Shopify store, imported its existing catalog, and got its working Peak PIM setup ready in one afternoon." },
+  { question: "How does Maéli Paris use Drops?", answer: "The team releases new fabrics every week. It prepares the related product and price changes in advance, adds them to a Drop, reviews the scheduled values, and lets Peak PIM publish them at the selected time." },
+  { question: "What changed compared with the previous launch workflow?", answer: "Before Peak PIM, the team had to connect on weekends to import the latest data, and the process went wrong about one time in two. Drops move the preparation into normal working hours and automate the storefront publishing moment." },
+  { question: "How does Maéli Paris manage product translations?", answer: "The catalog stays organized by product, store, and language in Peak PIM. The team uses Translations and a compatible AI assistant through MCP to prepare localized drafts, review them beside the source content, and publish the approved version." },
+  { question: "Can other fashion brands use the same workflows?", answer: "Yes. Peak PIM connects to an existing Shopify catalog and supports scheduled Drops, multilingual product content, and controlled publishing for fashion teams with recurring launches." },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
+
+const reviewSchema = {
+  "@context": "https://schema.org",
+  "@type": "Review",
+  author: { "@type": "Person", name: "Amélie Samson", jobTitle: "Founder", worksFor: { "@type": "Organization", name: "Maéli Paris" } },
+  reviewBody: quote,
+  itemReviewed: { "@id": "https://peak-pim.com/#software" },
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://peak-pim.com/" },
+    { "@type": "ListItem", position: 2, name: "Maéli Paris customer story", item: "https://peak-pim.com/customers/maeli-paris/" },
+  ],
+};
+---
+
+<LandingPageLayout
+  title={title}
+  description={description}
+  canonicalPath={canonicalPath}
+  schemaType="Article"
+  schema={{
+    headline: title,
+    articleSection: "Customer stories",
+    image: "https://peak-pim.com/assets/testimonials/amelie-samson-maeli-paris.webp",
+    author: { "@type": "Organization", name: "Peak PIM", url: "https://peak-pim.com/" },
+    about: { "@type": "Organization", name: "Maéli Paris" },
+  }}
+  additionalSchemas={[reviewSchema, breadcrumbSchema, faqSchema]}
+  ogTitle="How Maéli Paris Runs Weekly Fabric Drops With Peak PIM"
+  ogDescription="One afternoon to set up. Weekly Drops scheduled ahead of time. Several catalog languages maintained with Translations and MCP."
+  ogImage={assets.marketing.customerStories.maeliParisOg}
+>
+  <CustomerStoryHero
+    title="How Maéli Paris gets hours back every week"
+    description="A one-afternoon setup replaced fragile weekend imports with scheduled fabric Drops and one multilingual product workflow."
+    image={assets.testimonials.amelieSamsonMaeliParis}
+    imageAlt="Amélie Samson, founder of Maéli Paris, holding her book about creative sewing and textile upcycling"
+    companyLogo={assets.customerLogos.light.maeli}
+    companyName="Maéli Paris"
+    primaryCta={{ label: ctaLabels.tryFree, href: appStoreUrl, external: true }}
+    secondaryCta={{ label: ctaLabels.seeHowItWorks, href: "#story" }}
+  />
+
+  <CustomerStoryStats title="A calmer catalog rhythm, from setup to every weekly release" items={stats} />
+
+  <ProblemGrid
+    tagline="Before Peak PIM"
+    title="Weekly catalog work kept spilling outside the week"
+    description="New fabrics, imports, and several languages created a recurring operating burden for a small team moving quickly."
+    items={beforePeak}
+  />
+
+  <Testimonial
+    quote={quote}
+    name="Amélie Samson"
+    role="Founder, Maéli Paris"
+    image={assets.testimonials.amelieSamson}
+    companyLogo={assets.customerLogos.light.maeli}
+  />
+
+  <div id="story">
+    <CustomerStoryChapter
+      title="Set up in one afternoon"
+      lead="The existing Shopify catalog became the starting point, not a migration project."
+      tagline="Setup"
+      cardTitle="From connected store to a working PIM on the same day"
+      body="Maéli Paris connected its store, imported the catalog already running the business, reviewed the first sync, and started managing product information in Peak PIM that afternoon. The team did not have to rebuild the catalog or pause storefront work."
+      link={{ label: ctaLabels.learnMore, href: "/1-click-setup" }}
+    >
+      <MaeliSetupVisual slot="visual" />
+    </CustomerStoryChapter>
+  </div>
+
+  <CustomerStoryChapter
+    title="Weekly fabric Drops without the weekend shift"
+    lead="Launch time is now something the team schedules, not something it waits online to handle."
+    tagline="Product Drops"
+    cardTitle="Prepare during the week, publish at the right moment"
+    body="Maéli Paris releases new fabrics every week. Before Peak PIM, someone had to connect during the weekend to import the new data, and the process went wrong about one time in two. Now the team prepares and reviews the changes ahead of time, then lets Drops publish them to the storefront on schedule."
+    reverse
+    link={{ label: ctaLabels.learnMore, href: "/shopify-product-drops" }}
+  >
+    <DropsHeroVisual slot="visual" />
+  </CustomerStoryChapter>
+
+  <CustomerStoryChapter
+    title="Several languages, still one catalog"
+    lead="Localized product content stays connected to the source record and the weekly merchandising workflow."
+    tagline="Translations and MCP"
+    cardTitle="Translate, review, and maintain product content in context"
+    body="Maéli Paris uses Peak PIM Translations and MCP to prepare and maintain its catalog across several languages. AI can help draft the localized content, while the team keeps the source text beside every change, reviews the result, and decides what reaches each storefront."
+    link={{ label: ctaLabels.learnMore, href: "/shopify-pim-translations" }}
+  >
+    <TranslationsHeroVisual slot="visual" />
+  </CustomerStoryChapter>
+
+  <FeatureGrid
+    tagline="The day-to-day difference"
+    title="The catalog works around the team now"
+    description="Peak PIM turns setup, recurring launches, localization, and publishing into one connected operating rhythm."
+    features={outcomes}
+    cta={{ label: ctaLabels.learnMore, href: "/industry/fashion" }}
+  />
+
+  <CtaBanner
+    title="Run your catalog without the weekend shift"
+    description="Connect the catalog you already have, prepare recurring launches ahead of time, and keep every language in the same product workflow."
+    primaryLabel={ctaLabels.tryFree}
+    primaryHref={appStoreUrl}
+    secondaryLabel={ctaLabels.bookDemo}
+    trustLine="10-day free trial. Free setup. No credit card."
+  />
+
+  <Faq
+    title="Frequently asked questions"
+    description="What the Maéli Paris team changed with Peak PIM, and how the same workflows can support another Shopify catalog."
+    items={faqItems}
+  />
+</LandingPageLayout>
