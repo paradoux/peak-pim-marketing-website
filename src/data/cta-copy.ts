@@ -18,6 +18,7 @@ export const canonicalCtaLabels = Object.values(ctaLabels);
 
 export const ctaExceptions = {
   liveDemo: "Live demo",
+  apiDocumentation: "View API documentation",
 } as const;
 
 export type CtaExceptionLabel = (typeof ctaExceptions)[keyof typeof ctaExceptions];

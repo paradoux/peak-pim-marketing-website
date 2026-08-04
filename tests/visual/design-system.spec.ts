@@ -349,8 +349,9 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
     const logoLiveDemoCta = footer.locator('.footer1_left-wrapper .site-footer__logo-cta a[href="https://app.peak-pim.com/demo"]');
     await expect(logoLiveDemoCta).toHaveText("Live demo");
     await expect(logoLiveDemoCta).toHaveClass(/button is-secondary w-button/);
-    await expect(footer.locator(".site-footer__resources-column .footer1_link")).toHaveText(["Live demo", "Product Updates"]);
+    await expect(footer.locator(".site-footer__resources-column .footer1_link")).toHaveText(["Live demo", "Help Center", "Product Updates", "API documentation"]);
     await expect(footer.locator(".site-footer__peak-column")).not.toContainText("Live demo");
+    await expect(footer.locator(".site-footer__peak-column")).not.toContainText("Help Center");
     await expect(footer.locator(".site-footer__peak-column")).not.toContainText("Product Updates");
     await expect(footer.locator(".site-footer__heading-marker")).toHaveCount(5);
     await expect(footer.locator(".footer1_bottom-wrapper .site-footer__bottom-social-links .footer1_social-link")).toHaveCount(6);

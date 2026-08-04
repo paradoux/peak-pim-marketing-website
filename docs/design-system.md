@@ -56,6 +56,8 @@ The Webflow stylesheet owns sizing and interaction behavior. Do not override it 
 
 Button appearance comes from the canonical primitives above; button wording comes from `docs/copywriting-system.md` and `src/data/cta-copy.ts`. The approved vocabulary is `Get Peak PIM`, `Try for free`, `Book a demo`, `Talk to us`, `See pricing`, `See how it works`, `See the comparison` (or compact `See comparison`), and `Learn more`.
 
+Registered destination-specific exceptions include `Live demo` for the self-guided product experience and `View API documentation` for the public developer documentation. Keep both scoped to the placements documented in `docs/copywriting-system.md`.
+
 `Book a demo` always opens the shared Google Calendar booking URL from `src/data/cta-copy.ts` in a new tab. It must never trigger Crisp. Reserve Crisp for `Talk to us`, Contact, and other explicitly approved conversation actions.
 
 ### Lead capture modal
@@ -75,7 +77,7 @@ The header mega menu and footer share the feature taxonomy defined in `src/data/
 - **Manage & Enrich**: products and variants, collections, metafields, metaobjects, translations, Markets and catalog pricing, custom fields, and other structured product-content capabilities.
 - **Solutions**: industry- and team-specific landing pages such as Fashion.
 
-The self-guided product experience uses one shared `Live demo` navigation link from `exploreNavigationLinks`. Keep it in the Resources footer column, as a secondary CTA beneath the Peak footer logo, and as a discreet utility link in the Features mega menu. The Resources column also owns Product Updates. In the footer bottom bar, keep the Privacy Policy beside the copyright and place the icon-only social links on the right with enough clearance for the chat launcher; preserve their accessible names. Stack these elements cleanly when the row no longer fits. The demo opens in a new tab and must not replace the global `Book a demo` and `Get Peak PIM` actions.
+The self-guided product experience uses one shared `Live demo` navigation link from `exploreNavigationLinks`. Keep it in the Resources footer column, as a secondary CTA beneath the Peak footer logo, and as a discreet utility link in the Features mega menu. The Resources column also owns Help Center, Product Updates, and API documentation. In the footer bottom bar, keep the Privacy Policy beside the copyright and place the icon-only social links on the right with enough clearance for the chat launcher; preserve their accessible names. Stack these elements cleanly when the row no longer fits. The demo opens in a new tab and must not replace the global `Book a demo` and `Get Peak PIM` actions.
 
 Choose the category from the visitor's job, not from the internal technical architecture. Do not add page-specific feature links directly to `SiteHeader.astro` or `SiteFooter.astro`; update the shared navigation data instead.
 

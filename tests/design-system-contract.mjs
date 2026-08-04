@@ -209,6 +209,17 @@ const aiConnectorHtml = readFileSync(resolve(projectRoot, "dist/ai-catalog-conne
 for (const href of ['href="/ai-assistant"', 'href="/api"', 'href="/history"']) {
   if (!aiConnectorHtml.includes(href)) failures.push(`AI Connector page is missing complementary AI navigation: ${href}`);
 }
+
+const apiHtml = readFileSync(resolve(projectRoot, "dist/api/index.html"), "utf8");
+if ((apiHtml.match(/href="https:\/\/developers\.peak-pim\.com\/"/g) ?? []).length < 3) {
+  failures.push("API documentation must be linked from the shared footer, API hero, and API FAQ");
+}
+if (!apiHtml.includes('href="https://developers.peak-pim.com/" class="button is-secondary w-button" target="_blank" rel="noopener"')) {
+  failures.push("API hero is missing its external documentation CTA");
+}
+if (!apiHtml.includes('href="https://developers.peak-pim.com/" class="button is-link is-icon w-inline-block" target="_blank" rel="noopener"')) {
+  failures.push("API FAQ is missing its external documentation link");
+}
 for (const page of ["ai-catalog-connector", "shopify-catalog-health-center", "shopify-product-drops"]) {
   const html = readFileSync(resolve(projectRoot, `dist/${page}/index.html`), "utf8");
   if (!html.includes('href="/history"')) failures.push(`/${page} is missing its reciprocal History cross-link`);
@@ -547,6 +558,9 @@ if (existsSync(pricingFile)) {
   if ((html.match(/class="pricing-feature-info"/g) ?? []).length !== 34) failures.push("Pricing matrix information disclosures are incomplete");
   if (!html.includes('summary aria-label="About Shopify sync"')) failures.push("Pricing matrix information controls are not accessibly labelled");
   if (!html.includes('<a href="https://app.peak-pim.com/demo" target="_blank" rel="noopener" class="footer1_link">Live demo</a>')) failures.push("Shared footer is missing the external Live demo link");
+  if (!html.includes('<a href="https://help.peak-pim.com/en/" target="_blank" rel="noopener" class="footer1_link">Help Center</a>')) failures.push("Shared footer is missing the external Help Center link");
+  if (!html.includes('<a href="https://developers.peak-pim.com/" target="_blank" rel="noopener" class="footer1_link">API documentation</a>')) failures.push("Shared footer is missing the external API documentation link");
+  if (html.match(/site-footer__peak-column[\s\S]*?Help Center[\s\S]*?site-footer__resources-column/)) failures.push("Shared footer still keeps Help Center in the Peak column");
   if (!html.includes('site-footer__column-heading"><span class="site-footer__heading-marker" aria-hidden="true"></span>Resources</div>')) failures.push("Shared footer is missing the Resources column");
   if (!html.includes('class="footer1_link-list site-footer__social-links site-footer__bottom-social-links"')) failures.push("Shared footer social icons are not grouped in the bottom bar");
   if (!html.includes('class="site-footer__logo-cta"><a href="https://app.peak-pim.com/demo" target="_blank" rel="noopener" class="button is-secondary w-button">Live demo</a>')) failures.push("Shared footer is missing the Live demo CTA beneath the Peak logo");
@@ -577,6 +591,7 @@ if (existsSync(sitemapFile)) {
     "Try for free",
     "Book a demo",
     "Live demo",
+    "View API documentation",
     "Talk to us",
     "See pricing",
     "See how it works",

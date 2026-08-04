@@ -85,7 +85,9 @@ const headingMarker = '<span class="site-footer__heading-marker" aria-hidden="tr
 const solutionsGroup = featureNavigationGroups.find((group) => group.label === "Solutions");
 const buildVsBuyLink = comparisonNavigationLinks.find((link) => link.href === "/build-vs-buy-pim/");
 const liveDemoLink = exploreNavigationLinks.find((link) => link.href === "https://app.peak-pim.com/demo");
+const helpCenterLink = exploreNavigationLinks.find((link) => link.href === "https://help.peak-pim.com/en/");
 const productUpdatesLink = exploreNavigationLinks.find((link) => link.href === "https://www.linkedin.com/company/peak-pim/posts/");
+const apiDocumentationLink = exploreNavigationLinks.find((link) => link.href === "https://developers.peak-pim.com/");
 const originalConnectColumnHtml = extractDivElement(originalFooterHtml, connectColumnStart);
 const socialListStart = originalConnectColumnHtml.indexOf('<div class="footer1_link-list">');
 const originalSocialListHtml = extractDivElement(originalConnectColumnHtml, socialListStart);
@@ -96,7 +98,9 @@ if (
   !solutionsGroup ||
   !buildVsBuyLink ||
   !liveDemoLink ||
+  !helpCenterLink ||
   !productUpdatesLink ||
+  !apiDocumentationLink ||
   !originalConnectColumnHtml ||
   !originalSocialListHtml ||
   !originalLeftWrapperHtml
@@ -133,6 +137,7 @@ const peakColumnHtml = originalFooterHtml
   .slice(peakColumnStart, compareColumnStart)
   .replace('<div class="footer1_link-column">', '<div class="footer1_link-column site-footer__peak-column">')
   .replace(peakHeading, `<div class="text-weight-semibold site-footer__column-heading">${headingMarker}Peak</div>`)
+  .replace('<a href="https://help.peak-pim.com/en/" target="_blank" rel="noopener" class="footer1_link">Help Center</a>', "")
   .replace('<a href="https://www.linkedin.com/company/peak-pim/posts/" target="_blank" class="footer1_link">Product Updates</a>', "");
 const compareColumnHtml = originalFooterHtml
   .slice(compareColumnStart, connectColumnStart)
@@ -146,7 +151,9 @@ const resourcesColumnHtml = `
     <div class="margin-bottom margin-xsmall"><div class="text-weight-semibold site-footer__column-heading">${headingMarker}Resources</div></div>
     <div class="footer1_link-list">
       <a href="${escapeHtml(liveDemoLink.href)}" target="_blank" rel="noopener" class="footer1_link">${escapeHtml(liveDemoLink.label)}</a>
+      <a href="${escapeHtml(helpCenterLink.href)}" target="_blank" rel="noopener" class="footer1_link">${escapeHtml(helpCenterLink.label)}</a>
       <a href="${escapeHtml(productUpdatesLink.href)}" target="_blank" rel="noopener" class="footer1_link">${escapeHtml(productUpdatesLink.label)}</a>
+      <a href="${escapeHtml(apiDocumentationLink.href)}" target="_blank" rel="noopener" class="footer1_link">${escapeHtml(apiDocumentationLink.label)}</a>
     </div>
   </div>`;
 const footerHtml = footerPrefixHtml

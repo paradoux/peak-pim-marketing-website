@@ -2,8 +2,13 @@
 import Button from "../ui/Button.astro";
 import SectionHeading from "../ui/SectionHeading.astro";
 import { ctaLabels } from "../../data/cta-copy";
+import type { CtaLabel } from "../../data/cta-copy";
 
-type Item = { question: string; answer: string };
+type Item = {
+  question: string;
+  answer: string;
+  link?: { label: CtaLabel; href: string; external?: boolean };
+};
 type Props = { id?: string; title?: string; description?: string; items: Item[] };
 
 const {
@@ -36,6 +41,11 @@ const {
                   </div>
                   <div class="faq1_answer peak-faq__answer" style="width:100%;height:0px;overflow:hidden">
                     <div class="margin-bottom margin-small"><p>{item.answer}</p></div>
+                    {item.link && (
+                      <div class="margin-bottom margin-small">
+                        <Button href={item.link.href} variant="link" external={item.link.external}>{item.link.label}</Button>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}

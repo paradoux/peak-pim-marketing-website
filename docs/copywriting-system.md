@@ -32,6 +32,8 @@ Exceptions are allowed when the page context materially benefits from different 
 
 `Live demo` is approved for the global footer CTA that opens the self-guided Peak PIM product experience. Keep `Book a demo` for the scheduled sales demonstration flow.
 
+`View API documentation` is approved for the API landing page hero and API-documentation FAQ answer. It links directly to the public developer documentation in a new tab.
+
 ## CTA rules
 
 - Use sentence case and no ending punctuation.
