@@ -163,6 +163,14 @@ for (const slug of [
   if (!navigationSource.includes(`href: "${slug}"`)) failures.push(`Shared feature navigation is missing ${slug}`);
 }
 
+const headerSource = readFileSync(resolve(projectRoot, "src/components/SiteHeader.astro"), "utf8");
+for (const resourceLabel of ["Live demo", "Help Center", "Product Updates", "API documentation"]) {
+  if (!navigationSource.includes(`label: "${resourceLabel}"`)) failures.push(`Shared resource navigation is missing ${resourceLabel}`);
+}
+for (const contract of ["resources-menu-dropdown", "resources-mega-menu__intro", "resources-mega-menu__grid", "resourceNavigationLinks"]) {
+  if (!headerSource.includes(contract)) failures.push(`Shared header Resources menu is missing: ${contract}`);
+}
+
 const globalStyles = readFileSync(resolve(projectRoot, "src/styles/global.css"), "utf8");
 for (const rule of ["-webkit-font-smoothing: antialiased", "-moz-osx-font-smoothing: grayscale"]) {
   if (!globalStyles.includes(rule)) failures.push(`Global typography is missing the original rendering rule: ${rule}`);
@@ -462,6 +470,9 @@ if (existsSync(homeFile)) {
   const html = readFileSync(homeFile, "utf8");
   const heroHtml = html.match(/<header class="section_landing-big_hero-header"[\s\S]*?<div class="landing-big_hero-header_image-wrapper">/)?.[0] ?? "";
   const footerHtml = html.match(/<footer class="footer1_component"[\s\S]*?<\/footer>/)?.[0] ?? "";
+  if (!heroHtml.includes('href="/ai-catalog-connector" class="ppim-home-pill-wrap"')) failures.push("Homepage announcement must link to the MCP landing page");
+  if (!heroHtml.includes("Connect your catalog to AI assistants with MCP")) failures.push("Homepage announcement must promote the MCP connector");
+  if (heroHtml.includes("Peak PIM is now available on the Shopify App Store")) failures.push("Homepage still contains the superseded App Store announcement");
   if (!/href="https:\/\/apps\.shopify\.com\/peak-pim"[^>]*class="button w-button">Try for free<\/a>[\s\S]*?<a(?=[^>]*href="https:\/\/calendar\.app\.google\/M9DEEDbc6AxRaNNX6")(?=[^>]*target="_blank")(?=[^>]*rel="noopener")[^>]*class="button is-secondary w-button"[^>]*>Book a demo<\/a>/.test(heroHtml)) {
     failures.push("Homepage hero must show Try for free first and Book a demo second using the canonical button variants");
   }
@@ -479,6 +490,11 @@ if (existsSync(homeFile)) {
   if (/⚡️|⛰️|🔍|🤙/.test(footerHtml)) failures.push("The footer still contains decorative column emojis");
   if ((footerHtml.match(/class="footer1_social-link w-inline-block"/g) ?? []).length !== 6) failures.push("The footer must preserve all six original social-network links");
   if ((footerHtml.match(/class="icon-embed-xsmall w-embed"/g) ?? []).length !== 6) failures.push("Every footer social-network link must preserve its icon");
+  if (!html.includes('<div>Resources</div><div class="dropdown-chevron w-embed">')) failures.push("The shared header is missing the Resources dropdown toggle");
+  if (html.includes('class="navbar10_link w-nav-link">Help Center</a>')) failures.push("The shared header still contains the standalone Help Center link");
+  for (const href of ["https://app.peak-pim.com/demo", "https://help.peak-pim.com/en/", "https://www.linkedin.com/company/peak-pim/posts/", "https://developers.peak-pim.com/"]) {
+    if (!html.includes(`href="${href}" target="_blank" rel="noopener" class="resources-mega-menu__link"`)) failures.push(`The shared header Resources menu is missing ${href}`);
+  }
 }
 
 const buildVsBuyFile = resolve(projectRoot, "dist/build-vs-buy-pim/index.html");

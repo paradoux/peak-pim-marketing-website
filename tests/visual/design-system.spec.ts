@@ -50,6 +50,10 @@ test("homepage · hero CTA pair is responsive and uses canonical actions", async
   for (const width of [1440, 768, 375]) {
     await prepare(page, "/", width, 1000);
     const hero = page.locator(".section_landing-big_hero-header");
+    const announcement = hero.locator(".ppim-home-pill-wrap");
+    await expect(announcement).toContainText("Connect your catalog to AI assistants with MCP");
+    await expect(announcement).toHaveAttribute("href", "/ai-catalog-connector");
+    await expect(announcement).not.toHaveAttribute("target", "_blank");
     const actions = hero.locator(".button-group.is-center .button");
     await expect(actions).toHaveCount(2);
     await expect(actions).toHaveText(["Try for free", "Book a demo"]);
@@ -236,7 +240,8 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
   for (const width of [1440, 992, 768, 560, 375]) {
     await prepare(page, "/", width, 1000);
     const header = page.locator(".site-header");
-    const featureToggle = header.locator(".navbar10_dropdown-toggle");
+    const featureToggle = header.locator(".feature-menu-dropdown > .navbar10_dropdown-toggle");
+    const resourcesToggle = header.locator(".resources-menu-dropdown > .navbar10_dropdown-toggle");
 
     if (width <= 991) {
       await header.locator(".navbar10_menu-button").click();
@@ -277,7 +282,7 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
     const operateHeaderColumns = await header.locator('.feature-mega-menu__group[aria-labelledby="feature-group-operate"] .feature-mega-menu__links').evaluate((element) => getComputedStyle(element).gridTemplateColumns.split(" ").length);
     expect(operateHeaderColumns).toBe(width >= 992 ? 2 : 1);
     if (width === 1440) {
-      const dropdownFit = await header.locator(".navbar10_dropdown-list").evaluate((element) => element.scrollHeight <= element.clientHeight + 1);
+      const dropdownFit = await header.locator(".feature-menu-dropdown__list").evaluate((element) => element.scrollHeight <= element.clientHeight + 1);
       expect(dropdownFit).toBe(true);
     }
     await expect(header.locator(".feature-mega-menu__link:has(.feature-status-badge):not(.is-coming-soon) .feature-mega-menu__link-title")).toHaveText([
@@ -298,6 +303,22 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
       "New",
       "New",
     ]);
+
+    await resourcesToggle.focus();
+    await resourcesToggle.press("Enter");
+    await expect(resourcesToggle).toHaveAttribute("aria-expanded", "true");
+    await expect(featureToggle).toHaveAttribute("aria-expanded", "false");
+    await expect(header.locator(".resources-mega-menu__dropdown")).toBeVisible();
+    await expect(header.locator(".resources-mega-menu__link-heading strong")).toHaveText(["Live demo", "Help Center", "Product Updates", "API documentation"]);
+    await expect(header.locator(".resources-mega-menu__link")).toHaveCount(4);
+    expect(await header.locator(".resources-mega-menu__link").evaluateAll((links) => links.every((link) => link.getAttribute("target") === "_blank" && link.getAttribute("rel") === "noopener"))).toBe(true);
+    await expect(header.locator('.resources-mega-menu__link[href="https://app.peak-pim.com/demo"]')).toHaveCount(1);
+    await expect(header.locator('.resources-mega-menu__link[href="https://help.peak-pim.com/en/"]')).toHaveCount(1);
+    await expect(header.locator('.resources-mega-menu__link[href="https://www.linkedin.com/company/peak-pim/posts/"]')).toHaveCount(1);
+    await expect(header.locator('.resources-mega-menu__link[href="https://developers.peak-pim.com/"]')).toHaveCount(1);
+    await expect(header.locator('.navbar10_menu-left > a[href="https://help.peak-pim.com/en/"]')).toHaveCount(0);
+    await resourcesToggle.press("Escape");
+    await expect(resourcesToggle).toHaveAttribute("aria-expanded", "false");
 
     for (const path of featurePaths) {
       if (path !== "/industry/fashion") {

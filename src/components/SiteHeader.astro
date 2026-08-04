@@ -1,6 +1,6 @@
 ---
 import { getSharedHeaderHtml } from "../lib/page-source";
-import { exploreNavigationLinks, featureNavigationGroups } from "../data/site-navigation";
+import { exploreNavigationLinks, featureNavigationGroups, resourceNavigationLinks } from "../data/site-navigation";
 
 function escapeHtml(value: string) {
   return value
@@ -47,7 +47,7 @@ if (!liveDemoLink) {
 }
 
 const featureMenuHtml = `
-  <nav class="navbar10_dropdown-list w-dropdown-list" id="w-dropdown-list-0" aria-labelledby="w-dropdown-toggle-0" aria-label="Peak PIM features" style="opacity: 0;">
+  <nav class="navbar10_dropdown-list feature-menu-dropdown__list w-dropdown-list" id="w-dropdown-list-0" aria-labelledby="w-dropdown-toggle-0" aria-label="Peak PIM features" style="opacity: 0;">
     <div class="navbar10_container">
       <div class="feature-mega-menu">
         <div class="feature-mega-menu__intro">
@@ -61,11 +61,37 @@ const featureMenuHtml = `
   </nav>
 `;
 
+const chevronHtml = `<div class="dropdown-chevron w-embed"><svg width="100%" height="100%" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M2.55806 6.29544C2.46043 6.19781 2.46043 6.03952 2.55806 5.94189L3.44195 5.058C3.53958 4.96037 3.69787 4.96037 3.7955 5.058L8.00001 9.26251L12.2045 5.058C12.3021 4.96037 12.4604 4.96037 12.5581 5.058L13.4419 5.94189C13.5396 6.03952 13.5396 6.19781 13.4419 6.29544L8.17678 11.5606C8.07915 11.6582 7.92086 11.6582 7.82323 11.5606L2.55806 6.29544Z" fill="currentColor"></path></svg></div>`;
+const resourceMenuHtml = `
+  <div data-delay="300" data-hover="true" class="navbar10_menu-dropdown resources-menu-dropdown w-dropdown">
+    <div class="navbar10_dropdown-toggle w-dropdown-toggle" id="w-dropdown-toggle-1" aria-controls="w-dropdown-list-1" aria-haspopup="menu" aria-expanded="false" role="button" tabindex="0"><div>Resources</div>${chevronHtml}</div>
+    <nav class="navbar10_dropdown-list resources-mega-menu__dropdown w-dropdown-list" id="w-dropdown-list-1" aria-labelledby="w-dropdown-toggle-1" aria-label="Peak PIM resources" style="opacity: 0;">
+      <div class="navbar10_container">
+        <div class="resources-mega-menu">
+          <div class="resources-mega-menu__intro">
+            <span class="feature-mega-menu__eyebrow">Explore Peak PIM</span>
+            <p>See the product, learn the workflows, and find the technical details you need.</p>
+          </div>
+          <div class="resources-mega-menu__grid">
+            ${resourceNavigationLinks.map((link) => `
+              <a href="${escapeHtml(link.href)}" target="_blank" rel="noopener" class="resources-mega-menu__link">
+                <span class="resources-mega-menu__link-heading"><strong>${escapeHtml(link.label)}</strong><span class="resources-mega-menu__link-marker" aria-hidden="true"></span></span>
+                <span>${escapeHtml(link.description ?? "")}</span>
+              </a>
+            `).join("")}
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>`;
+
 const sharedHeaderHtml = getSharedHeaderHtml();
-const headerWithFeatureMenu = sharedHeaderHtml.replace(
-  /<nav class="navbar10_dropdown-list w-dropdown-list"[\s\S]*?<\/nav>/,
-  featureMenuHtml,
-);
+const headerWithFeatureMenu = sharedHeaderHtml
+  .replace('class="navbar10_menu-dropdown w-dropdown"', 'class="navbar10_menu-dropdown feature-menu-dropdown w-dropdown"')
+  .replace(
+    /<nav class="navbar10_dropdown-list w-dropdown-list"[\s\S]*?<\/nav>/,
+    featureMenuHtml,
+  );
 
 if (headerWithFeatureMenu === sharedHeaderHtml) {
   throw new Error("The shared Features menu could not be replaced.");
@@ -74,7 +100,7 @@ if (headerWithFeatureMenu === sharedHeaderHtml) {
 const headerHtml = headerWithFeatureMenu
   .replace(
     '<a href="https://apps.shopify.com/peak-pim/reviews" target="_blank" class="navbar10_link w-nav-link">Reviews</a>',
-    '<a href="https://apps.shopify.com/peak-pim/reviews" target="_blank" class="navbar10_link w-nav-link">Reviews</a><a href="https://help.peak-pim.com/en/" target="_blank" rel="noopener" class="navbar10_link w-nav-link">Help Center</a>',
+    `<a href="https://apps.shopify.com/peak-pim/reviews" target="_blank" class="navbar10_link w-nav-link">Reviews</a>${resourceMenuHtml}`,
   )
   .replace(
     '<a href="/pricing" class="navbar10_link w-nav-link">Pricing</a>',
@@ -94,13 +120,17 @@ const headerHtml = headerWithFeatureMenu
 
     header.dataset.navigationReady = "true";
 
-    var dropdown = header.querySelector(".navbar10_menu-dropdown");
-    var toggle = header.querySelector(".navbar10_dropdown-toggle");
-    var list = header.querySelector(".navbar10_dropdown-list");
+    var dropdownItems = Array.from(header.querySelectorAll(".navbar10_menu-dropdown")).map(function(dropdown) {
+      return {
+        dropdown: dropdown,
+        toggle: dropdown.querySelector(".navbar10_dropdown-toggle"),
+        list: dropdown.querySelector(".navbar10_dropdown-list"),
+        closeTimer: undefined,
+      };
+    });
     var menuButton = header.querySelector(".navbar10_menu-button");
     var menu = header.querySelector(".navbar10_menu");
     var overlay = header.querySelector(".w-nav-overlay");
-    var closeTimer;
     var scrollFrame;
 
     function updateHeaderHeight() {
@@ -131,34 +161,41 @@ const headerHtml = headerWithFeatureMenu
     updateScrolledState();
     window.addEventListener("scroll", handleScroll, { passive: true });
 
-    function openDropdown() {
-      window.clearTimeout(closeTimer);
-
-      if (!dropdown || !toggle || !list) {
+    function openDropdown(item) {
+      if (!item || !item.dropdown || !item.toggle || !item.list) {
         return;
       }
 
-      dropdown.classList.add("w--open");
-      toggle.classList.add("w--open");
-      list.classList.add("w--open");
-      list.style.opacity = "1";
-      toggle.setAttribute("aria-expanded", "true");
+      window.clearTimeout(item.closeTimer);
+      dropdownItems.forEach(function(otherItem) {
+        if (otherItem !== item) closeDropdown(otherItem);
+      });
+      item.dropdown.classList.add("w--open");
+      item.toggle.classList.add("w--open");
+      item.list.classList.add("w--open");
+      item.list.style.opacity = "1";
+      item.toggle.setAttribute("aria-expanded", "true");
     }
 
-    function closeDropdown() {
-      if (!dropdown || !toggle || !list) {
+    function closeDropdown(item) {
+      if (!item || !item.dropdown || !item.toggle || !item.list) {
         return;
       }
 
-      dropdown.classList.remove("w--open");
-      toggle.classList.remove("w--open");
-      list.classList.remove("w--open");
-      list.style.opacity = "0";
-      toggle.setAttribute("aria-expanded", "false");
+      item.dropdown.classList.remove("w--open");
+      item.toggle.classList.remove("w--open");
+      item.list.classList.remove("w--open");
+      item.list.style.opacity = "0";
+      item.toggle.setAttribute("aria-expanded", "false");
     }
 
-    function scheduleDropdownClose() {
-      closeTimer = window.setTimeout(closeDropdown, 160);
+    function closeAllDropdowns() {
+      dropdownItems.forEach(closeDropdown);
+    }
+
+    function scheduleDropdownClose(item) {
+      window.clearTimeout(item.closeTimer);
+      item.closeTimer = window.setTimeout(function() { closeDropdown(item); }, 160);
     }
 
     function isDesktopNavigation() {
@@ -178,50 +215,52 @@ const headerHtml = headerWithFeatureMenu
         menu.setAttribute("data-nav-menu-open", "");
       } else {
         menu.removeAttribute("data-nav-menu-open");
-        closeDropdown();
+        closeAllDropdowns();
       }
     }
 
-    if (dropdown && toggle && list) {
-      dropdown.addEventListener("mouseenter", function() {
+    dropdownItems.forEach(function(item) {
+      if (!item.toggle || !item.list) return;
+
+      item.dropdown.addEventListener("mouseenter", function() {
         if (isDesktopNavigation()) {
-          openDropdown();
+          openDropdown(item);
         }
       });
-      dropdown.addEventListener("mouseleave", function() {
+      item.dropdown.addEventListener("mouseleave", function() {
         if (isDesktopNavigation()) {
-          scheduleDropdownClose();
+          scheduleDropdownClose(item);
         }
       });
-      toggle.addEventListener("click", function(event) {
+      item.toggle.addEventListener("click", function(event) {
         event.preventDefault();
         event.stopImmediatePropagation();
 
-        if (list.classList.contains("w--open")) {
-          closeDropdown();
+        if (item.list.classList.contains("w--open")) {
+          closeDropdown(item);
         } else {
-          openDropdown();
+          openDropdown(item);
         }
       }, true);
-      toggle.addEventListener("keydown", function(event) {
+      item.toggle.addEventListener("keydown", function(event) {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
           event.stopImmediatePropagation();
-          openDropdown();
+          openDropdown(item);
         }
 
         if (event.key === "Escape") {
-          closeDropdown();
-          toggle.focus();
+          closeDropdown(item);
+          item.toggle.focus();
         }
       });
-      list.addEventListener("keydown", function(event) {
+      item.list.addEventListener("keydown", function(event) {
         if (event.key === "Escape") {
-          closeDropdown();
-          toggle.focus();
+          closeDropdown(item);
+          item.toggle.focus();
         }
       });
-    }
+    });
 
     if (menuButton && menu && overlay) {
       menuButton.addEventListener("click", function(event) {
@@ -233,7 +272,7 @@ const headerHtml = headerWithFeatureMenu
 
     document.addEventListener("click", function(event) {
       if (!header.contains(event.target)) {
-        closeDropdown();
+        closeAllDropdowns();
         setMobileMenu(false);
       }
     });

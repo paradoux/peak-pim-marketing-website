@@ -87,6 +87,8 @@ When a feature category grows beyond a comfortable single column, keep the taxon
 
 Recently launched features use `badge: "New"` in both shared navigation and the pricing matrix. Their links remain active. Use the same compact status badge beside the feature name in the header, footer, and pricing table; do not add separate promotional rows or change plan entitlements.
 
+The header Resources dropdown reuses `resourceNavigationLinks` from the shared navigation data. Keep it compact and limited to Live demo, Help Center, Product Updates, and API documentation. The footer uses the same destinations, so resource links and external behavior stay synchronized.
+
 The pricing feature matrix uses the same Connect, Operate, and Manage & Enrich taxonomy. Plan limits stay in their own group. Every product-feature row includes a native, keyboard-accessible information disclosure with concise explanatory copy and a `Learn more` link when a dedicated landing page exists. Keep the matrix content in `src/data/pricing-feature-matrix.ts` so navigation labels, plan entitlements, and pricing explanations remain easy to audit.
 
 ### Landing-page SEO

@@ -67,12 +67,16 @@ export const featureNavigationGroups: FeatureNavigationGroup[] = [
   },
 ];
 
+export const resourceNavigationLinks: SiteNavigationLink[] = [
+  { label: "Live demo", href: "https://app.peak-pim.com/demo", description: "Explore Peak PIM with a ready-to-use sample catalog.", external: true },
+  { label: "Help Center", href: "https://help.peak-pim.com/en/", description: "Find practical guides and answers for every workflow.", external: true },
+  { label: "Product Updates", href: "https://www.linkedin.com/company/peak-pim/posts/", description: "Follow new features, improvements, and product releases.", external: true },
+  { label: "API documentation", href: "https://developers.peak-pim.com/", description: "Build custom integrations with the Peak PIM API.", external: true },
+];
+
 export const exploreNavigationLinks: SiteNavigationLink[] = [
   { label: "Pricing", href: "/pricing/" },
-  { label: "Live demo", href: "https://app.peak-pim.com/demo", external: true },
-  { label: "Help Center", href: "https://help.peak-pim.com/en/", external: true },
-  { label: "Product Updates", href: "https://www.linkedin.com/company/peak-pim/posts/", external: true },
-  { label: "API documentation", href: "https://developers.peak-pim.com/", external: true },
+  ...resourceNavigationLinks,
   { label: "Mission", href: "/mission" },
   { label: "Contact", href: "#", crisp: true },
 ];
