@@ -583,7 +583,7 @@ if (existsSync(homeFile)) {
   if (!customerStoryHtml.includes(">See use case</a>")) failures.push("The homepage Maéli Paris customer story must use the approved See use case CTA");
   if (!customerStoryHtml.includes('src="/assets/testimonials/amelie-samson-maeli-paris.webp"')) failures.push("The homepage Maéli Paris customer story is missing Amélie's registered portrait");
   if (!customerStoryHtml.includes('src="/mirror/6a02fa863eea804db7dc36f9_Maeli-Black-logo-138c12bb52.png"')) failures.push("The homepage Maéli Paris customer story is missing the registered company logo");
-  for (const fact of ["50+", "210+", "455,000"]) {
+  for (const fact of ["50+", "210+", "1,455,000"]) {
     if (!socialProofHtml.includes(fact)) failures.push(`The homepage social-proof section is missing verified fact: ${fact}`);
   }
   if ((socialProofHtml.match(/class="peak-social-proof-stats__logo-link"/g) ?? []).length !== 6) failures.push("The homepage social-proof section must contain six linked customer logos");
@@ -647,7 +647,7 @@ if (existsSync(pricingFile)) {
   if (html.includes("unlimited stores")) failures.push("Pricing page still contains the outdated unlimited-stores claim");
   if (html.includes("next billing cycle")) failures.push("Pricing schema conflicts with the visible plan-change policy");
   if (!schema.offers?.every((offer) => offer.availability === "https://schema.org/InStock")) failures.push("Pricing schema does not describe the live plans as available");
-  for (const fact of ["50+", "210+", "455,000"]) {
+  for (const fact of ["50+", "210+", "1,455,000"]) {
     if (!socialProofHtml.includes(fact)) failures.push(`The pricing social-proof section is missing verified fact: ${fact}`);
   }
   if ((socialProofHtml.match(/class="peak-social-proof-stats__logo-link"/g) ?? []).length !== 6) failures.push("The pricing social-proof section must contain six linked customer logos");
@@ -935,7 +935,7 @@ for (const placement of [
   const proofMatches = html.match(/<section class="section_stats26 peak-social-proof-stats[\s\S]*?<\/section>/g) ?? [];
   const proofHtml = proofMatches[0] ?? "";
   if (proofMatches.length !== 1) failures.push(`${placement.path} must contain exactly one account social-proof section`);
-  for (const fact of ["50+", "210+", "455,000"]) {
+  for (const fact of ["50+", "210+", "1,455,000"]) {
     if (!proofHtml.includes(fact)) failures.push(`${placement.path} social proof is missing verified fact: ${fact}`);
   }
   if ((proofHtml.match(/class="peak-social-proof-stats__logo-link"/g) ?? []).length !== 6) failures.push(`${placement.path} social proof must contain six linked customer logos`);

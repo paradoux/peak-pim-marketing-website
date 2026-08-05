@@ -5,7 +5,7 @@ export const accountSocialProofTitle = "Trusted by merchants worldwide";
 export const accountSocialProofStats = [
   { value: "50+", label: "Merchants" },
   { value: "210+", label: "Stores synced" },
-  { value: "455,000", label: "SKUs managed" },
+  { value: "1,455,000", label: "SKUs managed" },
 ];
 
 export const accountSocialProofLogos = [

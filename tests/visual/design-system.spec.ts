@@ -118,7 +118,7 @@ test("homepage · Maéli Paris customer story sits between pricing and the final
     await expect(story.getByRole("link", { name: "See use case" })).toHaveAttribute("href", "/customers/maeli-paris/");
     await expect(socialProof).toContainText("50+");
     await expect(socialProof).toContainText("210+");
-    await expect(socialProof).toContainText("455,000");
+    await expect(socialProof).toContainText("1,455,000");
     await expect(socialProof).not.toContainText("Proven in real catalog workflows");
     await expect(socialProof).not.toContainText("Already operating their catalogs with Peak PIM.");
     await expect(socialProof.locator(".peak-social-proof-stats__logo-link")).toHaveCount(6);
@@ -147,7 +147,7 @@ test("account proof · approved product, scale, comparison, and fashion pages re
     await expect(proof).toHaveCount(1);
     await expect(proof).toContainText("50+");
     await expect(proof).toContainText("210+");
-    await expect(proof).toContainText("455,000");
+    await expect(proof).toContainText("1,455,000");
     await expect(proof.locator(".peak-social-proof-stats__logo-link")).toHaveCount(6);
 
     const orderIsCorrect = await page.evaluate(({ before, after }) => {
@@ -279,7 +279,7 @@ test("pricing · categorized feature matrix and accessible information controls"
     const socialProof = page.locator(".peak-social-proof-stats");
     await expect(socialProof).toContainText("50+");
     await expect(socialProof).toContainText("210+");
-    await expect(socialProof).toContainText("455,000");
+    await expect(socialProof).toContainText("1,455,000");
     await expect(socialProof.locator(".peak-social-proof-stats__logo-link")).toHaveCount(6);
     expect(await page.evaluate(() => {
       const matrixElement = document.querySelector(".pricing54_plans");
