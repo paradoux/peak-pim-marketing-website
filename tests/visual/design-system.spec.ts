@@ -20,6 +20,7 @@ const pages = [
   { name: "markets-catalogs", path: "/shopify-markets-pricing" },
   { name: "products-variants", path: "/shopify-product-management" },
   { name: "maeli-customer-story", path: "/customers/maeli-paris" },
+  { name: "carre-coco-customer-story", path: "/customers/carre-coco" },
 ] as const;
 
 const viewports = [
@@ -78,6 +79,29 @@ test("homepage · hero CTA pair is responsive and uses canonical actions", async
   }
 });
 
+test("homepage · pricing preview matches the current Core plan", async ({ page }) => {
+  for (const width of [1440, 375]) {
+    await prepare(page, "/", width, 1000);
+    const pricing = page.locator(".section_pricing2");
+
+    await expect(pricing).toContainText("Core plan");
+    await expect(pricing).toContainText("$99");
+    await expect(pricing.locator(".pricing2_feature")).toHaveText([
+      "1-click setup",
+      "2 connected Shopify stores",
+      "3 team seats",
+      "Up to 1,500 SKUs",
+      "100GB file storage",
+      "Bulk edit",
+      "Import & export",
+      "Shopify sync",
+    ]);
+    await expect(pricing).not.toContainText("20GB");
+    await expect(pricing).not.toContainText("Priority support");
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+  }
+});
+
 test("lead modal · customer proof and trial form share one responsive layout", async ({ page }) => {
   for (const viewport of [
     { name: "desktop", width: 1440, height: 900 },
@@ -88,19 +112,39 @@ test("lead modal · customer proof and trial form share one responsive layout", 
     await dialog.waitFor({ state: "visible" });
     await expect(dialog.locator(".lead-modal__proof-image")).toBeVisible();
     await expect(dialog.locator(".lead-modal__proof-logo")).toBeVisible();
-    await expect(dialog.locator("blockquote")).toContainText("Peak PIM changed how we work");
-    await expect(dialog.locator(".lead-modal__proof-link")).toHaveAttribute("href", "/customers/maeli-paris");
+    await expect(dialog.locator("blockquote")).toContainText("Peak PIM saves us hours every week");
+    await expect(dialog.locator("blockquote")).toContainText("opens new markets and new revenue opportunities");
+    await expect(dialog.locator(".lead-modal__proof-link")).toHaveCount(0);
     await expect(dialog.locator("[data-lead-modal-title]")).toHaveText("Get your 30 days extended trial");
     await expect(dialog.locator("input[name='email']")).toBeVisible();
 
     const layout = await dialog.locator(".lead-modal__layout").evaluate((element) => {
       const proof = element.querySelector(".lead-modal__proof")?.getBoundingClientRect();
       const state = element.querySelector(".lead-modal__state")?.getBoundingClientRect();
-      return proof && state ? { proofLeft: proof.left, proofTop: proof.top, proofRight: proof.right, proofBottom: proof.bottom, stateLeft: state.left, stateTop: state.top } : null;
+      const quote = element.querySelector("blockquote");
+      const attribution = element.querySelector(".lead-modal__proof-attribution")?.getBoundingClientRect();
+      const quoteRect = quote?.getBoundingClientRect();
+      const quoteStyle = quote ? getComputedStyle(quote) : null;
+      return proof && state && attribution && quoteRect && quoteStyle ? {
+        proofLeft: proof.left,
+        proofTop: proof.top,
+        proofRight: proof.right,
+        proofBottom: proof.bottom,
+        stateLeft: state.left,
+        stateTop: state.top,
+        attributionLeft: attribution.left,
+        quoteTextLeft: quoteRect.left + parseFloat(quoteStyle.borderLeftWidth) + parseFloat(quoteStyle.paddingLeft),
+        quoteBorderLeftWidth: parseFloat(quoteStyle.borderLeftWidth),
+      } : null;
     });
     expect(layout).not.toBeNull();
+    expect(Math.abs(layout!.attributionLeft - layout!.quoteTextLeft)).toBeLessThanOrEqual(1);
     if (viewport.name === "desktop") expect(layout!.proofRight).toBeLessThanOrEqual(layout!.stateLeft + 1);
-    if (viewport.name === "mobile") expect(layout!.proofBottom).toBeLessThanOrEqual(layout!.stateTop + 1);
+    if (viewport.name === "desktop") expect(await dialog.locator("blockquote").evaluate((element) => parseFloat(getComputedStyle(element).fontSize))).toBeGreaterThanOrEqual(19);
+    if (viewport.name === "mobile") {
+      expect(layout!.proofBottom).toBeLessThanOrEqual(layout!.stateTop + 1);
+      expect(layout!.quoteBorderLeftWidth).toBe(0);
+    }
     expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
     await expect(page).toHaveScreenshot(`lead-modal-social-proof-${viewport.name}.png`, { animations: "disabled", fullPage: false, maxDiffPixelRatio: 0.015 });
   }
@@ -270,6 +314,7 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
     await prepare(page, "/", width, 1000);
     const header = page.locator(".site-header");
     const featureToggle = header.locator(".feature-menu-dropdown > .navbar10_dropdown-toggle");
+    const customersToggle = header.locator(".customers-menu-dropdown > .navbar10_dropdown-toggle");
     const resourcesToggle = header.locator(".resources-menu-dropdown > .navbar10_dropdown-toggle");
 
     if (width <= 991) {
@@ -280,6 +325,10 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
     await featureToggle.press("Enter");
     await expect(featureToggle).toHaveAttribute("aria-expanded", "true");
     await expect(header.locator(".feature-mega-menu__title")).toHaveText(["Connect", "Operate", "Manage & Enrich"]);
+    expect(await header.locator(".feature-mega-menu__marker").evaluateAll((markers) => markers.every((marker) => {
+      const rect = marker.getBoundingClientRect();
+      return Math.abs(rect.width - rect.height) <= 0.01;
+    }))).toBe(true);
     const headerLiveDemoLink = header.locator('.feature-mega-menu__demo-link[href="https://app.peak-pim.com/demo"]');
     await expect(headerLiveDemoLink).toHaveText("Live demo→");
     await expect(headerLiveDemoLink).toHaveAttribute("target", "_blank");
@@ -333,12 +382,46 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
       "New",
     ]);
 
+    await customersToggle.focus();
+    await customersToggle.press("Enter");
+    await expect(customersToggle).toHaveAttribute("aria-expanded", "true");
+    await expect(featureToggle).toHaveAttribute("aria-expanded", "false");
+    await expect(header.locator(".customers-mega-menu__dropdown")).toBeVisible();
+    await expect(header.locator(".customers-mega-menu__section-heading")).toHaveText(["Reviews", "Use cases"]);
+    await expect(header.locator(".customers-mega-menu__reviews-link strong")).toHaveText("Verified Shopify reviews");
+    await expect(header.locator(".customers-mega-menu__reviews-link > span:not(.customers-mega-menu__action)")).toContainText("Shopify App Store");
+    expect(await header.locator(".customers-mega-menu__marker").evaluateAll((markers) => markers.every((marker) => {
+      const rect = marker.getBoundingClientRect();
+      return Math.abs(rect.width - rect.height) <= 0.01;
+    }))).toBe(true);
+    const customerReviewsLink = header.locator('.customers-mega-menu__reviews-link[href="https://apps.shopify.com/peak-pim/reviews"]');
+    await expect(customerReviewsLink).toHaveAttribute("target", "_blank");
+    await expect(customerReviewsLink).toHaveAttribute("rel", "noopener");
+    const customerStoryLink = header.locator('.customers-mega-menu__story-link[href="/customers/maeli-paris/"]');
+    await expect(customerStoryLink).toHaveCount(1);
+    await expect(customerStoryLink.locator(".customers-mega-menu__story-image > img")).toHaveAttribute("alt", "Amélie Samson, founder of Maéli Paris");
+    await expect(customerStoryLink.locator(".customers-mega-menu__story-logo img")).toHaveAttribute("alt", "Maéli Paris");
+    await expect(customerStoryLink.locator(".customers-mega-menu__story-content > span:not(.customers-mega-menu__action)")).toHaveText("Save hours with weekly Drops and grow revenue in new markets.");
+    const carreCocoStoryLink = header.locator('.customers-mega-menu__story-link[href="/customers/carre-coco/"]');
+    await expect(carreCocoStoryLink).toHaveCount(1);
+    await expect(carreCocoStoryLink.locator(".customers-mega-menu__story-image > img")).toHaveAttribute("alt", "Coline Leleu, founder of Carré Coco");
+    await expect(carreCocoStoryLink.locator(".customers-mega-menu__story-logo img")).toHaveAttribute("alt", "Carré Coco");
+    const customerCardHeights = await header.locator(".customers-mega-menu__reviews-link, .customers-mega-menu__story-link").evaluateAll((cards) => (
+      cards.map((card) => card.getBoundingClientRect().height)
+    ));
+    expect(Math.max(...customerCardHeights) - Math.min(...customerCardHeights)).toBeLessThanOrEqual(1);
+
     await resourcesToggle.focus();
     await resourcesToggle.press("Enter");
     await expect(resourcesToggle).toHaveAttribute("aria-expanded", "true");
-    await expect(featureToggle).toHaveAttribute("aria-expanded", "false");
+    await expect(customersToggle).toHaveAttribute("aria-expanded", "false");
     await expect(header.locator(".resources-mega-menu__dropdown")).toBeVisible();
     await expect(header.locator(".resources-mega-menu__link-heading strong")).toHaveText(["Live demo", "Help Center", "Product Updates", "API documentation"]);
+    expect(await header.locator(".resources-mega-menu__link-heading").evaluateAll((headings) => headings.every((heading) => heading.firstElementChild?.classList.contains("resources-mega-menu__link-marker")))).toBe(true);
+    expect(await header.locator(".resources-mega-menu__link-marker").evaluateAll((markers) => markers.every((marker) => {
+      const rect = marker.getBoundingClientRect();
+      return Math.abs(rect.width - rect.height) <= 0.01;
+    }))).toBe(true);
     await expect(header.locator(".resources-mega-menu__link")).toHaveCount(4);
     expect(await header.locator(".resources-mega-menu__link").evaluateAll((links) => links.every((link) => link.getAttribute("target") === "_blank" && link.getAttribute("rel") === "noopener"))).toBe(true);
     await expect(header.locator('.resources-mega-menu__link[href="https://app.peak-pim.com/demo"]')).toHaveCount(1);
@@ -815,7 +898,7 @@ test("translations · logo strip matches the homepage and FAQ matches the featur
   await prepare(page, "/shopify-pim-translations", 1440, 1000);
   const translationStyles = await page.evaluate(readStyles, selectors);
   await expect(page.locator(".section_logo2.color-scheme-2")).toHaveCount(1);
-  await expect(page.locator(".section_logo2 .logo2_wrapper")).toHaveCount(5);
+  await expect(page.locator(".section_logo2 .logo2_wrapper")).toHaveCount(10);
   await expect(page.locator(".section_logo2 h2")).toHaveText("Trusted by 50+ top merchants worldwide");
   await expect(page.locator(".section_faq1 h2")).toHaveText("Frequently asked questions");
 
@@ -824,7 +907,7 @@ test("translations · logo strip matches the homepage and FAQ matches the featur
 
   await prepare(page, "/industry/fashion", 1440, 1000);
   expect(await page.evaluate(readStyles, selectors.slice(0, 2))).toEqual(translationStyles.slice(0, 2));
-  await expect(page.locator(".section_logo2 .logo2_wrapper")).toHaveCount(5);
+  await expect(page.locator(".section_logo2 .logo2_wrapper")).toHaveCount(10);
   await expect(page.locator(".section_logo2 h2")).toHaveText("Trusted by 50+ top merchants worldwide");
 });
 
@@ -849,6 +932,13 @@ for (const specimen of [
     const section = page.locator(specimen.selector);
     await section.scrollIntoViewIfNeeded();
     await expect(section).toBeVisible();
+    if (specimen.name === "logo-strip-canonical") {
+      await page.locator(`${specimen.selector} img`).evaluateAll(async (images) => {
+        await Promise.all(images.map((image) => (image as HTMLImageElement).complete
+          ? Promise.resolve()
+          : new Promise<void>((resolve) => image.addEventListener("load", () => resolve(), { once: true }))));
+      });
+    }
     await expect(section).toHaveScreenshot(`translations-${specimen.name}.png`, { animations: "disabled", maxDiffPixelRatio: 0.015 });
   });
 }

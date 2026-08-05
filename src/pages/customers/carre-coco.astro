@@ -1,0 +1,162 @@
+---
+import CtaBanner from "../../components/sections/CtaBanner.astro";
+import CustomerStoryChapter from "../../components/sections/CustomerStoryChapter.astro";
+import CustomerStoryHero from "../../components/sections/CustomerStoryHero.astro";
+import CustomerStoryStats from "../../components/sections/CustomerStoryStats.astro";
+import Faq from "../../components/sections/Faq.astro";
+import FeatureGrid from "../../components/sections/FeatureGrid.astro";
+import ProblemGrid from "../../components/sections/ProblemGrid.astro";
+import CarreCocoMultiStoreVisual from "../../components/visuals/CarreCocoMultiStoreVisual.astro";
+import { assets } from "../../data/assets";
+import { ctaLabels } from "../../data/cta-copy";
+import LandingPageLayout from "../../layouts/LandingPageLayout.astro";
+
+const appStoreUrl = "https://apps.shopify.com/peak-pim";
+const canonicalPath = "/customers/carre-coco";
+const title = "How Carré Coco Manages B2B and B2C Catalogs | Peak PIM";
+const description = "See how Carré Coco controls B2B and B2C product data from one PIM while keeping store-specific prices, descriptions, and publishing workflows clear.";
+
+const stats = [
+  { value: "B2C + B2B", title: "Two storefronts, one operating view", description: "Carré Coco can manage its customer and trade catalogs without treating them as two disconnected sources of product data." },
+  { value: "Different by design", title: "Prices and descriptions stay store-specific", description: "Retail and wholesale values remain attached to the right store while the shared product foundation stays connected." },
+  { value: "One catalog", title: "Shared product data stays under control", description: "The team can review what is common, what differs, and what is ready to publish from the same workspace." },
+];
+
+const operatingNeeds = [
+  { icon: "store", title: "One product serves two audiences", description: "A B2C shopper and a B2B buyer need different information, even when they are looking at the same underlying product." },
+  { icon: "edit", title: "Pricing follows each sales model", description: "Retail and wholesale prices need to stay intentional and connected to the correct storefront." },
+  { icon: "review", title: "Descriptions do different jobs", description: "B2C copy tells the product story. B2B content gives professional buyers the details they need to order." },
+];
+
+const outcomes = [
+  { icon: "store", title: "One shared product foundation", description: "SKUs, media, product structure, and reusable information can stay connected across both storefronts." },
+  { icon: "edit", title: "Per-store prices", description: "B2C and B2B prices remain visible side by side, so differences are deliberate instead of hidden in separate workflows." },
+  { icon: "review", title: "Per-store descriptions", description: "Each audience receives the right product message without breaking the link to the central record." },
+  { icon: "publish", title: "Controlled publishing", description: "The team reviews the affected store and publishes approved values to the intended storefront." },
+];
+
+const faqItems = [
+  { question: "Why does Carré Coco need both B2B and B2C catalog views?", answer: "Carré Coco serves consumers and a substantial wholesale business. The same products can require different prices, descriptions, and store-specific information for each audience." },
+  { question: "Does Peak PIM force both stores to use identical product data?", answer: "No. Shared information can stay connected to one product record while B2C and B2B prices, descriptions, and other store-specific values remain intentionally different." },
+  { question: "Can the team compare both storefronts from one place?", answer: "Yes. Peak PIM provides a multi-store view where the team can review the product data attached to each connected store and see which values match or differ." },
+  { question: "Can Carré Coco publish changes to only one store?", answer: "Yes. Store-specific values can be reviewed and published to the intended B2C or B2B storefront without overwriting the other store's deliberate differences." },
+  { question: "Can another merchant use Peak PIM for a similar wholesale and retail setup?", answer: "Yes. Peak PIM is built for merchants that manage connected Shopify stores with a shared catalog and store-specific content, pricing, assortment, or publishing needs." },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://peak-pim.com/" },
+    { "@type": "ListItem", position: 2, name: "Carré Coco customer story", item: "https://peak-pim.com/customers/carre-coco/" },
+  ],
+};
+---
+
+<LandingPageLayout
+  title={title}
+  description={description}
+  canonicalPath={canonicalPath}
+  schemaType="Article"
+  schema={{
+    headline: title,
+    articleSection: "Customer stories",
+    image: "https://peak-pim.com/assets/testimonials/coline-leleu-carre-coco.webp",
+    author: { "@type": "Organization", name: "Peak PIM", url: "https://peak-pim.com/" },
+    about: { "@type": "Organization", name: "Carré Coco" },
+  }}
+  additionalSchemas={[breadcrumbSchema, faqSchema]}
+  ogTitle="How Carré Coco Keeps B2B and B2C Catalogs Under Control"
+  ogDescription="One shared catalog for two storefronts, with the right prices and descriptions for every audience."
+  ogImage={assets.marketing.customerStories.carreCocoOg}
+>
+  <CustomerStoryHero
+    title="How Carré Coco keeps B2B and B2C in sync"
+    description="Two storefronts serve two audiences. Peak PIM gives Carré Coco one place to maintain the shared product foundation and control every intentional difference."
+    image={assets.testimonials.colineLeleuCarreCoco}
+    imageAlt="Coline Leleu, founder of Carré Coco, standing inside the Carré Coco showroom"
+    imageCaption="Coline Leleu, founder of Carré Coco"
+    companyLogo={assets.customerLogos.light.carreCocoStory}
+    companyName="Carré Coco"
+    primaryCta={{ label: ctaLabels.tryFree, href: appStoreUrl, external: true }}
+    secondaryCta={{ label: ctaLabels.seeHowItWorks, href: "#story" }}
+  />
+
+  <CustomerStoryStats title="One catalog that respects two different ways of selling" items={stats} />
+
+  <ProblemGrid
+    tagline="The operating model"
+    title="B2B and B2C should stay connected, not identical"
+    description="Carré Coco needs one reliable product foundation and enough control to serve retail customers and professional buyers differently."
+    items={operatingNeeds}
+  />
+
+  <div id="story">
+    <CustomerStoryChapter
+      title="One product record, two storefront strategies"
+      lead="Shared catalog data stays connected while each store keeps the values its audience needs."
+      tagline="Multi-store control"
+      cardTitle="See the B2C and B2B versions side by side"
+      body="Carré Coco can work from one product foundation instead of maintaining two disconnected catalogs. The multi-store view makes the common data and the intentional store differences visible in one place, so the team always knows which storefront it is updating."
+      link={{ label: ctaLabels.learnMore, href: "/shopify-multi-store-pim" }}
+    >
+      <CarreCocoMultiStoreVisual slot="visual" view="overview" />
+    </CustomerStoryChapter>
+  </div>
+
+  <CustomerStoryChapter
+    title="Retail and wholesale prices stay deliberate"
+    lead="Each sales model can keep its own price without separating the product from the rest of the catalog."
+    tagline="Store-specific pricing"
+    cardTitle="Control the price attached to each storefront"
+    body="Carré Coco's B2C and B2B stores do not have to share the same commercial values. Peak PIM keeps both store versions visible beside the central product record, helping the team review retail and wholesale pricing before publishing to the correct destination."
+    reverse
+    link={{ label: ctaLabels.learnMore, href: "/shopify-markets-pricing" }}
+  >
+    <CarreCocoMultiStoreVisual slot="visual" view="pricing" />
+  </CustomerStoryChapter>
+
+  <CustomerStoryChapter
+    title="Every audience gets the right product description"
+    lead="B2C storytelling and B2B buying information can differ without creating catalog drift."
+    tagline="Store-specific content"
+    cardTitle="Write for customers and professional buyers"
+    body="The retail storefront can present the brand and product for consumers, while the trade storefront carries the descriptions its professional buyers need. Both versions remain connected to the same product, which makes ongoing catalog maintenance clearer."
+    link={{ label: ctaLabels.learnMore, href: "/shopify-product-management" }}
+  >
+    <CarreCocoMultiStoreVisual slot="visual" view="content" />
+  </CustomerStoryChapter>
+
+  <FeatureGrid
+    tagline="The day-to-day difference"
+    title="Control the differences without duplicating the catalog"
+    description="Peak PIM gives Carré Coco one operational layer for shared product data and the B2C and B2B values that should remain distinct."
+    features={outcomes}
+    cta={{ label: ctaLabels.learnMore, href: "/shopify-multi-store-pim" }}
+  />
+
+  <CtaBanner
+    title="Run B2B and B2C from one connected catalog"
+    description="Keep shared product data together, preserve the right store differences, and publish each update to its intended storefront."
+    primaryLabel={ctaLabels.tryFree}
+    primaryHref={appStoreUrl}
+    secondaryLabel={ctaLabels.bookDemo}
+    trustLine="10-day free trial. Free setup. No credit card."
+  />
+
+  <Faq
+    title="Frequently asked questions"
+    description="How Carré Coco's multi-store operating model works, and how Peak PIM supports connected B2B and B2C catalogs."
+    items={faqItems}
+  />
+</LandingPageLayout>

@@ -28,6 +28,8 @@ const featurePages = [
 const logo = readFileSync(resolve(projectRoot, "public/assets/logo/peak-logo-large.png")).toString("base64");
 const maeliLogo = readFileSync(resolve(projectRoot, "public/mirror/6a02fa863eea804db7dc36f9_Maeli-Black-logo-138c12bb52.png")).toString("base64");
 const ameliePortrait = readFileSync(resolve(projectRoot, "public/assets/testimonials/amelie-samson-maeli-paris.webp")).toString("base64");
+const carreCocoLogo = readFileSync(resolve(projectRoot, "public/assets/customer-logos/carre-coco.webp")).toString("base64");
+const colinePortrait = readFileSync(resolve(projectRoot, "public/assets/testimonials/coline-leleu-carre-coco.webp")).toString("base64");
 const spaceGrotesk = readFileSync(resolve(projectRoot, "public/mirror/fonts/V8mDoQDjQSkFtoMM3T6r8E7mPbF4Cw-4ecc7e89b7.woff2")).toString("base64");
 const inter = readFileSync(resolve(projectRoot, "public/mirror/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7-6ab57b19c6.woff2")).toString("base64");
 
@@ -104,7 +106,7 @@ function template(feature) {
 </html>`;
 }
 
-function customerStoryTemplate() {
+function customerStoryTemplate(story) {
   return `<!doctype html>
 <html lang="en">
   <head>
@@ -132,14 +134,14 @@ function customerStoryTemplate() {
     <main>
       <section class="copy">
         <img class="peak" src="data:image/png;base64,${logo}" alt="">
-        <img class="customer" src="data:image/png;base64,${maeliLogo}" alt="">
+        <img class="customer" src="data:${story.logoMime};base64,${story.logo}" alt="">
         <div class="eyebrow">Customer story</div>
-        <h1>How Maéli Paris gets hours back every week</h1>
-        <p>One-afternoon setup, scheduled fabric Drops, and one multilingual product workflow.</p>
+        <h1>${escapeHtml(story.title)}</h1>
+        <p>${escapeHtml(story.detail)}</p>
       </section>
       <section class="portrait">
-        <img src="data:image/webp;base64,${ameliePortrait}" alt="">
-        <span class="caption">Amélie Samson · Maéli Paris</span>
+        <img src="data:image/webp;base64,${story.portrait}" alt="">
+        <span class="caption">${escapeHtml(story.caption)}</span>
       </section>
     </main>
   </body>
@@ -156,9 +158,32 @@ for (const feature of featurePages) {
   await page.screenshot({ path: resolve(outputDirectory, `${feature.slug}.png`), type: "png" });
 }
 
-await page.setContent(customerStoryTemplate(), { waitUntil: "load" });
-await page.evaluate(() => document.fonts.ready);
-await page.screenshot({ path: resolve(outputDirectory, "maeli-paris-customer-story.png"), type: "png" });
+const customerStories = [
+  {
+    slug: "maeli-paris-customer-story",
+    title: "How Maéli Paris gets hours back every week",
+    detail: "One-afternoon setup, scheduled fabric Drops, and one multilingual product workflow.",
+    caption: "Amélie Samson · Maéli Paris",
+    logo: maeliLogo,
+    logoMime: "image/png",
+    portrait: ameliePortrait,
+  },
+  {
+    slug: "carre-coco-customer-story",
+    title: "How Carré Coco keeps B2B and B2C in sync",
+    detail: "One connected catalog with the right prices and descriptions for every storefront.",
+    caption: "Coline Leleu · Carré Coco",
+    logo: carreCocoLogo,
+    logoMime: "image/webp",
+    portrait: colinePortrait,
+  },
+];
+
+for (const story of customerStories) {
+  await page.setContent(customerStoryTemplate(story), { waitUntil: "load" });
+  await page.evaluate(() => document.fonts.ready);
+  await page.screenshot({ path: resolve(outputDirectory, `${story.slug}.png`), type: "png" });
+}
 
 await browser.close();
-console.log(`Generated ${featurePages.length + 1} Open Graph images in public/assets/og.`);
+console.log(`Generated ${featurePages.length + customerStories.length} Open Graph images in public/assets/og.`);

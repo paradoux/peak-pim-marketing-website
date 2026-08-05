@@ -1,6 +1,7 @@
 ---
 import { getSharedHeaderHtml } from "../lib/page-source";
 import { exploreNavigationLinks, featureNavigationGroups, resourceNavigationLinks } from "../data/site-navigation";
+import { assets } from "../data/assets";
 
 function escapeHtml(value: string) {
   return value
@@ -62,10 +63,63 @@ const featureMenuHtml = `
 `;
 
 const chevronHtml = `<div class="dropdown-chevron w-embed"><svg width="100%" height="100%" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M2.55806 6.29544C2.46043 6.19781 2.46043 6.03952 2.55806 5.94189L3.44195 5.058C3.53958 4.96037 3.69787 4.96037 3.7955 5.058L8.00001 9.26251L12.2045 5.058C12.3021 4.96037 12.4604 4.96037 12.5581 5.058L13.4419 5.94189C13.5396 6.03952 13.5396 6.19781 13.4419 6.29544L8.17678 11.5606C8.07915 11.6582 7.92086 11.6582 7.82323 11.5606L2.55806 6.29544Z" fill="currentColor"></path></svg></div>`;
+const reviewsLink = exploreNavigationLinks.find((link) => link.label === "Reviews");
+const testimonialLink = exploreNavigationLinks.find((link) => link.label === "Testimonials");
+
+if (!reviewsLink || !testimonialLink) {
+  throw new Error("The shared navigation is missing the customer proof links.");
+}
+
+const customerMenuHtml = `
+  <div data-delay="300" data-hover="true" class="navbar10_menu-dropdown customers-menu-dropdown w-dropdown">
+    <div class="navbar10_dropdown-toggle w-dropdown-toggle" id="w-dropdown-toggle-1" aria-controls="w-dropdown-list-1" aria-haspopup="menu" aria-expanded="false" role="button" tabindex="0"><div>Customers</div>${chevronHtml}</div>
+    <nav class="navbar10_dropdown-list customers-mega-menu__dropdown w-dropdown-list" id="w-dropdown-list-1" aria-labelledby="w-dropdown-toggle-1" aria-label="Peak PIM customer proof" style="opacity: 0;">
+      <div class="navbar10_container">
+        <div class="customers-mega-menu">
+          <section class="customers-mega-menu__section" aria-labelledby="customers-reviews-heading">
+            <div class="customers-mega-menu__section-heading"><span class="customers-mega-menu__marker" aria-hidden="true"></span><span id="customers-reviews-heading">Reviews</span></div>
+            <a href="${escapeHtml(reviewsLink.href)}" target="_blank" rel="noopener" class="customers-mega-menu__reviews-link">
+              <strong>Verified Shopify reviews</strong>
+              <span>Read reviews published by merchants on the Peak PIM listing in the Shopify App Store.</span>
+              <span class="customers-mega-menu__action">Read reviews<span aria-hidden="true">&rarr;</span></span>
+            </a>
+          </section>
+          <section class="customers-mega-menu__section" aria-labelledby="customers-use-cases-heading">
+            <div class="customers-mega-menu__section-heading"><span class="customers-mega-menu__marker" aria-hidden="true"></span><span id="customers-use-cases-heading">Use cases</span></div>
+            <div class="customers-mega-menu__stories">
+              <a href="${escapeHtml(testimonialLink.href)}" class="customers-mega-menu__story-link">
+                <span class="customers-mega-menu__story-image">
+                  <img src="${escapeHtml(assets.testimonials.amelieSamsonMaeliParis)}" alt="Amélie Samson, founder of Maéli Paris" loading="lazy">
+                  <span class="customers-mega-menu__story-logo"><img src="${escapeHtml(assets.customerLogos.light.maeli)}" alt="Maéli Paris" loading="lazy"></span>
+                </span>
+                <span class="customers-mega-menu__story-content">
+                  <strong>Maéli Paris</strong>
+                  <span>Save hours with weekly Drops and grow revenue in new markets.</span>
+                  <span class="customers-mega-menu__action">See use case<span aria-hidden="true">&rarr;</span></span>
+                </span>
+              </a>
+              <a href="/customers/carre-coco/" class="customers-mega-menu__story-link">
+                <span class="customers-mega-menu__story-image">
+                  <img src="${escapeHtml(assets.testimonials.colineLeleuCarreCoco)}" alt="Coline Leleu, founder of Carré Coco" loading="lazy">
+                  <span class="customers-mega-menu__story-logo"><img src="${escapeHtml(assets.customerLogos.light.carreCocoStory)}" alt="Carré Coco" loading="lazy"></span>
+                </span>
+                <span class="customers-mega-menu__story-content">
+                  <strong>Carré Coco</strong>
+                  <span>B2B and B2C catalogs managed together.</span>
+                  <span class="customers-mega-menu__action">See use case<span aria-hidden="true">&rarr;</span></span>
+                </span>
+              </a>
+            </div>
+          </section>
+        </div>
+      </div>
+    </nav>
+  </div>`;
+
 const resourceMenuHtml = `
   <div data-delay="300" data-hover="true" class="navbar10_menu-dropdown resources-menu-dropdown w-dropdown">
-    <div class="navbar10_dropdown-toggle w-dropdown-toggle" id="w-dropdown-toggle-1" aria-controls="w-dropdown-list-1" aria-haspopup="menu" aria-expanded="false" role="button" tabindex="0"><div>Resources</div>${chevronHtml}</div>
-    <nav class="navbar10_dropdown-list resources-mega-menu__dropdown w-dropdown-list" id="w-dropdown-list-1" aria-labelledby="w-dropdown-toggle-1" aria-label="Peak PIM resources" style="opacity: 0;">
+    <div class="navbar10_dropdown-toggle w-dropdown-toggle" id="w-dropdown-toggle-2" aria-controls="w-dropdown-list-2" aria-haspopup="menu" aria-expanded="false" role="button" tabindex="0"><div>Resources</div>${chevronHtml}</div>
+    <nav class="navbar10_dropdown-list resources-mega-menu__dropdown w-dropdown-list" id="w-dropdown-list-2" aria-labelledby="w-dropdown-toggle-2" aria-label="Peak PIM resources" style="opacity: 0;">
       <div class="navbar10_container">
         <div class="resources-mega-menu">
           <div class="resources-mega-menu__intro">
@@ -75,7 +129,7 @@ const resourceMenuHtml = `
           <div class="resources-mega-menu__grid">
             ${resourceNavigationLinks.map((link) => `
               <a href="${escapeHtml(link.href)}" target="_blank" rel="noopener" class="resources-mega-menu__link">
-                <span class="resources-mega-menu__link-heading"><strong>${escapeHtml(link.label)}</strong><span class="resources-mega-menu__link-marker" aria-hidden="true"></span></span>
+                <span class="resources-mega-menu__link-heading"><span class="resources-mega-menu__link-marker" aria-hidden="true"></span><strong>${escapeHtml(link.label)}</strong></span>
                 <span>${escapeHtml(link.description ?? "")}</span>
               </a>
             `).join("")}
@@ -100,7 +154,7 @@ if (headerWithFeatureMenu === sharedHeaderHtml) {
 const headerHtml = headerWithFeatureMenu
   .replace(
     '<a href="https://apps.shopify.com/peak-pim/reviews" target="_blank" class="navbar10_link w-nav-link">Reviews</a>',
-    `<a href="https://apps.shopify.com/peak-pim/reviews" target="_blank" class="navbar10_link w-nav-link">Reviews</a>${resourceMenuHtml}`,
+    `${customerMenuHtml}${resourceMenuHtml}`,
   )
   .replace(
     '<a href="/pricing" class="navbar10_link w-nav-link">Pricing</a>',

@@ -149,6 +149,8 @@ History uses `HistoryHeroVisual.astro` and `HistoryCardVisual.astro` to distingu
 
 Global Search uses `GlobalSearchHeroVisual.astro` and `GlobalSearchCardVisual.astro` to show the account-wide command palette, honest searchable identifiers, grouped result context, keyboard navigation, and direct record destinations. Do not imply full-text search across product descriptions or metafield values.
 
+Carré Coco uses `CarreCocoMultiStoreVisual.astro` inside the approved customer-story chapter pattern to show one shared product record with deliberate B2C and B2B prices, descriptions, and publishing destinations. Keep the visual factual and do not insert unverified customer figures.
+
 The AI Assistant uses `AiAssistantHeroVisual.astro` and `AiAssistantCardVisual.astro` to show page-aware catalog reads, before-and-after draft approval, and separate storefront publishing confirmation. Keep it distinct from the external AI Connector (MCP): the Assistant is AI inside Peak PIM with a merchant-provided Anthropic or OpenAI API key, while MCP connects compatible external assistants to Peak PIM.
 
 `BuildVsBuyHeroVisual.astro` is the approved evidence-image exception requested for the comparison page. It uses a registered authentic screenshot inside a responsive, rounded evidence card with Peak styling. Do not reuse that raster treatment for product demonstrations.

@@ -68,6 +68,7 @@ const requiredFiles = [
   "src/components/visuals/GlobalSearchHeroVisual.astro",
   "src/components/visuals/GlobalSearchCardVisual.astro",
   "src/components/visuals/MaeliSetupVisual.astro",
+  "src/components/visuals/CarreCocoMultiStoreVisual.astro",
   "src/pages/design-system.astro",
   "src/pages/shopify-pim-translations.astro",
   "src/pages/shopify-product-import-export.astro",
@@ -87,8 +88,12 @@ const requiredFiles = [
   "src/pages/history.astro",
   "src/pages/search.astro",
   "src/pages/customers/maeli-paris.astro",
+  "src/pages/customers/carre-coco.astro",
   "public/assets/testimonials/amelie-samson-maeli-paris.webp",
   "public/assets/og/maeli-paris-customer-story.png",
+  "public/assets/testimonials/coline-leleu-carre-coco.webp",
+  "public/assets/customer-logos/carre-coco.webp",
+  "public/assets/og/carre-coco-customer-story.png",
   "public/og-build-vs-buy-pim.png",
   "docs/copywriting-system.md",
   "skills/peak-landing-pages/SKILL.md",
@@ -132,9 +137,10 @@ const designSystemSource = readFileSync(resolve(projectRoot, "src/pages/design-s
 if (/from ["'][^"']*partners/i.test(designSystemSource)) failures.push("The catalogue imports the unfinished partners page");
 
 const leadModalSource = readFileSync(resolve(projectRoot, "src/components/LeadCaptureModal.astro"), "utf8");
-for (const contract of ["lead-modal__proof", "amelieSamsonMaeliParis", "Founder, Maéli Paris", 'href="/customers/maeli-paris"']) {
+for (const contract of ["lead-modal__proof", "amelieSamsonMaeliParis", "Founder, Maéli Paris"]) {
   if (!leadModalSource.includes(contract)) failures.push(`Lead modal is missing customer-proof contract: ${contract}`);
 }
+if (leadModalSource.includes("lead-modal__proof-link")) failures.push("Lead modal still includes the removed customer-story button");
 
 const partnersBuildFile = resolve(projectRoot, "dist/partners/index.html");
 if (existsSync(partnersBuildFile)) failures.push("The unfinished partners page was included in the production build");
@@ -185,6 +191,9 @@ for (const resourceLabel of ["Live demo", "Help Center", "Product Updates", "API
 for (const contract of ["resources-menu-dropdown", "resources-mega-menu__intro", "resources-mega-menu__grid", "resourceNavigationLinks"]) {
   if (!headerSource.includes(contract)) failures.push(`Shared header Resources menu is missing: ${contract}`);
 }
+for (const contract of ["customers-menu-dropdown", "customers-mega-menu__reviews-link", "customers-mega-menu__story-link", "amelieSamsonMaeliParis", "colineLeleuCarreCoco"]) {
+  if (!headerSource.includes(contract)) failures.push(`Shared header Customers menu is missing: ${contract}`);
+}
 
 const globalStyles = readFileSync(resolve(projectRoot, "src/styles/global.css"), "utf8");
 for (const rule of ["-webkit-font-smoothing: antialiased", "-moz-osx-font-smoothing: grayscale"]) {
@@ -201,7 +210,7 @@ const recipeSource = readFileSync(resolve(projectRoot, "src/data/landing-page-re
 const approvedReferences = recipeSource.split("export const excludedDesignSystemPages")[0];
 if (approvedReferences.includes('"/partners"')) failures.push("The unfinished partners page appears in approved references");
 
-for (const page of ["bulk-edit", "design-system", "shopify-pim-translations", "shopify-product-import-export", "shopify-product-drops", "shopify-catalog-health-center", "ai-catalog-connector", "ai-assistant", "api", "shopify-metaobjects", "shopify-metafield-management", "shopify-custom-fields", "user-roles-permissions", "shopify-collections", "shopify-markets-pricing", "shopify-product-management", "history", "search", "build-vs-buy-pim", "customers/maeli-paris"]) {
+for (const page of ["bulk-edit", "design-system", "shopify-pim-translations", "shopify-product-import-export", "shopify-product-drops", "shopify-catalog-health-center", "ai-catalog-connector", "ai-assistant", "api", "shopify-metaobjects", "shopify-metafield-management", "shopify-custom-fields", "user-roles-permissions", "shopify-collections", "shopify-markets-pricing", "shopify-product-management", "history", "search", "build-vs-buy-pim", "customers/maeli-paris", "customers/carre-coco"]) {
   const file = resolve(projectRoot, "dist", page, "index.html");
   if (!existsSync(file)) {
     failures.push(`Missing built page /${page}; run npm run build first`);
@@ -276,6 +285,7 @@ for (const slug of [
   "search",
   "industry/fashion",
   "customers/maeli-paris",
+  "customers/carre-coco",
 ]) {
   const file = resolve(projectRoot, `dist/${slug}/index.html`);
   if (!existsSync(file)) {
@@ -396,6 +406,31 @@ if (existsSync(maeliStoryFile) && existsSync(maeliStoryImage)) {
   if (!schemas.some((entry) => entry["@type"] === "FAQPage" && entry.mainEntity?.length === 5)) failures.push("Maéli Paris customer story FAQ schema is missing or incomplete");
 } else {
   failures.push("Maéli Paris customer story or its Open Graph image is missing");
+}
+
+const carreCocoStoryFile = resolve(projectRoot, "dist/customers/carre-coco/index.html");
+const carreCocoStoryImage = resolve(projectRoot, "public/assets/og/carre-coco-customer-story.png");
+if (existsSync(carreCocoStoryFile) && existsSync(carreCocoStoryImage)) {
+  const html = readFileSync(carreCocoStoryFile, "utf8");
+  const mainHtml = html.match(/<main\b[\s\S]*?<\/main>/i)?.[0] ?? "";
+  const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((match) => JSON.parse(match[1]));
+  const image = readFileSync(carreCocoStoryImage);
+  if (image.readUInt32BE(16) !== 1200 || image.readUInt32BE(20) !== 630) failures.push("Carré Coco customer-story Open Graph image must be 1200 × 630");
+  if (!html.includes("<title>How Carré Coco Manages B2B and B2C Catalogs | Peak PIM</title>")) failures.push("Carré Coco customer-story title tag is incorrect");
+  if (!html.includes('rel="canonical" href="https://peak-pim.com/customers/carre-coco/"')) failures.push("Carré Coco customer-story canonical URL is incorrect");
+  if (!html.includes('property="og:image" content="https://peak-pim.com/assets/og/carre-coco-customer-story.png"')) failures.push("Carré Coco customer story is missing its registered Open Graph image");
+  if (!html.includes('src="/assets/testimonials/coline-leleu-carre-coco.webp"')) failures.push("Carré Coco customer story is missing Coline's registered portrait");
+  for (const fact of ["B2C + B2B", "Two storefronts", "Different by design", "Per-store prices", "Per-store descriptions"]) {
+    if (!mainHtml.includes(fact)) failures.push(`Carré Coco customer story is missing supplied operating fact: ${fact}`);
+  }
+  for (const className of ["peak-customer-story-hero", "peak-customer-story-stats", "peak-problem-grid", "peak-customer-story-chapter", "peak-feature-grid", "peak-cta-banner", "peak-faq"]) {
+    if (!mainHtml.includes(className)) failures.push(`Carré Coco customer story is missing canonical section: ${className}`);
+  }
+  if (!schemas.some((entry) => entry["@type"] === "Article" && entry.about?.name === "Carré Coco")) failures.push("Carré Coco customer story Article schema is missing or incomplete");
+  if (!schemas.some((entry) => entry["@type"] === "FAQPage" && entry.mainEntity?.length === 5)) failures.push("Carré Coco customer story FAQ schema is missing or incomplete");
+  if (schemas.some((entry) => entry["@type"] === "Review")) failures.push("Carré Coco customer story must not invent a Review schema without an approved quote");
+} else {
+  failures.push("Carré Coco customer story or its Open Graph image is missing");
 }
 
 const rolesPermissionsFile = resolve(projectRoot, "dist/user-roles-permissions/index.html");
@@ -533,6 +568,11 @@ if (existsSync(homeFile)) {
   if ((footerHtml.match(/class="footer1_social-link w-inline-block"/g) ?? []).length !== 6) failures.push("The footer must preserve all six original social-network links");
   if ((footerHtml.match(/class="icon-embed-xsmall w-embed"/g) ?? []).length !== 6) failures.push("Every footer social-network link must preserve its icon");
   if (!html.includes('<div>Resources</div><div class="dropdown-chevron w-embed">')) failures.push("The shared header is missing the Resources dropdown toggle");
+  if (!html.includes('<div>Customers</div><div class="dropdown-chevron w-embed">')) failures.push("The shared header is missing the Customers dropdown toggle");
+  if (html.includes('class="navbar10_link w-nav-link">Reviews</a>')) failures.push("The shared header still contains the standalone Reviews link");
+  if (!html.includes('href="https://apps.shopify.com/peak-pim/reviews" target="_blank" rel="noopener" class="customers-mega-menu__reviews-link"')) failures.push("The shared header Customers menu is missing the Reviews destination");
+  if (!html.includes('href="/customers/maeli-paris/" class="customers-mega-menu__story-link"')) failures.push("The shared header Customers menu is missing the Maéli Paris testimonial");
+  if (!html.includes('href="/customers/carre-coco/" class="customers-mega-menu__story-link"')) failures.push("The shared header Customers menu is missing the Carré Coco use case");
   if (html.includes('class="navbar10_link w-nav-link">Help Center</a>')) failures.push("The shared header still contains the standalone Help Center link");
   for (const href of ["https://app.peak-pim.com/demo", "https://help.peak-pim.com/en/", "https://www.linkedin.com/company/peak-pim/posts/", "https://developers.peak-pim.com/"]) {
     if (!html.includes(`href="${href}" target="_blank" rel="noopener" class="resources-mega-menu__link"`)) failures.push(`The shared header Resources menu is missing ${href}`);
@@ -764,6 +804,12 @@ const homepageLogoFiles = [
   "Mae-li-White-logo",
   "Artefact-White-logo",
   "Du-Bruit-Dans-La-Cuisine-White-logo",
+  "LAFAURIE-White-logo",
+  "jatni-labs.webp",
+  "waterdrop.webp",
+  "naked-wolfe.png",
+  "lillicoco.png",
+  "what-matters.png",
 ];
 
 for (const slug of homepageLogoBannerPages) {
@@ -780,7 +826,7 @@ for (const slug of homepageLogoBannerPages) {
   if (!bannerHtml) failures.push(`/${slug} is missing the homepage logo banner`);
   if ((mainHtml.match(/\bsection_logo3\b/g) ?? []).length) failures.push(`/${slug} still contains the retired scrolling logo banner`);
   if (!bannerHtml.includes(">Trusted by 50+ top merchants worldwide</h2>")) failures.push(`/${slug} does not use the homepage logo-banner heading`);
-  if ((bannerHtml.match(/\blogo2_wrapper\b/g) ?? []).length !== 5) failures.push(`/${slug} does not use the homepage five-logo set`);
+  if ((bannerHtml.match(/\blogo2_wrapper\b/g) ?? []).length !== 10) failures.push(`/${slug} does not use the homepage ten-logo set`);
   for (const logoFile of homepageLogoFiles) {
     if (!bannerHtml.includes(logoFile)) failures.push(`/${slug} is missing homepage customer logo: ${logoFile}`);
   }

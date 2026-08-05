@@ -67,6 +67,7 @@ Pricing last reviewed on 2026-07-24. The pricing page is the source of truth.
 ## Customer Stories
 
 - [How Maéli Paris saves hours every week with Peak PIM](https://peak-pim.com/customers/maeli-paris/)
+- [How Carré Coco manages B2B and B2C catalogs with Peak PIM](https://peak-pim.com/customers/carre-coco/)
 
 ## Comparisons
 

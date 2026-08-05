@@ -1,0 +1,189 @@
+---
+import ProductVisualFrame from "../ui/ProductVisualFrame.astro";
+
+type Props = {
+  view?: "overview" | "pricing" | "content";
+};
+
+const { view = "overview" } = Astro.props;
+const viewCopy = {
+  overview: {
+    status: "2 stores linked",
+    action: "Review stores",
+    eyebrow: "Multi-store product",
+    heading: "One record, two storefronts",
+  },
+  pricing: {
+    status: "Prices reviewed",
+    action: "Publish prices",
+    eyebrow: "Store pricing",
+    heading: "Different prices, deliberately",
+  },
+  content: {
+    status: "Content ready",
+    action: "Publish content",
+    eyebrow: "Store content",
+    heading: "The right description for each buyer",
+  },
+}[view];
+---
+
+<ProductVisualFrame
+  ariaLabel={`Peak PIM workspace for Carré Coco showing separate B2C and B2B ${view} values on one shared product record`}
+  section="Multi-store"
+  status={viewCopy.status}
+  actionLabel={viewCopy.action}
+>
+  <div class={`peak-carre-stores is-${view}`}>
+    <aside class="peak-carre-stores__sidebar">
+      <div class="peak-carre-stores__brand"><span>C</span><div><strong>Carré Coco</strong><small>Connected catalog</small></div></div>
+      <small>Store views</small>
+      <button class="is-active"><i></i><span><b>All stores</b><em>Shared product record</em></span></button>
+      <button><i>B2C</i><span><b>Online store</b><em>Retail catalog</em></span></button>
+      <button><i>B2B</i><span><b>Trade store</b><em>Wholesale catalog</em></span></button>
+      <small>Product</small>
+      <button><span><b>Selected product</b><em>2 store versions</em></span></button>
+    </aside>
+
+    <section class="peak-carre-stores__main">
+      <header>
+        <div><small>{viewCopy.eyebrow}</small><strong>{viewCopy.heading}</strong></div>
+        <span><i></i>Both stores connected</span>
+      </header>
+
+      <nav aria-label="Carré Coco product views"><button>Master</button><button class="is-active">Multi-store</button><button>History</button></nav>
+
+      <div class="peak-carre-stores__grid" aria-label="B2C and B2B product data comparison">
+        <div class="peak-carre-stores__grid-head"><span>Field</span><b><i>B2C</i>Online store</b><b><i>B2B</i>Trade store</b></div>
+        <div class={view === "overview" ? "is-focus" : ""}><span>Product record</span><b>Shared master data<small>SKU · media · structure</small></b><b>Shared master data<small>SKU · media · structure</small></b></div>
+        <div class={view === "pricing" ? "is-focus" : ""}><span>Price</span><b>Retail price<small>Customer-facing value</small></b><b>Wholesale price<small>Trade-specific value</small></b></div>
+        <div class={view === "content" ? "is-focus" : ""}><span>Description</span><b>Brand story<small>Written for customers</small></b><b>Buyer specifications<small>Written for stockists</small></b></div>
+        <div><span>Publishing</span><b><mark>Ready</mark><small>Online store</small></b><b><mark>Ready</mark><small>Trade store</small></b></div>
+      </div>
+
+      <footer><span><i></i>Store differences are preserved</span><button>{viewCopy.action}</button></footer>
+    </section>
+  </div>
+</ProductVisualFrame>
+
+<style>
+  .peak-carre-stores {
+    display: grid;
+    min-height: 430px;
+    color: #191919;
+    background: #f6f3ec;
+    font-family: Inter, Arial, sans-serif;
+    grid-template-columns: 170px minmax(0, 1fr);
+  }
+
+  .peak-carre-stores__sidebar {
+    display: flex;
+    padding: 18px 13px;
+    border-right: 1px solid #dedbd3;
+    background: #fbfaf7;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .peak-carre-stores__brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 5px 10px;
+  }
+
+  .peak-carre-stores__brand > span {
+    display: grid;
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    background: #191919;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    place-items: center;
+  }
+
+  .peak-carre-stores__brand > div,
+  .peak-carre-stores__sidebar button > span {
+    display: grid;
+    min-width: 0;
+    gap: 2px;
+  }
+
+  .peak-carre-stores__brand strong { font-size: 9px; }
+  .peak-carre-stores__brand small,
+  .peak-carre-stores__sidebar button em { color: #999; font-size: 6px; font-style: normal; }
+  .peak-carre-stores__sidebar > small { margin: 8px 6px 0; color: #999; font-size: 6px; text-transform: uppercase; }
+
+  .peak-carre-stores__sidebar button {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px;
+    border: 0;
+    border-radius: 5px;
+    background: transparent;
+    color: #555;
+    text-align: left;
+  }
+
+  .peak-carre-stores__sidebar button.is-active { background: #e9edff; color: #2845d6; }
+  .peak-carre-stores__sidebar button > i { display: grid; width: 23px; height: 23px; flex: none; border-radius: 5px; background: #191919; color: white; font: normal 6px Inter, Arial, sans-serif; place-items: center; }
+  .peak-carre-stores__sidebar button.is-active > i { width: 7px; height: 7px; border-radius: 50%; background: #2845d6; }
+  .peak-carre-stores__sidebar button b { font: 600 8px Inter, Arial, sans-serif; }
+
+  .peak-carre-stores__main { min-width: 0; padding: 20px 21px 16px; }
+  .peak-carre-stores__main > header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .peak-carre-stores__main > header > div { display: grid; gap: 2px; }
+  .peak-carre-stores__main > header small { color: #777; font-size: 7px; }
+  .peak-carre-stores__main > header strong { font-size: 14px; }
+  .peak-carre-stores__main > header > span { display: flex; align-items: center; gap: 5px; padding: 5px 7px; border-radius: 999px; background: #edf6ef; color: #438258; font-size: 6px; font-weight: 700; }
+  .peak-carre-stores__main > header > span i { width: 5px; height: 5px; border-radius: 50%; background: #53a86d; }
+
+  .peak-carre-stores__main > nav { display: flex; margin-top: 16px; gap: 2px; border-bottom: 1px solid #dcd8d0; }
+  .peak-carre-stores__main > nav button { padding: 8px 9px; border: 0; border-bottom: 2px solid transparent; background: transparent; color: #777; font: 500 7px Inter, Arial, sans-serif; }
+  .peak-carre-stores__main > nav button.is-active { border-bottom-color: #2845d6; color: #2845d6; }
+
+  .peak-carre-stores__grid { margin-top: 13px; overflow: hidden; border: 1px solid #dedad2; border-radius: 7px; background: white; }
+  .peak-carre-stores__grid > div { display: grid; min-height: 58px; align-items: stretch; border-top: 1px solid #ebe8e1; grid-template-columns: 88px repeat(2, minmax(0, 1fr)); }
+  .peak-carre-stores__grid > div:first-child { min-height: 42px; border-top: 0; background: #f2efe8; }
+  .peak-carre-stores__grid span,
+  .peak-carre-stores__grid b { display: flex; min-width: 0; justify-content: center; padding: 8px 9px; flex-direction: column; font-size: 7px; }
+  .peak-carre-stores__grid > div > span { color: #777; }
+  .peak-carre-stores__grid > div > b { border-left: 1px solid #ebe8e1; font-weight: 600; }
+  .peak-carre-stores__grid b small { margin-top: 3px; overflow: hidden; color: #999; font-size: 6px; font-weight: 400; text-overflow: ellipsis; white-space: nowrap; }
+  .peak-carre-stores__grid-head b { display: flex; align-items: center; gap: 5px; flex-direction: row; }
+  .peak-carre-stores__grid-head b i { display: grid; width: 22px; height: 22px; flex: none; border-radius: 5px; background: #191919; color: white; font: normal 6px Inter, Arial, sans-serif; place-items: center; }
+  .peak-carre-stores__grid .is-focus b { background: #f2f4ff; color: #2845d6; box-shadow: inset 3px 0 #2845d6; }
+  .peak-carre-stores__grid mark { width: fit-content; padding: 3px 5px; border-radius: 999px; background: #edf6ef; color: #438258; }
+
+  .peak-carre-stores__main > footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 12px; }
+  .peak-carre-stores__main > footer > span { display: flex; align-items: center; gap: 5px; color: #666; font-size: 7px; }
+  .peak-carre-stores__main > footer > span i { width: 6px; height: 6px; border-radius: 50%; background: #53a86d; }
+  .peak-carre-stores__main > footer button { padding: 8px 10px; border: 1px solid #d5d1c9; border-radius: 5px; background: white; color: #333; font: 600 7px Inter, Arial, sans-serif; }
+
+  @media (max-width: 767px) {
+    .peak-carre-stores { min-height: 400px; grid-template-columns: 1fr; }
+    .peak-carre-stores__sidebar { display: none; }
+    .peak-carre-stores__main { padding: 17px; }
+  }
+
+  @media (max-width: 479px) {
+    .peak-carre-stores__main { padding: 14px; }
+    .peak-carre-stores__main > header > span { display: none; }
+    .peak-carre-stores__grid > div { grid-template-columns: 70px repeat(2, minmax(0, 1fr)); }
+    .peak-carre-stores__grid span,
+    .peak-carre-stores__grid b { padding-inline: 6px; }
+    .peak-carre-stores__grid b small { white-space: normal; }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .peak-carre-stores__grid .is-focus b { animation: peak-carre-focus 3s ease-in-out infinite; }
+    @keyframes peak-carre-focus { 50% { background: #e8ecff; box-shadow: inset 3px 0 #2845d6, 0 0 0 2px rgba(40, 69, 214, 0.08); } }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .peak-carre-stores__grid .is-focus b { animation: none; }
+  }
+</style>

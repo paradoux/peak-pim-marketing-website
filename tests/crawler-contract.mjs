@@ -76,6 +76,7 @@ if (!sitemap.includes("<loc>https://peak-pim.com/history/</loc>")) failures.push
 if (!sitemap.includes("<loc>https://peak-pim.com/search/</loc>")) failures.push("Sitemap is missing the Global Search URL");
 if (!sitemap.includes("<loc>https://peak-pim.com/ai-assistant/</loc>")) failures.push("Sitemap is missing the AI Assistant URL");
 if (!sitemap.includes("<loc>https://peak-pim.com/customers/maeli-paris/</loc>")) failures.push("Sitemap is missing the Maéli Paris customer story URL");
+if (!sitemap.includes("<loc>https://peak-pim.com/customers/carre-coco/</loc>")) failures.push("Sitemap is missing the Carré Coco customer story URL");
 if (sitemap.includes("https://peak-pim.com/partners/")) failures.push("Sitemap exposes the unfinished partners page");
 if (sitemapUrls.some((url) => url !== "https://peak-pim.com/" && !url.endsWith("/"))) failures.push("Sitemap contains a redirecting URL");
 if ((sitemap.match(/<lastmod>/g) ?? []).length !== sitemapUrls.length) failures.push("Sitemap last-modified dates are incomplete");
@@ -88,6 +89,7 @@ if (!llms.includes("[Shopify catalog change history](https://peak-pim.com/histor
 if (!llms.includes("[Global Search for Shopify catalogs](https://peak-pim.com/search/)")) failures.push("llms.txt is missing the Global Search page");
 if (!llms.includes("[AI Assistant for Shopify catalog management](https://peak-pim.com/ai-assistant/)")) failures.push("llms.txt is missing the AI Assistant page");
 if (!llms.includes("[How Maéli Paris saves hours every week with Peak PIM](https://peak-pim.com/customers/maeli-paris/)")) failures.push("llms.txt is missing the Maéli Paris customer story");
+if (!llms.includes("[How Carré Coco manages B2B and B2C catalogs with Peak PIM](https://peak-pim.com/customers/carre-coco/)")) failures.push("llms.txt is missing the Carré Coco customer story");
 if (!llms.includes("[Built to last: Peak PIM's mission](https://peak-pim.com/mission/)")) failures.push("llms.txt is missing Peak PIM's long-term company story");
 
 const missionFile = resolve(projectRoot, "dist/mission/index.html");

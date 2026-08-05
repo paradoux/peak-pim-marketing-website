@@ -9,6 +9,7 @@ type Props = {
   description: string;
   image: string;
   imageAlt: string;
+  imageCaption: string;
   companyLogo?: string;
   companyName?: string;
   primaryCta: Cta;
@@ -22,6 +23,7 @@ const {
   description,
   image,
   imageAlt,
+  imageCaption,
   companyLogo,
   companyName,
   primaryCta,
@@ -55,7 +57,7 @@ const Heading = headingLevel;
             </div>
             <div class="header84_image-wrapper peak-customer-story-hero__image-wrapper">
               <img src={image} alt={imageAlt} loading="eager" fetchpriority="high" class="header84_image peak-customer-story-hero__image" />
-              <span class="peak-customer-story-hero__caption">Amélie Samson, founder of Maéli Paris</span>
+              <span class="peak-customer-story-hero__caption">{imageCaption}</span>
             </div>
           </div>
         </div>

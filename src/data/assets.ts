@@ -16,6 +16,7 @@ export const assets = {
     buildVsBuyMaintenanceExample: "/assets/marketing/build-vs-buy-maintenance-example.webp",
     customerStories: {
       maeliParisOg: "/assets/og/maeli-paris-customer-story.png",
+      carreCocoOg: "/assets/og/carre-coco-customer-story.png",
     },
     featureOg: {
       "/ai-assistant": "/assets/og/ai-assistant.png",
@@ -39,6 +40,7 @@ export const assets = {
   testimonials: {
     amelieSamson: "/assets/testimonials/amelie-samson.jpg",
     amelieSamsonMaeliParis: "/assets/testimonials/amelie-samson-maeli-paris.webp",
+    colineLeleuCarreCoco: "/assets/testimonials/coline-leleu-carre-coco.webp",
     simonTordjman: "/assets/testimonials/simon-tordjman-du-bruit-dans-la-cuisine.webp",
   },
   team: {
@@ -54,6 +56,7 @@ export const assets = {
       lafaurie: "/mirror/6a20220ad570bdf260d98313_LAFAURIE-Black-logo-03fead8afe.png",
       aurevia: "/mirror/6a2022daba6e562742a8d98d_Aurevia-Manufaktur-Black-logo-a712cea0b4.png",
       carreCoco: "/mirror/6a2023489b09ba0b5a155587_CARRE-COCO-Black-logo-a5636dbec3.png",
+      carreCocoStory: "/assets/customer-logos/carre-coco.webp",
     },
     dark: {
       tupperware: "/mirror/6a02f7784cad7c89d80b12ca_Tupperware-White-logo-39553531c5.png",
@@ -62,8 +65,14 @@ export const assets = {
       duBruit: "/mirror/6a02f77887a6ec06faa0ca17_Du-Bruit-Dans-La-Cuisine-White-logo-0722388699.png",
       gullyLabs: "/mirror/6a202173366c20419a570c38_Gully-Labs-White-logo-6474f28faa.png",
       lafaurie: "/mirror/6a2020f720923338455d7fb6_LAFAURIE-White-logo-56221a8ad1.png",
+      jatniLabs: "/assets/customer-logos/jatni-labs.webp",
+      waterdrop: "/assets/customer-logos/waterdrop.webp",
+      nakedWolfe: "/assets/customer-logos/naked-wolfe.png",
+      lillicoco: "/assets/customer-logos/lillicoco.png",
+      whatMatters: "/assets/customer-logos/what-matters.png",
       aurevia: "/mirror/6a2022daba6e562742a8d98d_Aurevia-Manufaktur-Black-logo-a712cea0b4.png",
       carreCoco: "/mirror/6a2023489b09ba0b5a155587_CARRE-COCO-Black-logo-a5636dbec3.png",
+      carreCocoStory: "/assets/customer-logos/carre-coco.webp",
     },
   },
 } as const;

@@ -70,6 +70,7 @@
 - `HistoryCardVisual.astro`: saved changes, published changes, and grouped account activity states for complete workflow cards.
 - `GlobalSearchHeroVisual.astro`: account-wide command palette with grouped catalog, schema, store, and navigation results inside the canonical Peak product window.
 - `GlobalSearchCardVisual.astro`: keyboard shortcut, ranked results, and exact record destination states for complete workflow cards.
+- `CarreCocoMultiStoreVisual.astro`: customer-story workspace showing shared product data beside deliberate B2C and B2B prices, descriptions, and publishing destinations.
 
 ## Selection rules
 

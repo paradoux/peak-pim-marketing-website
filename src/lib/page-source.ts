@@ -23,19 +23,57 @@ function innerMatch(html: string, pattern: RegExp) {
 }
 
 const sharedLogoBannerTitle = "Trusted by 50+ top merchants worldwide";
-const lafaurieLogoBannerHtml = '<div class="logo2_wrapper"><img width="145" alt="Lafaurie" src="/mirror/6a2020f720923338455d7fb6_LAFAURIE-White-logo-56221a8ad1.png" loading="lazy" class="logo2_logo"></div>';
+const sharedLogoModifiers = [
+  ["Tupperware-White-logo", "tupperware"],
+  ["Mae-li-White-logo", "maeli"],
+  ["Artefact-White-logo", "artefact"],
+  ["Du-Bruit-Dans-La-Cuisine", "du-bruit"],
+] as const;
+const supplementalLogoBannerHtml = [
+  '<div class="logo2_wrapper"><img width="145" alt="Lafaurie" src="/mirror/6a2020f720923338455d7fb6_LAFAURIE-White-logo-56221a8ad1.png" loading="lazy" class="logo2_logo logo2_logo--lafaurie"></div>',
+  '<div class="logo2_wrapper"><img width="145" alt="Jatni Labs" src="/assets/customer-logos/jatni-labs.webp" loading="lazy" class="logo2_logo logo2_logo--jatni-labs"></div>',
+  '<div class="logo2_wrapper"><img width="145" alt="Waterdrop" src="/assets/customer-logos/waterdrop.webp" loading="lazy" class="logo2_logo logo2_logo--waterdrop"></div>',
+  '<div class="logo2_wrapper"><img width="145" alt="Naked Wolfe" src="/assets/customer-logos/naked-wolfe.png" loading="lazy" class="logo2_logo logo2_logo--transparent-source logo2_logo--naked-wolfe"></div>',
+  '<div class="logo2_wrapper"><img width="145" alt="Lillicoco" src="/assets/customer-logos/lillicoco.png" loading="lazy" class="logo2_logo logo2_logo--transparent-source logo2_logo--lillicoco"></div>',
+  '<div class="logo2_wrapper"><img width="145" alt="What Matters" src="/assets/customer-logos/what-matters.png" loading="lazy" class="logo2_logo logo2_logo--transparent-source logo2_logo--what-matters"></div>',
+].join("");
+
+function addSharedLogoModifiers(html: string) {
+  return html.replace(/<img\b[^>]*>/g, (tag) => {
+    const logo = sharedLogoModifiers.find(([source]) => tag.includes(source));
+
+    if (!logo) return tag;
+
+    const modifierClass = `logo2_logo--${logo[1]}`;
+    const classMatch = tag.match(/class="([^"]*)"/);
+
+    if (classMatch) {
+      const classes = new Set(classMatch[1].split(/\s+/).filter(Boolean));
+      classes.add("logo2_logo");
+      classes.add(modifierClass);
+      return tag.replace(classMatch[0], `class="${Array.from(classes).join(" ")}"`);
+    }
+
+    return tag.replace(/>$/, ` class="logo2_logo ${modifierClass}">`);
+  });
+}
 
 function updateSharedLogoBanner(html: string) {
-  const withTitle = html.replace(
-    '<h2 class="heading-style-h6">Already trusted by top merchants</h2>',
-    `<h2 class="heading-style-h6">${sharedLogoBannerTitle}</h2>`,
+  const withTitle = addSharedLogoModifiers(
+    html.replace(
+      '<h2 class="heading-style-h6">Already trusted by top merchants</h2>',
+      `<h2 class="heading-style-h6">${sharedLogoBannerTitle}</h2>`,
+    ),
   );
 
-  if (withTitle.includes('alt="Lafaurie"')) return withTitle;
+  if (
+    ['alt="Lafaurie"', 'alt="Jatni Labs"', 'alt="Waterdrop"', 'alt="Naked Wolfe"', 'alt="Lillicoco"', 'alt="What Matters"']
+      .every((logo) => withTitle.includes(logo))
+  ) return withTitle;
 
   return withTitle.replace(
     /(<div[^>]*class="logo2_wrapper"[^>]*><img[^>]*Du-Bruit-Dans-La-Cuisine[^>]*><\/div>)/,
-    `$1${lafaurieLogoBannerHtml}`,
+    `$1${supplementalLogoBannerHtml}`,
   );
 }
 
@@ -80,7 +118,7 @@ export function getPageDocument(page: PageDefinition) {
 
 function applyContentCorrections(html: string, page: PageDefinition) {
   if (page.slug === "") {
-    return correctHomepagePricingCta(updateSharedLogoBanner(html));
+    return improveHomepagePricingPreview(updateSharedLogoBanner(html));
   }
 
   if (page.slug === "mission") {
@@ -181,15 +219,116 @@ function improveMissionPage(html: string) {
     .replace(missionSectionPattern, missionSection);
 }
 
-function correctHomepagePricingCta(html: string) {
-  const incorrectCta = '<a data-open-crisp="" href="/pricing" class="button is-secondary is-alternate w-button">See pricing</a>';
-  const correctedCta = '<a href="/pricing/" class="button is-secondary is-alternate w-button">See pricing</a>';
+function corePlanValue(label: string) {
+  const feature = pricingFeatureGroups.flatMap((group) => group.features).find((candidate) => candidate.label === label);
 
-  if (!html.includes(incorrectCta)) {
-    throw new Error("The homepage pricing preview CTA could not be corrected.");
+  if (!feature) {
+    throw new Error(`The Core plan is missing its ${label} pricing value.`);
   }
 
-  return html.replace(incorrectCta, correctedCta);
+  return pricingSchemaValue(feature.values[0]);
+}
+
+function improveHomepagePricingPreview(html: string) {
+  const incorrectCta = '<a data-open-crisp="" href="/pricing" class="button is-secondary is-alternate w-button">See pricing</a>';
+  const correctedCta = '<a href="/pricing/" class="button is-secondary is-alternate w-button">See pricing</a>';
+  const pricingSectionPattern = /<section class="section_pricing2 color-scheme-1">[\s\S]*?<\/section>/;
+  const pricingSection = html.match(pricingSectionPattern)?.[0];
+  const currentFeatureLabels = [
+    "1-click onboarding",
+    "Up to 1,500 SKUs",
+    "Collections",
+    "Metafields",
+    "Files (20GB)",
+    "Bulk edit",
+    "Shopify Sync",
+    "Priority support",
+  ];
+  const currentPlanLabels = ["Start from", "Included in the $99&nbsp;plan"];
+  const coreFeatureLabels = [
+    "1-click setup",
+    `${corePlanValue("Connected Shopify stores")} connected Shopify stores`,
+    `${corePlanValue("Seats")} team seats`,
+    `Up to ${corePlanValue("SKUs")} SKUs`,
+    `${corePlanValue("File storage")} file storage`,
+    "Bulk edit",
+    "Import &amp; export",
+    "Shopify sync",
+  ];
+
+  if (
+    !pricingSection
+    || !pricingSection.includes(incorrectCta)
+    || !currentFeatureLabels.every((label) => pricingSection.includes(`>${label}</div>`))
+    || !currentPlanLabels.every((label) => pricingSection.includes(`>${label}</div>`))
+  ) {
+    throw new Error("The homepage pricing preview could not be aligned with the Core plan.");
+  }
+
+  let updatedPricingSection = pricingSection
+    .replace(">Start from</div>", ">Core plan</div>")
+    .replace(">Included in the $99&nbsp;plan</div>", ">Included in Core</div>")
+    .replace(incorrectCta, correctedCta);
+
+  currentFeatureLabels.forEach((label, index) => {
+    updatedPricingSection = updatedPricingSection.replace(`>${label}</div>`, `>${coreFeatureLabels[index]}</div>`);
+  });
+
+  const withVisiblePricing = html
+    .replace(pricingSectionPattern, updatedPricingSection)
+    .replaceAll(
+      "Your plan determines store limits. The Starter plan supports up to 5 stores. Higher tiers unlock more stores and advanced features. You can upgrade anytime as your business grows.",
+      "Core includes 2 connected Shopify stores and Elite includes 3. Enterprise store limits are custom.",
+    )
+    .replaceAll(
+      "We're currently in beta, and beta testers get special pricing. Join the beta to access Peak PIM at a reduced rate while we refine the product.",
+      "Yes. Every plan comes with a 10-day free trial. No credit card is required to get started.",
+    );
+
+  return improveHomepagePricingStructuredData(withVisiblePricing, coreFeatureLabels.map((label) => label.replace("&amp;", "&")));
+}
+
+function improveHomepagePricingStructuredData(html: string, coreFeatureLabels: string[]) {
+  const schemaPattern = /(<script\b[^>]*type=["']application\/ld\+json["'][^>]*>)([\s\S]*?)(<\/script>)/i;
+  const match = html.match(schemaPattern);
+
+  if (!match) {
+    throw new Error("The homepage pricing structured data could not be found.");
+  }
+
+  const schema = JSON.parse(match[2]) as {
+    "@type"?: string;
+    url?: string;
+    offers?: { availability?: string };
+    featureList?: string[];
+    mainEntity?: {
+      "@type"?: string;
+      mainEntity?: Array<{
+        name?: string;
+        acceptedAnswer?: { text?: string };
+      }>;
+    };
+  };
+
+  if (schema["@type"] !== "SoftwareApplication" || !schema.offers || !schema.mainEntity?.mainEntity) {
+    throw new Error("The homepage SoftwareApplication pricing schema is incomplete.");
+  }
+
+  schema.url = "https://peak-pim.com/";
+  schema.offers.availability = "https://schema.org/InStock";
+  schema.featureList = coreFeatureLabels;
+
+  const storeQuestion = schema.mainEntity.mainEntity.find((question) => question.name === "How many stores can I manage?");
+  const trialQuestion = schema.mainEntity.mainEntity.find((question) => question.name === "Is there a free trial?");
+
+  if (!storeQuestion?.acceptedAnswer || !trialQuestion?.acceptedAnswer) {
+    throw new Error("The homepage pricing FAQ schema could not be aligned with the current plans.");
+  }
+
+  storeQuestion.acceptedAnswer.text = "Core includes 2 connected Shopify stores and Elite includes 3. Enterprise store limits are custom.";
+  trialQuestion.acceptedAnswer.text = "Yes. Every plan comes with a 10-day free trial. No credit card is required to get started.";
+
+  return html.replace(schemaPattern, `${match[1]}\n${JSON.stringify(schema, null, 2)}\n${match[3]}`);
 }
 
 function replaceLogoBannerWithHomepageVersion(html: string) {
