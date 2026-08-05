@@ -136,10 +136,10 @@ test("homepage · Maéli Paris customer story sits between pricing and the final
 
 test("account proof · approved product, scale, comparison, and fashion pages reuse the shared section", async ({ page }) => {
   for (const placement of [
-    { path: "/shopify-product-management/", before: ".peak-feature-grid", after: "#start" },
+    { path: "/shopify-product-management/", before: ".peak-feature-grid", after: "#faq" },
     { path: "/shopify-multi-store-pim/", before: ".section_comparison14", after: ".section_pricing29" },
     { path: "/build-vs-buy-pim/", before: "#comparison", after: "#pricing-comparison" },
-    { path: "/industry/fashion/", before: ".section_faq1", after: ".section_cta51" },
+    { path: "/industry/fashion/", before: ".section_layout399", after: ".section_layout121.section_layout121-2" },
   ]) {
     await prepare(page, placement.path, 1440, 1000);
     const proof = page.locator(".peak-social-proof-stats");
@@ -164,6 +164,31 @@ test("account proof · approved product, scale, comparison, and fashion pages re
     }, placement);
 
     expect(orderIsCorrect).toBe(true);
+    if (placement.path === "/shopify-product-management/") {
+      expect(await page.evaluate(() => {
+        const faq = document.querySelector("#faq");
+        const cta = document.querySelector("#start");
+        return Boolean(faq && cta && (faq.compareDocumentPosition(cta) & Node.DOCUMENT_POSITION_FOLLOWING));
+      })).toBe(true);
+    }
+    if (placement.path === "/shopify-multi-store-pim/") {
+      const pricingAlignment = await page.locator(".pricing29_grid-list").evaluate((grid) => {
+        const gridRect = grid.getBoundingClientRect();
+        const containerRect = grid.parentElement?.getBoundingClientRect();
+        return containerRect ? {
+          centerDelta: Math.abs((gridRect.left + gridRect.width / 2) - (containerRect.left + containerRect.width / 2)),
+          gridWidth: gridRect.width,
+        } : null;
+      });
+      expect(pricingAlignment).not.toBeNull();
+      expect(pricingAlignment!.centerDelta).toBeLessThanOrEqual(1);
+      expect(pricingAlignment!.gridWidth).toBeLessThanOrEqual(1152);
+    }
+    if (placement.path === "/industry/fashion/") {
+      expect(await page.locator(".page-wrapper").evaluate((wrapper) =>
+        Math.abs(wrapper.getBoundingClientRect().width - document.documentElement.clientWidth),
+      )).toBeLessThanOrEqual(1);
+    }
     expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
   }
 });
@@ -764,6 +789,20 @@ test("multi-store · retired Scale plan is absent at every breakpoint", async ({
     expect(await page.locator('script[type="application/ld+json"]').evaluateAll((scripts) =>
       scripts.some((script) => /"name"\s*:\s*"Scale"|Scale supports 8/.test(script.textContent ?? "")),
     )).toBe(false);
+    const pricingGridLayout = await pricing.locator(".pricing29_grid-list").evaluate((grid) => {
+      const gridRect = grid.getBoundingClientRect();
+      const containerRect = grid.parentElement?.getBoundingClientRect();
+      return {
+        centerDelta: containerRect
+          ? Math.abs((gridRect.left + gridRect.width / 2) - (containerRect.left + containerRect.width / 2))
+          : Number.POSITIVE_INFINITY,
+        columnCount: getComputedStyle(grid).gridTemplateColumns.split(" ").length,
+        gridWidth: gridRect.width,
+      };
+    });
+    expect(pricingGridLayout.centerDelta).toBeLessThanOrEqual(1);
+    expect(pricingGridLayout.columnCount).toBe(width === 1440 ? 3 : 1);
+    if (width === 1440) expect(pricingGridLayout.gridWidth).toBeLessThanOrEqual(1152);
     expect(await plans.evaluateAll((items) => Math.max(...items.map((item) => {
       const rect = item.getBoundingClientRect();
       return Math.max(0, -rect.left, rect.right - window.innerWidth);

@@ -26,6 +26,20 @@ html {
   scroll-padding-top: calc(var(--site-header-height) + 1rem);
 }
 
+.site-main .section_pricing29 .pricing29_grid-list {
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media screen and (max-width: 991px) {
+  .site-main .section_pricing29 .pricing29_grid-list {
+    max-width: none;
+    grid-template-columns: 1fr;
+  }
+}
+
 .site-main [id],
 .site-page > main [id] {
   scroll-margin-top: calc(var(--site-header-height) + 1rem);

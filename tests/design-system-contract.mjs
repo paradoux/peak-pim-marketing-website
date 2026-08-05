@@ -920,10 +920,10 @@ if (existsSync(multiStoreFile)) {
 }
 
 for (const placement of [
-  { path: "shopify-product-management", before: 'class="section_layout353 peak-feature-grid', after: 'id="start"' },
+  { path: "shopify-product-management", before: 'class="section_layout353 peak-feature-grid', after: 'id="faq"' },
   { path: "shopify-multi-store-pim", before: 'class="section_comparison14"', after: 'class="section_pricing29 color-scheme-1"' },
   { path: "build-vs-buy-pim", before: 'id="comparison"', after: 'id="pricing-comparison"' },
-  { path: "industry/fashion", before: 'class="section_faq1"', after: 'class="section_cta51 color-scheme-1"' },
+  { path: "industry/fashion", before: 'class="section_layout399 color-scheme-1"', after: 'class="section_layout121 section_layout121-2 color-scheme-1"' },
 ]) {
   const pageFile = resolve(projectRoot, "dist", placement.path, "index.html");
   if (!existsSync(pageFile)) {
@@ -932,6 +932,7 @@ for (const placement of [
   }
 
   const html = readFileSync(pageFile, "utf8");
+  if (placement.path === "industry/fashion" && /(?:^|[}>])\s*body\s*\{[^}]*display\s*:\s*flex/.test(html)) failures.push("Fashion illustrations must not apply layout rules to the global body element");
   const proofMatches = html.match(/<section class="section_stats26 peak-social-proof-stats[\s\S]*?<\/section>/g) ?? [];
   const proofHtml = proofMatches[0] ?? "";
   if (proofMatches.length !== 1) failures.push(`${placement.path} must contain exactly one account social-proof section`);
@@ -944,6 +945,11 @@ for (const placement of [
   const proofIndex = html.indexOf('<section class="section_stats26 peak-social-proof-stats');
   const afterIndex = html.indexOf(placement.after);
   if (!(beforeIndex >= 0 && proofIndex >= 0 && afterIndex >= 0 && beforeIndex < proofIndex && proofIndex < afterIndex)) failures.push(`${placement.path} social proof is not in its approved conversion placement`);
+  if (placement.path === "shopify-product-management") {
+    const faqIndex = html.indexOf('id="faq"');
+    const ctaIndex = html.indexOf('id="start"');
+    if (!(faqIndex >= 0 && ctaIndex >= 0 && faqIndex < ctaIndex)) failures.push("Products and Variants CTA must follow the FAQ section");
+  }
 }
 
 if (failures.length) {
