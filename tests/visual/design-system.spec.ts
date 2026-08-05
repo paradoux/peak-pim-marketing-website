@@ -102,6 +102,72 @@ test("homepage · pricing preview matches the current Core plan", async ({ page 
   }
 });
 
+test("homepage · Maéli Paris customer story sits between pricing and the final CTA", async ({ page }) => {
+  for (const viewport of [
+    { name: "desktop", width: 1440, height: 1000 },
+    { name: "tablet", width: 768, height: 1024 },
+    { name: "mobile", width: 375, height: 812 },
+  ]) {
+    await prepare(page, "/", viewport.width, viewport.height);
+    const story = page.locator(".peak-customer-story-hero");
+    const socialProof = page.locator(".peak-social-proof-stats");
+
+    await expect(story.locator("h2")).toHaveText("How Maéli Paris gets hours back every week");
+    await expect(story.locator("img").first()).toHaveAttribute("alt", "Maéli Paris");
+    await expect(story.locator(".peak-customer-story-hero__image")).toHaveAttribute("src", "/assets/testimonials/amelie-samson-maeli-paris.webp");
+    await expect(story.getByRole("link", { name: "See use case" })).toHaveAttribute("href", "/customers/maeli-paris/");
+    await expect(socialProof).toContainText("50+");
+    await expect(socialProof).toContainText("210+");
+    await expect(socialProof).toContainText("455,000");
+    await expect(socialProof).not.toContainText("Proven in real catalog workflows");
+    await expect(socialProof).not.toContainText("Already operating their catalogs with Peak PIM.");
+    await expect(socialProof.locator(".peak-social-proof-stats__logo-link")).toHaveCount(6);
+    expect(await socialProof.locator(".peak-social-proof-stats__logo-link").evaluateAll((links) => links.every((link) => (
+      link.getAttribute("target") === "_blank" && link.getAttribute("rel") === "nofollow noopener"
+    )))).toBe(true);
+
+    const sectionOrder = await page.locator(".section_layout121, .peak-social-proof-stats, .section_pricing2, .peak-customer-story-hero, .section_cta51").evaluateAll((sections) =>
+      sections.map((section) => Array.from(section.classList).find((className) => ["section_layout121", "peak-social-proof-stats", "section_pricing2", "peak-customer-story-hero", "section_cta51"].includes(className))),
+    );
+    expect(sectionOrder).toEqual(["section_layout121", "peak-social-proof-stats", "section_pricing2", "peak-customer-story-hero", "section_cta51"]);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+  }
+});
+
+test("account proof · approved product, scale, comparison, and fashion pages reuse the shared section", async ({ page }) => {
+  for (const placement of [
+    { path: "/shopify-product-management/", before: ".peak-feature-grid", after: "#start" },
+    { path: "/shopify-multi-store-pim/", before: ".section_comparison14", after: ".section_pricing29" },
+    { path: "/build-vs-buy-pim/", before: "#comparison", after: "#pricing-comparison" },
+    { path: "/industry/fashion/", before: ".section_faq1", after: ".section_cta51" },
+  ]) {
+    await prepare(page, placement.path, 1440, 1000);
+    const proof = page.locator(".peak-social-proof-stats");
+
+    await expect(proof).toHaveCount(1);
+    await expect(proof).toContainText("50+");
+    await expect(proof).toContainText("210+");
+    await expect(proof).toContainText("455,000");
+    await expect(proof.locator(".peak-social-proof-stats__logo-link")).toHaveCount(6);
+
+    const orderIsCorrect = await page.evaluate(({ before, after }) => {
+      const beforeElement = document.querySelector(before);
+      const proofElement = document.querySelector(".peak-social-proof-stats");
+      const afterElement = document.querySelector(after);
+      return Boolean(
+        beforeElement
+        && proofElement
+        && afterElement
+        && (beforeElement.compareDocumentPosition(proofElement) & Node.DOCUMENT_POSITION_FOLLOWING)
+        && (proofElement.compareDocumentPosition(afterElement) & Node.DOCUMENT_POSITION_FOLLOWING)
+      );
+    }, placement);
+
+    expect(orderIsCorrect).toBe(true);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+  }
+});
+
 test("lead modal · customer proof and trial form share one responsive layout", async ({ page }) => {
   for (const viewport of [
     { name: "desktop", width: 1440, height: 900 },
@@ -210,6 +276,23 @@ test("pricing · categorized feature matrix and accessible information controls"
     ]);
     await expect(matrix.locator(".pricing-feature-name .feature-status-badge")).toHaveText(["New", "New", "New", "New", "New", "New", "New"]);
     await expect(matrix.locator(".pricing54_top-row-content .heading-style-h6")).toHaveText(["Core", "Elite", "Enterprise"]);
+    const socialProof = page.locator(".peak-social-proof-stats");
+    await expect(socialProof).toContainText("50+");
+    await expect(socialProof).toContainText("210+");
+    await expect(socialProof).toContainText("455,000");
+    await expect(socialProof.locator(".peak-social-proof-stats__logo-link")).toHaveCount(6);
+    expect(await page.evaluate(() => {
+      const matrixElement = document.querySelector(".pricing54_plans");
+      const proofElement = document.querySelector(".peak-social-proof-stats");
+      const faqElement = document.querySelector(".section_faq1");
+      return Boolean(
+        matrixElement
+        && proofElement
+        && faqElement
+        && (matrixElement.compareDocumentPosition(proofElement) & Node.DOCUMENT_POSITION_FOLLOWING)
+        && (proofElement.compareDocumentPosition(faqElement) & Node.DOCUMENT_POSITION_FOLLOWING)
+      );
+    })).toBe(true);
     expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
   }
 
@@ -899,6 +982,30 @@ test("translations · logo strip matches the homepage and FAQ matches the featur
   const translationStyles = await page.evaluate(readStyles, selectors);
   await expect(page.locator(".section_logo2.color-scheme-2")).toHaveCount(1);
   await expect(page.locator(".section_logo2 .logo2_wrapper")).toHaveCount(10);
+  await expect(page.locator(".section_logo2 .logo2_link")).toHaveCount(10);
+  expect(await page.locator(".section_logo2 .logo2_link").evaluateAll((links) => links.every((link) => (
+    link.getAttribute("target") === "_blank" && link.getAttribute("rel") === "nofollow noopener"
+  )))).toBe(true);
+  const maeliLogoLink = page.locator('.section_logo2 .logo2_link[href="https://maeliparis.com/"]');
+  const restingLogoStyles = await maeliLogoLink.evaluate((element) => ({
+    linkTransform: getComputedStyle(element).transform,
+    imageTransform: getComputedStyle(element.querySelector("img")!).transform,
+  }));
+  await maeliLogoLink.hover();
+  await expect.poll(() => maeliLogoLink.evaluate((element) => ({
+    linkTransform: getComputedStyle(element).transform,
+    imageTransform: getComputedStyle(element.querySelector("img")!).transform,
+  }))).not.toEqual(restingLogoStyles);
+  const waterdropLogoLink = page.locator('.section_logo2 .logo2_link[href="https://www.waterdrop.com/"]');
+  await waterdropLogoLink.hover();
+  await expect.poll(() => waterdropLogoLink.evaluate((element) => ({
+    background: getComputedStyle(element).backgroundColor,
+    imageOpacity: getComputedStyle(element.querySelector("img")!).opacity,
+  }))).toEqual({ background: "rgba(0, 0, 0, 0)", imageOpacity: "1" });
+  await expect(page.locator(".section_logo2")).toHaveScreenshot("translations-logo-strip-waterdrop-hover.png", {
+    animations: "disabled",
+    maxDiffPixelRatio: 0.015,
+  });
   await expect(page.locator(".section_logo2 h2")).toHaveText("Trusted by 50+ top merchants worldwide");
   await expect(page.locator(".section_faq1 h2")).toHaveText("Frequently asked questions");
 

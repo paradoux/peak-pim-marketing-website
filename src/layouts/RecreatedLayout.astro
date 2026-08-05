@@ -1,10 +1,15 @@
 ---
 import CrispChat from "../components/CrispChat.astro";
+import CustomerStoryHero from "../components/sections/CustomerStoryHero.astro";
+import SocialProofStats from "../components/sections/SocialProofStats.astro";
 import GlobalWebflowStyles from "../components/GlobalWebflowStyles.astro";
 import LeadCaptureModal from "../components/LeadCaptureModal.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
+import { assets } from "../data/assets";
+import { ctaExceptions } from "../data/cta-copy";
 import type { PageDefinition } from "../data/pages";
+import { accountSocialProofLogos, accountSocialProofStats, accountSocialProofTitle } from "../data/social-proof";
 import { canonicalUrl as getCanonicalUrl } from "../lib/site-url";
 import "../styles/global.css";
 
@@ -19,6 +24,38 @@ type Props = {
 
 const { page, headHtml, mainHtml, htmlClass, wfPage, wfSite } = Astro.props;
 const canonicalUrl = getCanonicalUrl(page.slug);
+const homepagePricingMarker = '<section class="section_pricing2 color-scheme-1">';
+const homepagePricingIndex = page.slug === "" ? mainHtml.indexOf(homepagePricingMarker) : -1;
+const homepageCtaMarker = '<section class="section_cta51 color-scheme-1">';
+const homepageCtaIndex = page.slug === "" ? mainHtml.indexOf(homepageCtaMarker) : -1;
+const pricingFaqMarker = '<section class="section_faq1 color-scheme-1">';
+const pricingFaqIndex = page.slug === "pricing" ? mainHtml.indexOf(pricingFaqMarker) : -1;
+const supportingProofMarkers: Record<string, string> = {
+  "shopify-multi-store-pim": '<section class="section_pricing29 color-scheme-1">',
+  "industry/fashion": '<section class="section_cta51 color-scheme-1">',
+};
+const supportingProofMarker = supportingProofMarkers[page.slug];
+const supportingProofIndex = supportingProofMarker ? mainHtml.indexOf(supportingProofMarker) : -1;
+
+if (page.slug === "" && (homepagePricingIndex === -1 || homepageCtaIndex === -1 || homepagePricingIndex >= homepageCtaIndex)) {
+  throw new Error("The homepage proof sections could not be placed around pricing.");
+}
+
+if (page.slug === "pricing" && pricingFaqIndex === -1) {
+  throw new Error("The pricing social proof could not be placed before the FAQ.");
+}
+
+if (supportingProofMarker && supportingProofIndex === -1) {
+  throw new Error(`The ${page.slug} social proof could not be placed at its approved conversion point.`);
+}
+
+const homepageMainBeforeProof = homepagePricingIndex >= 0 ? mainHtml.slice(0, homepagePricingIndex) : mainHtml;
+const homepageMainBetweenProofAndStory = homepagePricingIndex >= 0 && homepageCtaIndex >= 0 ? mainHtml.slice(homepagePricingIndex, homepageCtaIndex) : "";
+const homepageMainAfterStory = homepageCtaIndex >= 0 ? mainHtml.slice(homepageCtaIndex) : "";
+const pricingMainBeforeProof = pricingFaqIndex >= 0 ? mainHtml.slice(0, pricingFaqIndex) : mainHtml;
+const pricingMainAfterProof = pricingFaqIndex >= 0 ? mainHtml.slice(pricingFaqIndex) : "";
+const supportingMainBeforeProof = supportingProofIndex >= 0 ? mainHtml.slice(0, supportingProofIndex) : mainHtml;
+const supportingMainAfterProof = supportingProofIndex >= 0 ? mainHtml.slice(supportingProofIndex) : "";
 const hasMetaDescription = /<meta\b(?=[^>]*\bname=["']description["'])/i.test(headHtml);
 const hasJsonLd = /<script\b(?=[^>]*\btype=["']application\/ld\+json["'])/i.test(headHtml);
 const fallbackJsonLd = {
@@ -63,7 +100,54 @@ const fallbackJsonLd = {
     <div class="page-wrapper site-page">
       <GlobalWebflowStyles />
       <SiteHeader />
-      <div class="site-main" set:html={mainHtml} />
+      <div class="site-main">
+        {page.slug === "" ? (
+          <>
+            <Fragment set:html={homepageMainBeforeProof} />
+            <SocialProofStats
+              title={accountSocialProofTitle}
+              stats={accountSocialProofStats}
+              logos={accountSocialProofLogos}
+            />
+            <Fragment set:html={homepageMainBetweenProofAndStory} />
+            <CustomerStoryHero
+              eyebrow="Customer story"
+              title="How Maéli Paris gets hours back every week"
+              description="Maéli Paris schedules weekly fabric Drops ahead of time and maintains one multilingual catalog, opening new markets without adding more weekend work."
+              image={assets.testimonials.amelieSamsonMaeliParis}
+              imageAlt="Amélie Samson, founder of Maéli Paris, holding her book about creative sewing and textile upcycling"
+              imageCaption="Amélie Samson, founder of Maéli Paris"
+              companyLogo={assets.customerLogos.light.maeli}
+              companyName="Maéli Paris"
+              primaryCta={{ label: ctaExceptions.seeUseCase, href: "/customers/maeli-paris/" }}
+              headingLevel="h2"
+            />
+            <Fragment set:html={homepageMainAfterStory} />
+          </>
+        ) : page.slug === "pricing" ? (
+          <>
+            <Fragment set:html={pricingMainBeforeProof} />
+            <SocialProofStats
+              title={accountSocialProofTitle}
+              stats={accountSocialProofStats}
+              logos={accountSocialProofLogos}
+            />
+            <Fragment set:html={pricingMainAfterProof} />
+          </>
+        ) : supportingProofIndex >= 0 ? (
+          <>
+            <Fragment set:html={supportingMainBeforeProof} />
+            <SocialProofStats
+              title={accountSocialProofTitle}
+              stats={accountSocialProofStats}
+              logos={accountSocialProofLogos}
+            />
+            <Fragment set:html={supportingMainAfterProof} />
+          </>
+        ) : (
+          <Fragment set:html={mainHtml} />
+        )}
+      </div>
       <SiteFooter />
       <LeadCaptureModal />
       <CrispChat />

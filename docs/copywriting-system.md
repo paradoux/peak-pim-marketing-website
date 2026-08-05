@@ -34,6 +34,8 @@ Exceptions are allowed when the page context materially benefits from different 
 
 `View API documentation` is approved for the API landing page hero and API-documentation FAQ answer. It links directly to the public developer documentation in a new tab.
 
+`See use case` is approved for customer-story teaser CTAs that link to a full customer use-case page, including the homepage Maéli Paris section.
+
 ## CTA rules
 
 - Use sentence case and no ending punctuation.

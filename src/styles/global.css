@@ -228,6 +228,34 @@ html {
   align-items: center;
 }
 
+.section_logo2 .logo2_link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.75rem;
+  color: inherit;
+  transition: transform 180ms ease;
+}
+
+.section_logo2 .logo2_link:hover,
+.section_logo2 .logo2_link:focus-visible {
+  transform: translateY(-0.15rem);
+}
+
+/* Waterdrop's source uses blend mode to remove a flat raster background.
+   Transforming its parent creates an isolated layer and reveals that canvas. */
+.section_logo2 .logo2_link:has(.logo2_logo--waterdrop):hover,
+.section_logo2 .logo2_link:has(.logo2_logo--waterdrop):focus-visible {
+  transform: none;
+}
+
+.section_logo2 .logo2_link:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.78);
+  outline-offset: 0.2rem;
+}
+
 .section_logo2 .logo2_logo-list img {
   width: auto;
   max-width: 100%;
@@ -235,6 +263,13 @@ html {
   object-fit: contain;
   transform: scale(var(--logo-visual-scale, 1));
   transform-origin: center;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.section_logo2 .logo2_link:hover img,
+.section_logo2 .logo2_link:focus-visible img {
+  opacity: 1;
+  transform: scale(calc(var(--logo-visual-scale, 1) * 1.04));
 }
 
 /* Normalize perceived size instead of treating each source canvas as equal. */
@@ -305,6 +340,20 @@ html {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section_logo2 .logo2_link,
+  .section_logo2 .logo2_logo-list img {
+    transition: none;
+  }
+
+  .section_logo2 .logo2_link:hover,
+  .section_logo2 .logo2_link:focus-visible,
+  .section_logo2 .logo2_link:hover img,
+  .section_logo2 .logo2_link:focus-visible img {
+    transform: none;
+  }
 }
 
 .site-main .pricing-feature-popover__link {

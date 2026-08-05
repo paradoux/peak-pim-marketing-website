@@ -35,6 +35,7 @@ Use the component filename and its `peak-*` alias when discussing, selecting, te
 | `DecisionGuide.astro` | `peak-decision-guide` | `section_layout4` |
 | `CustomerStoryHero.astro` | `peak-customer-story-hero` | `section_header84` |
 | `CustomerStoryStats.astro` | `peak-customer-story-stats` | `section_stats26` |
+| `SocialProofStats.astro` | `peak-social-proof-stats` | `section_stats26` |
 | `CustomerStoryChapter.astro` | `peak-customer-story-chapter` | `section_layout358` |
 
 Child elements use the same BEM-style namespace, such as `peak-feature-grid__card` and `peak-faq__question`. New component behavior and tests should target these semantic aliases. Legacy classes remain present solely to inherit the approved Webflow appearance and existing third-party interactions.
@@ -118,6 +119,7 @@ Feature pages are described as `WebPage` entities about the single canonical Pea
 - `DecisionGuide.astro` exposes `peak-decision-guide` and emits the split `section_layout4` decision structure.
 - `CustomerStoryHero.astro` exposes `peak-customer-story-hero` and emits the editorial split `section_header84` structure with a registered customer portrait and logo.
 - `CustomerStoryStats.astro` exposes `peak-customer-story-stats` and emits the existing dark `section_stats26` proof summary without inventing unsupported metrics.
+- `SocialProofStats.astro` exposes `peak-social-proof-stats` and combines verified account or customer numbers with a restrained linked-logo row. Each number must name its scope, and external merchant links use `nofollow noopener`.
 - `CustomerStoryChapter.astro` exposes `peak-customer-story-chapter` and emits the alternating `section_layout358` editorial chapter used for real setup, workflow, and outcome narratives.
 
 Keep page content in the route. Keep hierarchy, spacing, classes, buttons, and interaction logic inside the reusable components.

@@ -1,0 +1,210 @@
+---
+type Stat = {
+  value: string;
+  label: string;
+  context?: string;
+};
+
+type Logo = {
+  src: string;
+  alt: string;
+  href: string;
+};
+
+type Props = {
+  tagline?: string;
+  title: string;
+  stats: Stat[];
+  logos: Logo[];
+};
+
+const {
+  tagline,
+  title,
+  stats,
+  logos,
+} = Astro.props;
+---
+
+<section class="section_stats26 peak-social-proof-stats color-scheme-1">
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="padding-section-large">
+        <div class="peak-social-proof-stats__component">
+          <div class="text-align-center">
+            <div class="max-width-large align-center">
+              {tagline && <div class="margin-bottom margin-xsmall"><div class="text-style-tagline">{tagline}</div></div>}
+              <h2 class="heading-style-h4">{title}</h2>
+            </div>
+          </div>
+
+          <div class="peak-social-proof-stats__numbers">
+            {stats.map((stat) => (
+              <article class="peak-social-proof-stats__stat">
+                <div class="peak-social-proof-stats__value">{stat.value}</div>
+                <h3 class="heading-style-h6">{stat.label}</h3>
+                {stat.context && <p class="text-size-small-2">{stat.context}</p>}
+              </article>
+            ))}
+          </div>
+
+          <div class="peak-social-proof-stats__logos" aria-label="Selected Peak PIM customers">
+            {logos.map((logo) => (
+              <a
+                href={logo.href}
+                target="_blank"
+                rel="nofollow noopener"
+                aria-label={`Visit ${logo.alt} website`}
+                class="peak-social-proof-stats__logo-link"
+              >
+                <img src={logo.src} alt={logo.alt} loading="lazy" class="peak-social-proof-stats__logo" />
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .peak-social-proof-stats__component {
+    border: 1px solid var(--border-color--border-primary, #d8d4cc);
+    border-radius: 1.25rem;
+    padding: clamp(1.75rem, 4vw, 3rem);
+    overflow: hidden;
+  }
+
+  .peak-social-proof-stats__numbers {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: clamp(2rem, 4vw, 3rem);
+  }
+
+  .peak-social-proof-stats__stat {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 clamp(1rem, 3vw, 2.5rem);
+    text-align: center;
+  }
+
+  .peak-social-proof-stats__stat + .peak-social-proof-stats__stat {
+    border-left: 1px solid var(--border-color--border-primary, #d8d4cc);
+  }
+
+  .peak-social-proof-stats__value {
+    margin-bottom: 0.55rem;
+    color: var(--base-color-brand--blue, #2845d6);
+    font-family: var(--font-family--heading, "Space Grotesk", sans-serif);
+    font-size: clamp(2.25rem, 3.25vw, 3.25rem);
+    font-weight: 600;
+    letter-spacing: -0.055em;
+    line-height: 0.95;
+    white-space: nowrap;
+  }
+
+  .peak-social-proof-stats__stat p {
+    margin-top: 0.4rem;
+    color: var(--text-color--text-secondary, #6d6b67);
+  }
+
+  .peak-social-proof-stats__logos {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: clamp(1rem, 2vw, 2rem);
+    align-items: center;
+    margin-top: clamp(2rem, 4vw, 3rem);
+    padding-top: clamp(1.5rem, 3vw, 2rem);
+    border-top: 1px solid var(--border-color--border-primary, #d8d4cc);
+  }
+
+  .peak-social-proof-stats__logo-link {
+    display: flex;
+    min-width: 0;
+    height: 4rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    opacity: 0.62;
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+
+  .peak-social-proof-stats__logo-link:hover,
+  .peak-social-proof-stats__logo-link:focus-visible {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+
+  .peak-social-proof-stats__logo-link:focus-visible {
+    outline: 2px solid var(--base-color-brand--blue, #2845d6);
+    outline-offset: 3px;
+  }
+
+  .peak-social-proof-stats__logo {
+    display: block;
+    width: 100%;
+    max-width: 8.5rem;
+    height: 2.35rem;
+    object-fit: contain;
+  }
+
+  @media (max-width: 991px) {
+    .peak-social-proof-stats__logos {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      row-gap: 1.5rem;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .peak-social-proof-stats__component {
+      border-radius: 1rem;
+      padding: 2rem 1.25rem;
+    }
+
+    .peak-social-proof-stats__numbers {
+      grid-template-columns: 1fr;
+      margin-top: 2.5rem;
+    }
+
+    .peak-social-proof-stats__stat {
+      padding: 1.5rem 0;
+    }
+
+    .peak-social-proof-stats__stat:first-child {
+      padding-top: 0;
+    }
+
+    .peak-social-proof-stats__stat + .peak-social-proof-stats__stat {
+      border-top: 1px solid var(--border-color--border-primary, #d8d4cc);
+      border-left: 0;
+    }
+
+    .peak-social-proof-stats__value {
+      white-space: normal;
+    }
+
+    .peak-social-proof-stats__logos {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1.75rem;
+      padding-top: 1.5rem;
+    }
+
+    .peak-social-proof-stats__logo-link {
+      height: 3.75rem;
+    }
+
+    .peak-social-proof-stats__logo {
+      max-width: 7.25rem;
+      height: 2.1rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .peak-social-proof-stats__logo-link {
+      transition: none;
+    }
+  }
+</style>

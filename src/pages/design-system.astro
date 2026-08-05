@@ -7,6 +7,7 @@ import ComparisonVerdict from "../components/sections/ComparisonVerdict.astro";
 import CustomerStoryChapter from "../components/sections/CustomerStoryChapter.astro";
 import CustomerStoryHero from "../components/sections/CustomerStoryHero.astro";
 import CustomerStoryStats from "../components/sections/CustomerStoryStats.astro";
+import SocialProofStats from "../components/sections/SocialProofStats.astro";
 import DecisionGuide from "../components/sections/DecisionGuide.astro";
 import Faq from "../components/sections/Faq.astro";
 import FeatureGrid from "../components/sections/FeatureGrid.astro";
@@ -142,6 +143,19 @@ const customerStoryStats = [
   { value: "Every week", title: "Recurring workflow", description: "The operating cadence makes the product impact concrete." },
   { value: "Several languages", title: "Catalog scope", description: "Use supplied scope without inventing an unsupported count." },
 ];
+const socialProofStats = [
+  { value: "50+", label: "Merchants worldwide", context: "Use verified account-level proof only." },
+  { value: "1 afternoon", label: "Customer setup", context: "Pair a number with its customer context." },
+  { value: "Every week", label: "Recurring workflow", context: "Describe the real operating cadence." },
+];
+const socialProofLogos = [
+  { src: assets.customerLogos.light.tupperware, alt: "Tupperware", href: "https://www.tupperware.com/fr" },
+  { src: assets.customerLogos.light.maeli, alt: "Maéli Paris", href: "https://maeliparis.com/" },
+  { src: assets.customerLogos.light.artefact, alt: "Artefact", href: "https://www.artefact.com/" },
+  { src: assets.customerLogos.light.duBruit, alt: "Du Bruit dans la Cuisine", href: "https://www.dubruitdanslacuisine.fr/" },
+  { src: assets.customerLogos.light.lafaurie, alt: "Lafaurie", href: "https://lafaurieparis.com/" },
+  { src: assets.customerLogos.light.gullyLabs, alt: "Gully Labs", href: "https://gullylabs.com/" },
+];
 ---
 
 <LandingPageLayout
@@ -270,6 +284,7 @@ const customerStoryStats = [
     secondaryCta={{ label: ctaLabels.seeHowItWorks, href: "#customer-story-pattern" }}
   />
   <CustomerStoryStats title="Approved customer-story proof summary" items={customerStoryStats} />
+  <SocialProofStats title="Approved account proof with customer context" stats={socialProofStats} logos={socialProofLogos} />
   <CustomerStoryChapter
     id="customer-story-pattern"
     title="Approved customer-story chapter"

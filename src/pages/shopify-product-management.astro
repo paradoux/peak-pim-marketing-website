@@ -6,9 +6,11 @@ import FeatureGrid from "../components/sections/FeatureGrid.astro";
 import Hero from "../components/sections/Hero.astro";
 import LogoCloud from "../components/sections/LogoCloud.astro";
 import ProblemGrid from "../components/sections/ProblemGrid.astro";
+import SocialProofStats from "../components/sections/SocialProofStats.astro";
 import ProductsVariantsCardVisual from "../components/visuals/ProductsVariantsCardVisual.astro";
 import ProductsVariantsHeroVisual from "../components/visuals/ProductsVariantsHeroVisual.astro";
 import { ctaLabels } from "../data/cta-copy";
+import { accountSocialProofLogos, accountSocialProofStats, accountSocialProofTitle } from "../data/social-proof";
 import LandingPageLayout from "../layouts/LandingPageLayout.astro";
 
 const appStoreUrl="https://apps.shopify.com/peak-pim";
@@ -65,6 +67,8 @@ const faqSchema={"@context":"https://schema.org","@type":"FAQPage",mainEntity:fa
   <CardGrid id="product-workflow" tagline="One connected product model" title="Model once, change structure safely, publish with control" description="Manage the shared product, its store versions, and every variant from one coherent workflow." cards={workflows}><ProductsVariantsCardVisual slot="visual-1" mode="canonical"/><ProductsVariantsCardVisual slot="visual-2" mode="options"/><ProductsVariantsCardVisual slot="visual-3" mode="publish"/></CardGrid>
 
   <FeatureGrid tagline="The catalog everything else runs on" title="Every Peak PIM workflow starts here" description="Bulk operations, enrichment, localization, scheduling, quality control, and AI-assisted work all use the same products, variants, and store versions." features={features} cta={{label:ctaLabels.learnMore,href:"/bulk-edit"}} />
+
+  <SocialProofStats title={accountSocialProofTitle} stats={accountSocialProofStats} logos={accountSocialProofLogos} />
 
   <CtaBanner id="start" title="Make every product easier to operate" description="Bring products, variants, store differences, and publishing state into one catalog your whole team can understand." primaryLabel={ctaLabels.tryFree} primaryHref={appStoreUrl} secondaryLabel={ctaLabels.learnMore} secondaryHref="/shopify-product-import-export" trustLine="10-day free trial. Free setup. No credit card."/>
 

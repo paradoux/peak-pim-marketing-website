@@ -7,10 +7,12 @@ import DecisionGuide from "../components/sections/DecisionGuide.astro";
 import Faq from "../components/sections/Faq.astro";
 import FeatureGrid from "../components/sections/FeatureGrid.astro";
 import PricingComparison from "../components/sections/PricingComparison.astro";
+import SocialProofStats from "../components/sections/SocialProofStats.astro";
 import BuildVsBuyDecisionVisual from "../components/visuals/BuildVsBuyDecisionVisual.astro";
 import BuildVsBuyHeroVisual from "../components/visuals/BuildVsBuyHeroVisual.astro";
 import { assets } from "../data/assets";
 import { ctaLabels } from "../data/cta-copy";
+import { accountSocialProofLogos, accountSocialProofStats, accountSocialProofTitle } from "../data/social-proof";
 import LandingPageLayout from "../layouts/LandingPageLayout.astro";
 
 const appStoreUrl = "https://apps.shopify.com/peak-pim";
@@ -116,6 +118,8 @@ const faqSchema = {
     build={{ label: "Build your own", description: "Maximum control, permanent ownership", icon: "code", features: buildFeatures }}
     peak={{ label: "Peak PIM", description: "Shopify-native and ready to use", logo: { src: assets.logo.peakSmall, alt: "Peak PIM" }, features: peakFeatures }}
   />
+
+  <SocialProofStats title={accountSocialProofTitle} stats={accountSocialProofStats} logos={accountSocialProofLogos} />
 
   <PricingComparison
     id="pricing-comparison"

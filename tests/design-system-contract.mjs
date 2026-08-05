@@ -9,6 +9,7 @@ const requiredFiles = [
   "src/data/cta-copy.ts",
   "src/data/pricing-feature-matrix.ts",
   "src/data/site-navigation.ts",
+  "src/data/social-proof.ts",
   "src/components/ui/Button.astro",
   "src/components/ui/PeakIcon.astro",
   "src/components/ui/ProductVisualFrame.astro",
@@ -28,6 +29,7 @@ const requiredFiles = [
   "src/components/sections/DecisionGuide.astro",
   "src/components/sections/CustomerStoryHero.astro",
   "src/components/sections/CustomerStoryStats.astro",
+  "src/components/sections/SocialProofStats.astro",
   "src/components/sections/CustomerStoryChapter.astro",
   "src/components/sections/Faq.astro",
   "src/components/visuals/TranslationWorkflowDemo.astro",
@@ -122,6 +124,7 @@ const canonicalContracts = {
   "src/components/sections/DecisionGuide.astro": ["peak-decision-guide", "section_layout4", "layout4_content", "layout4_item-list"],
   "src/components/sections/CustomerStoryHero.astro": ["peak-customer-story-hero", "section_header84", "header84_card", "heading-style-h1"],
   "src/components/sections/CustomerStoryStats.astro": ["peak-customer-story-stats", "section_stats26", "stats26_list", "stats26_number"],
+  "src/components/sections/SocialProofStats.astro": ["peak-social-proof-stats", "peak-social-proof-stats__numbers", "peak-social-proof-stats__logos", "section_stats26", "nofollow noopener"],
   "src/components/sections/CustomerStoryChapter.astro": ["peak-customer-story-chapter", "section_layout358", "layout358_card", "layout358_image-wrapper", "heading-style-h3"],
 };
 
@@ -545,6 +548,8 @@ const homeFile = resolve(projectRoot, "dist/index.html");
 if (existsSync(homeFile)) {
   const html = readFileSync(homeFile, "utf8");
   const heroHtml = html.match(/<header class="section_landing-big_hero-header"[\s\S]*?<div class="landing-big_hero-header_image-wrapper">/)?.[0] ?? "";
+  const customerStoryHtml = html.match(/<header class="section_header84 peak-customer-story-hero[\s\S]*?<\/header>/)?.[0] ?? "";
+  const socialProofHtml = html.match(/<section class="section_stats26 peak-social-proof-stats[\s\S]*?<\/section>/)?.[0] ?? "";
   const footerHtml = html.match(/<footer class="footer1_component"[\s\S]*?<\/footer>/)?.[0] ?? "";
   if (!heroHtml.includes('href="/ai-catalog-connector" class="ppim-home-pill-wrap"')) failures.push("Homepage announcement must link to the MCP landing page");
   if (!heroHtml.includes("Connect your catalog to AI assistants with MCP")) failures.push("Homepage announcement must promote the MCP connector");
@@ -573,6 +578,22 @@ if (existsSync(homeFile)) {
   if (!html.includes('href="https://apps.shopify.com/peak-pim/reviews" target="_blank" rel="noopener" class="customers-mega-menu__reviews-link"')) failures.push("The shared header Customers menu is missing the Reviews destination");
   if (!html.includes('href="/customers/maeli-paris/" class="customers-mega-menu__story-link"')) failures.push("The shared header Customers menu is missing the Maéli Paris testimonial");
   if (!html.includes('href="/customers/carre-coco/" class="customers-mega-menu__story-link"')) failures.push("The shared header Customers menu is missing the Carré Coco use case");
+  if (!customerStoryHtml.includes("How Maéli Paris gets hours back every week")) failures.push("The homepage is missing the Maéli Paris customer-story section");
+  if (!customerStoryHtml.includes('href="/customers/maeli-paris/"')) failures.push("The homepage Maéli Paris customer story is missing its internal link");
+  if (!customerStoryHtml.includes(">See use case</a>")) failures.push("The homepage Maéli Paris customer story must use the approved See use case CTA");
+  if (!customerStoryHtml.includes('src="/assets/testimonials/amelie-samson-maeli-paris.webp"')) failures.push("The homepage Maéli Paris customer story is missing Amélie's registered portrait");
+  if (!customerStoryHtml.includes('src="/mirror/6a02fa863eea804db7dc36f9_Maeli-Black-logo-138c12bb52.png"')) failures.push("The homepage Maéli Paris customer story is missing the registered company logo");
+  for (const fact of ["50+", "210+", "455,000"]) {
+    if (!socialProofHtml.includes(fact)) failures.push(`The homepage social-proof section is missing verified fact: ${fact}`);
+  }
+  if ((socialProofHtml.match(/class="peak-social-proof-stats__logo-link"/g) ?? []).length !== 6) failures.push("The homepage social-proof section must contain six linked customer logos");
+  if ((socialProofHtml.match(/rel="nofollow noopener"/g) ?? []).length !== 6) failures.push("Every homepage social-proof logo link must use nofollow and noopener");
+  const setupIndex = html.indexOf('<section class="section_layout121 color-scheme-1">');
+  const pricingIndex = html.indexOf('<section class="section_pricing2 color-scheme-1">');
+  const customerStoryIndex = html.indexOf('<header class="section_header84 peak-customer-story-hero');
+  const socialProofIndex = html.indexOf('<section class="section_stats26 peak-social-proof-stats');
+  const finalCtaIndex = html.indexOf('<section class="section_cta51 color-scheme-1">', customerStoryIndex);
+  if (!(setupIndex < socialProofIndex && socialProofIndex < pricingIndex && pricingIndex < customerStoryIndex && customerStoryIndex < finalCtaIndex)) failures.push("The homepage social proof must follow setup, while the customer story remains between pricing and the final CTA");
   if (html.includes('class="navbar10_link w-nav-link">Help Center</a>')) failures.push("The shared header still contains the standalone Help Center link");
   for (const href of ["https://app.peak-pim.com/demo", "https://help.peak-pim.com/en/", "https://www.linkedin.com/company/peak-pim/posts/", "https://developers.peak-pim.com/"]) {
     if (!html.includes(`href="${href}" target="_blank" rel="noopener" class="resources-mega-menu__link"`)) failures.push(`The shared header Resources menu is missing ${href}`);
@@ -594,7 +615,7 @@ if (existsSync(buildVsBuyFile)) {
   if (!html.includes('alt="Post describing a team returning to Linear because maintaining its internally built tool consumed work bandwidth"')) failures.push("Build-vs-buy evidence image alt text is missing");
   if (!html.includes('src="/assets/marketing/build-vs-buy-maintenance-example.webp"')) failures.push("Build-vs-buy hero is missing its registered evidence image");
   if (!html.includes('aria-label="Decision workspace comparing when to build a PIM in-house and when to choose Peak PIM"')) failures.push("Build-vs-buy decision visual alt text is missing");
-  if (h2Count !== 7) failures.push(`Build-vs-buy page has ${h2Count} h2 elements; expected seven`);
+  if (h2Count !== 8) failures.push(`Build-vs-buy page has ${h2Count} h2 elements; expected eight`);
   if (!jsonLdEntries.some((entry) => entry["@type"] === "Article" && entry.author?.name === "Peak PIM")) failures.push("Build-vs-buy Article schema is missing or incorrect");
   if (!jsonLdEntries.some((entry) => entry["@type"] === "FAQPage" && entry.mainEntity?.length === 6)) failures.push("Build-vs-buy FAQ schema is missing or incomplete");
   for (const href of ['href="/pricing/"', 'href="/shopify-pim-alternatives/"']) {
@@ -620,11 +641,20 @@ const pricingFile = resolve(projectRoot, "dist/pricing/index.html");
 if (existsSync(pricingFile)) {
   const html = readFileSync(pricingFile, "utf8");
   const schema = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1] ?? "{}");
+  const socialProofHtml = html.match(/<section class="section_stats26 peak-social-proof-stats[\s\S]*?<\/section>/)?.[0] ?? "";
   if (html.includes("Not sure if you should build it instead?") || html.includes("pricing-build-vs-buy-link")) failures.push("Pricing page contains the retired build-vs-buy promotion");
   if (!html.includes('rel="canonical" href="https://peak-pim.com/pricing/"')) failures.push("Pricing canonical URL does not match the 200 response URL");
   if (html.includes("unlimited stores")) failures.push("Pricing page still contains the outdated unlimited-stores claim");
   if (html.includes("next billing cycle")) failures.push("Pricing schema conflicts with the visible plan-change policy");
   if (!schema.offers?.every((offer) => offer.availability === "https://schema.org/InStock")) failures.push("Pricing schema does not describe the live plans as available");
+  for (const fact of ["50+", "210+", "455,000"]) {
+    if (!socialProofHtml.includes(fact)) failures.push(`The pricing social-proof section is missing verified fact: ${fact}`);
+  }
+  if ((socialProofHtml.match(/class="peak-social-proof-stats__logo-link"/g) ?? []).length !== 6) failures.push("The pricing social-proof section must contain six linked customer logos");
+  const pricingTableIndex = html.indexOf('class="pricing54_plans"');
+  const pricingProofIndex = html.indexOf('<section class="section_stats26 peak-social-proof-stats');
+  const pricingFaqIndex = html.indexOf('<section class="section_faq1 color-scheme-1">');
+  if (!(pricingTableIndex < pricingProofIndex && pricingProofIndex < pricingFaqIndex)) failures.push("The pricing social proof must sit between the pricing table and FAQ");
   if (schema.featureList?.length !== 34) failures.push("Pricing schema feature list is incomplete");
   if (!schema.offers?.every((offer) => offer.additionalProperty?.length === 34)) failures.push("Pricing schema offers are not generated from the complete pricing matrix");
   const schemaFeatureValue = (planName, featureName) => schema.offers
@@ -698,6 +728,7 @@ if (existsSync(sitemapFile)) {
     "Book a demo",
     "Live demo",
     "View API documentation",
+    "See use case",
     "Talk to us",
     "See pricing",
     "See how it works",
@@ -811,6 +842,18 @@ const homepageLogoFiles = [
   "lillicoco.png",
   "what-matters.png",
 ];
+const homepageLogoLinks = [
+  "https://www.tupperware.com/fr",
+  "https://maeliparis.com/",
+  "https://www.artefact.com/",
+  "https://www.dubruitdanslacuisine.fr/",
+  "https://lafaurieparis.com/",
+  "https://gullylabs.com/",
+  "https://www.waterdrop.com/",
+  "https://nakedwolfe.com/",
+  "https://www.lillicoco.com/",
+  "https://what-matters.fr/",
+];
 
 for (const slug of homepageLogoBannerPages) {
   const file = resolve(projectRoot, `dist/${slug}/index.html`);
@@ -827,8 +870,13 @@ for (const slug of homepageLogoBannerPages) {
   if ((mainHtml.match(/\bsection_logo3\b/g) ?? []).length) failures.push(`/${slug} still contains the retired scrolling logo banner`);
   if (!bannerHtml.includes(">Trusted by 50+ top merchants worldwide</h2>")) failures.push(`/${slug} does not use the homepage logo-banner heading`);
   if ((bannerHtml.match(/\blogo2_wrapper\b/g) ?? []).length !== 10) failures.push(`/${slug} does not use the homepage ten-logo set`);
+  if ((bannerHtml.match(/class="logo2_link"/g) ?? []).length !== 10) failures.push(`/${slug} does not link every homepage customer logo`);
+  if ((bannerHtml.match(/rel="nofollow noopener"/g) ?? []).length !== 10) failures.push(`/${slug} customer-logo links are missing nofollow and noopener`);
   for (const logoFile of homepageLogoFiles) {
     if (!bannerHtml.includes(logoFile)) failures.push(`/${slug} is missing homepage customer logo: ${logoFile}`);
+  }
+  for (const logoLink of homepageLogoLinks) {
+    if (!bannerHtml.includes(`href="${logoLink}"`)) failures.push(`/${slug} is missing customer website link: ${logoLink}`);
   }
 }
 
@@ -869,6 +917,33 @@ if (existsSync(multiStoreFile)) {
   for (const outdatedPlanContent of ["20 GB media library", "Up to 5 Shopify stores", "150 GB media library", "Unlimited Shopify stores", "unlimited on Enterprise", "Custom media storage", ">Metaobjects</div>", ">Translations</div>", "Account manager", "Elite supports 5"]) {
     if (html.includes(outdatedPlanContent)) failures.push(`Multi-store page still contains outdated pricing content: ${outdatedPlanContent}`);
   }
+}
+
+for (const placement of [
+  { path: "shopify-product-management", before: 'class="section_layout353 peak-feature-grid', after: 'id="start"' },
+  { path: "shopify-multi-store-pim", before: 'class="section_comparison14"', after: 'class="section_pricing29 color-scheme-1"' },
+  { path: "build-vs-buy-pim", before: 'id="comparison"', after: 'id="pricing-comparison"' },
+  { path: "industry/fashion", before: 'class="section_faq1"', after: 'class="section_cta51 color-scheme-1"' },
+]) {
+  const pageFile = resolve(projectRoot, "dist", placement.path, "index.html");
+  if (!existsSync(pageFile)) {
+    failures.push(`Approved social-proof page is missing: ${placement.path}`);
+    continue;
+  }
+
+  const html = readFileSync(pageFile, "utf8");
+  const proofMatches = html.match(/<section class="section_stats26 peak-social-proof-stats[\s\S]*?<\/section>/g) ?? [];
+  const proofHtml = proofMatches[0] ?? "";
+  if (proofMatches.length !== 1) failures.push(`${placement.path} must contain exactly one account social-proof section`);
+  for (const fact of ["50+", "210+", "455,000"]) {
+    if (!proofHtml.includes(fact)) failures.push(`${placement.path} social proof is missing verified fact: ${fact}`);
+  }
+  if ((proofHtml.match(/class="peak-social-proof-stats__logo-link"/g) ?? []).length !== 6) failures.push(`${placement.path} social proof must contain six linked customer logos`);
+
+  const beforeIndex = html.indexOf(placement.before);
+  const proofIndex = html.indexOf('<section class="section_stats26 peak-social-proof-stats');
+  const afterIndex = html.indexOf(placement.after);
+  if (!(beforeIndex >= 0 && proofIndex >= 0 && afterIndex >= 0 && beforeIndex < proofIndex && proofIndex < afterIndex)) failures.push(`${placement.path} social proof is not in its approved conversion placement`);
 }
 
 if (failures.length) {
