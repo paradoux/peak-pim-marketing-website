@@ -8,6 +8,41 @@ astro dev --background
 
 Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
 
+## Website-wide working discipline
+
+These rules apply to every change in this repository, including page edits, shared components, navigation, styles, copy, SEO, structured data, tests, and deployment. Apply them proportionally: a trivial one-line change does not need a long written plan, but it still needs a precise scope and a relevant check.
+
+### Think before editing
+
+- Inspect the current implementation and the closest approved pattern before changing code. Search for existing components, styles, copy rules, and tests first.
+- State assumptions when they materially affect the result. If multiple interpretations would produce meaningfully different outcomes, surface the choice instead of selecting one silently.
+- Prefer the simpler existing pattern when it satisfies the request. Push back when a requested direction would create inconsistency, duplication, or unnecessary risk.
+- Define what success looks like before implementation so the result can be verified rather than judged only by whether the code compiled.
+
+### Keep solutions simple
+
+- Write the minimum code required to satisfy the request.
+- Do not add speculative flexibility, abstractions, settings, fallbacks, or features that were not requested.
+- Reuse an existing component, layout, style, animation, CTA, asset treatment, or content pattern before creating a new one.
+- If a small direct change solves the problem safely, do not replace it with a new system.
+
+### Make surgical changes
+
+- Every changed line should trace directly to the user's request or to the verification needed for that request.
+- Do not refactor, reformat, rename, or clean up adjacent code unless the requested change makes it necessary.
+- Match the existing code and design conventions, even when another approach would also work.
+- Preserve unrelated worktree changes. The unfinished `/partners` page must remain excluded unless the user explicitly asks to work on or publish it.
+- Remove only imports, variables, styles, tests, or files made obsolete by the current change. Mention unrelated problems instead of fixing them without authorization.
+
+### Work toward verifiable outcomes
+
+- Turn each request into concrete acceptance criteria. For a bug, reproduce the failure first; for a layout change, identify the affected viewport and expected geometry; for content or SEO, identify every consumer that must stay synchronized.
+- Add or update a regression check when it can reliably prevent the same issue from returning.
+- Run `git diff --check`, `npm run build`, and the relevant contract or visual tests in proportion to the change.
+- For visual changes, verify the reported viewport plus 1440px, 768px, and 375px when the change can affect responsive behavior. Include intermediate widths when the failure occurs between standard breakpoints.
+- For shared components, navigation, footer, design tokens, or global styles, inspect representative pages from every affected page family.
+- Do not stop at a preview URL when production was requested. In this repository, production completion means the approved changes are committed and pushed, `npm run deploy` succeeds, and the affected page is verified on `https://peak-pim.com`.
+
 ## Documentation
 
 Full documentation: https://docs.astro.build
