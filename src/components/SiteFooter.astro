@@ -126,15 +126,15 @@ const logoCtaHtml = `<div class="site-footer__logo-cta"><a href="${escapeHtml(li
 const localeAlternates = getLocaleAlternates(currentPath);
 const languageMenuLabel = localeMetadata[locale].languageMenuLabel;
 const languageSuggestionCopy: Record<Locale, { label: string; message: string; action: string; dismiss: string }> = {
-  en: { label: "Language suggestion", message: "This page is available in your preferred language.", action: "{language}", dismiss: "Keep browsing in English" },
-  fr: { label: "Suggestion de langue", message: "Cette page est disponible dans votre langue préférée.", action: "{language}", dismiss: "Continuer en français" },
-  de: { label: "Sprachvorschlag", message: "Diese Seite ist in Ihrer bevorzugten Sprache verfügbar.", action: "{language}", dismiss: "Auf Deutsch bleiben" },
-  es: { label: "Sugerencia de idioma", message: "Esta página está disponible en tu idioma preferido.", action: "{language}", dismiss: "Seguir en español" },
-  it: { label: "Suggerimento lingua", message: "Questa pagina è disponibile nella lingua che preferisci.", action: "{language}", dismiss: "Continua in italiano" },
-  nl: { label: "Taalsuggestie", message: "Deze pagina is beschikbaar in je voorkeurstaal.", action: "{language}", dismiss: "Doorgaan in het Nederlands" },
-  "pt-br": { label: "Sugestão de idioma", message: "Esta página está disponível no seu idioma preferido.", action: "{language}", dismiss: "Continuar em português" },
-  pl: { label: "Sugestia języka", message: "Ta strona jest dostępna w preferowanym języku.", action: "{language}", dismiss: "Kontynuuj po polsku" },
-  ja: { label: "言語の提案", message: "このページは優先言語でご覧いただけます。", action: "{language}", dismiss: "日本語のまま続ける" },
+  en: { label: "Language suggestion", message: "Peak PIM is available in English.", action: "{language}", dismiss: "Keep browsing in English" },
+  fr: { label: "Suggestion de langue", message: "Peak PIM est disponible en français.", action: "{language}", dismiss: "Continuer en français" },
+  de: { label: "Sprachvorschlag", message: "Peak PIM ist auf Deutsch verfügbar.", action: "{language}", dismiss: "Auf Deutsch bleiben" },
+  es: { label: "Sugerencia de idioma", message: "Peak PIM está disponible en español.", action: "{language}", dismiss: "Seguir en español" },
+  it: { label: "Suggerimento lingua", message: "Peak PIM è disponibile in italiano.", action: "{language}", dismiss: "Continua in italiano" },
+  nl: { label: "Taalsuggestie", message: "Peak PIM is beschikbaar in het Nederlands.", action: "{language}", dismiss: "Doorgaan in het Nederlands" },
+  "pt-br": { label: "Sugestão de idioma", message: "O Peak PIM está disponível em português.", action: "{language}", dismiss: "Continuar em português" },
+  pl: { label: "Sugestia języka", message: "Peak PIM jest dostępny po polsku.", action: "{language}", dismiss: "Kontynuuj po polsku" },
+  ja: { label: "言語の提案", message: "Peak PIMは日本語でご利用いただけます。", action: "{language}", dismiss: "日本語のまま続ける" },
 };
 const languageSuggestionRoutes = Object.fromEntries(localeAlternates.map((alternate) => [
   alternate.locale,

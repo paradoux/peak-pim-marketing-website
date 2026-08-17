@@ -111,7 +111,7 @@ test("language preference · browser suggestion is optional, remembered, and ove
     const suggestion = page.locator("[data-language-suggestion]");
     await expect(suggestion).toBeVisible();
     await expect(suggestion).toHaveAttribute("aria-label", "Sprachvorschlag");
-    await expect(suggestion.locator("[data-language-suggestion-message]")).toHaveText("Diese Seite ist in Ihrer bevorzugten Sprache verfügbar.");
+    await expect(suggestion.locator("[data-language-suggestion-message]")).toHaveText("Peak PIM ist auf Deutsch verfügbar.");
     await expect(suggestion.locator("[data-language-suggestion-accept]")).toHaveText("🇩🇪 Deutsch");
     await expect(suggestion.locator("[data-language-suggestion-accept]")).toHaveAttribute("href", "/de/preise/");
     await expect(suggestion.locator("[data-language-suggestion-dismiss]")).toHaveText("Keep browsing in English");
@@ -149,7 +149,7 @@ test("language preference · browser suggestion is optional, remembered, and ove
   const frenchSuggestion = page.locator("[data-language-suggestion]");
   await expect(frenchSuggestion).toBeVisible();
   await expect(frenchSuggestion).toHaveAttribute("aria-label", "Suggestion de langue");
-  await expect(frenchSuggestion.locator("[data-language-suggestion-message]")).toHaveText("Cette page est disponible dans votre langue préférée.");
+  await expect(frenchSuggestion.locator("[data-language-suggestion-message]")).toHaveText("Peak PIM est disponible en français.");
   await expect(frenchSuggestion.locator("[data-language-suggestion-accept]")).toHaveText("🇫🇷 Français");
   await expect(frenchSuggestion.locator("[data-language-suggestion-accept]")).toHaveAttribute("href", "/fr/tarifs/");
   await expect(frenchSuggestion.locator("[data-language-suggestion-dismiss]")).toHaveText("Auf Deutsch bleiben");
