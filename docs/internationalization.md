@@ -29,6 +29,12 @@ Use the vocabulary from Shopify's localized Help Center when a Shopify concept h
 
 Primary references: [Shopify variants](https://help.shopify.com/fr/manual/products/variants), [Shopify metafields](https://help.shopify.com/fr/manual/custom-data/metafields), [Shopify metaobjects](https://help.shopify.com/fr/manual/custom-data/metaobjects), [Shopify product import/export](https://help.shopify.com/fr/manual/products/import-export), and [Shopify Markets catalogs](https://help.shopify.com/fr/manual/international/publishing-products).
 
+## Visitor language preference
+
+Language detection is client-side and uses `navigator.languages`; it never uses IP or geolocation. Without a saved preference, a visitor whose first supported browser language differs from the current page sees an optional suggestion written in that detected language. The action to keep the current page is written in the current page's language. Accepting either choice or choosing a language in the footer stores `peak-preferred-locale` in local storage.
+
+A saved non-English choice redirects only the unprefixed homepage to its localized homepage. Direct deep links are never automatically replaced, so shared URLs and search results remain respected. The suggestion is hidden in the server-rendered HTML and does not change canonicals, `hreflang`, sitemap entries, or crawler routing.
+
 ## After changing English source copy
 
 Run:

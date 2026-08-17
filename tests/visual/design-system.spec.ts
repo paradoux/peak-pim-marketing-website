@@ -33,7 +33,7 @@ const viewports = [
 async function prepare(page: Page, path: string, width: number, height: number) {
   await page.setViewportSize({ width, height });
   await page.goto(path, { waitUntil: "domcontentloaded" });
-  await page.addStyleTag({ content: ".crisp-client { display: none !important; }" });
+  await page.addStyleTag({ content: ".crisp-client, .language-suggestion { display: none !important; }" });
   await page.evaluate(() => document.fonts.ready);
 }
 
@@ -94,6 +94,65 @@ test("localized pages · footer language menu opens upward and links to the equi
       expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
     }
   }
+});
+
+test("language preference · browser suggestion is optional, remembered, and overridden by the footer", async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, "language", { configurable: true, get: () => "de-DE" });
+    Object.defineProperty(navigator, "languages", { configurable: true, get: () => ["de-DE", "en-US"] });
+  });
+
+  for (const width of [1440, 375]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/pricing/", { waitUntil: "domcontentloaded" });
+    await page.evaluate(() => localStorage.removeItem("peak-preferred-locale"));
+    await page.reload({ waitUntil: "domcontentloaded" });
+
+    const suggestion = page.locator("[data-language-suggestion]");
+    await expect(suggestion).toBeVisible();
+    await expect(suggestion).toHaveAttribute("aria-label", "Sprachvorschlag");
+    await expect(suggestion.locator("[data-language-suggestion-message]")).toHaveText("Diese Seite ist in Ihrer bevorzugten Sprache verfügbar.");
+    await expect(suggestion.locator("[data-language-suggestion-accept]")).toHaveText("🇩🇪 Deutsch");
+    await expect(suggestion.locator("[data-language-suggestion-accept]")).toHaveAttribute("href", "/de/preise/");
+    await expect(suggestion.locator("[data-language-suggestion-dismiss]")).toHaveText("Keep browsing in English");
+    const suggestionBox = await suggestion.boundingBox();
+    expect(suggestionBox).not.toBeNull();
+    expect(suggestionBox!.x).toBeGreaterThanOrEqual(0);
+    expect(suggestionBox!.x + suggestionBox!.width).toBeLessThanOrEqual(width);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+
+    await suggestion.locator("[data-language-suggestion-dismiss]").click();
+    await expect(suggestion).toBeHidden();
+    expect(await page.evaluate(() => localStorage.getItem("peak-preferred-locale"))).toBe("en");
+  }
+
+  await page.evaluate(() => localStorage.removeItem("peak-preferred-locale"));
+  await page.goto("/pricing/", { waitUntil: "domcontentloaded" });
+  await page.locator("[data-language-suggestion-accept]").click();
+  await expect(page).toHaveURL(/\/de\/preise\/$/);
+  expect(await page.evaluate(() => localStorage.getItem("peak-preferred-locale"))).toBe("de");
+  await expect(page.locator("[data-language-suggestion]")).toBeHidden();
+
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await page.waitForURL(/\/de\/$/);
+
+  const footer = page.locator(".site-footer");
+  await footer.scrollIntoViewIfNeeded();
+  await footer.locator(".site-footer-language__trigger").click();
+  await footer.getByRole("link", { name: /English/ }).click();
+  await expect.poll(() => new URL(page.url()).pathname).toBe("/");
+  expect(await page.evaluate(() => localStorage.getItem("peak-preferred-locale"))).toBe("en");
+  await expect(page.locator("[data-language-suggestion]")).toBeHidden();
+
+  await page.evaluate(() => localStorage.setItem("peak-preferred-locale", "fr"));
+  await page.goto("/de/preise/", { waitUntil: "domcontentloaded" });
+  const frenchSuggestion = page.locator("[data-language-suggestion]");
+  await expect(frenchSuggestion).toBeVisible();
+  await expect(frenchSuggestion).toHaveAttribute("aria-label", "Suggestion de langue");
+  await expect(frenchSuggestion.locator("[data-language-suggestion-message]")).toHaveText("Cette page est disponible dans votre langue préférée.");
+  await expect(frenchSuggestion.locator("[data-language-suggestion-accept]")).toHaveText("🇫🇷 Français");
+  await expect(frenchSuggestion.locator("[data-language-suggestion-accept]")).toHaveAttribute("href", "/fr/tarifs/");
+  await expect(frenchSuggestion.locator("[data-language-suggestion-dismiss]")).toHaveText("Auf Deutsch bleiben");
 });
 
 test("localized public pages · every language remains responsive across representative families", async ({ page }) => {

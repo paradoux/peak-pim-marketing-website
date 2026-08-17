@@ -125,6 +125,25 @@ const socialListHtml = originalSocialListHtml
 const logoCtaHtml = `<div class="site-footer__logo-cta"><a href="${escapeHtml(liveDemoLink.href)}" target="_blank" rel="noopener" class="button is-secondary w-button">${escapeHtml(tr(ctaExceptions.liveDemo))}</a></div>`;
 const localeAlternates = getLocaleAlternates(currentPath);
 const languageMenuLabel = localeMetadata[locale].languageMenuLabel;
+const languageSuggestionCopy: Record<Locale, { label: string; message: string; action: string; dismiss: string }> = {
+  en: { label: "Language suggestion", message: "This page is available in your preferred language.", action: "{language}", dismiss: "Keep browsing in English" },
+  fr: { label: "Suggestion de langue", message: "Cette page est disponible dans votre langue préférée.", action: "{language}", dismiss: "Continuer en français" },
+  de: { label: "Sprachvorschlag", message: "Diese Seite ist in Ihrer bevorzugten Sprache verfügbar.", action: "{language}", dismiss: "Auf Deutsch bleiben" },
+  es: { label: "Sugerencia de idioma", message: "Esta página está disponible en tu idioma preferido.", action: "{language}", dismiss: "Seguir en español" },
+  it: { label: "Suggerimento lingua", message: "Questa pagina è disponibile nella lingua che preferisci.", action: "{language}", dismiss: "Continua in italiano" },
+  nl: { label: "Taalsuggestie", message: "Deze pagina is beschikbaar in je voorkeurstaal.", action: "{language}", dismiss: "Doorgaan in het Nederlands" },
+  "pt-br": { label: "Sugestão de idioma", message: "Esta página está disponível no seu idioma preferido.", action: "{language}", dismiss: "Continuar em português" },
+  pl: { label: "Sugestia języka", message: "Ta strona jest dostępna w preferowanym języku.", action: "{language}", dismiss: "Kontynuuj po polsku" },
+  ja: { label: "言語の提案", message: "このページは優先言語でご覧いただけます。", action: "{language}", dismiss: "日本語のまま続ける" },
+};
+const languageSuggestionRoutes = Object.fromEntries(localeAlternates.map((alternate) => [
+  alternate.locale,
+  {
+    href: publicPath(alternate.path),
+    label: localeMetadata[alternate.locale].label,
+    flag: localeMetadata[alternate.locale].flag,
+  },
+]));
 const languageSwitcherHtml = localeAlternates.length > 1 ? `
   <details class="site-footer-language" data-i18n-skip>
     <summary class="site-footer-language__trigger" aria-label="${languageMenuLabel}">
@@ -137,8 +156,8 @@ const languageSwitcherHtml = localeAlternates.length > 1 ? `
         const optionLocale = alternate.locale;
         const optionContent = `<span aria-hidden="true">${localeMetadata[optionLocale].flag}</span><span>${localeMetadata[optionLocale].label}</span>${optionLocale === locale ? '<svg class="site-footer-language__check" viewBox="0 0 16 16" aria-hidden="true"><path d="m3 8 3 3 7-7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"/></svg>' : ""}`;
         return optionLocale === locale
-          ? `<span class="site-footer-language__option is-active" aria-current="page">${optionContent}</span>`
-          : `<a class="site-footer-language__option" href="${publicPath(alternate.path)}" hreflang="${alternate.hreflang}" lang="${alternate.hreflang}">${optionContent}</a>`;
+          ? `<span class="site-footer-language__option is-active" aria-current="page" data-language-locale="${optionLocale}">${optionContent}</span>`
+          : `<a class="site-footer-language__option" href="${publicPath(alternate.path)}" hreflang="${alternate.hreflang}" lang="${alternate.hreflang}" data-language-locale="${optionLocale}">${optionContent}</a>`;
       }).join("")}
     </div>
   </details>` : "";
@@ -202,3 +221,111 @@ const localizedFooterHtml = localizeSharedMarkup(locale, footerHtml)
 ---
 
 <div class="site-footer" set:html={localizedFooterHtml} />
+
+{localeAlternates.length > 1 && (
+  <aside
+    class="language-suggestion"
+    data-language-suggestion
+    data-current-locale={locale}
+    data-routes={JSON.stringify(languageSuggestionRoutes)}
+    data-copy={JSON.stringify(languageSuggestionCopy)}
+    data-i18n-skip
+    aria-label={languageSuggestionCopy[locale].label}
+    aria-live="polite"
+    hidden
+  >
+    <span class="language-suggestion__marker" aria-hidden="true"></span>
+    <div class="language-suggestion__content">
+      <p class="language-suggestion__message" data-language-suggestion-message></p>
+      <div class="language-suggestion__actions">
+        <a class="language-suggestion__accept" data-language-suggestion-accept href="/"></a>
+        <button class="language-suggestion__dismiss" data-language-suggestion-dismiss type="button">{languageSuggestionCopy[locale].dismiss}</button>
+      </div>
+    </div>
+  </aside>
+)}
+
+<script is:inline>
+  function setupPeakLanguagePreference() {
+    const preferenceKey = "peak-preferred-locale";
+
+    const savePreference = (locale) => {
+      try {
+        window.localStorage.setItem(preferenceKey, locale);
+      } catch {
+        // Language selection still works when storage is unavailable.
+      }
+    };
+
+    document.addEventListener("click", (event) => {
+      const option = event.target instanceof Element ? event.target.closest("[data-language-locale]") : null;
+      const selectedLocale = option?.getAttribute("data-language-locale");
+      if (selectedLocale) savePreference(selectedLocale);
+    });
+
+    document.querySelectorAll("[data-language-suggestion]").forEach((suggestion) => {
+      if (!(suggestion instanceof HTMLElement) || suggestion.dataset.ready === "true") return;
+      suggestion.dataset.ready = "true";
+
+      const currentLocale = suggestion.dataset.currentLocale;
+      const message = suggestion.querySelector("[data-language-suggestion-message]");
+      const accept = suggestion.querySelector("[data-language-suggestion-accept]");
+      const dismiss = suggestion.querySelector("[data-language-suggestion-dismiss]");
+      if (!currentLocale || !(message instanceof HTMLElement) || !(accept instanceof HTMLAnchorElement) || !(dismiss instanceof HTMLButtonElement)) return;
+
+      let routes;
+      let copyByLocale;
+      try {
+        routes = JSON.parse(suggestion.dataset.routes ?? "{}");
+        copyByLocale = JSON.parse(suggestion.dataset.copy ?? "{}");
+      } catch {
+        return;
+      }
+
+      const normalizeLocale = (value) => {
+        const normalized = String(value ?? "").toLowerCase();
+        if (normalized === "pt-br" || normalized.startsWith("pt-br-")) return "pt-br";
+        const baseLocale = normalized.split("-")[0];
+        return routes[baseLocale] ? baseLocale : null;
+      };
+
+      let storedLocale = null;
+      try {
+        storedLocale = normalizeLocale(window.localStorage.getItem(preferenceKey));
+      } catch {
+        // Fall back to browser preferences when storage is unavailable.
+      }
+
+      if (storedLocale && storedLocale !== currentLocale && routes[storedLocale] && window.location.pathname === "/") {
+        window.location.replace(routes[storedLocale].href);
+        return;
+      }
+
+      const browserLocales = Array.isArray(navigator.languages) && navigator.languages.length
+        ? navigator.languages
+        : [navigator.language];
+      const detectedLocale = browserLocales.map(normalizeLocale).find(Boolean);
+      const suggestedLocale = storedLocale ?? detectedLocale;
+      const target = suggestedLocale ? routes[suggestedLocale] : null;
+      const copy = suggestedLocale ? copyByLocale[suggestedLocale] : null;
+      const currentCopy = copyByLocale[currentLocale];
+      if (!suggestedLocale || suggestedLocale === currentLocale || !target || !copy || !currentCopy) return;
+
+      const interpolate = (template) => String(template ?? "").replaceAll("{language}", target.label);
+      suggestion.setAttribute("aria-label", copy.label);
+      message.textContent = interpolate(copy.message);
+      accept.textContent = `${target.flag} ${interpolate(copy.action)}`;
+      accept.href = target.href;
+      dismiss.textContent = currentCopy.dismiss;
+      accept.addEventListener("click", () => savePreference(suggestedLocale));
+      dismiss.addEventListener("click", () => {
+        savePreference(currentLocale);
+        suggestion.hidden = true;
+      });
+      suggestion.hidden = false;
+    });
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", setupPeakLanguagePreference, { once: true });
+  else setupPeakLanguagePreference();
+</script>
