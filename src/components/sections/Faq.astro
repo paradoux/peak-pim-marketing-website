@@ -9,13 +9,24 @@ type Item = {
   answer: string;
   link?: { label: CtaLabel; href: string; external?: boolean };
 };
-type Props = { id?: string; title?: string; description?: string; items: Item[] };
+type Props = {
+  id?: string;
+  title?: string;
+  description?: string;
+  items: Item[];
+  supportTitle?: string;
+  supportDescription?: string;
+  supportCtaLabel?: CtaLabel;
+};
 
 const {
   id,
   title = "Frequently asked questions",
   description = "Everything you need to know about Peak PIM and getting started.",
   items,
+  supportTitle = "Still have questions?",
+  supportDescription = "Reach out to our team and we’ll help you find the right setup.",
+  supportCtaLabel = ctaLabels.talkToUs,
 } = Astro.props;
 ---
 
@@ -54,9 +65,9 @@ const {
           <div class="margin-top margin-xxlarge">
             <div class="text-align-center">
               <div class="max-width-medium align-center">
-                <div class="margin-bottom margin-xsmall"><h3 class="heading-style-h4">Still have questions?</h3></div>
-                <p class="text-size-medium">Reach out to our team and we’ll help you find the right setup.</p>
-                <div class="margin-top margin-medium"><div class="button-group is-center"><Button href="#" variant="secondary" crisp>{ctaLabels.talkToUs}</Button></div></div>
+                <div class="margin-bottom margin-xsmall"><h3 class="heading-style-h4">{supportTitle}</h3></div>
+                <p class="text-size-medium">{supportDescription}</p>
+                <div class="margin-top margin-medium"><div class="button-group is-center"><Button href="#" variant="secondary" crisp>{supportCtaLabel}</Button></div></div>
               </div>
             </div>
           </div>

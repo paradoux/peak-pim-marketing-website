@@ -75,6 +75,7 @@ if (!sitemap.includes("<loc>https://peak-pim.com/guides/</loc>")) failures.push(
 if (!sitemap.includes("<loc>https://peak-pim.com/history/</loc>")) failures.push("Sitemap is missing the History URL");
 if (!sitemap.includes("<loc>https://peak-pim.com/search/</loc>")) failures.push("Sitemap is missing the Global Search URL");
 if (!sitemap.includes("<loc>https://peak-pim.com/ai-assistant/</loc>")) failures.push("Sitemap is missing the AI Assistant URL");
+if (!sitemap.includes("<loc>https://peak-pim.com/fr/traductions-produits-shopify/</loc>")) failures.push("Sitemap is missing the French translations URL");
 if (!sitemap.includes("<loc>https://peak-pim.com/customers/maeli-paris/</loc>")) failures.push("Sitemap is missing the Maéli Paris customer story URL");
 if (!sitemap.includes("<loc>https://peak-pim.com/customers/carre-coco/</loc>")) failures.push("Sitemap is missing the Carré Coco customer story URL");
 if (sitemap.includes("https://peak-pim.com/partners/")) failures.push("Sitemap exposes the unfinished partners page");

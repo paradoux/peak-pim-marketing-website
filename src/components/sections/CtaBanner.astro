@@ -1,6 +1,6 @@
 ---
 import Button from "../ui/Button.astro";
-import { bookDemoUrl, ctaLabels, type CtaLabel } from "../../data/cta-copy";
+import { bookDemoUrl, ctaLabels, isBookDemoLabel, type CtaLabel } from "../../data/cta-copy";
 
 type Props = {
   id?: string;
@@ -27,7 +27,7 @@ const {
   secondaryCrisp = false,
   trustLine,
 } = Astro.props;
-const isBookDemo = secondaryLabel === ctaLabels.bookDemo;
+const isBookDemo = isBookDemoLabel(secondaryLabel);
 const resolvedSecondaryHref = isBookDemo ? bookDemoUrl : secondaryHref;
 const resolvedSecondaryExternal = isBookDemo ? true : secondaryExternal;
 const resolvedSecondaryCrisp = isBookDemo ? false : secondaryCrisp;

@@ -1,0 +1,115 @@
+---
+import CardGrid from "../../components/sections/CardGrid.astro";
+import CtaBanner from "../../components/sections/CtaBanner.astro";
+import Faq from "../../components/sections/Faq.astro";
+import FeatureGrid from "../../components/sections/FeatureGrid.astro";
+import Hero from "../../components/sections/Hero.astro";
+import LogoCloud from "../../components/sections/LogoCloud.astro";
+import ProblemGrid from "../../components/sections/ProblemGrid.astro";
+import Testimonial from "../../components/sections/Testimonial.astro";
+import TranslationsCardVisual from "../../components/visuals/TranslationsCardVisual.astro";
+import TranslationsHeroVisual from "../../components/visuals/TranslationsHeroVisual.astro";
+import { assets } from "../../data/assets";
+import { frenchCtaLabels } from "../../data/cta-copy";
+import LandingPageLayout from "../../layouts/LandingPageLayout.astro";
+
+const appStoreUrl = "https://apps.shopify.com/peak-pim";
+const problems = [
+  { icon: "store", title: "Les langues se chevauchent entre les boutiques", description: "Le français peut exister dans une boutique dédiée à la France et dans une boutique internationale, avec des champs remplis et des textes différents dans chacune." },
+  { icon: "review", title: "Les écarts de traduction restent invisibles", description: "Sans vue transversale d'une langue dans toutes les boutiques, il est difficile de repérer un titre, une valeur d'option, un champ SEO ou un champ méta qui a divergé." },
+  { icon: "clock", title: "Les champs manquants apparaissent trop tard", description: "Un produit peut sembler traduit alors que les identifiants d'URL, les valeurs d'option, les champs personnalisés ou une autre boutique utilisent encore la langue source." },
+];
+const workflows = [
+  { tagline: "Organiser", title: "Visualisez toute la matrice de traduction", description: "Passez d'une boutique avec toutes ses langues à une langue dans toutes les boutiques. Le contenu source reste visible à côté de chaque champ pendant la modification." },
+  { tagline: "Traduire", title: "Laissez l'IA préparer le premier brouillon", description: "Remplissez une cellule, une colonne de langue ou tous les champs manquants avec un modèle connecté ou un assistant MCP. Les valeurs générées reviennent comme brouillons non enregistrés à réviser." },
+  { tagline: "Réutiliser", title: "Copiez les traductions entre les boutiques", description: "Copiez les traductions d'un produit vers une ou plusieurs boutiques. Peak PIM inclut uniquement les langues prises en charge par chaque cible et indique ce qui a été copié ou ignoré." },
+];
+const features = [
+  { icon: "store", title: "Les langues viennent de Shopify", description: "Peak PIM lit les langues configurées dans chaque boutique connectée et crée les emplacements boutique × langue dont votre catalogue a réellement besoin." },
+  { icon: "edit", title: "Traduisez plus que le titre et la description", description: "Gérez les identifiants d'URL, types de produit, champs SEO, contenus de collection, noms et valeurs d'option, ainsi que les champs méta traduisibles avec le reste du contenu produit." },
+  { icon: "grid", title: "Traitez toute une saison dans une seule grille", description: "Utilisez la vue Traductions en masse pour afficher les produits en lignes et les langues et champs en colonnes, puis publiez ensemble le travail terminé." },
+  { icon: "publish", title: "Gardez chaque parcours en mode brouillon", description: "Les traductions saisies, copiées ou générées par l'IA restent des brouillons jusqu'à ce qu'une personne les révise avec la source et choisisse de les publier." },
+];
+const faqItems = [
+  { question: "Comment Peak PIM sait-il quelles langues sont nécessaires dans chaque boutique ?", answer: "Peak PIM lit les langues configurées dans chaque boutique Shopify connectée et affiche automatiquement les emplacements de traduction correspondants. Vous n'avez pas à maintenir une liste de langues séparée dans Peak PIM." },
+  { question: "Puis-je comparer la même langue dans plusieurs boutiques ?", answer: "Oui. Choisissez une langue pour l'afficher dans toutes les boutiques au sein d'une même matrice, repérer les valeurs différentes ou manquantes et diffuser une traduction dans plusieurs boutiques lorsqu'elles doivent être identiques." },
+  { question: "Quels champs de produit et de collection puis-je traduire ?", answer: "Les traductions couvrent les titres, descriptions, identifiants d'URL, types de produit, titres et descriptions SEO des produits, les titres, descriptions, identifiants d'URL et champs SEO des collections, les noms et valeurs d'option des variantes, ainsi que les champs personnalisés traduisibles comme les champs méta." },
+  { question: "Puis-je voir le contenu source pendant la traduction ?", answer: "Oui. La colonne de référence dans la langue source peut rester visible à côté de la grille afin que les personnes chargées de la révision voient toujours le champ d'origine et son brouillon localisé ensemble." },
+  { question: "L'IA peut-elle traduire mon catalogue ?", answer: "Oui. Un assistant MCP connecté peut travailler de façon conversationnelle, ou vous pouvez connecter le modèle de langue de votre choix pour traduire dans la grille. Dans les deux cas, le résultat revient dans Peak PIM comme brouillon à réviser." },
+  { question: "Peak PIM m'impose-t-il un modèle de traduction ?", answer: "Non. Le workflow est conçu pour fonctionner avec l'IA de votre choix, notamment avec des assistants compatibles via MCP ou un modèle connecté pour la traduction dans la grille." },
+  { question: "Puis-je copier des traductions existantes vers une nouvelle boutique Shopify ?", answer: "Oui. Choisissez une boutique source et une ou plusieurs cibles. Peak PIM copie les traductions du produit uniquement pour les langues prises en charge par chaque cible et affiche un récapitulatif des éléments copiés et ignorés." },
+  { question: "Puis-je traduire des produits en masse ?", answer: "Oui. La vue Traductions en masse place les produits en lignes et les langues et champs en colonnes. Une équipe peut ainsi modifier et publier une collection ou un catalogue saisonnier sans ouvrir chaque produit." },
+  { question: "Comment les traductions arrivent-elles dans Shopify ?", answer: "Enregistrer conserve le travail comme brouillon dans Peak PIM. Enregistrer et publier envoie les traductions approuvées aux boutiques Shopify sélectionnées par le même processus de publication que le reste du catalogue." },
+];
+const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqItems.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })) };
+---
+
+<LandingPageLayout
+  locale="fr"
+  title="Gérer les traductions de produits Shopify dans un PIM | Peak PIM"
+  description="Gérez, traduisez avec l'IA, révisez, copiez et publiez les traductions de vos produits Shopify dans toutes vos langues et boutiques depuis un PIM multiboutique."
+  canonicalPath="/fr/traductions-produits-shopify"
+  schemaType="SoftwareApplication"
+  additionalSchemas={[faqSchema]}
+  ogTitle="Toutes vos traductions Shopify au même endroit"
+  ogDescription="Gérez chaque boutique, chaque langue et chaque champ traduisible avec des brouillons assistés par l'IA et une publication contrôlée."
+>
+  <Hero
+    title="Toutes vos langues et boutiques, au même endroit"
+    description="Gérez, traduisez avec l'IA, révisez et publiez les traductions de vos produits et collections dans toutes vos boutiques Shopify, sans reconstruire le même catalogue dans des feuilles de calcul ou des applications séparées."
+    primaryCta={{ label: frenchCtaLabels.tryFree, href: appStoreUrl, external: true }}
+    secondaryCta={{ label: frenchCtaLabels.seeHowItWorks, href: "#translation-workflow" }}
+  ><TranslationsHeroVisual locale="fr" /></Hero>
+  <LogoCloud title="Déjà adopté par plus de 50 marchands dans le monde" />
+  <ProblemGrid
+    tagline="Boutique × langue × champ"
+    title="Visualisez toute la matrice de traduction"
+    description="Peak PIM affiche chaque emplacement de traduction requis par vos boutiques Shopify. Les contenus manquants, les écarts entre boutiques et les retours à la langue source deviennent visibles avant que vos clients ne les découvrent."
+    items={problems}
+    link={{ label: frenchCtaLabels.learnMore, href: "/shopify-catalog-health-center" }}
+  />
+  <CardGrid
+    id="translation-workflow"
+    tagline="Un espace de travail, deux vues"
+    title="Traduisez avec le contexte, puis réutilisez le travail"
+    description="Passez du contenu source à des textes de boutique révisés sans perdre le lien entre les produits, les langues, les champs et les boutiques."
+    cards={workflows}
+  >
+    <TranslationsCardVisual slot="visual-1" mode="matrix" locale="fr" />
+    <TranslationsCardVisual slot="visual-2" mode="ai" locale="fr" />
+    <TranslationsCardVisual slot="visual-3" mode="copy" locale="fr" />
+  </CardGrid>
+  <Testimonial
+    quote="Peak PIM a changé notre façon de travailler. Shopify gère notre vitrine et Peak PIM pilote tout notre catalogue par-dessus."
+    name="Amélie Samson"
+    role="Fondatrice, Maéli Paris"
+    image={assets.testimonials.amelieSamson}
+    companyLogo={assets.customerLogos.light.maeli}
+    ratingLabel="5 étoiles sur 5"
+  />
+  <FeatureGrid
+    tagline="Conçu pour les opérations catalogue"
+    title="D'un produit à tout un catalogue saisonnier"
+    description="Les langues sont découvertes automatiquement, les champs Shopify avancés restent accessibles et chaque parcours de traduction se termine par la même révision humaine et le même processus de publication."
+    features={features}
+    cta={{ label: frenchCtaLabels.learnMore, href: "/ai-catalog-connector" }}
+  />
+  <CtaBanner
+    id="start"
+    title="Rassemblez toutes vos langues dans un catalogue unique"
+    description="Repérez chaque manque, préparez les traductions avec l'IA de votre choix, révisez-les avec la source et publiez-les dans les bonnes boutiques Shopify."
+    primaryLabel={frenchCtaLabels.tryFree}
+    primaryHref={appStoreUrl}
+    secondaryLabel={frenchCtaLabels.bookDemo}
+    trustLine="Essai gratuit de 10 jours. Configuration offerte. Aucune carte bancaire requise."
+  />
+  <Faq
+    id="faq"
+    title="Questions fréquentes"
+    description="Tout ce qu'il faut savoir pour gérer les traductions Shopify dans plusieurs langues et boutiques avec Peak PIM."
+    items={faqItems}
+    supportTitle="Vous avez encore des questions ?"
+    supportDescription="Contactez notre équipe. Nous vous aiderons à trouver la configuration adaptée."
+    supportCtaLabel={frenchCtaLabels.talkToUs}
+  />
+</LandingPageLayout>

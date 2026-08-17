@@ -1,0 +1,10 @@
+---
+import { localizedStaticPaths } from "../../i18n/static-paths";
+
+export const prerender = true;
+export function getStaticPaths() {
+  return localizedStaticPaths("de");
+}
+const { englishPath } = Astro.props;
+return Astro.rewrite(englishPath);
+---

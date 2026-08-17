@@ -19,6 +19,7 @@ const featurePages = [
   { slug: "shopify-metafield-management", title: "Metafield Management", detail: "Typed Shopify data across every store" },
   { slug: "shopify-metaobjects", title: "Metaobjects Management", detail: "Reusable structured content, managed centrally" },
   { slug: "shopify-pim-translations", title: "Product Translations", detail: "Every language beside the source catalog" },
+  { slug: "fr-shopify-pim-translations", title: "Traductions produits", detail: "Chaque langue à côté du catalogue source" },
   { slug: "shopify-product-drops", title: "Drops", detail: "Schedule catalog changes and automatic rollbacks" },
   { slug: "shopify-product-import-export", title: "Product Import & Export", detail: "Safe spreadsheet workflows for the whole catalog" },
   { slug: "shopify-product-management", title: "Products & Variants", detail: "One connected product model for every store" },

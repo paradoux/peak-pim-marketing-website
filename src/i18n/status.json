@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "units": [
+    {
+      "id": "shared-marketing-chrome-fr",
+      "locale": "fr",
+      "sources": [
+        "src/components/SiteFooter.astro",
+        "src/components/SiteHeader.astro",
+        "src/data/cta-copy.ts",
+        "src/data/site-navigation.ts"
+      ],
+      "translations": [
+        "src/i18n/shared-copy.ts"
+      ],
+      "observedSourceHash": "aebf5e47d241918d545ffa06158e7a8a19ba20c0b81e31fde2d4cf8eafa6eecf",
+      "reviewedSourceHash": "aebf5e47d241918d545ffa06158e7a8a19ba20c0b81e31fde2d4cf8eafa6eecf",
+      "status": "reviewed"
+    },
+    {
+      "id": "shopify-pim-translations-fr",
+      "locale": "fr",
+      "sources": [
+        "src/components/visuals/TranslationsCardVisual.astro",
+        "src/components/visuals/TranslationsHeroVisual.astro",
+        "src/pages/shopify-pim-translations.astro"
+      ],
+      "translations": [
+        "src/pages/fr/traductions-produits-shopify.astro"
+      ],
+      "observedSourceHash": "a9ed0f284bc641f0a40d141642164f9424330e0affb898b4c71669664ff0b7a0",
+      "reviewedSourceHash": "a9ed0f284bc641f0a40d141642164f9424330e0affb898b4c71669664ff0b7a0",
+      "status": "reviewed"
+    },
+    {
+      "id": "public-marketing-pages-localized",
+      "locale": "fr,de,es,it,nl,pt-BR,pl,ja",
+      "sources": [
+        "src/content/recreated-pages/1-click-setup.html",
+        "src/content/recreated-pages/bulk-edit.html",
+        "src/content/recreated-pages/index.html",
+        "src/content/recreated-pages/industry_fashion.html",
+        "src/content/recreated-pages/mission.html",
+        "src/content/recreated-pages/pricing.html",
+        "src/content/recreated-pages/replace-your-shopify-app-stack.html",
+        "src/content/recreated-pages/shopify-media-management.html",
+        "src/content/recreated-pages/shopify-multi-store-pim.html",
+        "src/content/recreated-pages/shopify-pim-alternatives.html",
+        "src/content/recreated-pages/shopify-sync.html",
+        "src/content/recreated-pages/vs_akeneo.html",
+        "src/content/recreated-pages/vs_catsy.html",
+        "src/content/recreated-pages/vs_plytix.html",
+        "src/content/recreated-pages/vs_quable.html",
+        "src/content/recreated-pages/vs_shopify-admin.html",
+        "src/pages/ai-assistant.astro",
+        "src/pages/ai-catalog-connector.astro",
+        "src/pages/api.astro",
+        "src/pages/blog/index.astro",
+        "src/pages/build-vs-buy-pim.astro",
+        "src/pages/customers/carre-coco.astro",
+        "src/pages/customers/maeli-paris.astro",
+        "src/pages/guides/index.astro",
+        "src/pages/history.astro",
+        "src/pages/search.astro",
+        "src/pages/shopify-catalog-health-center.astro",
+        "src/pages/shopify-collections.astro",
+        "src/pages/shopify-custom-fields.astro",
+        "src/pages/shopify-markets-pricing.astro",
+        "src/pages/shopify-metafield-management.astro",
+        "src/pages/shopify-metaobjects.astro",
+        "src/pages/shopify-product-drops.astro",
+        "src/pages/shopify-product-import-export.astro",
+        "src/pages/shopify-product-management.astro",
+        "src/pages/user-roles-permissions.astro",
+        "src/components/SiteFooter.astro",
+        "src/components/SiteHeader.astro",
+        "src/components/sections",
+        "src/components/visuals",
+        "src/data/cta-copy.ts",
+        "src/data/pages.ts",
+        "src/data/pricing-feature-matrix.ts",
+        "src/data/site-navigation.ts",
+        "src/data/social-proof.ts",
+        "src/lib/page-source.ts"
+      ],
+      "translations": [
+        "src/i18n/fr-translations.json",
+        "src/i18n/de-translations.json",
+        "src/i18n/es-translations.json",
+        "src/i18n/it-translations.json",
+        "src/i18n/nl-translations.json",
+        "src/i18n/pt-br-translations.json",
+        "src/i18n/pl-translations.json",
+        "src/i18n/ja-translations.json"
+      ],
+      "observedSourceHash": "7f2cef1aafb55d803c4ea2c20c6b9a89f79cefae7561f18cc5d650cfb040b434",
+      "reviewedSourceHash": "7f2cef1aafb55d803c4ea2c20c6b9a89f79cefae7561f18cc5d650cfb040b434",
+      "status": "reviewed"
+    }
+  ]
+}

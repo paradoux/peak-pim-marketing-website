@@ -3,6 +3,7 @@ import { existsSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 import { pages } from "../data/pages";
 import { entryUrl, getPublishedArticles, getPublishedGuides } from "../lib/content";
+import { defaultLocale, getLocaleAlternates, localizedRoutes, translatedLocales } from "../i18n/config";
 import { canonicalUrl } from "../lib/site-url";
 
 export const prerender = true;
@@ -29,6 +30,16 @@ function sourceLastModified(relativePath: string) {
 
 function isoDate(date: Date) {
   return date.toISOString().slice(0, 10);
+}
+
+function sitemapAlternateLinks(url: string) {
+  const alternates = getLocaleAlternates(new URL(url).pathname);
+  const defaultAlternate = alternates.find((alternate) => alternate.locale === defaultLocale);
+
+  return [
+    ...alternates.map((alternate) => ({ hreflang: alternate.hreflang, href: alternate.url })),
+    ...(defaultAlternate ? [{ hreflang: "x-default", href: defaultAlternate.url }] : []),
+  ];
 }
 
 export async function GET() {
@@ -78,11 +89,20 @@ export async function GET() {
     url: entryUrl("guides", entry),
     lastModified: isoDate(entry.data.updatedDate ?? entry.data.publishDate),
   }));
-  const entries = [...staticEntries, ...collectionIndexEntries, ...designSystemEntries, ...customerStoryEntries, ...articleEntries, ...guideEntries];
+  const englishEntries = [...staticEntries, ...collectionIndexEntries, ...designSystemEntries, ...customerStoryEntries, ...articleEntries, ...guideEntries];
+  const localizedEntries = localizedRoutes.flatMap((route) => {
+    const englishEntry = englishEntries.find((entry) => entry.url === canonicalUrl(route.paths.en));
+    if (!englishEntry) throw new Error(`Missing English sitemap source for localized route: ${route.key}`);
+    return translatedLocales.map((locale) => ({ url: canonicalUrl(route.paths[locale]), lastModified: englishEntry.lastModified }));
+  });
+  const entries = [...englishEntries, ...localizedEntries];
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${entries.map(({ url, lastModified }) => `  <url><loc>${url}</loc><lastmod>${lastModified}</lastmod></url>`).join("\n")}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${entries.map(({ url, lastModified }) => {
+    const alternateLinks = sitemapAlternateLinks(url);
+    return `  <url><loc>${url}</loc><lastmod>${lastModified}</lastmod>${alternateLinks.map((alternate) => `<xhtml:link rel="alternate" hreflang="${alternate.hreflang}" href="${alternate.href}" />`).join("")}</url>`;
+  }).join("\n")}
 </urlset>
 `;
 

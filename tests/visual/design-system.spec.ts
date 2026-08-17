@@ -5,6 +5,7 @@ const pages = [
   { name: "ai-assistant", path: "/ai-assistant" },
   { name: "bulk-edit", path: "/bulk-edit" },
   { name: "translations", path: "/shopify-pim-translations" },
+  { name: "translations-fr", path: "/fr/traductions-produits-shopify" },
   { name: "import-export", path: "/shopify-product-import-export" },
   { name: "drops", path: "/shopify-product-drops" },
   { name: "health-center", path: "/shopify-catalog-health-center" },
@@ -47,6 +48,74 @@ for (const target of pages) {
     });
   }
 }
+
+test("localized navigation · header omits the retired language shortcut", async ({ page }) => {
+  for (const target of [
+    { path: "/shopify-pim-translations", locale: "en" },
+    { path: "/fr/traductions-produits-shopify", locale: "fr" },
+  ]) {
+    for (const width of [1440, 768, 375]) {
+      await prepare(page, target.path, width, 900);
+      await expect(page.locator("html")).toHaveAttribute("lang", target.locale);
+
+      if (width < 992) await page.locator(".navbar10_menu-button").click();
+
+      await expect(page.locator(".site-language-switcher")).toHaveCount(0);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+    }
+  }
+});
+
+test("localized pages · footer language menu opens upward and links to the equivalent page", async ({ page }) => {
+  for (const target of [
+    { path: "/pricing/", current: "English", alternate: "Français", alternatePath: "/fr/tarifs/" },
+    { path: "/fr/tarifs/", current: "Français", alternate: "English", alternatePath: "/pricing/" },
+  ]) {
+    for (const width of [1440, 768, 375]) {
+      await prepare(page, target.path, width, 900);
+      const footer = page.locator(".site-footer");
+      await footer.scrollIntoViewIfNeeded();
+      const details = footer.locator(".site-footer-language");
+      const trigger = details.locator("summary");
+      await expect(trigger).toContainText(target.current);
+      await trigger.click();
+      await expect(details).toHaveAttribute("open", "");
+      await expect(details.locator(".site-footer-language__option")).toHaveCount(9);
+      const alternate = details.getByRole("link", { name: new RegExp(target.alternate) });
+      await expect(alternate).toHaveAttribute("href", target.alternatePath);
+      const geometry = await details.evaluate((element) => {
+        const triggerRect = element.querySelector("summary")!.getBoundingClientRect();
+        const menuRect = element.querySelector(".site-footer-language__menu")!.getBoundingClientRect();
+        return { opensUpward: menuRect.bottom <= triggerRect.top, left: menuRect.left, right: menuRect.right };
+      });
+      expect(geometry.opensUpward).toBe(true);
+      expect(geometry.left).toBeGreaterThanOrEqual(0);
+      expect(geometry.right).toBeLessThanOrEqual(width);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+    }
+  }
+});
+
+test("localized public pages · every language remains responsive across representative families", async ({ page }) => {
+  for (const target of [
+    { path: "/fr/assistant-ia/", lang: "fr", label: "Français" },
+    { path: "/de/preise/", lang: "de", label: "Deutsch" },
+    { path: "/es/clientes/maeli-paris/", lang: "es", label: "Español" },
+    { path: "/it/confronto/akeneo/", lang: "it", label: "Italiano" },
+    { path: "/nl/shopify-productbeheer/", lang: "nl", label: "Nederlands" },
+    { path: "/pt-br/", lang: "pt-BR", label: "Português (BR)" },
+    { path: "/pl/zarzadzanie-metapolami-shopify/", lang: "pl", label: "Polski" },
+    { path: "/ja/shopify-shohin-honyaku/", lang: "ja", label: "日本語" },
+  ]) {
+    for (const width of [1440, 768, 375]) {
+      await prepare(page, target.path, width, 900);
+      await expect(page.locator("html")).toHaveAttribute("lang", target.lang);
+      await expect(page.locator("h1")).toHaveCount(1);
+      await expect(page.locator(".site-footer-language__trigger")).toContainText(target.label);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+    }
+  }
+});
 
 test("homepage · hero CTA pair is responsive and uses canonical actions", async ({ page }) => {
   for (const width of [1440, 768, 375]) {

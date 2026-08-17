@@ -56,6 +56,15 @@ Consult these guides before working on related tasks:
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
 
+## Localization workflow
+
+- English remains the source language at the existing unprefixed URLs. Reviewed French, German, Spanish, Italian, Dutch, Brazilian Portuguese, Polish, and Japanese pages use their locale-prefixed routes registered in `src/i18n/config.ts`.
+- Localize each new translated page's handle into the audience's language using short lowercase ASCII words separated by hyphens. Keep a published handle stable; if it must change, add a permanent `301` redirect and update the canonical, reciprocal `hreflang`, internal links, sitemap, and `public/llms.txt` in the same change.
+- After changing English source copy that already has a localized equivalent, run `npm run i18n:sync`. Update the translation in the same change or leave the unit explicitly marked `stale` for a later translation batch.
+- When a stale translation is reviewed, copy its `observedSourceHash` to `reviewedSourceHash` and set the status to `reviewed` in `src/i18n/status.json`.
+- Do not publish automatic English fallbacks under localized URLs. Keep canonicals, reciprocal `hreflang`, the sitemap, structured data, shared navigation, and `public/llms.txt` synchronized.
+- Run `npm run check:i18n` after the production build. See `docs/internationalization.md` for the complete workflow.
+
 ## Peak PIM landing pages
 
 For any new or substantially redesigned marketing landing page, read and follow:

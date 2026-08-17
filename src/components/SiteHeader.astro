@@ -2,6 +2,16 @@
 import { getSharedHeaderHtml } from "../lib/page-source";
 import { exploreNavigationLinks, featureNavigationGroups, resourceNavigationLinks } from "../data/site-navigation";
 import { assets } from "../data/assets";
+import { localizeInternalHref, type Locale } from "../i18n/config";
+import { localizeSharedMarkup, translateSharedCopy } from "../i18n/shared-copy";
+
+type Props = {
+  locale?: Locale;
+};
+
+const { locale = "en" } = Astro.props;
+const tr = (value: string) => translateSharedCopy(locale, value);
+const localizedHref = (href: string) => localizeInternalHref(href, locale);
 
 function escapeHtml(value: string) {
   return value
@@ -16,26 +26,26 @@ const featureGroupsHtml = featureNavigationGroups.filter((group) => group.label 
     <div class="feature-mega-menu__group-heading">
       <span class="feature-mega-menu__marker" aria-hidden="true"></span>
       <div>
-        <div id="feature-group-${group.label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}" class="feature-mega-menu__title">${escapeHtml(group.label)}</div>
-        <p class="feature-mega-menu__group-description">${escapeHtml(group.description)}</p>
+        <div id="feature-group-${group.label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}" class="feature-mega-menu__title">${escapeHtml(tr(group.label))}</div>
+        <p class="feature-mega-menu__group-description">${escapeHtml(tr(group.description))}</p>
       </div>
     </div>
     <div class="feature-mega-menu__links">
       ${group.links.map((link) => link.comingSoon ? `
         <div class="feature-mega-menu__link is-coming-soon" aria-disabled="true">
           <span class="feature-mega-menu__link-heading">
-            <span class="feature-mega-menu__link-title">${escapeHtml(link.label)}</span>
-            <span class="feature-status-badge">Coming soon</span>
+            <span class="feature-mega-menu__link-title">${escapeHtml(tr(link.label))}</span>
+            <span class="feature-status-badge">${escapeHtml(tr("Coming soon"))}</span>
           </span>
-          <span class="feature-mega-menu__link-description">${escapeHtml(link.description ?? "")}</span>
+          <span class="feature-mega-menu__link-description">${escapeHtml(tr(link.description ?? ""))}</span>
         </div>
       ` : `
-        <a href="${escapeHtml(link.href)}" class="feature-mega-menu__link">
+        <a href="${escapeHtml(localizedHref(link.href))}" class="feature-mega-menu__link">
           <span class="feature-mega-menu__link-heading">
-            <span class="feature-mega-menu__link-title">${escapeHtml(link.label)}</span>
-            ${link.badge ? `<span class="feature-status-badge">${escapeHtml(link.badge)}</span>` : ""}
+            <span class="feature-mega-menu__link-title">${escapeHtml(tr(link.label))}</span>
+            ${link.badge ? `<span class="feature-status-badge">${escapeHtml(tr(link.badge))}</span>` : ""}
           </span>
-          <span class="feature-mega-menu__link-description">${escapeHtml(link.description ?? "")}</span>
+          <span class="feature-mega-menu__link-description">${escapeHtml(tr(link.description ?? ""))}</span>
         </a>
       `).join("")}
     </div>
@@ -54,7 +64,7 @@ const featureMenuHtml = `
         <div class="feature-mega-menu__intro">
           <span class="feature-mega-menu__eyebrow">One Shopify PIM. Every catalog workflow.</span>
           <p>Connect all your stores, plug in your stack, and run your entire catalog from one place.</p>
-          <a href="${escapeHtml(liveDemoLink.href)}" target="_blank" rel="noopener" class="feature-mega-menu__demo-link">${escapeHtml(liveDemoLink.label)}<span aria-hidden="true">&rarr;</span></a>
+          <a href="${escapeHtml(liveDemoLink.href)}" target="_blank" rel="noopener" class="feature-mega-menu__demo-link">${escapeHtml(tr(liveDemoLink.label))}<span aria-hidden="true">&rarr;</span></a>
         </div>
         <div class="feature-mega-menu__grid">${featureGroupsHtml}</div>
       </div>
@@ -129,8 +139,8 @@ const resourceMenuHtml = `
           <div class="resources-mega-menu__grid">
             ${resourceNavigationLinks.map((link) => `
               <a href="${escapeHtml(link.href)}" target="_blank" rel="noopener" class="resources-mega-menu__link">
-                <span class="resources-mega-menu__link-heading"><span class="resources-mega-menu__link-marker" aria-hidden="true"></span><strong>${escapeHtml(link.label)}</strong></span>
-                <span>${escapeHtml(link.description ?? "")}</span>
+                <span class="resources-mega-menu__link-heading"><span class="resources-mega-menu__link-marker" aria-hidden="true"></span><strong>${escapeHtml(tr(link.label))}</strong></span>
+                <span>${escapeHtml(tr(link.description ?? ""))}</span>
               </a>
             `).join("")}
           </div>
@@ -160,9 +170,10 @@ const headerHtml = headerWithFeatureMenu
     '<a href="/pricing" class="navbar10_link w-nav-link">Pricing</a>',
     '<a href="/pricing/" class="navbar10_link w-nav-link">Pricing</a>',
   );
+const localizedHeaderHtml = localizeSharedMarkup(locale, headerHtml);
 ---
 
-<div class="site-header" set:html={headerHtml} />
+<div class="site-header" set:html={localizedHeaderHtml} />
 
 <script is:inline>
   function setupPeakNavigation() {

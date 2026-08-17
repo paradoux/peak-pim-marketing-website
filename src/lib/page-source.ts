@@ -136,6 +136,8 @@ export function getPageDocument(page: PageDefinition) {
 }
 
 function applyContentCorrections(html: string, page: PageDefinition) {
+  html = correctMismatchedComparisonSchema(html, page);
+
   if (page.slug === "") {
     return improveHomepagePricingPreview(updateSharedLogoBanner(html));
   }
@@ -201,6 +203,43 @@ function applyContentCorrections(html: string, page: PageDefinition) {
     .replaceAll("Account manager", "Dedicated support");
 
   return removePricingFeature(removePricingFeature(withCurrentLimits, enterprisePlanCardStart, "Metaobjects"), enterprisePlanCardStart, "Translations");
+}
+
+function correctMismatchedComparisonSchema(html: string, page: PageDefinition) {
+  const correctedPages: Record<string, { name: string; description: string; url: string }> = {
+    "replace-your-shopify-app-stack": {
+      name: "Shopify PIM vs app stack: one tool instead of five (2026)",
+      description: "Stop juggling 5 Shopify apps for product data. Peak PIM replaces Matrixify, Metafields Guru, bulk editors, and DAM tools with one Shopify-native PIM.",
+      url: "https://peak-pim.com/replace-your-shopify-app-stack/",
+    },
+    "vs/shopify-admin": {
+      name: "Shopify admin vs PIM: when to add Peak PIM (2026)",
+      description: "Shopify admin works for small catalogs. At hundreds of products with metafields, media, and multiple stores, you need a Shopify PIM. See when Peak PIM helps.",
+      url: "https://peak-pim.com/vs/shopify-admin/",
+    },
+  };
+  const correctedPage = correctedPages[page.slug];
+  if (!correctedPage) return html;
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    ...correctedPage,
+    isPartOf: {
+      "@type": "WebSite",
+      name: "Peak PIM",
+      url: "https://peak-pim.com/",
+    },
+    about: {
+      "@type": "SoftwareApplication",
+      "@id": "https://peak-pim.com/#software",
+      name: "Peak PIM",
+    },
+  };
+  const jsonLdPattern = /<script\b(?=[^>]*\btype=["']application\/ld\+json["'])[^>]*>[\s\S]*?<\/script>/i;
+
+  if (!jsonLdPattern.test(html)) throw new Error(`Missing structured data on ${page.slug}.`);
+  return html.replace(jsonLdPattern, `<script type="application/ld+json">${JSON.stringify(schema)}</script>`);
 }
 
 function improveMissionPage(html: string) {

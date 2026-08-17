@@ -2,6 +2,13 @@
 import { comparisonNavigationLinks, exploreNavigationLinks, featureNavigationGroups } from "../data/site-navigation";
 import { ctaExceptions } from "../data/cta-copy";
 import { getSharedFooterHtml } from "../lib/page-source";
+import { getLocaleAlternates, localeMetadata, localizeInternalHref, publicPath, type Locale } from "../i18n/config";
+import { localizeSharedMarkup, translateSharedCopy } from "../i18n/shared-copy";
+
+type Props = { locale?: Locale; currentPath?: string };
+const { locale = "en", currentPath = Astro.url.pathname } = Astro.props;
+const tr = (value: string) => translateSharedCopy(locale, value);
+const localizedHref = (href: string) => localizeInternalHref(href, locale);
 
 function escapeHtml(value: string) {
   return value
@@ -63,17 +70,17 @@ if (
 
 const featureColumnHtml = `
   <div class="footer1_link-column site-footer__features-column">
-    <div class="margin-bottom margin-small"><div class="text-weight-semibold site-footer__column-heading"><span class="site-footer__heading-marker" aria-hidden="true"></span>Features</div></div>
+    <div class="margin-bottom margin-small"><div class="text-weight-semibold site-footer__column-heading"><span class="site-footer__heading-marker" aria-hidden="true"></span>${escapeHtml(tr("Features"))}</div></div>
     <div class="site-footer__feature-categories">
       ${featureNavigationGroups.filter((group) => group.label !== "Solutions").map((group) => `
         <div class="site-footer__feature-category${group.label === "Operate" ? " is-dense" : ""}">
-          <div class="site-footer__feature-category-title">${escapeHtml(group.label)}</div>
+          <div class="site-footer__feature-category-title">${escapeHtml(tr(group.label))}</div>
           <div class="footer1_link-list">
             ${group.links.map((link) => link.comingSoon
-              ? `<span class="footer1_link site-footer__coming-soon" aria-disabled="true"><span>${escapeHtml(link.label)}</span><span class="feature-status-badge">Coming soon</span></span>`
+              ? `<span class="footer1_link site-footer__coming-soon" aria-disabled="true"><span>${escapeHtml(tr(link.label))}</span><span class="feature-status-badge">${escapeHtml(tr("Coming soon"))}</span></span>`
               : link.badge
-                ? `<a href="${escapeHtml(link.href)}" class="footer1_link site-footer__feature-link"><span>${escapeHtml(link.label)}</span><span class="feature-status-badge">${escapeHtml(link.badge)}</span></a>`
-                : `<a href="${escapeHtml(link.href)}" class="footer1_link"><span>${escapeHtml(link.label)}</span></a>`
+                ? `<a href="${escapeHtml(localizedHref(link.href))}" class="footer1_link site-footer__feature-link"><span>${escapeHtml(tr(link.label))}</span><span class="feature-status-badge">${escapeHtml(tr(link.badge))}</span></a>`
+                : `<a href="${escapeHtml(localizedHref(link.href))}" class="footer1_link"><span>${escapeHtml(tr(link.label))}</span></a>`
             ).join("")}
           </div>
         </div>
@@ -115,7 +122,26 @@ if (
 const socialListHtml = originalSocialListHtml
   .replace('class="footer1_link-list"', 'class="footer1_link-list site-footer__social-links site-footer__bottom-social-links"')
   .replaceAll('target="_blank"', 'target="_blank" rel="noopener"');
-const logoCtaHtml = `<div class="site-footer__logo-cta"><a href="${escapeHtml(liveDemoLink.href)}" target="_blank" rel="noopener" class="button is-secondary w-button">${escapeHtml(ctaExceptions.liveDemo)}</a></div>`;
+const logoCtaHtml = `<div class="site-footer__logo-cta"><a href="${escapeHtml(liveDemoLink.href)}" target="_blank" rel="noopener" class="button is-secondary w-button">${escapeHtml(tr(ctaExceptions.liveDemo))}</a></div>`;
+const localeAlternates = getLocaleAlternates(currentPath);
+const languageMenuLabel = localeMetadata[locale].languageMenuLabel;
+const languageSwitcherHtml = localeAlternates.length > 1 ? `
+  <details class="site-footer-language" data-i18n-skip>
+    <summary class="site-footer-language__trigger" aria-label="${languageMenuLabel}">
+      <span aria-hidden="true">${localeMetadata[locale].flag}</span>
+      <span>${localeMetadata[locale].label}</span>
+      <svg class="site-footer-language__chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="m3 6 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"/></svg>
+    </summary>
+    <div class="site-footer-language__menu" aria-label="${languageMenuLabel}">
+      ${localeAlternates.map((alternate) => {
+        const optionLocale = alternate.locale;
+        const optionContent = `<span aria-hidden="true">${localeMetadata[optionLocale].flag}</span><span>${localeMetadata[optionLocale].label}</span>${optionLocale === locale ? '<svg class="site-footer-language__check" viewBox="0 0 16 16" aria-hidden="true"><path d="m3 8 3 3 7-7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"/></svg>' : ""}`;
+        return optionLocale === locale
+          ? `<span class="site-footer-language__option is-active" aria-current="page">${optionContent}</span>`
+          : `<a class="site-footer-language__option" href="${publicPath(alternate.path)}" hreflang="${alternate.hreflang}" lang="${alternate.hreflang}">${optionContent}</a>`;
+      }).join("")}
+    </div>
+  </details>` : "";
 const leftWrapperHtml = originalLeftWrapperHtml.slice(0, -6) + logoCtaHtml + "</div>";
 const footerPrefixHtml = originalFooterHtml
   .slice(0, featureColumnStart)
@@ -123,7 +149,7 @@ const footerPrefixHtml = originalFooterHtml
 const originalFooterSuffixHtml = originalFooterHtml.slice(connectColumnStart + originalConnectColumnHtml.length);
 const footerSuffixHtml = originalFooterSuffixHtml.replace(
   '<div class="footer1_credit-text">© 2026 Peak PIM. All rights reserved.</div><div class="w-layout-grid footer1_legal-list">',
-  `<div class="footer1_credit-text">© 2026 Peak PIM. All rights reserved.</div>${socialListHtml}<div class="w-layout-grid footer1_legal-list">`,
+  `<div class="footer1_credit-text">© 2026 Peak PIM. All rights reserved.</div>${socialListHtml}${languageSwitcherHtml}<div class="w-layout-grid footer1_legal-list">`,
 );
 
 if (footerSuffixHtml === originalFooterSuffixHtml) {
@@ -132,9 +158,9 @@ if (footerSuffixHtml === originalFooterSuffixHtml) {
 
 const solutionsColumnHtml = `
   <div class="footer1_link-column site-footer__solutions-column">
-    <div class="margin-bottom margin-xsmall"><div class="text-weight-semibold site-footer__column-heading">${headingMarker}Solutions</div></div>
+    <div class="margin-bottom margin-xsmall"><div class="text-weight-semibold site-footer__column-heading">${headingMarker}${escapeHtml(tr("Solutions"))}</div></div>
     <div class="footer1_link-list">
-      ${solutionsGroup.links.map((link) => `<a href="${escapeHtml(link.href)}" class="footer1_link">${escapeHtml(link.label)}</a>`).join("")}
+      ${solutionsGroup.links.map((link) => `<a href="${escapeHtml(localizedHref(link.href))}" class="footer1_link">${escapeHtml(tr(link.label))}</a>`).join("")}
     </div>
   </div>`;
 const peakColumnHtml = originalFooterHtml
@@ -171,6 +197,8 @@ const footerHtml = footerPrefixHtml
   + peakColumnHtml
   + resourcesColumnHtml
   + footerSuffixHtml;
+const localizedFooterHtml = localizeSharedMarkup(locale, footerHtml)
+  .replaceAll('href="/shopify-pim-translations"', `href="${localizedHref("/shopify-pim-translations")}"`);
 ---
 
-<div class="site-footer" set:html={footerHtml} />
+<div class="site-footer" set:html={localizedFooterHtml} />

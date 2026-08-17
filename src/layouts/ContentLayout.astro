@@ -5,6 +5,7 @@ import LeadCaptureModal from "../components/LeadCaptureModal.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import { contentJsonLd, entryPath, entryUrl, formatDate, type ContentEntry, type ContentKind } from "../lib/content";
+import { defaultLocale, getLocaleAlternates, getRoutePath, localeMetadata } from "../i18n/config";
 import { canonicalUrl as getCanonicalUrl } from "../lib/site-url";
 import "../styles/global.css";
 
@@ -14,15 +15,20 @@ type Props = {
 };
 
 const { kind, entry } = Astro.props;
+const locale = Astro.locals.locale ?? defaultLocale;
 const title = entry.data.seoTitle ?? entry.data.title;
 const description = entry.data.seoDescription ?? entry.data.description;
-const canonicalUrl = entry.data.canonicalPath ? getCanonicalUrl(entry.data.canonicalPath) : entryUrl(kind, entry);
+const sourceCanonicalPath = entry.data.canonicalPath ?? new URL(entryUrl(kind, entry)).pathname;
+const canonicalPath = getRoutePath(sourceCanonicalPath, locale) ?? sourceCanonicalPath;
+const canonicalUrl = getCanonicalUrl(canonicalPath);
+const localeAlternates = getLocaleAlternates(canonicalPath);
+const defaultAlternate = localeAlternates.find((alternate) => alternate.locale === defaultLocale);
 const jsonLd = contentJsonLd(kind, entry);
 const eyebrow = kind === "articles" ? "Article" : "Guide";
 ---
 
 <!doctype html>
-<html lang="en" data-wf-domain="peak-pim.com">
+<html lang={localeMetadata[locale].hreflang} data-wf-domain="peak-pim.com">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -31,6 +37,8 @@ const eyebrow = kind === "articles" ? "Article" : "Guide";
     <meta name="peak-content-entry" content={entryPath(kind, entry)} />
     {entry.data.noindex && <meta name="robots" content="noindex,nofollow" />}
     <link rel="canonical" href={canonicalUrl} />
+    {localeAlternates.map((alternate) => <link rel="alternate" hreflang={alternate.hreflang} href={alternate.url} />)}
+    {defaultAlternate && <link rel="alternate" hreflang="x-default" href={defaultAlternate.url} />}
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     <link rel="preload" href="/mirror/fonts/V8mDoQDjQSkFtoMM3T6r8E7mPbF4Cw-4ecc7e89b7.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/mirror/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7-6ab57b19c6.woff2" as="font" type="font/woff2" crossorigin />
@@ -39,7 +47,7 @@ const eyebrow = kind === "articles" ? "Article" : "Guide";
   <body>
     <div class="page-wrapper site-page">
       <GlobalWebflowStyles />
-      <SiteHeader />
+      <SiteHeader locale={locale} />
       <main class="content-shell">
         <a class="content-back" href={kind === "articles" ? "/blog" : "/guides"}>{kind === "articles" ? "All articles" : "All guides"}</a>
         <article class="content-article">
@@ -59,8 +67,8 @@ const eyebrow = kind === "articles" ? "Article" : "Guide";
           </div>
         </article>
       </main>
-      <SiteFooter />
-      <LeadCaptureModal />
+      <SiteFooter locale={locale} currentPath={canonicalPath} />
+      {locale === defaultLocale && <LeadCaptureModal />}
       <CrispChat />
     </div>
   </body>

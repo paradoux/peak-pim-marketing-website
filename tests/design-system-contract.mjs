@@ -722,7 +722,7 @@ if (existsSync(sitemapFile)) {
   if (sitemapUrls.some((url) => url !== "https://peak-pim.com/" && !url.endsWith("/"))) failures.push("Sitemap contains a URL that redirects to its trailing-slash version");
   if ((sitemap.match(/<lastmod>/g) ?? []).length !== sitemapUrls.length) failures.push("Sitemap last-modified dates are incomplete");
 
-  const approvedCtas = new Set([
+  const approvedCtaSources = [
     "Get Peak PIM",
     "Try for free",
     "Book a demo",
@@ -735,7 +735,14 @@ if (existsSync(sitemapFile)) {
     "See the comparison",
     "Learn more",
     "See comparison",
-  ]);
+  ];
+  const localizedCtaCaches = ["fr", "de", "es", "it", "nl", "pt-br", "pl", "ja"]
+    .map((locale) => JSON.parse(readFileSync(resolve(projectRoot, `src/i18n/${locale}-translations.json`), "utf8")));
+  const approvedCtas = new Set(approvedCtaSources.flatMap((source) => [
+    source,
+    ...localizedCtaCaches.map((cache) => cache[source]).filter(Boolean),
+  ]));
+  const bookDemoLabels = new Set(["Book a demo", ...localizedCtaCaches.map((cache) => cache["Book a demo"]).filter(Boolean)]);
 
   for (const pageUrl of sitemapUrls) {
     const pathname = new URL(pageUrl).pathname;
@@ -766,7 +773,7 @@ if (existsSync(sitemapFile)) {
         .trim();
 
       if (!approvedCtas.has(label)) failures.push(`${pathname} contains non-approved CTA copy: ${label}`);
-      if (label === "Book a demo") {
+      if (bookDemoLabels.has(label)) {
         if (!match[2].includes('href="https://calendar.app.google/M9DEEDbc6AxRaNNX6"')) failures.push(`${pathname} contains a Book a demo CTA with the wrong destination`);
         if (!match[2].includes('target="_blank"') || !match[2].includes('rel="noopener"')) failures.push(`${pathname} contains a Book a demo CTA that does not open safely in a new tab`);
         if (/data-open-crisp/i.test(match[2])) failures.push(`${pathname} contains a Book a demo CTA that still opens Crisp`);

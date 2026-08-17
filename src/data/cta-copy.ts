@@ -22,9 +22,29 @@ export const ctaExceptions = {
   seeUseCase: "See use case",
 } as const;
 
+export const frenchCtaLabels = {
+  getPeakPim: "Installer Peak PIM",
+  tryFree: "Essayer gratuitement",
+  bookDemo: "Réserver une démo",
+  talkToUs: "Nous contacter",
+  seePricing: "Voir les tarifs",
+  seeHowItWorks: "Voir comment ça marche",
+  seeComparison: "Voir la comparaison",
+  seeComparisonCompact: "Comparer",
+  learnMore: "En savoir plus",
+  liveDemo: "Démo en ligne",
+  apiDocumentation: "Voir la documentation API",
+  seeUseCase: "Voir le cas client",
+} as const;
+
 export type CtaExceptionLabel = (typeof ctaExceptions)[keyof typeof ctaExceptions];
-export type CtaLabel = CanonicalCtaLabel | CtaExceptionLabel;
-export const approvedCtaLabels: CtaLabel[] = [...canonicalCtaLabels, ...Object.values(ctaExceptions)];
+export type FrenchCtaLabel = (typeof frenchCtaLabels)[keyof typeof frenchCtaLabels];
+export type CtaLabel = CanonicalCtaLabel | CtaExceptionLabel | FrenchCtaLabel;
+export const approvedCtaLabels: CtaLabel[] = [...canonicalCtaLabels, ...Object.values(ctaExceptions), ...Object.values(frenchCtaLabels)];
+
+export function isBookDemoLabel(label: CtaLabel) {
+  return label === ctaLabels.bookDemo || label === frenchCtaLabels.bookDemo;
+}
 
 const legacyCtaLabels: Record<string, CanonicalCtaLabel> = {
   "Try Peak PIM free": ctaLabels.tryFree,

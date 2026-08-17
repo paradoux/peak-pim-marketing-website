@@ -1,21 +1,76 @@
 ---
 import ProductVisualFrame from "../ui/ProductVisualFrame.astro";
+import type { Locale } from "../../i18n/config";
+
+type Props = { locale?: Locale };
+const { locale = "en" } = Astro.props;
+const copy = locale === "fr" ? {
+  ariaLabel: "Workflow de traduction Peak PIM montrant la couverture du catalogue, les brouillons générés par l'IA, la révision côte à côte et la publication multiboutique",
+  section: "Traductions",
+  status: "Brouillons révisés",
+  action: "Publier les traductions",
+  coverage: "Couverture des traductions",
+  frenchGaps: "Français · 18 manquants",
+  germanGaps: "Allemand · 11 manquants",
+  health: "Analyse du Centre de contrôle",
+  product: "Veste Alpine",
+  view: "Français dans toutes les boutiques",
+  sourceVisible: "Source visible",
+  field: "Champ",
+  source: "Source · EN",
+  france: "France",
+  international: "International",
+  title: "Titre",
+  seo: "Description SEO",
+  option: "Valeur d'option",
+  care: "Champ méta d'entretien",
+  aiDraft: "Brouillon IA",
+  findGaps: "Repérer les manques",
+  fillDrafts: "L'IA prépare les brouillons",
+  review: "Réviser avec la source",
+  publish: "Publier",
+} : {
+  ariaLabel: "Peak PIM translation workflow showing catalog coverage, AI-generated drafts, side-by-side review, and multi-store publishing",
+  section: "Translations",
+  status: "Drafts reviewed",
+  action: "Publish translations",
+  coverage: "Translation coverage",
+  frenchGaps: "French · 18 gaps",
+  germanGaps: "German · 11 gaps",
+  health: "Health Center analysis",
+  product: "Alpine Jacket",
+  view: "French across all stores",
+  sourceVisible: "Source visible",
+  field: "Field",
+  source: "Source · EN",
+  france: "France",
+  international: "International",
+  title: "Title",
+  seo: "SEO description",
+  option: "Option value",
+  care: "Care metafield",
+  aiDraft: "AI draft",
+  findGaps: "Find gaps",
+  fillDrafts: "AI fills drafts",
+  review: "Review source",
+  publish: "Publish",
+};
 ---
-<ProductVisualFrame ariaLabel="Peak PIM translation workflow showing catalog coverage, AI-generated drafts, side-by-side review, and multi-store publishing" section="Translations" status="Drafts reviewed" actionLabel="Publish translations">
+<ProductVisualFrame ariaLabel={copy.ariaLabel} section={copy.section} status={copy.status} actionLabel={copy.action}>
   <div class="peak-tr-workspace">
     <aside class="peak-tr-health">
-      <small>Translation coverage</small><strong>68%</strong><span><i style="width:68%"></i></span><b>French · 18 gaps</b><b>German · 11 gaps</b><em>Health Center analysis</em>
+      <small>{copy.coverage}</small><strong>68%</strong><span><i style="width:68%"></i></span><b>{copy.frenchGaps}</b><b>{copy.germanGaps}</b><em>{copy.health}</em>
     </aside>
     <div class="peak-tr-main">
-      <div class="peak-tr-heading"><div><small>Alpine Jacket</small><b>French across all stores</b></div><span>Source visible</span></div>
+      <div class="peak-tr-heading"><div><small>{copy.product}</small><b>{copy.view}</b></div><span>{copy.sourceVisible}</span></div>
       <div class="peak-tr-grid">
-        <div class="is-head"><span>Field</span><span>Source · EN</span><span>France</span><span>International</span></div>
-        <div><b>Title</b><span>Alpine Jacket</span><span>Veste Alpine</span><span>Veste Alpine</span></div>
-        <div><b>SEO description</b><span>Weather-ready shell…</span><span class="is-ai">Coque conçue pour… <em>AI draft</em></span><span class="is-ai">Coque conçue pour… <em>AI draft</em></span></div>
-        <div><b>Option value</b><span>Red</span><span>Rouge</span><span>Rouge</span></div>
-        <div><b>Care metafield</b><span>Cold wash</span><span class="is-ai">Lavage à froid <em>AI draft</em></span><span class="is-ai">Lavage à froid <em>AI draft</em></span></div>
+        <div class="is-head"><span>{copy.field}</span><span>{copy.source}</span><span>{copy.france}</span><span>{copy.international}</span></div>
+        <div><b>{copy.title}</b><span lang={locale === "fr" ? "en" : undefined}>Alpine Jacket</span><span>Veste Alpine</span><span>Veste Alpine</span></div>
+        <div><b>{copy.seo}</b><span lang={locale === "fr" ? "en" : undefined}>Weather-ready shell…</span><span class="is-ai">Coque conçue pour… <em>{copy.aiDraft}</em></span><span class="is-ai">Coque conçue pour… <em>{copy.aiDraft}</em></span></div>
+        <div><b>{copy.option}</b><span lang={locale === "fr" ? "en" : undefined}>Red</span><span>Rouge</span><span>Rouge</span></div>
+        <div><b>{copy.care}</b><span lang={locale === "fr" ? "en" : undefined}>Cold wash</span><span class="is-ai">Lavage à froid <em>{copy.aiDraft}</em></span><span class="is-ai">Lavage à froid <em>{copy.aiDraft}</em></span></div>
       </div>
-      <div class="peak-tr-flow"><span><i>1</i>Find gaps</span><span><i>2</i>AI fills drafts</span><span><i>3</i>Review source</span><span class="is-ready"><i>4</i>Publish</span></div>
+      <div class="peak-tr-flow"><span><i>1</i>{copy.findGaps}</span><span><i>2</i>{copy.fillDrafts}</span><span><i>3</i>{copy.review}</span><span class="is-ready"><i>4</i>{copy.publish}</span></div>
     </div>
   </div>
 </ProductVisualFrame>

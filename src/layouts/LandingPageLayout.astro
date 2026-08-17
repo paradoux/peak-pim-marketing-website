@@ -5,6 +5,7 @@ import LeadCaptureModal from "../components/LeadCaptureModal.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import { assets } from "../data/assets";
+import { defaultLocale, findLocalizedRoute, getLocaleAlternates, getRoutePath, localeMetadata, type Locale } from "../i18n/config";
 import { canonicalUrl as getCanonicalUrl } from "../lib/site-url";
 import "../styles/global.css";
 
@@ -19,6 +20,7 @@ type Props = {
   ogTitle?: string;
   ogDescription?: string;
   ogImage?: string;
+  locale?: Locale;
 };
 
 const {
@@ -32,13 +34,20 @@ const {
   ogTitle = title,
   ogDescription = description,
   ogImage,
+  locale: localeProp,
 } = Astro.props;
-const canonicalUrl = getCanonicalUrl(canonicalPath);
+const locale = localeProp ?? Astro.locals.locale ?? defaultLocale;
+const effectiveCanonicalPath = getRoutePath(canonicalPath, locale) ?? canonicalPath;
+const canonicalUrl = getCanonicalUrl(effectiveCanonicalPath);
+const localeAlternates = getLocaleAlternates(effectiveCanonicalPath);
+const defaultAlternate = localeAlternates.find((alternate) => alternate.locale === defaultLocale);
 const organizationId = "https://peak-pim.com/#organization";
 const websiteId = "https://peak-pim.com/#website";
 const softwareId = "https://peak-pim.com/#software";
 const normalizedCanonicalPath = canonicalPath === "/" ? "/" : `/${canonicalPath.replace(/^\/+|\/+$/g, "")}`;
-const registeredFeatureOg = assets.marketing.featureOg[normalizedCanonicalPath as keyof typeof assets.marketing.featureOg];
+const englishCanonicalPath = findLocalizedRoute(normalizedCanonicalPath)?.paths.en ?? normalizedCanonicalPath;
+const registeredFeatureOg = assets.marketing.featureOg[normalizedCanonicalPath as keyof typeof assets.marketing.featureOg]
+  ?? assets.marketing.featureOg[englishCanonicalPath as keyof typeof assets.marketing.featureOg];
 const resolvedOgImage = ogImage ?? (schemaType === "SoftwareApplication" ? registeredFeatureOg : undefined);
 const organization = {
   "@context": "https://schema.org",
@@ -66,6 +75,7 @@ const jsonLd = {
   name: title,
   description,
   url: canonicalUrl,
+  inLanguage: locale,
   isPartOf: { "@id": websiteId },
   publisher: { "@id": organizationId },
   ...(schemaType === "SoftwareApplication" ? { about: { "@id": softwareId } } : {}),
@@ -112,16 +122,19 @@ const ogImageUrl = resolvedOgImage ? new URL(resolvedOgImage, "https://peak-pim.
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={localeMetadata[locale].hreflang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
+    {localeAlternates.map((alternate) => <link rel="alternate" hreflang={alternate.hreflang} href={alternate.url} />)}
+    {defaultAlternate && <link rel="alternate" hreflang="x-default" href={defaultAlternate.url} />}
     <meta property="og:type" content={schemaType === "Article" ? "article" : "website"} />
     <meta property="og:site_name" content="Peak PIM" />
-    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale" content={localeMetadata[locale].ogLocale} />
+    {localeAlternates.filter((alternate) => alternate.locale !== locale).map((alternate) => <meta property="og:locale:alternate" content={localeMetadata[alternate.locale].ogLocale} />)}
     <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={ogDescription} />
     <meta property="og:url" content={canonicalUrl} />
@@ -146,10 +159,10 @@ const ogImageUrl = resolvedOgImage ? new URL(resolvedOgImage, "https://peak-pim.
   <body>
     <div class="page-wrapper site-page">
       <GlobalWebflowStyles />
-      <SiteHeader />
+      <SiteHeader locale={locale} />
       <main class="main-wrapper"><slot /></main>
-      <SiteFooter />
-      <LeadCaptureModal />
+      <SiteFooter locale={locale} currentPath={effectiveCanonicalPath} />
+      {locale === defaultLocale && <LeadCaptureModal />}
       <CrispChat />
     </div>
     <script is:inline>

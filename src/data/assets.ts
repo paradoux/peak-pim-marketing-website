@@ -31,6 +31,7 @@ export const assets = {
       "/shopify-metafield-management": "/assets/og/shopify-metafield-management.png",
       "/shopify-metaobjects": "/assets/og/shopify-metaobjects.png",
       "/shopify-pim-translations": "/assets/og/shopify-pim-translations.png",
+      "/fr/traductions-produits-shopify": "/assets/og/fr-shopify-pim-translations.png",
       "/shopify-product-drops": "/assets/og/shopify-product-drops.png",
       "/shopify-product-import-export": "/assets/og/shopify-product-import-export.png",
       "/shopify-product-management": "/assets/og/shopify-product-management.png",

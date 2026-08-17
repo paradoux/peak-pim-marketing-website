@@ -5,9 +5,10 @@ type Props = {
   role: string;
   image?: string;
   companyLogo?: string;
+  ratingLabel?: string;
 };
 
-const { quote, name, role, image, companyLogo } = Astro.props;
+const { quote, name, role, image, companyLogo, ratingLabel = "5 out of 5 stars" } = Astro.props;
 const starPath = "M9 0.5L11.0206 6.71885H17.5595L12.2694 10.5623L14.2901 16.7812L9 12.9377L3.70993 16.7812L5.73056 10.5623L0.440492 6.71885H6.97937L9 0.5Z";
 ---
 
@@ -18,7 +19,7 @@ const starPath = "M9 0.5L11.0206 6.71885H17.5595L12.2694 10.5623L14.2901 16.7812
         <div class="max-width-large align-center">
           <div class="testimonial4_component peak-testimonial__component">
             <div class="testimonial4_content peak-testimonial__content">
-              <div class="testimonial4_rating-wrapper peak-testimonial__rating" aria-label="5 out of 5 stars">
+              <div class="testimonial4_rating-wrapper peak-testimonial__rating" aria-label={ratingLabel}>
                 {[1, 2, 3, 4, 5].map(() => (
                   <div class="testimonial4_rating-icon"><div class="icon-embed-xsmall w-embed"><svg width="100%" viewBox="0 0 18 17" aria-hidden="true"><path fill="currentColor" d={starPath}></path></svg></div></div>
                 ))}

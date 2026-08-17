@@ -5,6 +5,7 @@ import LeadCaptureModal from "../components/LeadCaptureModal.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import { formatDate, type ContentEntry } from "../lib/content";
+import { defaultLocale, getLocaleAlternates, getRoutePath, localeMetadata } from "../i18n/config";
 import { canonicalUrl as getCanonicalUrl } from "../lib/site-url";
 import "../styles/global.css";
 
@@ -22,12 +23,16 @@ type Props = {
 };
 
 const { title, description, canonicalPath, eyebrow, emptyMessage, noindexWhenEmpty = true, entries } = Astro.props;
-const canonicalUrl = getCanonicalUrl(canonicalPath);
+const locale = Astro.locals.locale ?? defaultLocale;
+const effectiveCanonicalPath = getRoutePath(canonicalPath, locale) ?? canonicalPath;
+const canonicalUrl = getCanonicalUrl(effectiveCanonicalPath);
+const localeAlternates = getLocaleAlternates(effectiveCanonicalPath);
+const defaultAlternate = localeAlternates.find((alternate) => alternate.locale === defaultLocale);
 const noindex = noindexWhenEmpty && entries.length === 0;
 ---
 
 <!doctype html>
-<html lang="en" data-wf-domain="peak-pim.com">
+<html lang={localeMetadata[locale].hreflang} data-wf-domain="peak-pim.com">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -35,6 +40,8 @@ const noindex = noindexWhenEmpty && entries.length === 0;
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex,nofollow" />}
     <link rel="canonical" href={canonicalUrl} />
+    {localeAlternates.map((alternate) => <link rel="alternate" hreflang={alternate.hreflang} href={alternate.url} />)}
+    {defaultAlternate && <link rel="alternate" hreflang="x-default" href={defaultAlternate.url} />}
     <script
       type="application/ld+json"
       set:html={JSON.stringify({
@@ -57,7 +64,7 @@ const noindex = noindexWhenEmpty && entries.length === 0;
   <body>
     <div class="page-wrapper site-page">
       <GlobalWebflowStyles />
-      <SiteHeader />
+      <SiteHeader locale={locale} />
       <main class="content-index">
         <section class="content-index-hero">
           <p>{eyebrow}</p>
@@ -81,8 +88,8 @@ const noindex = noindexWhenEmpty && entries.length === 0;
           }
         </section>
       </main>
-      <SiteFooter />
-      <LeadCaptureModal />
+      <SiteFooter locale={locale} currentPath={effectiveCanonicalPath} />
+      {locale === defaultLocale && <LeadCaptureModal />}
       <CrispChat />
     </div>
   </body>
