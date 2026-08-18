@@ -66,6 +66,10 @@ html {
   display: block;
 }
 
+.site-main .section_pricing2 {
+  height: auto !important;
+}
+
 .site-main a:focus-visible,
 .site-main button:focus-visible,
 .site-main [role="button"]:focus-visible,
@@ -84,7 +88,31 @@ html {
 
 .site-main .pricing54_top-row,
 .site-main .pricing54_row {
-  grid-template-columns: minmax(14rem, 1.5fr) repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(14rem, 1.5fr) repeat(4, minmax(0, 1fr));
+}
+
+.site-main .section_layout401 .layout401_row {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.site-main .pricing-plan-card {
+  min-width: 0;
+}
+
+.site-main .pricing-plan-card__marker {
+  width: 2rem;
+  height: 0.28rem;
+  margin-bottom: 1.25rem;
+  border-radius: 999px;
+  background: var(--color-brand-blue);
+}
+
+.site-main .pricing-plan-card--core .pricing-plan-card__marker {
+  width: 3rem;
+}
+
+.site-main .pricing-plan-card .pricing-plan-meta {
+  align-items: flex-start;
 }
 
 .site-main .pricing54_top-row {
@@ -565,6 +593,10 @@ path[style*="pp-pos-conn-line-pulse"] {
 }
 
 @media screen and (max-width: 991px) {
+  .site-main .section_layout401 .layout401_row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .section_logo2 .logo2_logo-list {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -635,6 +667,25 @@ path[style*="pp-pos-conn-line-pulse"] {
   color: var(--color-muted);
   font-size: 0.75rem;
   font-weight: 500;
+}
+
+.site-main .pricing-feature-unlimited {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  line-height: 1.15;
+}
+
+.site-main .pricing-feature-unlimited strong {
+  font-weight: 650;
+}
+
+.site-main .pricing-feature-unlimited small {
+  color: var(--color-muted);
+  font-size: 0.625rem;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 .site-main .pricing-feature-coming-soon,
@@ -1551,7 +1602,7 @@ path[style*="pp-pos-conn-line-pulse"] {
   }
 
   .site-main .pricing54_top-row {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     top: var(--site-header-height);
   }
 
@@ -1560,7 +1611,7 @@ path[style*="pp-pos-conn-line-pulse"] {
   }
 
   .site-main .pricing54_row {
-    grid-template-columns: minmax(12rem, 1.35fr) repeat(3, minmax(0, 1fr));
+    grid-template-columns: minmax(12rem, 1.35fr) repeat(4, minmax(0, 1fr));
   }
 
   .site-header .navbar10_menu[data-nav-menu-open] {
@@ -1707,6 +1758,10 @@ path[style*="pp-pos-conn-line-pulse"] {
 }
 
 @media screen and (max-width: 767px) {
+  .site-main .section_layout401 .layout401_row {
+    grid-template-columns: 1fr;
+  }
+
   html[lang="fr"] .site-main .pricing50_top-row-content,
   html[lang="fr"] .site-main .pricing50_top-row-wrapper,
   html[lang="fr"] .site-main .pricing50_top-row-price-wrapper,
@@ -1763,7 +1818,7 @@ path[style*="pp-pos-conn-line-pulse"] {
   }
 
   .site-main .pricing54_row {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .site-main .pricing54_feature {

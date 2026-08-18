@@ -657,14 +657,20 @@ if (existsSync(pricingFile)) {
   const pricingProofIndex = html.indexOf('<section class="section_stats26 peak-social-proof-stats');
   const pricingFaqIndex = html.indexOf('<section class="section_faq1 color-scheme-1">');
   if (!(pricingTableIndex < pricingProofIndex && pricingProofIndex < pricingFaqIndex)) failures.push("The pricing social proof must sit between the pricing table and FAQ");
-  if (schema.featureList?.length !== 34) failures.push("Pricing schema feature list is incomplete");
-  if (!schema.offers?.every((offer) => offer.additionalProperty?.length === 34)) failures.push("Pricing schema offers are not generated from the complete pricing matrix");
+  if (schema.featureList?.length !== 35) failures.push("Pricing schema feature list is incomplete");
+  if (!schema.offers?.every((offer) => offer.additionalProperty?.length === 35)) failures.push("Pricing schema offers are not generated from the complete pricing matrix");
   const schemaFeatureValue = (planName, featureName) => schema.offers
     ?.find((offer) => offer.name === planName)
     ?.additionalProperty?.find((property) => property.name === featureName)?.value;
   for (const [planName, featureName, expectedValue] of [
-    ["Core", "Drops", "Not included"],
-    ["Elite", "Drops", "Included"],
+    ["Basic", "Monthly updates", "2,000"],
+    ["Core", "Monthly updates", "10,000"],
+    ["Basic", "Drops", "1 per month"],
+    ["Basic", "SKUs", "Unlimited, fair usage"],
+    ["Basic", "File storage", "Unlimited, fair usage"],
+    ["Basic", "Users & permissions", "Not included"],
+    ["Core", "Drops", "2 per month"],
+    ["Elite", "Drops", "Unlimited"],
     ["Enterprise", "Metaobjects", "Included"],
     ["Elite", "Custom fields", "Included"],
     ["Core", "Amazon sync", "Coming soon"],
@@ -677,7 +683,7 @@ if (existsSync(pricingFile)) {
   ]) {
     if (schemaFeatureValue(planName, featureName) !== expectedValue) failures.push(`Pricing schema has an incorrect ${planName} value for ${featureName}`);
   }
-  for (const currentPricingFact of ["1,500 SKUs, 2 connected Shopify stores, 3 seats, and 100GB files", "5,000 SKUs, 3 connected Shopify stores, 15 seats, and 500GB files", "Enterprise limits are custom"]) {
+  for (const currentPricingFact of ["Basic is $49/month or $490/year", "Core is $99/month or $990/year", "Elite is $249/month or $2,490/year", "SKUs and file storage follow fair usage"]) {
     if (!html.includes(currentPricingFact)) failures.push(`Pricing crawler content is missing: ${currentPricingFact}`);
   }
   for (const category of ["Plan limits", "Connect", "Operate", "Manage &amp; Enrich", "Support"]) {
@@ -692,7 +698,7 @@ if (existsSync(pricingFile)) {
   for (const href of ["/shopify-sync", "/shopify-media-management", "/search", "/shopify-catalog-health-center", "/shopify-markets-pricing"]) {
     if (!html.includes(`href="${href}" class="pricing-feature-popover__link"`)) failures.push(`Pricing matrix is missing feature detail link: ${href}`);
   }
-  if ((html.match(/class="pricing-feature-info"/g) ?? []).length !== 34) failures.push("Pricing matrix information disclosures are incomplete");
+  if ((html.match(/class="pricing-feature-info"/g) ?? []).length !== 35) failures.push("Pricing matrix information disclosures are incomplete");
   if (!html.includes('summary aria-label="About Shopify sync"')) failures.push("Pricing matrix information controls are not accessibly labelled");
   if (!html.includes('<a href="https://app.peak-pim.com/demo" target="_blank" rel="noopener" class="footer1_link">Live demo</a>')) failures.push("Shared footer is missing the external Live demo link");
   if (!html.includes('<a href="https://help.peak-pim.com/en/" target="_blank" rel="noopener" class="footer1_link">Help Center</a>')) failures.push("Shared footer is missing the external Help Center link");

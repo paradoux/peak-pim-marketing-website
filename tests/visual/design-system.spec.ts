@@ -207,22 +207,23 @@ test("homepage · hero CTA pair is responsive and uses canonical actions", async
   }
 });
 
-test("homepage · pricing preview matches the current Core plan", async ({ page }) => {
+test("homepage · pricing preview matches the current Basic plan", async ({ page }) => {
   for (const width of [1440, 375]) {
     await prepare(page, "/", width, 1000);
     const pricing = page.locator(".section_pricing2");
 
-    await expect(pricing).toContainText("Core plan");
-    await expect(pricing).toContainText("$99");
+    await expect(pricing).toContainText("Basic plan");
+    await expect(pricing).toContainText("$49");
     await expect(pricing.locator(".pricing2_feature")).toHaveText([
       "1-click setup",
-      "2 connected Shopify stores",
-      "3 team seats",
-      "Up to 1,500 SKUs",
-      "100GB file storage",
+      "1 connected Shopify store",
+      "Unlimited SKUs (fair usage)",
+      "Unlimited file storage (fair usage)",
       "Bulk edit",
       "Import & export",
       "Shopify sync",
+      "AI Connector (MCP)",
+      "Drops (scheduled changes)",
     ]);
     await expect(pricing).not.toContainText("20GB");
     await expect(pricing).not.toContainText("Priority support");
@@ -381,10 +382,11 @@ test("pricing · categorized feature matrix and accessible information controls"
       "Manage & Enrich",
       "Support",
     ]);
-    await expect(matrix.locator(".pricing-feature-info")).toHaveCount(34);
+    await expect(matrix.locator(".pricing-feature-info")).toHaveCount(35);
     await expect(matrix.locator(".pricing-feature-name")).toContainText([
       "Connected Shopify stores",
       "Seats",
+      "Monthly updates",
       "SKUs",
       "File storage",
       "1-click setup",
@@ -428,7 +430,7 @@ test("pricing · categorized feature matrix and accessible information controls"
       "Markets & catalogs",
     ]);
     await expect(matrix.locator(".pricing-feature-name .feature-status-badge")).toHaveText(["New", "New", "New", "New", "New", "New", "New"]);
-    await expect(matrix.locator(".pricing54_top-row-content .heading-style-h6")).toHaveText(["Core", "Elite", "Enterprise"]);
+    await expect(matrix.locator(".pricing54_top-row-content .heading-style-h6")).toHaveText(["Basic", "Core", "Elite", "Enterprise"]);
     const socialProof = page.locator(".peak-social-proof-stats");
     await expect(socialProof).toContainText("50+");
     await expect(socialProof).toContainText("210+");

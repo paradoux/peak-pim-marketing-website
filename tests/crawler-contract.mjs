@@ -77,16 +77,22 @@ if (!existsSync(pricingFile)) {
   if (html.includes("unlimited stores")) failures.push("Pricing still contains the outdated unlimited-stores claim");
   if (html.includes("next billing cycle")) failures.push("Pricing schema conflicts with the visible plan-change policy");
   if (!schema.offers?.every((offer) => offer.availability === "https://schema.org/InStock")) failures.push("Pricing schema does not mark every live plan as available");
-  if (schema.featureList?.length !== 34) failures.push("Pricing schema feature list is incomplete");
-  if (!schema.offers?.every((offer) => offer.additionalProperty?.length === 34)) failures.push("Pricing offers do not expose the complete feature matrix");
+  if (schema.featureList?.length !== 35) failures.push("Pricing schema feature list is incomplete");
+  if (!schema.offers?.every((offer) => offer.additionalProperty?.length === 35)) failures.push("Pricing offers do not expose the complete feature matrix");
 
   const schemaFeatureValue = (planName, featureName) => schema.offers
     ?.find((offer) => offer.name === planName)
     ?.additionalProperty?.find((property) => property.name === featureName)?.value;
 
   for (const [planName, featureName, expectedValue] of [
-    ["Core", "Drops", "Not included"],
-    ["Elite", "Drops", "Included"],
+    ["Basic", "Monthly updates", "2,000"],
+    ["Core", "Monthly updates", "10,000"],
+    ["Basic", "Drops", "1 per month"],
+    ["Basic", "SKUs", "Unlimited, fair usage"],
+    ["Basic", "File storage", "Unlimited, fair usage"],
+    ["Basic", "Users & permissions", "Not included"],
+    ["Core", "Drops", "2 per month"],
+    ["Elite", "Drops", "Unlimited"],
     ["Enterprise", "Translations", "Included"],
     ["Elite", "Custom fields", "Included"],
     ["Core", "Amazon sync", "Coming soon"],
@@ -101,9 +107,10 @@ if (!existsSync(pricingFile)) {
   }
 
   for (const fact of [
-    "1,500 SKUs, 2 connected Shopify stores, 3 seats, and 100GB files",
-    "5,000 SKUs, 3 connected Shopify stores, 15 seats, and 500GB files",
-    "Enterprise limits are custom",
+    "Basic is $49/month or $490/year",
+    "Core is $99/month or $990/year",
+    "Elite is $249/month or $2,490/year",
+    "SKUs and file storage follow fair usage",
   ]) {
     if (!html.includes(fact)) failures.push(`Pricing crawler content is missing: ${fact}`);
   }

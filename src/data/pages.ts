@@ -60,7 +60,7 @@ export const pages: PageDefinition[] = [
     source: "pricing.html",
     title: "Peak PIM | Simple, Fair Pricing for Shopify Merchants",
     description:
-      "Peak PIM pricing starts at $99/mo with free setup, a 10-day trial, and 2 months free annually. Core, Elite, and Enterprise plans for Shopify teams.",
+      "Peak PIM pricing starts at $49/mo with free setup, a 10-day trial, and 2 months free annually. Compare Basic, Core, Elite, and Enterprise plans.",
     h1: "Simple pricing",
   },
   {
