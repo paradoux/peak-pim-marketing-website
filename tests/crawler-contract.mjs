@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
-import { join, resolve } from "node:path";
+import { join, relative, resolve } from "node:path";
+import * as parse5 from "parse5";
 
 const projectRoot = resolve(import.meta.dirname, "..");
 const failures = [];
@@ -8,6 +9,60 @@ function walk(directory) {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) =>
     entry.isDirectory() ? walk(join(directory, entry.name)) : [join(directory, entry.name)],
   );
+}
+
+function attribute(node, name) {
+  return node.attrs?.find((entry) => entry.name === name)?.value ?? "";
+}
+
+function hasAttribute(node, name) {
+  return node.attrs?.some((entry) => entry.name === name) ?? false;
+}
+
+function isHidden(node) {
+  return attribute(node, "aria-hidden") === "true" || hasAttribute(node, "hidden") || hasAttribute(node, "inert");
+}
+
+function accessibleText(node) {
+  if (!node || isHidden(node) || ["script", "style", "template"].includes(node.tagName)) return "";
+  if (node.nodeName === "#text") return node.value ?? "";
+  if (node.tagName === "img") return attribute(node, "alt");
+  return (node.childNodes ?? []).map(accessibleText).join(" ");
+}
+
+function normalizeText(value) {
+  return value.replace(/\s+/g, " ").trim();
+}
+
+function visibleUnnamedLinks(html) {
+  const document = parse5.parse(html);
+  const elementsById = new Map();
+  const visibleLinks = [];
+
+  function collect(node, ancestorIsHidden = false) {
+    const nodeIsHidden = ancestorIsHidden || isHidden(node);
+    const id = attribute(node, "id");
+    if (id) elementsById.set(id, node);
+    if (node.tagName === "a" && attribute(node, "href") && !nodeIsHidden) visibleLinks.push(node);
+    for (const child of node.childNodes ?? []) collect(child, nodeIsHidden);
+  }
+
+  collect(document);
+
+  return visibleLinks.filter((link) => {
+    let name = normalizeText(attribute(link, "aria-label")) || normalizeText(attribute(link, "title"));
+    if (!name) {
+      name = normalizeText(
+        attribute(link, "aria-labelledby")
+          .split(/\s+/)
+          .filter(Boolean)
+          .map((id) => accessibleText(elementsById.get(id)))
+          .join(" "),
+      );
+    }
+    if (!name) name = normalizeText(accessibleText(link));
+    return !name;
+  });
 }
 
 const pricingFile = resolve(projectRoot, "dist/pricing/index.html");
@@ -63,6 +118,11 @@ if (existsSync(distDirectory)) {
       if (match[1] !== "https://peak-pim.com/" && !match[1].endsWith("/")) {
         failures.push(`${file} has a redirecting canonical URL: ${match[1]}`);
       }
+    }
+
+    for (const link of visibleUnnamedLinks(html)) {
+      const route = relative(distDirectory, file).replaceAll("\\", "/").replace(/(^|\/)index\.html$/, "$1") || "/";
+      failures.push(`${route} has a visible link without a discernible name: ${attribute(link, "href")}`);
     }
   }
 }
