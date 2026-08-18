@@ -116,6 +116,14 @@ function parseBasicAuth(header: string | null) {
 
 export const onRequest = async (context: PagesContext) => {
   const url = new URL(context.request.url);
+
+  if (url.hostname === "www.peak-pim.com") {
+    url.protocol = "https:";
+    url.hostname = "peak-pim.com";
+    url.port = "";
+    return Response.redirect(url.toString(), 301);
+  }
+
   const productionHost = isProductionHost(context.request);
 
   if (!productionHost && url.pathname === "/robots.txt") {
