@@ -397,7 +397,8 @@ html {
 }
 
 @keyframes peak-pill-rotate {
-  to { transform: rotate(1turn); }
+  from { transform: translate(-50%, -50%) rotate(0turn); }
+  to { transform: translate(-50%, -50%) rotate(1turn); }
 }
 
 .pp-hf-bulk-cell-r2,
@@ -529,14 +530,17 @@ html {
 .ppim-home-pill-border {
   isolation: isolate;
   overflow: hidden;
-  background: transparent !important;
+  background: rgba(40, 69, 214, 0.18) !important;
   animation: none !important;
 }
 
 .ppim-home-pill-border::before {
   position: absolute;
   z-index: 0;
-  inset: -300%;
+  top: 50%;
+  left: 50%;
+  width: 110%;
+  aspect-ratio: 1;
   background: conic-gradient(
     rgba(40, 69, 214, 0) 0deg,
     rgba(40, 69, 214, 0) 250deg,
@@ -545,6 +549,7 @@ html {
     rgba(40, 69, 214, 0) 360deg
   );
   content: "";
+  transform: translate(-50%, -50%);
   animation: peak-pill-rotate 3s linear infinite;
   will-change: transform;
 }

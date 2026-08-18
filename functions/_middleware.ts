@@ -3,8 +3,10 @@ type PagesContext = {
   env: {
     ADMIN_USERNAME?: string;
     ADMIN_PASSWORD?: string;
+    CF_PAGES_COMMIT_SHA?: string;
   };
   next: () => Promise<Response>;
+  waitUntil: (promise: Promise<unknown>) => void;
 };
 
 const noIndexHeaders = {
@@ -12,6 +14,8 @@ const noIndexHeaders = {
 };
 
 const productionHosts = new Set(["peak-pim.com", "www.peak-pim.com"]);
+const browserPageCacheControl = "public, max-age=0, must-revalidate";
+const edgePageCacheControl = "public, max-age=0, must-revalidate, s-maxage=86400";
 
 function isProductionHost(request: Request) {
   return productionHosts.has(new URL(request.url).hostname);
@@ -48,6 +52,59 @@ function notFound() {
 
 function isContentDetailPath(pathname: string) {
   return /^\/(?:blog|guides)\/[^/]+\/?$/.test(pathname);
+}
+
+function isCacheablePublicPage(request: Request) {
+  const url = new URL(request.url);
+  const lastPathSegment = url.pathname.split("/").pop() ?? "";
+  const hasFileExtension = /\.[a-z0-9]+$/i.test(lastPathSegment);
+
+  return request.method === "GET"
+    && !hasFileExtension
+    && !url.pathname.startsWith("/admin")
+    && !url.pathname.startsWith("/api/");
+}
+
+function publicPageCacheKey(request: Request, deployment: string) {
+  const url = new URL(request.url);
+  url.searchParams.set("__peak_deployment", deployment);
+  return new Request(url.toString(), { method: "GET" });
+}
+
+function servedPublicPage(response: Response) {
+  const servedResponse = new Response(response.body, response);
+  servedResponse.headers.set("Cache-Control", browserPageCacheControl);
+  servedResponse.headers.delete("Cache-Tag");
+  return servedResponse;
+}
+
+async function cachedPublicPage(context: PagesContext, url: URL, productionHost: boolean) {
+  const deployment = context.env.CF_PAGES_COMMIT_SHA ?? "current";
+  const cacheKey = publicPageCacheKey(context.request, deployment);
+  const cache = caches.default;
+  const cached = await cache.match(cacheKey);
+
+  if (cached) {
+    return servedPublicPage(cached);
+  }
+
+  const response = await context.next();
+  const contentResponse = isContentDetailPath(url.pathname)
+    ? await protectMissingContentDetail(response)
+    : response;
+  const contentType = contentResponse.headers.get("content-type") ?? "";
+
+  if (contentResponse.status !== 200 || !contentType.includes("text/html")) {
+    return contentResponse;
+  }
+
+  const publicResponse = productionHost ? contentResponse : withNoIndex(contentResponse);
+  const cacheableResponse = new Response(publicResponse.body, publicResponse);
+  cacheableResponse.headers.set("Cache-Control", edgePageCacheControl);
+  cacheableResponse.headers.set("Cache-Tag", `peak-pages-${deployment}`);
+  context.waitUntil(cache.put(cacheKey, cacheableResponse.clone()));
+
+  return servedPublicPage(cacheableResponse);
 }
 
 async function protectMissingContentDetail(response: Response) {
@@ -131,6 +188,10 @@ export const onRequest = async (context: PagesContext) => {
   }
 
   if (!url.pathname.startsWith("/admin")) {
+    if (isCacheablePublicPage(context.request)) {
+      return cachedPublicPage(context, url, productionHost);
+    }
+
     const response = await context.next();
     const contentResponse = isContentDetailPath(url.pathname)
       ? await protectMissingContentDetail(response)

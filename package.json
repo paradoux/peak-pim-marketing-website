@@ -12,6 +12,7 @@
     "check:crawlers": "node tests/crawler-contract.mjs",
     "check:design-system": "node tests/design-system-contract.mjs",
     "check:i18n": "node scripts/i18n-status.mjs --check && node tests/i18n-contract.mjs",
+    "check:middleware": "node tests/middleware-contract.mjs",
     "deploy": "npm run build && wrangler pages deploy dist --project-name peak-pim-marketing-website",
     "preview": "astro preview",
     "test:visual": "playwright test tests/visual",
