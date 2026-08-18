@@ -48,6 +48,18 @@ export const assets = {
     foundersTechForRetail: "/assets/team/peak-pim-founders-tech-for-retail.jpg",
   },
   customerLogos: {
+    banner: {
+      tupperware: "/assets/customer-logos/banner/tupperware.webp",
+      maeli: "/assets/customer-logos/banner/maeli.webp",
+      artefact: "/assets/customer-logos/banner/artefact.webp",
+      duBruit: "/assets/customer-logos/banner/du-bruit.webp",
+      lafaurie: "/assets/customer-logos/banner/lafaurie.webp",
+      gullyLabs: "/assets/customer-logos/banner/gully-labs.webp",
+      waterdrop: "/assets/customer-logos/banner/waterdrop.webp",
+      nakedWolfe: "/assets/customer-logos/banner/naked-wolfe.webp",
+      lillicoco: "/assets/customer-logos/banner/lillicoco.webp",
+      whatMatters: "/assets/customer-logos/banner/what-matters.webp",
+    },
     light: {
       tupperware: "/mirror/6a02fd7d27b9d388ac14a742_Tupperware-Black-logo-f8fe3e27f8.png",
       maeli: "/mirror/6a02fa863eea804db7dc36f9_Maeli-Black-logo-138c12bb52.png",

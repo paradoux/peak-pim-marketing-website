@@ -388,7 +388,11 @@ const turnstileSiteKey =
         maybeOpen();
       }, delayMs);
       window.addEventListener("scroll", checkDepth, { passive: true });
-      checkDepth();
+      if (document.readyState === "complete") {
+        window.requestAnimationFrame(checkDepth);
+      } else {
+        window.addEventListener("load", checkDepth, { once: true });
+      }
     });
   }
 </script>

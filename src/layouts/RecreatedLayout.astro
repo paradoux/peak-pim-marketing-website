@@ -107,7 +107,7 @@ const fallbackJsonLd = {
     <meta name="peak-page-slug" content={page.slug || "home"} />
   </head>
   <body>
-    <div class="page-wrapper site-page">
+    <div class:list={["page-wrapper", "site-page", { "site-page--home": page.slug === "" }]}>
       <GlobalWebflowStyles />
       <SiteHeader locale={locale} />
       <div class="site-main">

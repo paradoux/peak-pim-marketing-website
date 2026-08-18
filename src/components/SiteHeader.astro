@@ -169,6 +169,10 @@ const headerHtml = headerWithFeatureMenu
   .replace(
     '<a href="/pricing" class="navbar10_link w-nav-link">Pricing</a>',
     '<a href="/pricing/" class="navbar10_link w-nav-link">Pricing</a>',
+  )
+  .replace(
+    '<img width="132" sizes="132px"',
+    '<img width="132" height="58" sizes="132px"',
   );
 const localizedHeaderHtml = localizeSharedMarkup(locale, headerHtml);
 ---
@@ -197,18 +201,6 @@ const localizedHeaderHtml = localizeSharedMarkup(locale, headerHtml);
     var menu = header.querySelector(".navbar10_menu");
     var overlay = header.querySelector(".w-nav-overlay");
     var scrollFrame;
-
-    function updateHeaderHeight() {
-      document.documentElement.style.setProperty("--site-header-height", `${header.getBoundingClientRect().height}px`);
-    }
-
-    updateHeaderHeight();
-
-    if ("ResizeObserver" in window) {
-      new ResizeObserver(updateHeaderHeight).observe(header);
-    } else {
-      window.addEventListener("resize", updateHeaderHeight);
-    }
 
     function updateScrolledState() {
       header.classList.toggle("is-scrolled", window.scrollY > 4);

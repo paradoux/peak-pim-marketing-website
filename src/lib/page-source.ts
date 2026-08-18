@@ -2,6 +2,7 @@ import { pagesBySlug, type PageDefinition } from "../data/pages";
 import { normalizeCtaCopyInHtml } from "../data/cta-copy";
 import { pricingFeatureGroups, type PricingPlanValue } from "../data/pricing-feature-matrix";
 import { featureNavigationGroups } from "../data/site-navigation";
+import { assets } from "../data/assets";
 
 const pageModules = import.meta.glob<string>(
   ["../content/recreated-pages/*.html", "!../content/recreated-pages/partners.html"],
@@ -24,37 +25,48 @@ function innerMatch(html: string, pattern: RegExp) {
 
 const sharedLogoBannerTitle = "Trusted by 50+ top merchants worldwide";
 const sharedLogoDetails = [
-  { source: "Tupperware-White-logo", slug: "tupperware", name: "Tupperware", href: "https://www.tupperware.com/fr" },
-  { source: "Mae-li-White-logo", slug: "maeli", name: "Maéli Paris", href: "https://maeliparis.com/" },
-  { source: "Artefact-White-logo", slug: "artefact", name: "Artefact", href: "https://www.artefact.com/" },
-  { source: "Du-Bruit-Dans-La-Cuisine", slug: "du-bruit", name: "Du Bruit dans la Cuisine", href: "https://www.dubruitdanslacuisine.fr/" },
-  { source: "LAFAURIE-White-logo", slug: "lafaurie", name: "Lafaurie", href: "https://lafaurieparis.com/" },
-  { source: "/assets/customer-logos/jatni-labs.webp", slug: "jatni-labs", name: "Gully Labs", href: "https://gullylabs.com/" },
-  { source: "/assets/customer-logos/waterdrop.webp", slug: "waterdrop", name: "waterdrop", href: "https://www.waterdrop.com/" },
-  { source: "/assets/customer-logos/naked-wolfe.png", slug: "naked-wolfe", name: "Naked Wolfe", href: "https://nakedwolfe.com/" },
-  { source: "/assets/customer-logos/lillicoco.png", slug: "lillicoco", name: "Lillicoco", href: "https://www.lillicoco.com/" },
-  { source: "/assets/customer-logos/what-matters.png", slug: "what-matters", name: "What Matters", href: "https://what-matters.fr/" },
+  { source: "Tupperware-White-logo", optimizedSrc: assets.customerLogos.banner.tupperware, width: 145, height: 64, slug: "tupperware", name: "Tupperware", href: "https://www.tupperware.com/fr" },
+  { source: "Mae-li-White-logo", optimizedSrc: assets.customerLogos.banner.maeli, width: 123, height: 54, slug: "maeli", name: "Maéli Paris", href: "https://maeliparis.com/" },
+  { source: "Artefact-White-logo", optimizedSrc: assets.customerLogos.banner.artefact, width: 156, height: 69, slug: "artefact", name: "Artefact", href: "https://www.artefact.com/" },
+  { source: "Du-Bruit-Dans-La-Cuisine", optimizedSrc: assets.customerLogos.banner.duBruit, width: 141, height: 62, slug: "du-bruit", name: "Du Bruit dans la Cuisine", href: "https://www.dubruitdanslacuisine.fr/" },
+  { source: "LAFAURIE-White-logo", optimizedSrc: assets.customerLogos.banner.lafaurie, width: 145, height: 64, slug: "lafaurie", name: "Lafaurie", href: "https://lafaurieparis.com/" },
+  { source: "/assets/customer-logos/jatni-labs.webp", optimizedSrc: assets.customerLogos.banner.gullyLabs, width: 145, height: 45, slug: "jatni-labs", name: "Gully Labs", href: "https://gullylabs.com/" },
+  { source: "/assets/customer-logos/waterdrop.webp", optimizedSrc: assets.customerLogos.banner.waterdrop, width: 145, height: 76, slug: "waterdrop", name: "waterdrop", href: "https://www.waterdrop.com/" },
+  { source: "/assets/customer-logos/naked-wolfe.png", optimizedSrc: assets.customerLogos.banner.nakedWolfe, width: 145, height: 57, slug: "naked-wolfe", name: "Naked Wolfe", href: "https://nakedwolfe.com/" },
+  { source: "/assets/customer-logos/lillicoco.png", optimizedSrc: assets.customerLogos.banner.lillicoco, width: 145, height: 45, slug: "lillicoco", name: "Lillicoco", href: "https://www.lillicoco.com/" },
+  { source: "/assets/customer-logos/what-matters.png", optimizedSrc: assets.customerLogos.banner.whatMatters, width: 145, height: 95, slug: "what-matters", name: "What Matters", href: "https://what-matters.fr/" },
 ] as const;
 const supplementalLogoBannerHtml = [
-  '<div class="logo2_wrapper"><img width="145" alt="Lafaurie" src="/mirror/6a2020f720923338455d7fb6_LAFAURIE-White-logo-56221a8ad1.png" loading="lazy" class="logo2_logo logo2_logo--lafaurie"></div>',
-  '<div class="logo2_wrapper"><img width="145" alt="Gully Labs" src="/assets/customer-logos/jatni-labs.webp" loading="lazy" class="logo2_logo logo2_logo--jatni-labs"></div>',
-  '<div class="logo2_wrapper"><img width="145" alt="Waterdrop" src="/assets/customer-logos/waterdrop.webp" loading="lazy" class="logo2_logo logo2_logo--waterdrop"></div>',
-  '<div class="logo2_wrapper"><img width="145" alt="Naked Wolfe" src="/assets/customer-logos/naked-wolfe.png" loading="lazy" class="logo2_logo logo2_logo--transparent-source logo2_logo--naked-wolfe"></div>',
-  '<div class="logo2_wrapper"><img width="145" alt="Lillicoco" src="/assets/customer-logos/lillicoco.png" loading="lazy" class="logo2_logo logo2_logo--transparent-source logo2_logo--lillicoco"></div>',
-  '<div class="logo2_wrapper"><img width="145" alt="What Matters" src="/assets/customer-logos/what-matters.png" loading="lazy" class="logo2_logo logo2_logo--transparent-source logo2_logo--what-matters"></div>',
+  `<div class="logo2_wrapper"><img width="145" height="64" alt="Lafaurie" src="${assets.customerLogos.banner.lafaurie}" loading="lazy" class="logo2_logo logo2_logo--lafaurie"></div>`,
+  `<div class="logo2_wrapper"><img width="145" height="45" alt="Gully Labs" src="${assets.customerLogos.banner.gullyLabs}" loading="lazy" class="logo2_logo logo2_logo--jatni-labs"></div>`,
+  `<div class="logo2_wrapper"><img width="145" height="76" alt="Waterdrop" src="${assets.customerLogos.banner.waterdrop}" loading="lazy" class="logo2_logo logo2_logo--waterdrop"></div>`,
+  `<div class="logo2_wrapper"><img width="145" height="57" alt="Naked Wolfe" src="${assets.customerLogos.banner.nakedWolfe}" loading="lazy" class="logo2_logo logo2_logo--transparent-source logo2_logo--naked-wolfe"></div>`,
+  `<div class="logo2_wrapper"><img width="145" height="45" alt="Lillicoco" src="${assets.customerLogos.banner.lillicoco}" loading="lazy" class="logo2_logo logo2_logo--transparent-source logo2_logo--lillicoco"></div>`,
+  `<div class="logo2_wrapper"><img width="145" height="95" alt="What Matters" src="${assets.customerLogos.banner.whatMatters}" loading="lazy" class="logo2_logo logo2_logo--transparent-source logo2_logo--what-matters"></div>`,
 ].join("");
+
+function findSharedLogo(tag: string) {
+  return sharedLogoDetails.find(({ source, optimizedSrc }) => tag.includes(source) || tag.includes(optimizedSrc));
+}
 
 function addSharedLogoModifiers(html: string) {
   return html.replace(/<img\b[^>]*>/g, (tag) => {
-    const logo = sharedLogoDetails.find(({ source }) => tag.includes(source));
+    const logo = findSharedLogo(tag);
 
     if (!logo) return tag;
 
     const modifierClass = `logo2_logo--${logo.slug}`;
     const classMatch = tag.match(/class="([^"]*)"/);
-    const withAlt = /\balt="[^"]*"/.test(tag)
-      ? tag.replace(/\balt="[^"]*"/, `alt="${logo.name}"`)
-      : tag.replace(/>$/, ` alt="${logo.name}">`);
+    const withSource = tag
+      .replace(/\s+srcset="[^"]*"/g, "")
+      .replace(/\s+sizes="[^"]*"/g, "")
+      .replace(/\s+src="[^"]*"/, ` src="${logo.optimizedSrc}"`)
+      .replace(/\s+width="[^"]*"/, ` width="${logo.width}"`)
+      .replace(/\s+height="[^"]*"/, "")
+      .replace(/>$/, ` height="${logo.height}">`);
+    const withAlt = /\balt="[^"]*"/.test(withSource)
+      ? withSource.replace(/\balt="[^"]*"/, `alt="${logo.name}"`)
+      : withSource.replace(/>$/, ` alt="${logo.name}">`);
 
     if (classMatch) {
       const classes = new Set(classMatch[1].split(/\s+/).filter(Boolean));
@@ -69,7 +81,7 @@ function addSharedLogoModifiers(html: string) {
 
 function linkSharedLogos(html: string) {
   return html.replace(/(<div\b[^>]*class="logo2_wrapper"[^>]*>)(<img\b[^>]*>)(<\/div>)/g, (wrapper, opening, image, closing) => {
-    const logo = sharedLogoDetails.find(({ source }) => image.includes(source));
+    const logo = findSharedLogo(image);
 
     if (!logo || image.includes('class="logo2_link"')) return wrapper;
 
@@ -89,7 +101,7 @@ function updateSharedLogoBanner(html: string) {
     ['alt="Lafaurie"', 'alt="Gully Labs"', 'alt="Waterdrop"', 'alt="Naked Wolfe"', 'alt="Lillicoco"', 'alt="What Matters"']
       .every((logo) => withTitle.includes(logo))
   ) ? withTitle : withTitle.replace(
-    /(<div[^>]*class="logo2_wrapper"[^>]*><img[^>]*Du-Bruit-Dans-La-Cuisine[^>]*><\/div>)/,
+    /(<div[^>]*class="logo2_wrapper"[^>]*><img[^>]*alt="Du Bruit dans la Cuisine"[^>]*><\/div>)/,
     `$1${supplementalLogoBannerHtml}`,
   );
 

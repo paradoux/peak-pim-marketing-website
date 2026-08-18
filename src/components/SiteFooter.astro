@@ -42,6 +42,10 @@ const originalFooterHtml = getSharedFooterHtml()
   .replace(
     '<a href="/pricing" class="footer1_link">Pricing</a>',
     '<a href="/pricing/" class="footer1_link">Pricing</a>',
+  )
+  .replace(
+    '<img width="195" sizes="(max-width: 479px) 186px, (max-width: 767px) 39vw, 195px"',
+    '<img width="195" height="86" sizes="(max-width: 479px) 186px, (max-width: 767px) 39vw, 195px"',
   );
 const menuStart = originalFooterHtml.indexOf('<div class="w-layout-grid footer1_menu-wrapper">');
 const featureColumnStart = originalFooterHtml.indexOf('<div class="footer1_link-column">', menuStart);

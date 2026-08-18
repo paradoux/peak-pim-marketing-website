@@ -838,16 +838,16 @@ const homepageLogoBannerPages = [
   "industry/fashion",
 ];
 const homepageLogoFiles = [
-  "Tupperware-White-logo",
-  "Mae-li-White-logo",
-  "Artefact-White-logo",
-  "Du-Bruit-Dans-La-Cuisine-White-logo",
-  "LAFAURIE-White-logo",
-  "jatni-labs.webp",
-  "waterdrop.webp",
-  "naked-wolfe.png",
-  "lillicoco.png",
-  "what-matters.png",
+  "banner/tupperware.webp",
+  "banner/maeli.webp",
+  "banner/artefact.webp",
+  "banner/du-bruit.webp",
+  "banner/lafaurie.webp",
+  "banner/gully-labs.webp",
+  "banner/waterdrop.webp",
+  "banner/naked-wolfe.webp",
+  "banner/lillicoco.webp",
+  "banner/what-matters.webp",
 ];
 const homepageLogoLinks = [
   "https://www.tupperware.com/fr",
@@ -879,6 +879,10 @@ for (const slug of homepageLogoBannerPages) {
   if ((bannerHtml.match(/\blogo2_wrapper\b/g) ?? []).length !== 10) failures.push(`/${slug} does not use the homepage ten-logo set`);
   if ((bannerHtml.match(/class="logo2_link"/g) ?? []).length !== 10) failures.push(`/${slug} does not link every homepage customer logo`);
   if ((bannerHtml.match(/rel="nofollow noopener"/g) ?? []).length !== 10) failures.push(`/${slug} customer-logo links are missing nofollow and noopener`);
+  const bannerImages = bannerHtml.match(/<img\b[^>]*>/g) ?? [];
+  if (bannerImages.length !== 10 || bannerImages.some((image) => !/\bwidth="\d+"/.test(image) || !/\bheight="\d+"/.test(image))) {
+    failures.push(`/${slug} customer logos must declare numeric intrinsic dimensions`);
+  }
   for (const logoFile of homepageLogoFiles) {
     if (!bannerHtml.includes(logoFile)) failures.push(`/${slug} is missing homepage customer logo: ${logoFile}`);
   }

@@ -311,18 +311,18 @@ html {
    remove flat source backgrounds and render each mark as a white wordmark. */
 .section_logo2 .logo2_logo--jatni-labs {
   --logo-visual-scale: 0.84;
-  filter: grayscale(1) brightness(5) contrast(8);
-  mix-blend-mode: screen;
+  filter: none;
+  mix-blend-mode: normal;
 }
 
 .section_logo2 .logo2_logo--waterdrop {
   --logo-visual-scale: 1.68;
-  filter: invert(1) grayscale(1) contrast(8);
-  mix-blend-mode: screen;
+  filter: none;
+  mix-blend-mode: normal;
 }
 
 .section_logo2 .logo2_logo--transparent-source {
-  filter: brightness(0) invert(1);
+  filter: none;
 }
 
 .section_logo2 .logo2_logo--naked-wolfe {
@@ -335,6 +335,228 @@ html {
 
 .section_logo2 .logo2_logo--what-matters {
   --logo-visual-scale: 0.8;
+}
+
+/* Keep the homepage lightweight below the first proof band. Chromium can skip
+   layout and paint for these off-screen sections until they approach view. */
+.site-page--home .site-main main.main-wrapper > section:nth-of-type(n + 2) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 50rem;
+}
+
+/* Homepage illustration motion is limited to compositor-friendly opacity and
+   transforms. This preserves the visual cues without continuous layout/paint. */
+@keyframes peak-visual-highlight {
+  0%, 16.67%, 100% { opacity: 0; }
+  3%, 13.67% { opacity: 1; }
+}
+
+@keyframes peak-bulk-highlight-r2 {
+  0%, 20%, 80%, 100% { opacity: 0; }
+  24%, 75% { opacity: 1; }
+}
+
+@keyframes peak-bulk-highlight-r3 {
+  0%, 35%, 80%, 100% { opacity: 0; }
+  39%, 75% { opacity: 1; }
+}
+
+@keyframes peak-store-highlight-s1 {
+  0%, 50%, 61%, 100% { opacity: 0; }
+  53%, 58% { opacity: 1; }
+}
+
+@keyframes peak-store-highlight-s2 {
+  0%, 55%, 66%, 100% { opacity: 0; }
+  58%, 63% { opacity: 1; }
+}
+
+@keyframes peak-store-highlight-s3 {
+  0%, 60%, 71%, 100% { opacity: 0; }
+  63%, 68% { opacity: 1; }
+}
+
+@keyframes peak-update-highlight {
+  0%, 16.67%, 100% { opacity: 0; }
+  2.5%, 14.17% { opacity: 1; }
+}
+
+@keyframes peak-arrival-highlight {
+  0%, 75%, 100% { opacity: 0; }
+  85% { opacity: 1; }
+}
+
+@keyframes peak-breath-highlight {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+@keyframes peak-text-reveal {
+  0%, 22%, 94%, 100% { opacity: 0; transform: scaleX(0); }
+  27%, 90% { opacity: 1; transform: scaleX(1); }
+}
+
+@keyframes peak-pill-rotate {
+  to { transform: rotate(1turn); }
+}
+
+.pp-hf-bulk-cell-r2,
+.pp-hf-bulk-cell-r3,
+.pp-hf-media-tile,
+.pp-hf-multi-s1,
+.pp-hf-multi-s2,
+.pp-hf-multi-s3,
+.pp-pos-upd-item,
+.pp-pos-scl-store,
+.pp-pos-scl-pim {
+  position: relative;
+}
+
+.pp-hf-bulk-cell-r2,
+.pp-hf-bulk-cell-r3,
+.pp-hf-media-tile,
+.pp-hf-multi-s1,
+.pp-hf-multi-s2,
+.pp-hf-multi-s3,
+.pp-pos-upd-item,
+.pp-pos-scl-store,
+.pp-pos-scl-pim {
+  animation: none !important;
+}
+
+.pp-hf-bulk-cell-r2::after,
+.pp-hf-bulk-cell-r3::after,
+.pp-hf-media-tile::after,
+.pp-hf-multi-s1::after,
+.pp-hf-multi-s2::after,
+.pp-hf-multi-s3::after,
+.pp-pos-upd-item::before,
+.pp-pos-scl-store::after,
+.pp-pos-scl-pim::after {
+  position: absolute;
+  pointer-events: none;
+  content: "";
+  opacity: 0;
+  will-change: opacity;
+}
+
+.pp-hf-bulk-cell-r2::after,
+.pp-hf-bulk-cell-r3::after,
+.pp-hf-media-tile::after,
+.pp-hf-multi-s1::after,
+.pp-hf-multi-s2::after,
+.pp-hf-multi-s3::after {
+  z-index: 2;
+  inset: 0;
+  border: 2px solid #2845d6;
+  border-radius: inherit;
+}
+
+.pp-hf-bulk-cell-r2::after { animation: peak-bulk-highlight-r2 5s infinite; }
+.pp-hf-bulk-cell-r3::after { animation: peak-bulk-highlight-r3 5s infinite; }
+.pp-hf-media-tile::after { animation: peak-visual-highlight 6s infinite ease-in-out; }
+.pp-hf-media-d1::after { animation-delay: 0s; }
+.pp-hf-media-d2::after { animation-delay: 1s; }
+.pp-hf-media-d3::after { animation-delay: 2s; }
+.pp-hf-media-d4::after { animation-delay: 3s; }
+.pp-hf-media-d5::after { animation-delay: 4s; }
+.pp-hf-media-d6::after { animation-delay: 5s; }
+
+.pp-hf-multi-s1,
+.pp-hf-multi-s2,
+.pp-hf-multi-s3 {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.pp-hf-multi-s1::after { animation: peak-store-highlight-s1 7s infinite; }
+.pp-hf-multi-s2::after { animation: peak-store-highlight-s2 7s infinite; }
+.pp-hf-multi-s3::after { animation: peak-store-highlight-s3 7s infinite; }
+
+.pp-pos-upd-item {
+  overflow: hidden;
+}
+
+.pp-pos-upd-item::before {
+  z-index: 0;
+  inset: 0;
+  border-left: 3px solid #2845d6;
+  background: rgba(40, 69, 214, 0.07);
+  animation: peak-update-highlight 6s infinite ease-in-out;
+}
+
+.pp-pos-upd-item > * {
+  position: relative;
+  z-index: 1;
+}
+
+.pp-pos-upd-d1::before { animation-delay: 0s; }
+.pp-pos-upd-d2::before { animation-delay: 1s; }
+.pp-pos-upd-d3::before { animation-delay: 2s; }
+.pp-pos-upd-d4::before { animation-delay: 3s; }
+.pp-pos-upd-d5::before { animation-delay: 4s; }
+.pp-pos-upd-d6::before { animation-delay: 5s; }
+
+.pp-pos-scl-store {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.pp-pos-scl-store::after {
+  inset: -3px;
+  border: 3px solid rgba(255, 255, 255, 0.55);
+  border-radius: calc(9px + 3px);
+  animation: peak-arrival-highlight 1.8s infinite ease-out;
+}
+
+.pp-pos-scl-pim {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.pp-pos-scl-pim::after {
+  inset: -3px;
+  border: 3px solid rgba(40, 69, 214, 0.35);
+  border-radius: calc(14px + 3px);
+  animation: peak-breath-highlight 3.6s infinite ease-in-out;
+}
+
+.pp-hf-multi-appended {
+  width: 18px;
+  max-width: 18px !important;
+  transform-origin: left center;
+  animation: peak-text-reveal 7s infinite !important;
+  will-change: opacity, transform;
+}
+
+.ppim-home-pill-border {
+  isolation: isolate;
+  overflow: hidden;
+  background: transparent !important;
+  animation: none !important;
+}
+
+.ppim-home-pill-border::before {
+  position: absolute;
+  z-index: 0;
+  inset: -300%;
+  background: conic-gradient(
+    rgba(40, 69, 214, 0) 0deg,
+    rgba(40, 69, 214, 0) 250deg,
+    #2845d6 305deg,
+    #8b5cf6 340deg,
+    rgba(40, 69, 214, 0) 360deg
+  );
+  content: "";
+  animation: peak-pill-rotate 3s linear infinite;
+  will-change: transform;
+}
+
+.ppim-home-pill-inner {
+  position: relative;
+  z-index: 1;
+}
+
+path[style*="pp-pos-conn-line-pulse"] {
+  opacity: 0.85;
+  animation: none !important;
 }
 
 @media screen and (max-width: 991px) {
