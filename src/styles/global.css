@@ -1209,6 +1209,17 @@ path[style*="pp-pos-conn-line-pulse"] {
   margin-top: 0.25rem;
 }
 
+.site-footer .footer1_logo-link {
+  width: clamp(8.75rem, 42vw, 12.1875rem);
+  max-width: 100%;
+}
+
+.site-footer .footer1_logo {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .site-footer__logo-cta .button {
   width: fit-content;
   white-space: nowrap;

@@ -202,6 +202,8 @@ const globalStyles = readFileSync(resolve(projectRoot, "src/styles/global.css"),
 for (const rule of ["-webkit-font-smoothing: antialiased", "-moz-osx-font-smoothing: grayscale"]) {
   if (!globalStyles.includes(rule)) failures.push(`Global typography is missing the original rendering rule: ${rule}`);
 }
+if (!globalStyles.includes("width: clamp(8.75rem, 42vw, 12.1875rem)")) failures.push("The shared footer logo is missing its responsive width rule");
+if (!/\.site-footer \.footer1_logo \{[\s\S]*?height: auto;[\s\S]*?\}/.test(globalStyles)) failures.push("The shared footer logo must preserve its intrinsic aspect ratio");
 
 const featureGridSource = readFileSync(resolve(projectRoot, "src/components/sections/FeatureGrid.astro"), "utf8");
 if (featureGridSource.includes("Math.min(index + 1, 4)")) failures.push("FeatureGrid must not extend the original four-card sticky interaction");
