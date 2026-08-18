@@ -149,6 +149,7 @@ export function getPageDocument(page: PageDefinition) {
 
 function applyContentCorrections(html: string, page: PageDefinition) {
   html = correctMismatchedComparisonSchema(html, page);
+  html = updateComparisonEntryPricing(html, page);
 
   if (page.slug === "") {
     return improveHomepagePricingPreview(updateSharedLogoBanner(html));
@@ -179,42 +180,74 @@ function applyContentCorrections(html: string, page: PageDefinition) {
 
   const scalePlanCardStart = '<div class="pricing29_plan"><div class="pricing29_content-top"><div class="margin-bottom margin-xxsmall"><div class="pricing29_content-title"><div class="heading-style-h6">Scale</div>';
   const enterprisePlanCardStart = '<div class="pricing29_plan"><div class="pricing29_content-top"><div class="margin-bottom margin-xxsmall"><div class="pricing29_content-title"><div class="heading-style-h6">Enterprise</div>';
-  const scalePlanOffer = `
-      {
-        "@type": "Offer",
-        "name": "Scale",
-        "description": "Up to 8 Shopify stores, Up to 30,000 SKUs, 500 GB media library",
-        "url": "/pricing"
-      },`;
+  const offerListPattern = /"offers": \[[\s\S]*?\n    \],\n    "featureList":/;
   const scalePlanFaqAnswer = "It depends on your plan. Core supports 2 stores, Elite supports 5, Scale supports 8, and Enterprise supports unlimited stores. You can connect additional stores at any time from your Peak PIM dashboard.";
-  const currentPlanFaqAnswer = "Core supports 2 stores and Elite supports 3. Need more? Contact us about an Enterprise plan.";
+  const currentPlanFaqAnswer = "Basic supports 1 store, Core supports 2, and Elite supports 3. Need more? Contact us about an Enterprise plan.";
   const outdatedMultiStorePlanAnswer = "Yes. Every Peak PIM plan supports multiple stores. The number of stores you can connect scales with your plan: from 2 stores on Core up to unlimited on Enterprise.";
   const outdatedVisibleMultiStorePlanAnswer = "Yes. Every Peak PIM plan supports multiple stores. The number of stores you can connect scales with your plan. From 2 stores on Core up to unlimited on Enterprise.";
-  const currentMultiStorePlanAnswer = "Yes. Every Peak PIM plan supports multiple stores. Core includes 2 stores and Elite includes 3. For additional stores, contact us about an Enterprise plan.";
+  const currentMultiStorePlanAnswer = "Basic includes 1 connected Shopify store, Core includes 2, and Elite includes 3. For additional stores, contact us about an Enterprise plan.";
   const scalePlanCardIndex = html.indexOf(scalePlanCardStart);
   const enterprisePlanCardIndex = html.indexOf(enterprisePlanCardStart, scalePlanCardIndex);
 
-  if (scalePlanCardIndex === -1 || enterprisePlanCardIndex === -1 || !html.includes(scalePlanOffer) || !html.includes(scalePlanFaqAnswer)) {
+  if (scalePlanCardIndex === -1 || enterprisePlanCardIndex === -1 || !offerListPattern.test(html) || !html.includes(scalePlanFaqAnswer)) {
     throw new Error("The retired Scale plan content could not be removed from the multi-store page.");
   }
 
+  const currentOffers = pricingPlans.map((plan) => ({
+    "@type": "Offer",
+    name: plan.name,
+    description: pricingOfferDescription(plan),
+    ...(plan.name === "Enterprise" ? {} : {
+      price: planPriceNumber(plan.monthlyPrice),
+      priceCurrency: "USD",
+    }),
+    availability: "https://schema.org/InStock",
+    url: "https://peak-pim.com/pricing/",
+  }));
   const withoutScalePlanCard = html.slice(0, scalePlanCardIndex) + html.slice(enterprisePlanCardIndex);
   const withCurrentLimits = withoutScalePlanCard
-    .replace(scalePlanOffer, "")
+    .replace(offerListPattern, `"offers": ${JSON.stringify(currentOffers, null, 6)},\n    "featureList":`)
     .replaceAll(scalePlanFaqAnswer, currentPlanFaqAnswer)
     .replaceAll(outdatedMultiStorePlanAnswer, currentMultiStorePlanAnswer)
     .replaceAll(outdatedVisibleMultiStorePlanAnswer, currentMultiStorePlanAnswer)
-    .replace('"description": "Up to 2 Shopify stores, Up to 1,500 SKUs, 20 GB media library"', '"description": "Up to 2 Shopify stores, Up to 1,500 SKUs, 100GB files"')
-    .replace('"description": "Up to 5 Shopify stores, Up to 5,000 SKUs, 150 GB media library"', '"description": "Up to 3 Shopify stores, Up to 5,000 SKUs, 500GB files"')
     .replace('"description": "Unlimited Shopify stores, Custom SKU limits, Custom media storage, Metaobjects, Translations, Account manager"', '"description": "Custom Shopify stores, Custom SKU limits, Custom file storage, Dedicated support"')
-    .replaceAll("20 GB media library", "100GB files")
+    .replaceAll("Up to 1,500 SKUs", "Unlimited SKUs (fair usage)")
+    .replaceAll("Up to 5,000 SKUs", "Unlimited SKUs (fair usage)")
+    .replaceAll("20 GB media library", "Unlimited file storage (fair usage)")
     .replaceAll("Up to 5 Shopify stores", "Up to 3 Shopify stores")
-    .replaceAll("150 GB media library", "500GB files")
+    .replaceAll("150 GB media library", "Unlimited file storage (fair usage)")
     .replaceAll("Unlimited Shopify stores", "Custom Shopify stores")
     .replaceAll("Custom media storage", "Custom file storage")
     .replaceAll("Account manager", "Dedicated support");
 
   return removePricingFeature(removePricingFeature(withCurrentLimits, enterprisePlanCardStart, "Metaobjects"), enterprisePlanCardStart, "Translations");
+}
+
+function updateComparisonEntryPricing(html: string, page: PageDefinition) {
+  const comparisonSlugs = new Set([
+    "shopify-pim-alternatives",
+    "replace-your-shopify-app-stack",
+    "vs/akeneo",
+    "vs/catsy",
+    "vs/plytix",
+    "vs/quable",
+    "vs/shopify-admin",
+  ]);
+
+  if (!comparisonSlugs.has(page.slug)) return html;
+
+  return html
+    .replaceAll("($99/mo vs", "($49/mo vs")
+    .replaceAll("Peak PIM starts at $99 per month ($1,188 per year)", "Peak PIM starts at $49 per month ($490 per year when billed annually)")
+    .replaceAll("Peak PIM starts at $99 per month", "Peak PIM starts at $49 per month")
+    .replaceAll("Shopify-native PIMs connect in minutes for around $99 a month", "Shopify-native PIMs connect in minutes from $49 a month")
+    .replaceAll("Shopify-native PIMs like Peak PIM start at $99 per month", "Shopify-native PIMs like Peak PIM start at $49 per month")
+    .replaceAll('<div class="callout-row peak">$99/mo</div>', '<div class="callout-row peak">$49/mo</div>')
+    .replaceAll('<div>Starting price</div><div class="heading-style-h6">$99/mo</div>', '<div>Starting price</div><div class="heading-style-h6">$49/mo</div>')
+    .replaceAll('<div class="heading-style-h6">Core</div><div class="margin-vertical margin-xsmall"><div class="pricing50_top-row-price-wrapper"><div class="heading-style-h1">$99</div>', '<div class="heading-style-h6">Basic</div><div class="margin-vertical margin-xsmall"><div class="pricing50_top-row-price-wrapper"><div class="heading-style-h1">$49</div>')
+    .replaceAll("Peak PIM's entry tier for Shopify catalogs", "Peak PIM's entry plan for Shopify catalogs")
+    .replaceAll('<div class="pricing50_row-content is-first"><div>$99</div></div>', '<div class="pricing50_row-content is-first"><div>$49</div></div>')
+    .replaceAll('<div class="ppim-stack-peak-cost">$99</div>', '<div class="ppim-stack-peak-cost">$49</div>');
 }
 
 function correctMismatchedComparisonSchema(html: string, page: PageDefinition) {

@@ -897,13 +897,13 @@ test("multi-store · retired Scale plan is absent at every breakpoint", async ({
     await expect(plans).toHaveCount(3);
     await expect(plans.locator(".heading-style-h6")).toHaveText(["Core", "Elite", "Enterprise"]);
     await expect(plans.nth(0)).toContainText("$99/mo");
-    await expect(plans.nth(0)).toContainText("1,500 SKUs");
+    await expect(plans.nth(0)).toContainText("Unlimited SKUs (fair usage)");
     await expect(plans.nth(0)).toContainText("Up to 2 Shopify stores");
-    await expect(plans.nth(0)).toContainText("100GB files");
+    await expect(plans.nth(0)).toContainText("Unlimited file storage (fair usage)");
     await expect(plans.nth(1)).toContainText("$249/mo");
-    await expect(plans.nth(1)).toContainText("5,000 SKUs");
+    await expect(plans.nth(1)).toContainText("Unlimited SKUs (fair usage)");
     await expect(plans.nth(1)).toContainText("Up to 3 Shopify stores");
-    await expect(plans.nth(1)).toContainText("500GB files");
+    await expect(plans.nth(1)).toContainText("Unlimited file storage (fair usage)");
     await expect(plans.nth(2)).toContainText("Custom Shopify stores");
     await expect(plans.nth(2)).toContainText("Custom SKU limits");
     await expect(plans.nth(2)).toContainText("Custom file storage");
@@ -912,8 +912,8 @@ test("multi-store · retired Scale plan is absent at every breakpoint", async ({
     await expect(plans.nth(2)).not.toContainText("Translations");
     await expect(pricing).not.toContainText("$499");
     expect((await plans.allTextContents()).join(" ")).not.toMatch(/\bScale\b/);
-    await expect(page.locator(".section_faq1")).toContainText("Core supports 2 stores and Elite supports 3");
-    await expect(page.locator(".section_faq1")).toContainText("Core includes 2 stores and Elite includes 3");
+    await expect(page.locator(".section_faq1")).toContainText("Basic supports 1 store, Core supports 2, and Elite supports 3");
+    await expect(page.locator(".section_faq1")).toContainText("Basic includes 1 connected Shopify store, Core includes 2, and Elite includes 3");
     await expect(page.locator(".section_faq1")).not.toContainText("Scale supports 8");
     await expect(page.locator(".section_faq1")).not.toContainText("unlimited on Enterprise");
     expect(await page.locator('script[type="application/ld+json"]').evaluateAll((scripts) =>

@@ -23,7 +23,7 @@ const protectedTerms = [
   "Shopify Markets", "Metafields Guru", "Google Sheets", "Peak PIM", "Maéli Paris",
   "Carré Coco", "Shopify", "Matrixify", "ChatGPT", "Anthropic", "OpenAI", "SyncBase",
   "Airtable", "Akeneo", "Plytix", "Salsify", "Catsy", "Quable", "Claude", "Drops",
-  "Drop", "JavaScript", "Webflow", "Core", "Elite", "Enterprise", "MCP", "API", "CSV",
+  "Drop", "JavaScript", "Webflow", "Basic", "Core", "Elite", "Enterprise", "MCP", "API", "CSV",
   "Excel", "JSON", "SKUs", "SKU", "B2B", "B2C", "PIM",
   "Peak", "Tupperware", "Artefact", "Du Bruit dans la Cuisine", "Lafaurie",
   "Gully Labs", "waterdrop", "Naked Wolfe", "Lillicoco", "What Matters",
@@ -181,7 +181,7 @@ function applyFrenchGlossary(text, source = "") {
     .replace(/Shopify-Native/gu, "natif Shopify")
     .replace(/Shopify-native/gu, "natif Shopify")
     .replace(/administration Shopify/gu, "interface administrateur Shopify")
-    .replace(/administrateur Shopify/gu, "interface administrateur Shopify");
+    .replace(/(?<!interface )administrateur Shopify/gu, "interface administrateur Shopify");
 
   if (/\bhandles?\b/iu.test(source)) {
     normalized = normalized

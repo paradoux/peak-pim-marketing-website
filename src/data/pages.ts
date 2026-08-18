@@ -108,7 +108,7 @@ export const pages: PageDefinition[] = [
     source: "vs_akeneo.html",
     title: "Peak PIM vs Akeneo: which Shopify PIM fits your catalog? (2026)",
     description:
-      "Compare Peak PIM and Akeneo side by side. Pricing ($99/mo vs $25K+/yr), setup time, Shopify-native integration, multi-store sync, and which tool fits Shopify-first brands.",
+      "Compare Peak PIM and Akeneo side by side. Pricing ($49/mo vs $25K+/yr), setup time, Shopify-native integration, multi-store sync, and which tool fits Shopify-first brands.",
     h1: "Peak PIM beats Akeneo for Shopify-first brands",
   },
   {
@@ -124,7 +124,7 @@ export const pages: PageDefinition[] = [
     source: "vs_plytix.html",
     title: "Peak PIM vs Plytix: which Shopify PIM fits your catalog? (2026)",
     description:
-      "Compare Peak PIM and Plytix side by side. Pricing ($99/mo vs $499/mo), setup time, Shopify-native integration, multi-store sync, metafields support, and which tool fits Shopify-first brands.",
+      "Compare Peak PIM and Plytix side by side. Pricing ($49/mo vs $499/mo), setup time, Shopify-native integration, multi-store sync, metafields support, and which tool fits Shopify-first brands.",
     h1: "Peak PIM beats Plytix for Shopify-first brands",
   },
   {

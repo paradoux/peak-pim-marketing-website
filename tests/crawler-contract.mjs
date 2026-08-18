@@ -121,6 +121,20 @@ if (existsSync(distDirectory)) {
   for (const file of walk(distDirectory).filter((entry) => entry.endsWith(".html"))) {
     const html = readFileSync(file, "utf8");
 
+    for (const stalePricingClaim of [
+      "Peak PIM starts at $99",
+      "around $99 a month",
+      "$99/mo vs",
+      "From $99/mo",
+      "starts with the Core plan",
+      "Up to 1,500 SKUs",
+      "Up to 5,000 SKUs",
+      "100GB files",
+      "500GB files",
+    ]) {
+      if (html.includes(stalePricingClaim)) failures.push(`${file} contains outdated pricing guidance: ${stalePricingClaim}`);
+    }
+
     for (const match of html.matchAll(/<link rel="canonical" href="([^"]+)"/g)) {
       if (match[1] !== "https://peak-pim.com/" && !match[1].endsWith("/")) {
         failures.push(`${file} has a redirecting canonical URL: ${match[1]}`);
@@ -182,7 +196,7 @@ if (!existsSync(missionFile)) {
   if (html.includes("<title>Our Mission | Peak PIM</title>")) failures.push("Mission page still contains its retired metadata title");
 }
 if ((llms.match(/^## Current Pricing$/gm) ?? []).length !== 1) failures.push("llms.txt must contain exactly one Current Pricing section");
-for (const fact of ["Core: $99 per month or $990 per year", "Elite: $249 per month or $2,490 per year", "Enterprise: Custom pricing", "10-day free trial"]) {
+for (const fact of ["Basic: $49 per month or $490 per year", "Core: $99 per month or $990 per year", "10,000 monthly updates", "Elite: $249 per month or $2,490 per year", "unlimited monthly updates", "unlimited SKUs and file storage under fair usage", "Enterprise: Custom pricing", "10-day free trial"]) {
   if (!llms.includes(fact)) failures.push(`llms.txt is missing current pricing guidance: ${fact}`);
 }
 

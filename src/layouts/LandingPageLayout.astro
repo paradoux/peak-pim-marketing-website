@@ -5,6 +5,7 @@ import LeadCaptureModal from "../components/LeadCaptureModal.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import { assets } from "../data/assets";
+import { pricingPlans } from "../data/pricing-feature-matrix";
 import { defaultLocale, findLocalizedRoute, getLocaleAlternates, getRoutePath, localeMetadata, type Locale } from "../i18n/config";
 import { canonicalUrl as getCanonicalUrl } from "../lib/site-url";
 import "../styles/global.css";
@@ -92,24 +93,16 @@ const softwareApplication = {
   applicationSubCategory: "Product Information Management",
   operatingSystem: "Web",
   publisher: { "@id": organizationId },
-  offers: [
-    {
-      "@type": "Offer",
-      name: "Core",
-      price: "99",
+  offers: pricingPlans.map((plan) => ({
+    "@type": "Offer",
+    name: plan.name,
+    ...(plan.name === "Enterprise" ? {} : {
+      price: plan.monthlyPrice.replace(/[^0-9]/g, ""),
       priceCurrency: "USD",
-      availability: "https://schema.org/InStock",
-      url: "https://peak-pim.com/pricing/",
-    },
-    {
-      "@type": "Offer",
-      name: "Elite",
-      price: "249",
-      priceCurrency: "USD",
-      availability: "https://schema.org/InStock",
-      url: "https://peak-pim.com/pricing/",
-    },
-  ],
+    }),
+    availability: "https://schema.org/InStock",
+    url: "https://peak-pim.com/pricing/",
+  })),
 };
 const structuredData = [
   organization,
