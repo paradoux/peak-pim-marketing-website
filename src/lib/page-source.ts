@@ -685,8 +685,8 @@ function renderPricingPlanValue(value: PricingPlanValue) {
     return `<span class="pricing-feature-unavailable">Not included</span>`;
   }
 
-  if (value === "Coming soon") {
-    return `<span class="pricing-feature-coming-soon">Coming soon</span>`;
+  if (value === "Coming soon" || value === "On request") {
+    return `<span class="pricing-feature-coming-soon">${escapeHtml(value)}</span>`;
   }
 
   if (value === "Unlimited, fair usage") {

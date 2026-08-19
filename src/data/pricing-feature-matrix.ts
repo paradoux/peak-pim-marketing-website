@@ -271,6 +271,22 @@ export const pricingFeatureGroups: PricingFeatureGroup[] = [
     ],
   },
   {
+    label: "Add-ons",
+    description: "Extend Peak PIM with optional capabilities for specific catalog workflows.",
+    features: [
+      {
+        label: "Inventory",
+        description: "Manage inventory data alongside the product information in your catalog.",
+        values: ["On request", "On request", "On request", "On request"],
+      },
+      {
+        label: "CMS",
+        description: "Manage store content such as pages, blogs, and blog posts alongside your catalog.",
+        values: ["On request", "On request", "On request", "On request"],
+      },
+    ],
+  },
+  {
     label: "Support",
     description: "Get answers, onboarding help, and direct assistance as your operation grows.",
     features: [

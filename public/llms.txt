@@ -60,6 +60,7 @@ Pricing last reviewed on 2026-08-18. The pricing page is the source of truth.
 - Core: $99 per month or $990 per year. Includes 2 connected Shopify stores, 3 seats, 10,000 monthly updates, and 2 Drops per month.
 - Elite: $249 per month or $2,490 per year. Includes 3 connected Shopify stores, 15 seats, unlimited monthly updates, and unlimited Drops.
 - Self-serve plans include unlimited SKUs and file storage under fair usage.
+- Inventory and CMS add-ons are available on request.
 - Enterprise: Custom pricing with custom store, seat, update, SKU, and file limits. Includes full onboarding and dedicated support.
 - Every plan includes free setup and a 10-day free trial. No credit card is required for the trial.
 
