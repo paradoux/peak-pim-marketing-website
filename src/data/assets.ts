@@ -59,6 +59,8 @@ export const assets = {
       nakedWolfe: "/assets/customer-logos/banner/naked-wolfe.webp",
       lillicoco: "/assets/customer-logos/banner/lillicoco.webp",
       whatMatters: "/assets/customer-logos/banner/what-matters.webp",
+      usChessFederation: "/assets/customer-logos/banner/us-chess-federation.svg",
+      houseOfStaunton: "/assets/customer-logos/banner/house-of-staunton.webp",
     },
     light: {
       tupperware: "/mirror/6a02fd7d27b9d388ac14a742_Tupperware-Black-logo-f8fe3e27f8.png",

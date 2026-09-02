@@ -95,6 +95,8 @@ const requiredFiles = [
   "public/assets/og/maeli-paris-customer-story.png",
   "public/assets/testimonials/coline-leleu-carre-coco.webp",
   "public/assets/customer-logos/carre-coco.webp",
+  "public/assets/customer-logos/banner/us-chess-federation.svg",
+  "public/assets/customer-logos/banner/house-of-staunton.webp",
   "public/assets/og/carre-coco-customer-story.png",
   "public/og-build-vs-buy-pim.png",
   "docs/copywriting-system.md",
@@ -861,10 +863,12 @@ const homepageLogoFiles = [
   "banner/naked-wolfe.webp",
   "banner/lillicoco.webp",
   "banner/what-matters.webp",
+  "banner/us-chess-federation.svg",
+  "banner/house-of-staunton.webp",
 ];
 const homepageLogoLinks = [
   "https://www.tupperware.com/fr",
-  "https://maeliparis.com/",
+  "/customers/maeli-paris/",
   "https://www.artefact.com/",
   "https://www.dubruitdanslacuisine.fr/",
   "https://lafaurieparis.com/",
@@ -873,6 +877,8 @@ const homepageLogoLinks = [
   "https://nakedwolfe.com/",
   "https://www.lillicoco.com/",
   "https://what-matters.fr/",
+  "https://new.uschess.org/",
+  "https://www.houseofstaunton.com/",
 ];
 
 for (const slug of homepageLogoBannerPages) {
@@ -885,16 +891,21 @@ for (const slug of homepageLogoBannerPages) {
   const html = readFileSync(file, "utf8");
   const mainHtml = html.match(/<main\b[\s\S]*?<\/main>/i)?.[0] ?? "";
   const bannerHtml = mainHtml.match(/<section\b[^>]*class="[^"]*\bsection_logo2\b[^"]*"[^>]*>[\s\S]*?<\/section>/)?.[0] ?? "";
+  const bannerClassLists = [...bannerHtml.matchAll(/class="([^"]*)"/g)].map((match) => match[1].split(/\s+/));
+  const bannerClassCount = (className) => bannerClassLists.filter((classes) => classes.includes(className)).length;
 
   if (!bannerHtml) failures.push(`/${slug} is missing the homepage logo banner`);
   if ((mainHtml.match(/\bsection_logo3\b/g) ?? []).length) failures.push(`/${slug} still contains the retired scrolling logo banner`);
   if (!bannerHtml.includes(">Trusted by 50+ top merchants worldwide</h2>")) failures.push(`/${slug} does not use the homepage logo-banner heading`);
-  if ((bannerHtml.match(/\blogo2_wrapper\b/g) ?? []).length !== 10) failures.push(`/${slug} does not use the homepage ten-logo set`);
-  if ((bannerHtml.match(/class="logo2_link"/g) ?? []).length !== 10) failures.push(`/${slug} does not link every homepage customer logo`);
-  if ((bannerHtml.match(/rel="nofollow noopener"/g) ?? []).length !== 10) failures.push(`/${slug} customer-logo links are missing nofollow and noopener`);
+  if (bannerClassCount("logo2_wrapper") !== 12) failures.push(`/${slug} does not use the homepage twelve-logo set`);
+  if (bannerClassCount("logo2_link") !== 12) failures.push(`/${slug} does not link every homepage customer logo`);
+  if ((bannerHtml.match(/rel="nofollow noopener"/g) ?? []).length !== 11) failures.push(`/${slug} external customer-logo links are missing nofollow and noopener`);
   const bannerImages = bannerHtml.match(/<img\b[^>]*>/g) ?? [];
-  if (bannerImages.length !== 10 || bannerImages.some((image) => !/\bwidth="\d+"/.test(image) || !/\bheight="\d+"/.test(image))) {
-    failures.push(`/${slug} customer logos must declare numeric intrinsic dimensions`);
+  if (bannerImages.length !== 14 || bannerImages.some((image) => !/\bwidth="\d+"/.test(image) || !/\bheight="\d+"/.test(image))) {
+    failures.push(`/${slug} customer logos and case-study images must declare numeric intrinsic dimensions`);
+  }
+  for (const contract of ["logo2_wrapper--case-study", "logo2_case-study-badge", "logo2_case-study-card", "Amélie Samson", ">See case study "]) {
+    if (!bannerHtml.includes(contract)) failures.push(`/${slug} Maéli Paris logo is missing case-study contract: ${contract}`);
   }
   for (const logoFile of homepageLogoFiles) {
     if (!bannerHtml.includes(logoFile)) failures.push(`/${slug} is missing homepage customer logo: ${logoFile}`);

@@ -33,6 +33,8 @@ const viewports = [
 async function prepare(page: Page, path: string, width: number, height: number) {
   await page.setViewportSize({ width, height });
   await page.goto(path, { waitUntil: "domcontentloaded" });
+  await page.waitForTimeout(300);
+  await page.waitForLoadState("domcontentloaded");
   await page.addStyleTag({ content: ".crisp-client, .language-suggestion { display: none !important; }" });
   await page.evaluate(() => document.fonts.ready);
 }
@@ -1150,12 +1152,15 @@ test("translations · logo strip matches the homepage and FAQ matches the featur
   await prepare(page, "/shopify-pim-translations", 1440, 1000);
   const translationStyles = await page.evaluate(readStyles, selectors);
   await expect(page.locator(".section_logo2.color-scheme-2")).toHaveCount(1);
-  await expect(page.locator(".section_logo2 .logo2_wrapper")).toHaveCount(10);
-  await expect(page.locator(".section_logo2 .logo2_link")).toHaveCount(10);
-  expect(await page.locator(".section_logo2 .logo2_link").evaluateAll((links) => links.every((link) => (
+  await expect(page.locator(".section_logo2 .logo2_wrapper")).toHaveCount(12);
+  await expect(page.locator(".section_logo2 .logo2_link")).toHaveCount(12);
+  expect(await page.locator(".section_logo2 .logo2_link:not(.logo2_link--case-study)").evaluateAll((links) => links.length === 11 && links.every((link) => (
     link.getAttribute("target") === "_blank" && link.getAttribute("rel") === "nofollow noopener"
   )))).toBe(true);
-  const maeliLogoLink = page.locator('.section_logo2 .logo2_link[href="https://maeliparis.com/"]');
+  const maeliLogoLink = page.locator('.section_logo2 .logo2_link[href="/customers/maeli-paris/"]');
+  await expect(maeliLogoLink).toHaveAttribute("aria-label", "Read Maéli Paris case study");
+  await expect(maeliLogoLink.locator(".logo2_case-study-badge")).toHaveText("Case study");
+  await expect(page.locator(".section_logo2 .logo2_case-study-card")).not.toBeVisible();
   const restingLogoStyles = await maeliLogoLink.evaluate((element) => ({
     linkTransform: getComputedStyle(element).transform,
     imageTransform: getComputedStyle(element.querySelector("img")!).transform,
@@ -1165,6 +1170,12 @@ test("translations · logo strip matches the homepage and FAQ matches the featur
     linkTransform: getComputedStyle(element).transform,
     imageTransform: getComputedStyle(element.querySelector("img")!).transform,
   }))).not.toEqual(restingLogoStyles);
+  await expect(page.locator(".section_logo2 .logo2_case-study-card")).toBeVisible();
+  await expect(page.locator(".section_logo2 .logo2_case-study-card__cta")).toHaveAttribute("href", "/customers/maeli-paris/");
+  await expect(page.locator(".section_logo2 .logo2_case-study-card")).toHaveScreenshot("maeli-logo-case-study-card.png", {
+    animations: "disabled",
+    maxDiffPixelRatio: 0.01,
+  });
   const waterdropLogoLink = page.locator('.section_logo2 .logo2_link[href="https://www.waterdrop.com/"]');
   await waterdropLogoLink.hover();
   await expect.poll(() => waterdropLogoLink.evaluate((element) => ({
@@ -1183,7 +1194,7 @@ test("translations · logo strip matches the homepage and FAQ matches the featur
 
   await prepare(page, "/industry/fashion", 1440, 1000);
   expect(await page.evaluate(readStyles, selectors.slice(0, 2))).toEqual(translationStyles.slice(0, 2));
-  await expect(page.locator(".section_logo2 .logo2_wrapper")).toHaveCount(10);
+  await expect(page.locator(".section_logo2 .logo2_wrapper")).toHaveCount(12);
   await expect(page.locator(".section_logo2 h2")).toHaveText("Trusted by 50+ top merchants worldwide");
 });
 
