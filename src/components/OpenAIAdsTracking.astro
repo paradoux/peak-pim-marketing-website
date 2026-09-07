@@ -28,6 +28,80 @@
       debug: window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1",
     });
 
+    var campaignParameterNames = [
+      "utm_source",
+      "utm_medium",
+      "utm_campaign",
+      "utm_content",
+      "utm_term",
+      "utm_id",
+    ];
+
+    function getCampaignAttribution() {
+      var currentParameters = new URLSearchParams(window.location.search);
+      var attribution = {};
+      var hasIncomingAttribution = campaignParameterNames.some(function (name) {
+        return currentParameters.has(name) && currentParameters.get(name);
+      });
+
+      try {
+        if (hasIncomingAttribution) {
+          campaignParameterNames.forEach(function (name) {
+            window.sessionStorage.removeItem("peak-attribution:" + name);
+            var value = currentParameters.get(name);
+            if (!value) return;
+
+            attribution[name] = value;
+            window.sessionStorage.setItem("peak-attribution:" + name, value);
+          });
+        } else {
+          campaignParameterNames.forEach(function (name) {
+            var value = window.sessionStorage.getItem("peak-attribution:" + name);
+            if (value) attribution[name] = value;
+          });
+        }
+      } catch {
+        campaignParameterNames.forEach(function (name) {
+          var value = currentParameters.get(name);
+          if (value) attribution[name] = value;
+        });
+      }
+
+      return attribution;
+    }
+
+    var campaignAttribution = getCampaignAttribution();
+
+    function decorateShopifyLink(link) {
+      try {
+        var destination = new URL(link.href, window.location.href);
+        if (destination.hostname !== "apps.shopify.com" || !destination.pathname.startsWith("/peak-pim")) {
+          return null;
+        }
+
+        Object.keys(campaignAttribution).forEach(function (name) {
+          if (!destination.searchParams.has(name)) {
+            destination.searchParams.set(name, campaignAttribution[name]);
+          }
+        });
+        link.href = destination.toString();
+
+        return destination;
+      } catch {
+        return null;
+      }
+    }
+
+    function decorateShopifyLinks() {
+      document.querySelectorAll("a[href]").forEach(decorateShopifyLink);
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", decorateShopifyLinks, { once: true });
+    } else {
+      decorateShopifyLinks();
+    }
+
     function measureOnce(storageKey, eventName, eventData, options) {
       try {
         if (window.sessionStorage.getItem(storageKey) === "true") return;
@@ -65,17 +139,14 @@
         var link = target && target.closest ? target.closest("a[href]") : null;
         if (!link) return;
 
-        try {
-          var destination = new URL(link.href, window.location.href);
-          if (destination.hostname !== "apps.shopify.com" || !destination.pathname.startsWith("/peak-pim")) return;
+        if (!decorateShopifyLink(link)) return;
 
-          measureOnce(
-            "peak-oai-shopify-listing-clicked",
-            "custom",
-            { type: "custom" },
-            { custom_event_name: "shopify_listing_clicked" },
-          );
-        } catch {}
+        measureOnce(
+          "peak-oai-shopify-listing-clicked",
+          "custom",
+          { type: "custom" },
+          { custom_event_name: "shopify_listing_clicked" },
+        );
       },
       true,
     );

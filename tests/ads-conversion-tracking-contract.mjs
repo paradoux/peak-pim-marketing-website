@@ -10,6 +10,9 @@ assert.match(tracker, /"message:sent"[\s\S]*"lead_created"/);
 assert.match(tracker, /"chat:opened"[\s\S]*custom_event_name:\s*"chat_opened"/);
 assert.match(tracker, /apps\.shopify\.com[\s\S]*custom_event_name:\s*"shopify_listing_clicked"/);
 assert.match(tracker, /globalPrivacyControl/);
+assert.match(tracker, /campaignParameterNames[\s\S]*"utm_source"[\s\S]*"utm_campaign"[\s\S]*"utm_content"/);
+assert.match(tracker, /sessionStorage[\s\S]*"peak-attribution:"/);
+assert.match(tracker, /decorateShopifyLink[\s\S]*destination\.searchParams\.set/);
 
 for (const layout of layouts) {
   const source = await readFile(new URL(`src/layouts/${layout}`, root), "utf8");

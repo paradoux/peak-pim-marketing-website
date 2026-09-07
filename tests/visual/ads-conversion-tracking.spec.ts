@@ -1,6 +1,25 @@
 import { expect, test } from "@playwright/test";
 
 const landingPages = ["/shopify-multi-store-pim/", "/bulk-edit/", "/shopify-pim-alternatives/"];
+const campaignQuery =
+  "utm_source=chatgpt&utm_medium=paid&utm_campaign=us-english-pilot&utm_content=catalog-operations&utm_term=shopify-pim";
+
+async function expectShopifyAttribution(page: import("@playwright/test").Page) {
+  const destination = await page
+    .locator('a[href^="https://apps.shopify.com/peak-pim"]')
+    .first()
+    .getAttribute("href");
+
+  expect(destination).not.toBeNull();
+  const url = new URL(destination!);
+  expect(Object.fromEntries(url.searchParams)).toMatchObject({
+    utm_source: "chatgpt",
+    utm_medium: "paid",
+    utm_campaign: "us-english-pilot",
+    utm_content: "catalog-operations",
+    utm_term: "shopify-pim",
+  });
+}
 
 for (const path of landingPages) {
   test(`records the agreed conversion actions on ${path}`, async ({ page }) => {
@@ -8,9 +27,10 @@ for (const path of landingPages) {
       route.fulfill({ status: 200, contentType: "application/javascript", body: "" }),
     );
 
-    await page.goto(`${path}?utm_source=chatgpt&utm_medium=paid&utm_campaign=us-english-pilot`);
+    await page.goto(`${path}?${campaignQuery}`);
 
     await expect(page.locator('script[src="https://bzrcdn.openai.com/sdk/oaiq.min.js"]')).toHaveCount(1);
+    await expectShopifyAttribution(page);
 
     const events = await page.evaluate(() => {
       const trackedWindow = window as typeof window & {
@@ -45,3 +65,14 @@ for (const path of landingPages) {
     ]);
   });
 }
+
+test("keeps ChatGPT campaign attribution during the same Peak PIM browsing session", async ({ page }) => {
+  await page.route("https://bzrcdn.openai.com/sdk/oaiq.min.js", (route) =>
+    route.fulfill({ status: 200, contentType: "application/javascript", body: "" }),
+  );
+
+  await page.goto(`/shopify-multi-store-pim/?${campaignQuery}`);
+  await page.goto("/bulk-edit/");
+
+  await expectShopifyAttribution(page);
+});
