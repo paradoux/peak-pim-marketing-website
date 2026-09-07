@@ -1,0 +1,83 @@
+<script is:inline>
+  (function (window, document) {
+    if (window.__peakOpenAIAdsReady) return;
+    window.__peakOpenAIAdsReady = true;
+
+    if (!window.oaiq) {
+      var queue = function () {
+        queue.q.push(arguments);
+      };
+      queue.q = [];
+      window.oaiq = queue;
+
+      var script = document.createElement("script");
+      script.async = true;
+      script.src = "https://bzrcdn.openai.com/sdk/oaiq.min.js";
+      var firstScript = document.getElementsByTagName("script")[0];
+      firstScript.parentNode.insertBefore(script, firstScript);
+    }
+
+    var measurementDenied =
+      navigator.globalPrivacyControl === true ||
+      navigator.doNotTrack === "1" ||
+      window.doNotTrack === "1";
+
+    window.oaiq("consent", !measurementDenied);
+    window.oaiq("init", {
+      pixelId: "RPxVepoq54b3FTbxBE1QjF",
+      debug: window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1",
+    });
+
+    function measureOnce(storageKey, eventName, eventData, options) {
+      try {
+        if (window.sessionStorage.getItem(storageKey) === "true") return;
+        window.sessionStorage.setItem(storageKey, "true");
+      } catch {}
+
+      window.oaiq("measure", eventName, eventData, options);
+    }
+
+    window.$crisp = window.$crisp || [];
+    window.$crisp.push([
+      "on",
+      "chat:opened",
+      function () {
+        measureOnce(
+          "peak-oai-chat-opened",
+          "custom",
+          { type: "custom" },
+          { custom_event_name: "chat_opened" },
+        );
+      },
+    ]);
+    window.$crisp.push([
+      "on",
+      "message:sent",
+      function () {
+        measureOnce("peak-oai-chat-lead", "lead_created", { type: "customer_action" });
+      },
+    ]);
+
+    document.addEventListener(
+      "click",
+      function (event) {
+        var target = event.target;
+        var link = target && target.closest ? target.closest("a[href]") : null;
+        if (!link) return;
+
+        try {
+          var destination = new URL(link.href, window.location.href);
+          if (destination.hostname !== "apps.shopify.com" || !destination.pathname.startsWith("/peak-pim")) return;
+
+          measureOnce(
+            "peak-oai-shopify-listing-clicked",
+            "custom",
+            { type: "custom" },
+            { custom_event_name: "shopify_listing_clicked" },
+          );
+        } catch {}
+      },
+      true,
+    );
+  })(window, document);
+</script>

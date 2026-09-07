@@ -4,6 +4,7 @@ import CustomerStoryHero from "../components/sections/CustomerStoryHero.astro";
 import SocialProofStats from "../components/sections/SocialProofStats.astro";
 import GlobalWebflowStyles from "../components/GlobalWebflowStyles.astro";
 import LeadCaptureModal from "../components/LeadCaptureModal.astro";
+import OpenAIAdsTracking from "../components/OpenAIAdsTracking.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import { assets } from "../data/assets";
@@ -94,6 +95,8 @@ const fallbackJsonLd = {
   class={htmlClass}
 >
   <head>
+    <meta charset="utf-8" />
+    <OpenAIAdsTracking />
     <Fragment set:html={headHtml} />
     {!hasMetaDescription && page.description && <meta name="description" content={page.description} />}
     <link rel="canonical" href={canonicalUrl} />

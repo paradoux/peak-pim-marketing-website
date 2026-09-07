@@ -2,6 +2,7 @@
 import CrispChat from "../components/CrispChat.astro";
 import GlobalWebflowStyles from "../components/GlobalWebflowStyles.astro";
 import LeadCaptureModal from "../components/LeadCaptureModal.astro";
+import OpenAIAdsTracking from "../components/OpenAIAdsTracking.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import { formatDate, type ContentEntry } from "../lib/content";
@@ -35,6 +36,7 @@ const noindex = noindexWhenEmpty && entries.length === 0;
 <html lang={localeMetadata[locale].hreflang} data-wf-domain="peak-pim.com">
   <head>
     <meta charset="utf-8" />
+    <OpenAIAdsTracking />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
