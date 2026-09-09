@@ -51,6 +51,8 @@ const requiredFiles = [
   "src/components/visuals/AiAssistantCardVisual.astro",
   "src/components/visuals/DeveloperApiHeroVisual.astro",
   "src/components/visuals/DeveloperApiCardVisual.astro",
+  "src/components/visuals/CustomIntegrationsHeroVisual.astro",
+  "src/components/visuals/CustomIntegrationsCardVisual.astro",
   "src/components/visuals/MetaobjectsHeroVisual.astro",
   "src/components/visuals/MetaobjectsCardVisual.astro",
   "src/components/visuals/MetafieldsHeroVisual.astro",
@@ -79,6 +81,7 @@ const requiredFiles = [
   "src/pages/ai-catalog-connector.astro",
   "src/pages/ai-assistant.astro",
   "src/pages/api.astro",
+  "src/pages/custom-integrations.astro",
   "src/pages/shopify-metaobjects.astro",
   "src/pages/shopify-metafield-management.astro",
   "src/pages/shopify-custom-fields.astro",
@@ -168,6 +171,7 @@ for (const slug of [
   "/ai-catalog-connector",
   "/ai-assistant",
   "/api",
+  "/custom-integrations",
   "/shopify-multi-store-pim",
   "/shopify-product-management",
   "/shopify-markets-pricing",
@@ -217,7 +221,7 @@ const recipeSource = readFileSync(resolve(projectRoot, "src/data/landing-page-re
 const approvedReferences = recipeSource.split("export const excludedDesignSystemPages")[0];
 if (approvedReferences.includes('"/partners"')) failures.push("The unfinished partners page appears in approved references");
 
-for (const page of ["bulk-edit", "design-system", "shopify-pim-translations", "shopify-product-import-export", "shopify-product-drops", "shopify-catalog-health-center", "ai-catalog-connector", "ai-assistant", "api", "shopify-metaobjects", "shopify-metafield-management", "shopify-custom-fields", "user-roles-permissions", "shopify-collections", "shopify-markets-pricing", "shopify-product-management", "history", "search", "build-vs-buy-pim", "customers/maeli-paris", "customers/carre-coco"]) {
+for (const page of ["bulk-edit", "design-system", "shopify-pim-translations", "shopify-product-import-export", "shopify-product-drops", "shopify-catalog-health-center", "ai-catalog-connector", "ai-assistant", "api", "custom-integrations", "shopify-metaobjects", "shopify-metafield-management", "shopify-custom-fields", "user-roles-permissions", "shopify-collections", "shopify-markets-pricing", "shopify-product-management", "history", "search", "build-vs-buy-pim", "customers/maeli-paris", "customers/carre-coco"]) {
   const file = resolve(projectRoot, "dist", page, "index.html");
   if (!existsSync(file)) {
     failures.push(`Missing built page /${page}; run npm run build first`);
@@ -310,6 +314,7 @@ for (const feature of [
   { slug: "ai-catalog-connector", title: "AI Connector (MCP) for Shopify | Peak PIM", aria: "Peak PIM AI Connector (MCP) conversation showing a merchant asking about missing SEO descriptions and reviewing catalog results", crossLink: 'href="/api"' },
   { slug: "ai-assistant", title: "AI Assistant for Shopify Catalog Management | Peak PIM", aria: "Peak PIM AI Assistant beside a Shopify product, finding missing catalog fields, preparing a before-and-after draft, and asking for separate publishing approval", crossLink: 'href="/ai-catalog-connector"', allowMultipleCrossLinks: true },
   { slug: "api", title: "Shopify Multi-Store Catalog API | Peak PIM", aria: "Peak PIM developer API workspace showing a store-specific product update and publish response", crossLink: 'href="/ai-catalog-connector"' },
+  { slug: "custom-integrations", title: "Custom PIM Integrations for Shopify | Peak PIM", aria: "Peak PIM custom integration map connecting supplier, ERP, logistics, and B2B and B2C store systems through validated catalog data flows", crossLink: 'href="/api"', allowMultipleCrossLinks: true },
   { slug: "shopify-metaobjects", title: "Shopify Metaobjects Management | Peak PIM", aria: "Peak PIM metaobject workspace showing a Size Guide definition, typed entry fields, and publishing results across Shopify stores", crossLink: 'href="/ai-catalog-connector"' },
   { slug: "shopify-metafield-management", title: "Shopify Metafield Management | Peak PIM", aria: "Peak PIM metafield definition workspace showing one Material definition linked across US, France, and Germany Shopify stores", crossLink: 'href="/shopify-custom-fields"' },
   { slug: "shopify-collections", title: "Shopify Collections Management | Peak PIM", aria: "Peak PIM collections workspace showing one Holiday Gifts collection with content, SEO, and product memberships across US, France, and Germany Shopify stores", crossLink: 'href="/shopify-catalog-health-center"', allowMultipleCrossLinks: true },
@@ -342,6 +347,7 @@ const featureSeoSlugs = [
   "ai-catalog-connector",
   "ai-assistant",
   "api",
+  "custom-integrations",
   "shopify-catalog-health-center",
   "shopify-collections",
   "shopify-custom-fields",
@@ -662,8 +668,8 @@ if (existsSync(pricingFile)) {
   const pricingProofIndex = html.indexOf('<section class="section_stats26 peak-social-proof-stats');
   const pricingFaqIndex = html.indexOf('<section class="section_faq1 color-scheme-1">');
   if (!(pricingTableIndex < pricingProofIndex && pricingProofIndex < pricingFaqIndex)) failures.push("The pricing social proof must sit between the pricing table and FAQ");
-  if (schema.featureList?.length !== 37) failures.push("Pricing schema feature list is incomplete");
-  if (!schema.offers?.every((offer) => offer.additionalProperty?.length === 37)) failures.push("Pricing schema offers are not generated from the complete pricing matrix");
+  if (schema.featureList?.length !== 38) failures.push("Pricing schema feature list is incomplete");
+  if (!schema.offers?.every((offer) => offer.additionalProperty?.length === 38)) failures.push("Pricing schema offers are not generated from the complete pricing matrix");
   const schemaFeatureValue = (planName, featureName) => schema.offers
     ?.find((offer) => offer.name === planName)
     ?.additionalProperty?.find((property) => property.name === featureName)?.value;
@@ -705,7 +711,7 @@ if (existsSync(pricingFile)) {
   for (const href of ["/shopify-sync", "/shopify-media-management", "/search", "/shopify-catalog-health-center", "/shopify-markets-pricing"]) {
     if (!html.includes(`href="${href}" class="pricing-feature-popover__link"`)) failures.push(`Pricing matrix is missing feature detail link: ${href}`);
   }
-  if ((html.match(/class="pricing-feature-info"/g) ?? []).length !== 37) failures.push("Pricing matrix information disclosures are incomplete");
+  if ((html.match(/class="pricing-feature-info"/g) ?? []).length !== 38) failures.push("Pricing matrix information disclosures are incomplete");
   if (!html.includes('summary aria-label="About Shopify sync"')) failures.push("Pricing matrix information controls are not accessibly labelled");
   if (!html.includes('<a href="https://app.peak-pim.com/demo" target="_blank" rel="noopener" class="footer1_link">Live demo</a>')) failures.push("Shared footer is missing the external Live demo link");
   if (!html.includes('<a href="https://help.peak-pim.com/en/" target="_blank" rel="noopener" class="footer1_link">Help Center</a>')) failures.push("Shared footer is missing the external Help Center link");

@@ -18,6 +18,8 @@ const frenchSharedCopy: Record<string, string> = {
   "New": "Nouveau",
   "Connect MCP-compatible AI assistants to your catalog.": "Connectez des assistants IA compatibles MCP à votre catalogue.",
   "Build custom catalog workflows and integrations.": "Créez des workflows et des intégrations catalogue sur mesure.",
+  "Custom integrations": "Intégrations sur mesure",
+  "Connect suppliers, logistics partners, and internal systems.": "Connectez vos fournisseurs, partenaires logistiques et systèmes internes.",
   "Operate": "Exploiter",
   "Run day-to-day catalog work from one operational hub.": "Gérez les opérations quotidiennes du catalogue depuis un espace unique.",
   "AI Assistant": "Assistant IA",

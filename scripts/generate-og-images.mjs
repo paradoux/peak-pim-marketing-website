@@ -12,6 +12,7 @@ const featurePages = [
   { slug: "search", title: "Global Search", detail: "Every catalog record and app page, one keystroke away" },
   { slug: "ai-catalog-connector", title: "AI Connector (MCP)", detail: "Controlled catalog work from MCP-compatible AI assistants" },
   { slug: "api", title: "Developer API", detail: "One API for every Shopify catalog workflow" },
+  { slug: "custom-integrations", title: "Custom Integrations", detail: "Connect Peak PIM to suppliers, logistics, ERP, and internal tools" },
   { slug: "shopify-catalog-health-center", title: "Catalog Health Center", detail: "Find and fix catalog issues across every store" },
   { slug: "shopify-collections", title: "Collections Management", detail: "Connected merchandising across Shopify stores" },
   { slug: "shopify-custom-fields", title: "Custom Fields", detail: "Structured product data for every workflow" },

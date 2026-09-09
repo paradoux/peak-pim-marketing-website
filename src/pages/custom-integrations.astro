@@ -1,0 +1,104 @@
+---
+import CardGrid from "../components/sections/CardGrid.astro";
+import CtaBanner from "../components/sections/CtaBanner.astro";
+import Faq from "../components/sections/Faq.astro";
+import FeatureGrid from "../components/sections/FeatureGrid.astro";
+import Hero from "../components/sections/Hero.astro";
+import LogoCloud from "../components/sections/LogoCloud.astro";
+import ProblemGrid from "../components/sections/ProblemGrid.astro";
+import CustomIntegrationsCardVisual from "../components/visuals/CustomIntegrationsCardVisual.astro";
+import CustomIntegrationsHeroVisual from "../components/visuals/CustomIntegrationsHeroVisual.astro";
+import { bookDemoUrl, ctaLabels } from "../data/cta-copy";
+import LandingPageLayout from "../layouts/LandingPageLayout.astro";
+
+const problems = [
+  { icon: "grid", title: "Product data starts in different systems", description: "Suppliers, ERP software, logistics partners, and internal tools each hold part of the catalog your team needs to operate." },
+  { icon: "review", title: "Every system owns different information", description: "Prices, descriptions, identifiers, files, and operational data need clear ownership before they can move safely between tools." },
+  { icon: "edit", title: "Manual transfers become fragile at scale", description: "Files, emails, and one-off scripts create delays and silent mistakes as your catalog, stores, and partner network grow." },
+];
+const workflow = [
+  { tagline: "Scope", title: "Map the systems and ownership", description: "We identify the tools involved, the catalog objects and fields that need to move, which system owns each value, and where every change should go." },
+  { tagline: "Build", title: "Connect and transform the data", description: "The integration adapts incoming and outgoing data to the Peak PIM product model, including the mapping, transformation, validation, and routing rules in the agreed scope." },
+  { tagline: "Launch", title: "Test the complete flow", description: "We validate realistic data from end to end, define error handling and team ownership, then launch the connection with a clear operating workflow." },
+];
+const features = [
+  { icon: "file", title: "Supplier and ERP feeds", description: "Bring structured product information from the systems that create or own it into one connected catalog." },
+  { icon: "store", title: "Logistics and 3PL connections", description: "Connect catalog data to the operational partners that need the right references, attributes, and files." },
+  { icon: "publish", title: "Multi-store data routing", description: "Send shared and store-specific information to the right B2B, B2C, regional, or brand storefront." },
+  { icon: "code", title: "Custom scope and pricing", description: "Each project is priced from the systems, data flows, business rules, and ongoing requirements you ask us to cover." },
+];
+const faqItems = [
+  { question: "What can Peak PIM connect to?", answer: "Custom integrations can connect Peak PIM with supplier platforms, ERP systems, logistics partners, 3PLs, internal tools, and other systems that provide a suitable API or structured data exchange. We confirm technical feasibility during scoping." },
+  { question: "How is a custom integration different from the Peak PIM API?", answer: "The API is for teams that want to build their own software. A custom integration is a scoped project where the Peak team helps define and deliver the connection around your systems and catalog workflow.", link: { label: ctaLabels.learnMore, href: "/api" } },
+  { question: "Can our developers build the integration themselves?", answer: "Yes. Your team can use the public Peak PIM API for a self-managed integration, with documentation covering authentication, catalog resources, updates, and publishing.", link: { label: ctaLabels.learnMore, href: "/api" } },
+  { question: "Can the integration bring data into and send data out of Peak PIM?", answer: "Yes. Depending on the requested scope, a project can cover incoming data, outgoing data, or both. The direction and ownership of each field are agreed before implementation." },
+  { question: "Which system remains the source of truth?", answer: "That is defined during scoping. One system can own a complete object, or ownership can be assigned by field so each tool remains authoritative for the information it manages best." },
+  { question: "Can one integration support several stores?", answer: "Yes. Peak PIM can route shared catalog data and deliberate store-specific values to connected B2B, B2C, regional, or brand stores according to the agreed workflow.", link: { label: ctaLabels.learnMore, href: "/shopify-multi-store-pim" } },
+  { question: "How much does a custom integration cost?", answer: "Pricing is custom and based on what you request. We review the systems involved, data flows, transformation rules, synchronization requirements, and ongoing needs before providing a proposal." },
+  { question: "How is ongoing maintenance handled?", answer: "Maintenance responsibilities are agreed during scoping based on the systems involved, how often they change, and the level of ongoing support the project requires." },
+  { question: "What happens when a connected system is unavailable?", answer: "Retry behavior, error reporting, and recovery responsibilities are defined as part of the integration scope so the expected response is clear before launch." },
+];
+const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqItems.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })) };
+---
+
+<LandingPageLayout
+  title="Custom PIM Integrations for Shopify | Peak PIM"
+  description="Connect Peak PIM with suppliers, logistics partners, ERP systems, and internal tools through a custom integration scoped to your catalog workflow."
+  canonicalPath="/custom-integrations"
+  schemaType="SoftwareApplication"
+  schema={{ alternativeHeadline: "Custom integrations for Peak PIM", keywords: ["custom PIM integration", "supplier integration", "ERP integration", "3PL integration", "Shopify PIM integration"] }}
+  additionalSchemas={[faqSchema]}
+  ogTitle="Connect Peak PIM to Your Existing Stack"
+  ogDescription="A custom integration built around your systems, product data, business rules, and publishing workflow."
+>
+  <Hero
+    title="Connect Peak PIM to the tools your business already runs on"
+    description="Your suppliers, logistics partners, internal systems, and storefronts should work from the same reliable product data. We scope and build custom integrations that make Peak PIM part of your existing ecosystem."
+    primaryCta={{ label: ctaLabels.bookDemo, href: bookDemoUrl, external: true }}
+    secondaryCta={{ label: ctaLabels.seeHowItWorks, href: "#integration-process" }}
+    trustLine="Custom pricing based on the scope you request."
+  ><CustomIntegrationsHeroVisual /></Hero>
+  <LogoCloud />
+  <ProblemGrid
+    tagline="Your stack is already in place"
+    title="The PIM should fit your business, not replace it"
+    description="Connect the systems that already own part of your product workflow without adding another manual handoff."
+    items={problems}
+    link={{ label: ctaLabels.seeHowItWorks, href: "#integration-process" }}
+  />
+  <CardGrid
+    id="integration-process"
+    tagline="From scope to launch"
+    title="A custom connection with a clear operating model"
+    description="Start with your real systems and business rules, then build and validate the complete data flow before it reaches production."
+    cards={workflow}
+  >
+    <CustomIntegrationsCardVisual slot="visual-1" mode="map" />
+    <CustomIntegrationsCardVisual slot="visual-2" mode="build" />
+    <CustomIntegrationsCardVisual slot="visual-3" mode="launch" />
+  </CardGrid>
+  <FeatureGrid
+    tagline="Built around your ecosystem"
+    title="Connect the partners and systems behind your catalog"
+    description="Keep Peak PIM at the center while the right information continues to move between the tools your business depends on."
+    features={features}
+    cta={{ label: ctaLabels.learnMore, href: "/api" }}
+  />
+  <CtaBanner
+    id="start"
+    title="Make Peak PIM part of your stack"
+    description="Show us how your product data moves today. We will help you define the right connection between Peak PIM and the systems around it."
+    primaryLabel={ctaLabels.bookDemo}
+    primaryHref={bookDemoUrl}
+    secondaryLabel={ctaLabels.learnMore}
+    secondaryHref="/api"
+    secondaryExternal={false}
+    trustLine="Every custom integration is priced according to the systems, data flows, and requirements in the agreed scope."
+  />
+  <Faq
+    id="faq"
+    title="Frequently asked questions"
+    description="What to know before scoping a custom integration with Peak PIM."
+    items={faqItems}
+  />
+</LandingPageLayout>

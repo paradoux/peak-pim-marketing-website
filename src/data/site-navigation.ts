@@ -24,6 +24,7 @@ export const featureNavigationGroups: FeatureNavigationGroup[] = [
       { label: "Amazon sync", href: "", description: "Synchronize catalog data with Amazon marketplaces.", comingSoon: true },
       { label: "AI Connector (MCP)", href: "/ai-catalog-connector", description: "Connect MCP-compatible AI assistants to your catalog.", badge: "New" },
       { label: "API", href: "/api", description: "Build custom catalog workflows and integrations." },
+      { label: "Custom integrations", href: "/custom-integrations", description: "Connect suppliers, logistics partners, and internal systems." },
     ],
   },
   {

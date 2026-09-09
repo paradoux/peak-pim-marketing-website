@@ -74,7 +74,7 @@ if (existsSync(sitemapFile)) {
   for (const locale of translatedLocales) {
     const metadata = localeMetadata[locale];
     const localeEntries = entries.filter((entry) => new URL(entry.url).pathname.startsWith(`/${locale}/`));
-    if (localeEntries.length !== 37) failures.push(`Expected 37 ${locale} public pages, found ${localeEntries.length}`);
+    if (localeEntries.length !== 38) failures.push(`Expected 38 ${locale} public pages, found ${localeEntries.length}`);
     if (entries.some((entry) => entry.url === `https://peak-pim.com/${locale}/legals/privacy/`)) failures.push(`Privacy policy must remain outside the ${locale} sitemap`);
 
     for (const entry of localeEntries) {
@@ -147,4 +147,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log("Internationalization contract passed for 296 localized public pages across 8 translated locales.");
+console.log("Internationalization contract passed for 304 localized public pages across 8 translated locales.");

@@ -24,6 +24,7 @@ export const assets = {
       "/search": "/assets/og/search.png",
       "/ai-catalog-connector": "/assets/og/ai-catalog-connector.png",
       "/api": "/assets/og/api.png",
+      "/custom-integrations": "/assets/og/custom-integrations.png",
       "/shopify-catalog-health-center": "/assets/og/shopify-catalog-health-center.png",
       "/shopify-collections": "/assets/og/shopify-collections.png",
       "/shopify-custom-fields": "/assets/og/shopify-custom-fields.png",

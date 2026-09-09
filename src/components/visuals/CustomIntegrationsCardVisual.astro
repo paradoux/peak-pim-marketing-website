@@ -1,0 +1,19 @@
+---
+type Props = { mode: "map" | "build" | "launch" };
+const { mode } = Astro.props;
+const ariaLabel = mode === "map"
+  ? "Custom integration scope mapping systems, catalog fields, and source-of-truth ownership"
+  : mode === "build"
+    ? "Custom integration data flow transforming supplier fields into validated Peak PIM catalog fields"
+    : "Custom integration launch checklist with tested data flow, error handling, and ownership";
+---
+
+<div class:list={["peak-ci-card", `is-${mode}`]} role="img" aria-label={ariaLabel}>
+  {mode === "map" && <div class="peak-ci-card__scope"><header><small>Integration scope</small><b>Supplier → Peak PIM → Stores</b></header><span><i>01</i><b>Systems</b><em>Supplier portal · ERP · 3PL</em></span><span><i>02</i><b>Catalog objects</b><em>Products · Variants · Media</em></span><span><i>03</i><b>Ownership</b><em>Source defined per field</em></span><footer>Scope ready for technical review</footer></div>}
+  {mode === "build" && <div class="peak-ci-card__mapping"><header><small>Field mapping</small><b>Supplier product feed</b></header><span><code>supplier_ref</code><i>→</i><code>SKU</code></span><span><code>material_name</code><i>→</i><code>Material</code></span><span><code>care_text_fr</code><i>→</i><code>FR care</code></span><footer><b>✓</b> 3 rules validated</footer></div>}
+  {mode === "launch" && <div class="peak-ci-card__launch"><header><small>Launch review</small><b>Production flow</b></header><span><i>✓</i><b>Sample data tested</b><em>Complete</em></span><span><i>✓</i><b>Validation rules</b><em>Complete</em></span><span><i>✓</i><b>Error handling</b><em>Complete</em></span><span><i>✓</i><b>Team ownership</b><em>Complete</em></span><footer>Ready to launch</footer></div>}
+</div>
+
+<style>
+  .peak-ci-card{box-sizing:border-box;width:100%;min-height:300px;padding:25px;background:radial-gradient(#343434 1px,transparent 1px),#191919;background-size:18px 18px;color:#191919;font-family:Inter,Arial,sans-serif}.peak-ci-card>div{display:grid;gap:9px}.peak-ci-card header,.peak-ci-card>div>span,.peak-ci-card footer{padding:12px;border-radius:7px;background:#fff}.peak-ci-card header{display:flex;flex-direction:column}.peak-ci-card small{color:#777;font-size:7px}.peak-ci-card b{font-size:9px}.peak-ci-card em{color:#777;font-size:7px;font-style:normal}.peak-ci-card__scope>span,.peak-ci-card__launch>span{display:grid;grid-template-columns:28px 1fr;align-items:center}.peak-ci-card__scope>span i,.peak-ci-card__launch>span i{display:grid;width:23px;height:23px;grid-row:1/3;place-items:center;border-radius:50%;background:#191919;color:#fff;font-size:7px;font-style:normal}.peak-ci-card__scope>span em,.peak-ci-card__launch>span em{grid-column:2}.peak-ci-card footer{background:#e6f2e9;color:#397c4d;font-size:8px;font-weight:700;text-align:center}.peak-ci-card__mapping>span{display:grid;grid-template-columns:1fr 20px 1fr;align-items:center}.peak-ci-card__mapping code{padding:6px;border-radius:4px;background:#f1f1ef;font-size:7px}.peak-ci-card__mapping span i{color:#2845d6;font-size:11px;font-style:normal;text-align:center}.peak-ci-card__mapping footer{display:flex;align-items:center;justify-content:center;gap:6px}.peak-ci-card__mapping footer b{display:grid;width:17px;height:17px;place-items:center;border-radius:50%;background:#397c4d;color:#fff;font-size:7px}.peak-ci-card__launch>span i{background:#397c4d}.peak-ci-card__launch>span em{grid-column:3;grid-row:1;color:#397c4d}.peak-ci-card.is-launch footer{background:#2845d6;color:#fff}@media(max-width:479px){.peak-ci-card{padding:18px}}
+</style>

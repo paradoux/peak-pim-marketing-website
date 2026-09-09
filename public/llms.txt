@@ -16,6 +16,7 @@ Peak PIM helps Shopify teams:
 - Check and repair catalog health across Shopify synchronization, stores, completeness, translations, collections, and files.
 - Use the Peak PIM AI Connector (MCP) with compatible assistants to search, compare, draft, and publish catalog work through controlled permissions.
 - Build catalog integrations with an API for master data, store versions, validated updates, and multi-store publishing.
+- Connect supplier, ERP, logistics, and internal systems through custom integrations scoped and priced to the requested workflow.
 - Define, edit, localize, import, and publish Shopify metaobject definitions and entries across connected stores.
 - Create, merchandise, translate, schedule, and publish Shopify collections and product memberships across connected stores.
 - Manage Shopify Markets, catalogs, product availability, percentage adjustments, and supported fixed variant prices across connected stores.
@@ -44,6 +45,7 @@ Peak PIM helps Shopify teams:
 - [Shopify catalog Health Center](https://peak-pim.com/shopify-catalog-health-center/)
 - [AI Connector (MCP) for Shopify catalogs](https://peak-pim.com/ai-catalog-connector/)
 - [Developer API](https://peak-pim.com/api/)
+- [Custom PIM integrations](https://peak-pim.com/custom-integrations/)
 - [Shopify metaobjects](https://peak-pim.com/shopify-metaobjects/)
 - [Shopify collections management](https://peak-pim.com/shopify-collections/)
 - [Shopify Markets and catalog pricing](https://peak-pim.com/shopify-markets-pricing/)
@@ -102,6 +104,7 @@ Pricing last reviewed on 2026-08-18. The pricing page is the source of truth.
 - [Centre de contrôle du catalogue Shopify](https://peak-pim.com/fr/centre-controle-catalogue-shopify/)
 - [Connecteur catalogue IA](https://peak-pim.com/fr/connecteur-catalogue-ia/)
 - [API](https://peak-pim.com/fr/api/)
+- [Intégrations PIM sur mesure](https://peak-pim.com/fr/integrations-sur-mesure/)
 - [Métaobjets Shopify](https://peak-pim.com/fr/metaobjets-shopify/)
 - [Collections Shopify](https://peak-pim.com/fr/collections-shopify/)
 - [Tarification Shopify Markets](https://peak-pim.com/fr/tarification-shopify-markets/)
@@ -152,6 +155,7 @@ Pricing last reviewed on 2026-08-18. The pricing page is the source of truth.
 - [Shopify Katalog Gesundheitszentrum | Peak PIM](https://peak-pim.com/de/shopify-katalogpruefung/)
 - [AI-Anschluss (MCP) für Shopify | Peak PIM](https://peak-pim.com/de/ki-katalog-konnektor/)
 - [Shopify Multi-Store-Katalog API | Peak PIM](https://peak-pim.com/de/api/)
+- [Individuelle PIM-Integrationen](https://peak-pim.com/de/individuelle-integrationen/)
 - [Shopify Metaobjektverwaltung | Peak PIM](https://peak-pim.com/de/shopify-metaobjekte/)
 - [Shopify Sammlungsverwaltung | Peak PIM](https://peak-pim.com/de/shopify-kategorien/)
 - [Shopify Markets & Katalogpreise | Peak PIM](https://peak-pim.com/de/shopify-markets-preise/)
@@ -192,6 +196,7 @@ Pricing last reviewed on 2026-08-18. The pricing page is the source of truth.
 - [Shopify Catálogo Centro de Salud | Peak PIM](https://peak-pim.com/es/centro-control-catalogo-shopify/)
 - [Conector AI (MCP) para Shopify | Peak PIM](https://peak-pim.com/es/conector-catalogo-ia/)
 - [Shopify Catálogo multitienda API | Peak PIM](https://peak-pim.com/es/api/)
+- [Integraciones PIM personalizadas](https://peak-pim.com/es/integraciones-personalizadas/)
 - [Shopify Gestión de Metaobjetos | Peak PIM](https://peak-pim.com/es/metaobjetos-shopify/)
 - [Shopify Gestión de Cobranzas | Peak PIM](https://peak-pim.com/es/colecciones-shopify/)
 - [Shopify Markets y precios de catálogo | Peak PIM](https://peak-pim.com/es/precios-shopify-markets/)
@@ -232,6 +237,7 @@ Pricing last reviewed on 2026-08-18. The pricing page is the source of truth.
 - [Shopify Catalogo Centro Sanitario | Peak PIM](https://peak-pim.com/it/centro-controllo-catalogo-shopify/)
 - [Connettore AI (MCP) per Shopify | Peak PIM](https://peak-pim.com/it/connettore-catalogo-ia/)
 - [Shopify Catalogo multinegozio API | Peak PIM](https://peak-pim.com/it/api/)
+- [Integrazioni PIM personalizzate](https://peak-pim.com/it/integrazioni-personalizzate/)
 - [Shopify Gestione metaoggetti | Peak PIM](https://peak-pim.com/it/metaoggetti-shopify/)
 - [Shopify Gestione collezioni | Peak PIM](https://peak-pim.com/it/collezioni-shopify/)
 - [Shopify Markets e prezzi del catalogo | Peak PIM](https://peak-pim.com/it/prezzi-shopify-markets/)
@@ -272,6 +278,7 @@ Pricing last reviewed on 2026-08-18. The pricing page is the source of truth.
 - [Shopify Catalogus Gezondheidscentrum | Peak PIM](https://peak-pim.com/nl/shopify-cataloguscontrole/)
 - [AI-connector (MCP) voor Shopify | Peak PIM](https://peak-pim.com/nl/ai-catalogusconnector/)
 - [Shopify Catalogus met meerdere winkels API | Peak PIM](https://peak-pim.com/nl/api/)
+- [PIM-maatwerkintegraties](https://peak-pim.com/nl/maatwerkintegraties/)
 - [Shopify Metaobjectenbeheer | Peak PIM](https://peak-pim.com/nl/shopify-metaobjecten/)
 - [Shopify Collectiebeheer | Peak PIM](https://peak-pim.com/nl/shopify-collecties/)
 - [Shopify Markets en catalogusprijzen | Peak PIM](https://peak-pim.com/nl/shopify-markets-prijzen/)
@@ -312,6 +319,7 @@ Pricing last reviewed on 2026-08-18. The pricing page is the source of truth.
 - [Catálogo Shopify Centro de Saúde | Peak PIM](https://peak-pim.com/pt-br/central-controle-catalogo-shopify/)
 - [Conector AI (MCP) para Shopify | Peak PIM](https://peak-pim.com/pt-br/conector-catalogo-ia/)
 - [Shopify Catálogo Multi-Loja API | Peak PIM](https://peak-pim.com/pt-br/api/)
+- [Integrações PIM personalizadas](https://peak-pim.com/pt-br/integracoes-personalizadas/)
 - [Shopify Gerenciamento de metaobjetos | Peak PIM](https://peak-pim.com/pt-br/metaobjetos-shopify/)
 - [Shopify Gerenciamento de coleções | Peak PIM](https://peak-pim.com/pt-br/colecoes-shopify/)
 - [Shopify Markets e preços de catálogo | Peak PIM](https://peak-pim.com/pt-br/precos-shopify-markets/)
@@ -352,6 +360,7 @@ Pricing last reviewed on 2026-08-18. The pricing page is the source of truth.
 - [Shopify Katalog Centrum zdrowia | Peak PIM](https://peak-pim.com/pl/centrum-kontroli-katalogu-shopify/)
 - [Złącze AI (MCP) dla Shopify | Peak PIM](https://peak-pim.com/pl/konektor-katalogu-ai/)
 - [Shopify Katalog wielosklepowy API | Peak PIM](https://peak-pim.com/pl/api/)
+- [Niestandardowe integracje PIM](https://peak-pim.com/pl/integracje-niestandardowe/)
 - [Shopify Zarządzanie metaobiektami | Peak PIM](https://peak-pim.com/pl/metaobiekty-shopify/)
 - [Shopify Zarządzanie zbiorami | Peak PIM](https://peak-pim.com/pl/kolekcje-shopify/)
 - [Shopify Markets i ceny katalogowe | Peak PIM](https://peak-pim.com/pl/ceny-shopify-markets/)
@@ -392,6 +401,7 @@ Pricing last reviewed on 2026-08-18. The pricing page is the source of truth.
 - [Shopify カタログ ヘルス センター | Peak PIM](https://peak-pim.com/ja/shopify-catalog-kenko-check/)
 - [Shopify 用 AI コネクタ (MCP) | Peak PIM](https://peak-pim.com/ja/ai-catalog-connector/)
 - [Shopify マルチストアカタログ API | Peak PIM](https://peak-pim.com/ja/api/)
+- [カスタムPIM連携](https://peak-pim.com/ja/custom-integration/)
 - [Shopify メタオブジェクト管理 | Peak PIM](https://peak-pim.com/ja/shopify-metaobject/)
 - [Shopify コレクション管理 | Peak PIM](https://peak-pim.com/ja/shopify-collection-kanri/)
 - [Shopify Markets とカタログ価格 | Peak PIM](https://peak-pim.com/ja/shopify-markets-kakaku/)

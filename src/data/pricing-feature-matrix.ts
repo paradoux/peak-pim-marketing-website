@@ -133,6 +133,12 @@ export const pricingFeatureGroups: PricingFeatureGroup[] = [
         href: "/api",
         values: [true, true, true, true],
       },
+      {
+        label: "Custom integrations",
+        description: "Connect Peak PIM with supplier, logistics, ERP, and internal systems through a project scoped to your requirements.",
+        href: "/custom-integrations",
+        values: ["On request", "On request", "On request", "On request"],
+      },
     ],
   },
   {

@@ -64,6 +64,7 @@ export async function GET() {
     "shopify-catalog-health-center",
     "ai-catalog-connector",
     "api",
+    "custom-integrations",
     "shopify-metaobjects",
     "shopify-collections",
     "shopify-markets-pricing",
