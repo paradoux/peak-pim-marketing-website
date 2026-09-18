@@ -93,7 +93,7 @@ test("customers menu · House of Staunton use case fits and links from the share
     await expect(link.locator(".customers-mega-menu__story-content > span:not(.customers-mega-menu__action)")).toHaveText(target.description);
     const duBruitLink = stories.locator('.customers-mega-menu__story-link[href="/customers/du-bruit-dans-la-cuisine/"]');
     await expect(duBruitLink).toBeVisible();
-    await expect(duBruitLink.locator(".customers-mega-menu__story-image > img")).toHaveAttribute("src", "/assets/testimonials/simon-tordjman-du-bruit-dans-la-cuisine.webp");
+    await expect(duBruitLink.locator(".customers-mega-menu__story-image > img")).toHaveAttribute("src", "/assets/testimonials/du-bruit-dans-la-cuisine-storefront.webp");
     await expect(duBruitLink.locator(".customers-mega-menu__story-logo img")).toHaveAttribute("alt", "Du Bruit dans la Cuisine");
     await expect(duBruitLink.locator(".customers-mega-menu__story-content > span:not(.customers-mega-menu__action)")).toHaveText(target.duBruitDescription);
     expect(await link.locator(".customers-mega-menu__story-logo").evaluate((element) => getComputedStyle(element).backgroundColor)).toBe("rgba(25, 25, 25, 0.94)");
@@ -692,7 +692,7 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
     await expect(houseOfStauntonStoryLink.locator(".customers-mega-menu__story-content > span:not(.customers-mega-menu__action)")).toHaveText("Unify product data across three Shopify stores.");
     const duBruitStoryLink = header.locator('.customers-mega-menu__story-link[href="/customers/du-bruit-dans-la-cuisine/"]');
     await expect(duBruitStoryLink).toHaveCount(1);
-    await expect(duBruitStoryLink.locator(".customers-mega-menu__story-image > img")).toHaveAttribute("src", "/assets/testimonials/simon-tordjman-du-bruit-dans-la-cuisine.webp");
+    await expect(duBruitStoryLink.locator(".customers-mega-menu__story-image > img")).toHaveAttribute("src", "/assets/testimonials/du-bruit-dans-la-cuisine-storefront.webp");
     await expect(duBruitStoryLink.locator(".customers-mega-menu__story-logo img")).toHaveAttribute("alt", "Du Bruit dans la Cuisine");
     await expect(duBruitStoryLink.locator(".customers-mega-menu__story-content > span:not(.customers-mega-menu__action)")).toHaveText("Centralize products, collections, media, and metafields.");
     const customerCardHeights = await header.locator(".customers-mega-menu__reviews-link, .customers-mega-menu__story-link").evaluateAll((cards) => (

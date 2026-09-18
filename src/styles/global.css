@@ -1299,12 +1299,10 @@ path[style*="pp-pos-conn-line-pulse"] {
   flex-direction: column;
 }
 
-@media screen and (min-width: 992px) {
-  .customers-mega-menu__reviews-link,
-  .customers-mega-menu__stories .customers-mega-menu__story-link {
-    height: 9.5rem;
-    min-height: 9.5rem;
-  }
+.customers-mega-menu__reviews-link,
+.customers-mega-menu__stories .customers-mega-menu__story-link {
+  height: 9.5rem;
+  min-height: 9.5rem;
 }
 
 .customers-mega-menu__reviews-link strong,

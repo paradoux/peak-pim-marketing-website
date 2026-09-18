@@ -34,7 +34,7 @@ const ameliePortrait = readFileSync(resolve(projectRoot, "public/assets/testimon
 const carreCocoLogo = readFileSync(resolve(projectRoot, "public/assets/customer-logos/carre-coco.webp")).toString("base64");
 const colinePortrait = readFileSync(resolve(projectRoot, "public/assets/testimonials/coline-leleu-carre-coco.webp")).toString("base64");
 const duBruitLogo = readFileSync(resolve(projectRoot, "public/mirror/6a02fb70081b921fb9432b84_Du-Bruit-Dans-La-Cuisine-Black-logo-7899ce298c.png")).toString("base64");
-const simonPortrait = readFileSync(resolve(projectRoot, "public/assets/testimonials/simon-tordjman-du-bruit-dans-la-cuisine.webp")).toString("base64");
+const duBruitStorefront = readFileSync(resolve(projectRoot, "public/assets/testimonials/du-bruit-dans-la-cuisine-storefront.webp")).toString("base64");
 const spaceGrotesk = readFileSync(resolve(projectRoot, "public/mirror/fonts/V8mDoQDjQSkFtoMM3T6r8E7mPbF4Cw-4ecc7e89b7.woff2")).toString("base64");
 const inter = readFileSync(resolve(projectRoot, "public/mirror/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7-6ab57b19c6.woff2")).toString("base64");
 
@@ -188,10 +188,10 @@ const customerStories = [
     slug: "du-bruit-dans-la-cuisine-customer-story",
     title: "How Du Bruit runs product content in one place",
     detail: "200–300 product sheets a month, 882 collections, and one Shopify-native workflow.",
-    caption: "Simon Tordjman · Du Bruit dans la Cuisine",
+    caption: "Du Bruit dans la Cuisine",
     logo: duBruitLogo,
     logoMime: "image/png",
-    portrait: simonPortrait,
+    portrait: duBruitStorefront,
   },
 ];
 

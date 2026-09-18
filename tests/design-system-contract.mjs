@@ -100,6 +100,7 @@ const requiredFiles = [
   "src/components/visuals/DuBruitWorkflowVisual.astro",
   "public/assets/testimonials/house-of-staunton-chess.png",
   "public/assets/testimonials/shawn-house-of-staunton.jpeg",
+  "public/assets/testimonials/du-bruit-dans-la-cuisine-storefront.webp",
   "public/assets/testimonials/amelie-samson-maeli-paris.webp",
   "public/assets/og/maeli-paris-customer-story.png",
   "public/assets/testimonials/coline-leleu-carre-coco.webp",
@@ -501,6 +502,8 @@ if (existsSync(duBruitStoryFile) && existsSync(duBruitStoryImage)) {
     if (!mainHtml.includes(fact)) failures.push(`Du Bruit dans la Cuisine customer story is missing verified operating fact: ${fact}`);
   }
   if (!mainHtml.includes('src="/assets/testimonials/simon-tordjman-du-bruit-dans-la-cuisine.webp"')) failures.push("Du Bruit dans la Cuisine customer story is missing Simon's portrait");
+  if ((mainHtml.match(/src="\/assets\/testimonials\/simon-tordjman-du-bruit-dans-la-cuisine\.webp"/g) ?? []).length !== 1) failures.push("Simon's portrait must appear only in the Du Bruit dans la Cuisine testimonial");
+  if (!mainHtml.includes('src="/assets/testimonials/du-bruit-dans-la-cuisine-storefront.webp"')) failures.push("Du Bruit dans la Cuisine customer story is missing the supplied storefront photo");
   if (!mainHtml.includes("We installed Peak PIM to centralize")) failures.push("Du Bruit dans la Cuisine customer story is missing Simon's approved testimonial translation");
   for (const className of ["peak-customer-story-hero", "peak-customer-story-stats", "peak-problem-grid", "peak-testimonial", "peak-customer-story-chapter", "peak-feature-grid", "peak-cta-banner", "peak-faq"]) {
     if (!mainHtml.includes(className)) failures.push(`Du Bruit dans la Cuisine customer story is missing canonical section: ${className}`);

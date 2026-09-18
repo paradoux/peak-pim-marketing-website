@@ -48,6 +48,7 @@ export const assets = {
     houseOfStauntonChess: "/assets/testimonials/house-of-staunton-chess.png",
     shawnHouseOfStaunton: "/assets/testimonials/shawn-house-of-staunton.jpeg",
     simonTordjman: "/assets/testimonials/simon-tordjman-du-bruit-dans-la-cuisine.webp",
+    duBruitStorefront: "/assets/testimonials/du-bruit-dans-la-cuisine-storefront.webp",
   },
   team: {
     foundersTechForRetail: "/assets/team/peak-pim-founders-tech-for-retail.jpg",
