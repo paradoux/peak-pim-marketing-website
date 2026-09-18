@@ -22,6 +22,8 @@ const pages = [
   { name: "products-variants", path: "/shopify-product-management" },
   { name: "maeli-customer-story", path: "/customers/maeli-paris" },
   { name: "carre-coco-customer-story", path: "/customers/carre-coco" },
+  { name: "house-of-staunton-customer-story", path: "/customers/house-of-staunton" },
+  { name: "du-bruit-customer-story", path: "/customers/du-bruit-dans-la-cuisine" },
 ] as const;
 
 const viewports = [
@@ -65,6 +67,42 @@ test("localized navigation · header omits the retired language shortcut", async
       await expect(page.locator(".site-language-switcher")).toHaveCount(0);
       expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
     }
+  }
+});
+
+test("customers menu · House of Staunton use case fits and links from the shared header", async ({ page }) => {
+  for (const target of [
+    { path: "/", width: 1440, description: "Unify product data across three Shopify stores.", duBruitDescription: "Centralize products, collections, media, and metafields." },
+    { path: "/customers/maeli-paris", width: 768, description: "Unify product data across three Shopify stores.", duBruitDescription: "Centralize products, collections, media, and metafields." },
+    { path: "/", width: 375, description: "Unify product data across three Shopify stores.", duBruitDescription: "Centralize products, collections, media, and metafields." },
+    { path: "/fr/traductions-produits-shopify", width: 1440, description: "Unifiez les données produits de trois boutiques Shopify.", duBruitDescription: "Centralisez les produits, collections, médias et champs méta." },
+  ]) {
+    await prepare(page, target.path, target.width, 1000);
+    const header = page.locator(".site-header");
+    if (target.width < 992) await header.locator(".navbar10_menu-button").click();
+    const toggle = header.locator(".customers-menu-dropdown > .navbar10_dropdown-toggle");
+    await toggle.focus();
+    await toggle.press("Enter");
+    await expect(toggle).toHaveAttribute("aria-expanded", "true");
+    const stories = header.locator(".customers-mega-menu__stories");
+    await expect(stories.locator(".customers-mega-menu__story-link")).toHaveCount(4);
+    const link = stories.locator('.customers-mega-menu__story-link[href="/customers/house-of-staunton/"]');
+    await expect(link).toBeVisible();
+    await expect(link.locator(".customers-mega-menu__story-image > img")).toHaveAttribute("src", "/assets/testimonials/house-of-staunton-chess.png");
+    await expect(link.locator(".customers-mega-menu__story-logo img")).toHaveAttribute("alt", "House of Staunton");
+    await expect(link.locator(".customers-mega-menu__story-content > span:not(.customers-mega-menu__action)")).toHaveText(target.description);
+    const duBruitLink = stories.locator('.customers-mega-menu__story-link[href="/customers/du-bruit-dans-la-cuisine/"]');
+    await expect(duBruitLink).toBeVisible();
+    await expect(duBruitLink.locator(".customers-mega-menu__story-image > img")).toHaveAttribute("src", "/assets/testimonials/simon-tordjman-du-bruit-dans-la-cuisine.webp");
+    await expect(duBruitLink.locator(".customers-mega-menu__story-logo img")).toHaveAttribute("alt", "Du Bruit dans la Cuisine");
+    await expect(duBruitLink.locator(".customers-mega-menu__story-content > span:not(.customers-mega-menu__action)")).toHaveText(target.duBruitDescription);
+    expect(await link.locator(".customers-mega-menu__story-logo").evaluate((element) => getComputedStyle(element).backgroundColor)).toBe("rgba(25, 25, 25, 0.94)");
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+    if (target.width >= 992) {
+      expect(await link.evaluate((element) => element.getBoundingClientRect().bottom)).toBeLessThanOrEqual(1000);
+    }
+    await link.click();
+    await expect(page).toHaveURL(/\/customers\/house-of-staunton\/$/);
   }
 });
 
@@ -579,6 +617,7 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
       "Amazon sync",
       "AI Connector (MCP)",
       "API",
+      "Custom integrations",
     ]);
     await expect(header.locator('.feature-mega-menu__group[aria-labelledby="feature-group-operate"] .feature-mega-menu__link-title')).toHaveText([
       "AI Assistant",
@@ -646,6 +685,16 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
     await expect(carreCocoStoryLink).toHaveCount(1);
     await expect(carreCocoStoryLink.locator(".customers-mega-menu__story-image > img")).toHaveAttribute("alt", "Coline Leleu, founder of Carré Coco");
     await expect(carreCocoStoryLink.locator(".customers-mega-menu__story-logo img")).toHaveAttribute("alt", "Carré Coco");
+    const houseOfStauntonStoryLink = header.locator('.customers-mega-menu__story-link[href="/customers/house-of-staunton/"]');
+    await expect(houseOfStauntonStoryLink).toHaveCount(1);
+    await expect(houseOfStauntonStoryLink.locator(".customers-mega-menu__story-image > img")).toHaveAttribute("src", "/assets/testimonials/house-of-staunton-chess.png");
+    await expect(houseOfStauntonStoryLink.locator(".customers-mega-menu__story-logo img")).toHaveAttribute("alt", "House of Staunton");
+    await expect(houseOfStauntonStoryLink.locator(".customers-mega-menu__story-content > span:not(.customers-mega-menu__action)")).toHaveText("Unify product data across three Shopify stores.");
+    const duBruitStoryLink = header.locator('.customers-mega-menu__story-link[href="/customers/du-bruit-dans-la-cuisine/"]');
+    await expect(duBruitStoryLink).toHaveCount(1);
+    await expect(duBruitStoryLink.locator(".customers-mega-menu__story-image > img")).toHaveAttribute("src", "/assets/testimonials/simon-tordjman-du-bruit-dans-la-cuisine.webp");
+    await expect(duBruitStoryLink.locator(".customers-mega-menu__story-logo img")).toHaveAttribute("alt", "Du Bruit dans la Cuisine");
+    await expect(duBruitStoryLink.locator(".customers-mega-menu__story-content > span:not(.customers-mega-menu__action)")).toHaveText("Centralize products, collections, media, and metafields.");
     const customerCardHeights = await header.locator(".customers-mega-menu__reviews-link, .customers-mega-menu__story-link").evaluateAll((cards) => (
       cards.map((card) => card.getBoundingClientRect().height)
     ));
@@ -1155,13 +1204,15 @@ test("translations · logo strip matches the homepage and FAQ matches the featur
   await expect(page.locator(".section_logo2.color-scheme-2")).toHaveCount(1);
   await expect(page.locator(".section_logo2 .logo2_wrapper")).toHaveCount(12);
   await expect(page.locator(".section_logo2 .logo2_link")).toHaveCount(12);
-  expect(await page.locator(".section_logo2 .logo2_link:not(.logo2_link--case-study)").evaluateAll((links) => links.length === 11 && links.every((link) => (
+  expect(await page.locator('.section_logo2 .logo2_link[target="_blank"]').evaluateAll((links) => links.length === 8 && links.every((link) => (
     link.getAttribute("target") === "_blank" && link.getAttribute("rel") === "nofollow noopener"
   )))).toBe(true);
   const maeliLogoLink = page.locator('.section_logo2 .logo2_link[href="/customers/maeli-paris/"]');
   await expect(maeliLogoLink).toHaveAttribute("aria-label", "Read Maéli Paris case study");
   await expect(maeliLogoLink.locator(".logo2_case-study-badge")).toHaveText("Case study");
-  await expect(page.locator(".section_logo2 .logo2_case-study-card")).not.toBeVisible();
+  await expect(page.locator(".section_logo2 .logo2_case-study-card")).toHaveCount(4);
+  const maeliWrapper = maeliLogoLink.locator("..");
+  await expect(maeliWrapper.locator(".logo2_case-study-card")).not.toBeVisible();
   const restingLogoStyles = await maeliLogoLink.evaluate((element) => ({
     linkTransform: getComputedStyle(element).transform,
     imageTransform: getComputedStyle(element.querySelector("img")!).transform,
@@ -1171,12 +1222,41 @@ test("translations · logo strip matches the homepage and FAQ matches the featur
     linkTransform: getComputedStyle(element).transform,
     imageTransform: getComputedStyle(element.querySelector("img")!).transform,
   }))).not.toEqual(restingLogoStyles);
-  await expect(page.locator(".section_logo2 .logo2_case-study-card")).toBeVisible();
-  await expect(page.locator(".section_logo2 .logo2_case-study-card__cta")).toHaveAttribute("href", "/customers/maeli-paris/");
-  await expect(page.locator(".section_logo2 .logo2_case-study-card")).toHaveScreenshot("maeli-logo-case-study-card.png", {
+  await expect(maeliWrapper.locator(".logo2_case-study-card")).toBeVisible();
+  await expect(maeliWrapper.locator(".logo2_case-study-card__cta")).toHaveAttribute("href", "/customers/maeli-paris/");
+  const houseOfStauntonLogoLink = page.locator('.section_logo2 .logo2_link[href="/customers/house-of-staunton/"]');
+  await expect(houseOfStauntonLogoLink).toHaveCount(2);
+  const houseLogoLink = houseOfStauntonLogoLink.filter({ has: page.locator('.logo2_logo--house-of-staunton') });
+  await expect(houseLogoLink).toHaveAttribute("aria-label", "Read House of Staunton case study");
+  await expect(houseLogoLink.locator(".logo2_case-study-badge")).toHaveText("Case study");
+  await expect(houseLogoLink).not.toHaveAttribute("target", "_blank");
+  await expect(houseLogoLink).not.toHaveAttribute("rel", "nofollow noopener");
+  await expect(maeliWrapper.locator(".logo2_case-study-card")).toHaveScreenshot("maeli-logo-case-study-card.png", {
     animations: "disabled",
     maxDiffPixelRatio: 0.01,
   });
+  const usChessLogoLink = page.locator('.section_logo2 .logo2_link[aria-label="Read US Chess Federation case study"]');
+  await expect(usChessLogoLink).toHaveAttribute("href", "/customers/house-of-staunton/");
+  await expect(usChessLogoLink.locator(".logo2_case-study-badge")).toHaveText("Case study");
+  await usChessLogoLink.hover();
+  const usChessCard = usChessLogoLink.locator("..").locator(".logo2_case-study-card");
+  await expect(usChessCard).toBeVisible();
+  await expect(usChessCard).toContainText("Almost all our products matched correctly by SKU");
+  await expect(usChessCard.locator(".logo2_case-study-card__cta")).toHaveAttribute("href", "/customers/house-of-staunton/");
+  await houseLogoLink.hover();
+  const houseCard = houseLogoLink.locator("..").locator(".logo2_case-study-card");
+  await expect(houseCard).toBeVisible();
+  await expect(houseCard).toContainText("Bulk edits save a huge amount of time");
+  await expect(houseCard.locator(".logo2_case-study-card__cta")).toHaveAttribute("href", "/customers/house-of-staunton/");
+  const duBruitLogoLink = page.locator('.section_logo2 .logo2_link[aria-label="Read Du Bruit dans la Cuisine case study"]');
+  await expect(duBruitLogoLink).toHaveAttribute("href", "/customers/du-bruit-dans-la-cuisine/");
+  await expect(duBruitLogoLink.locator(".logo2_case-study-badge")).toHaveText("Case study");
+  await duBruitLogoLink.hover();
+  const duBruitCard = duBruitLogoLink.locator("..").locator(".logo2_case-study-card");
+  await expect(duBruitCard).toBeVisible();
+  await expect(duBruitCard).toContainText("centralize all our product content");
+  await expect(duBruitCard).toContainText("Simon Tordjman");
+  await expect(duBruitCard.locator(".logo2_case-study-card__cta")).toHaveAttribute("href", "/customers/du-bruit-dans-la-cuisine/");
   const waterdropLogoLink = page.locator('.section_logo2 .logo2_link[href="https://www.waterdrop.com/"]');
   await waterdropLogoLink.hover();
   await expect.poll(() => waterdropLogoLink.evaluate((element) => ({
@@ -1197,6 +1277,35 @@ test("translations · logo strip matches the homepage and FAQ matches the featur
   expect(await page.evaluate(readStyles, selectors.slice(0, 2))).toEqual(translationStyles.slice(0, 2));
   await expect(page.locator(".section_logo2 .logo2_wrapper")).toHaveCount(12);
   await expect(page.locator(".section_logo2 h2")).toHaveText("Trusted by 50+ top merchants worldwide");
+});
+
+test("shared logo strip · customer case-study badges stay usable across responsive widths", async ({ page }) => {
+  for (const width of [768, 375]) {
+    await prepare(page, "/shopify-pim-translations", width, 1024);
+    const strip = page.locator(".section_logo2");
+    await strip.scrollIntoViewIfNeeded();
+    await expect(strip.locator(".logo2_case-study-badge")).toHaveCount(4);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+
+    for (const proof of [
+      { label: "Read Du Bruit dans la Cuisine case study", href: "/customers/du-bruit-dans-la-cuisine/" },
+      { label: "Read US Chess Federation case study", href: "/customers/house-of-staunton/" },
+      { label: "Read House of Staunton case study", href: "/customers/house-of-staunton/" },
+    ]) {
+      const link = strip.locator(`.logo2_link[aria-label="${proof.label}"]`);
+      await expect(link).toHaveAttribute("href", proof.href);
+      if (width >= 768) {
+        await link.hover();
+        const card = link.locator("xpath=..").locator(".logo2_case-study-card");
+        await expect(card).toBeVisible();
+        const rect = await card.evaluate((element) => element.getBoundingClientRect().toJSON());
+        expect(rect.left).toBeGreaterThanOrEqual(0);
+        expect(rect.right).toBeLessThanOrEqual(width);
+      } else {
+        await expect(link.locator("xpath=..").locator(".logo2_case-study-card")).toBeHidden();
+      }
+    }
+  }
 });
 
 test("translations · uses the original global font smoothing", async ({ page }) => {

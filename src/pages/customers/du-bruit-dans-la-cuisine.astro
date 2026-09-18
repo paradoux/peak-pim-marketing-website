@@ -1,0 +1,182 @@
+---
+import CtaBanner from "../../components/sections/CtaBanner.astro";
+import CustomerStoryChapter from "../../components/sections/CustomerStoryChapter.astro";
+import CustomerStoryHero from "../../components/sections/CustomerStoryHero.astro";
+import CustomerStoryStats from "../../components/sections/CustomerStoryStats.astro";
+import Faq from "../../components/sections/Faq.astro";
+import FeatureGrid from "../../components/sections/FeatureGrid.astro";
+import ProblemGrid from "../../components/sections/ProblemGrid.astro";
+import Testimonial from "../../components/sections/Testimonial.astro";
+import DuBruitWorkflowVisual from "../../components/visuals/DuBruitWorkflowVisual.astro";
+import { assets } from "../../data/assets";
+import { ctaLabels } from "../../data/cta-copy";
+import LandingPageLayout from "../../layouts/LandingPageLayout.astro";
+
+// Verified against the Du Bruit dans la Cuisine lead, account, and SyncBase customer records in Notion on 2026-09-19.
+const appStoreUrl = "https://apps.shopify.com/peak-pim";
+const canonicalPath = "/customers/du-bruit-dans-la-cuisine";
+const title = "How Du Bruit dans la Cuisine Centralizes Product Content | Peak PIM";
+const description = "See how Du Bruit dans la Cuisine moved a 200–300 product-sheet monthly workflow from Airtable into one Shopify PIM for products, collections, media, and metafields.";
+const quote = "We installed Peak PIM to centralize the management of all our product content, and the result has exceeded our expectations. Day to day, the time savings are enormous. Products, variants, media, and metafields are all managed from one place, with bulk edits replacing hours of manual work in Shopify admin. The tool is very quick to learn, and whenever we have a question, the team is highly responsive and listens to our needs.";
+
+const stats = [
+  { value: "200–300", title: "Product sheets managed each month", description: "The team regularly enriches and publishes hundreds of product sheets, with its product working matrix at the center of the process." },
+  { value: "Up to 500", title: "Product sheets in a peak month", description: "Bulk import and editing are essential when incoming purchasing files push the monthly workload higher." },
+  { value: "882", title: "Collections in the catalog", description: "Collection SEO, product membership, and editorial content now sit beside the product workflow in Peak PIM." },
+];
+
+const previousWorkflow = [
+  { icon: "grid", title: "Product work crossed six steps", description: "Data moved from Proginov into Airtable, through enrichment and scripts, into Shopify, then back to Proginov through another export." },
+  { icon: "clock", title: "Large pushes needed babysitting", description: "Bulk synchronization from Airtable could error and create long queues, turning a catalog update into an operation the team had to monitor." },
+  { icon: "edit", title: "Content lived in separate flows", description: "Products, collection SEO, recipes, media, metafields, and linked product references were managed across different tools and manual steps." },
+];
+
+const outcomes = [
+  { icon: "store", title: "Shopify connects directly", description: "The existing catalog comes into Peak PIM without a separate technical configuration project." },
+  { icon: "edit", title: "Bulk work replaces repetition", description: "Products, variants, media, and metafields can be prepared and changed together from one operating workspace." },
+  { icon: "grid", title: "Three matrices organize the work", description: "Products, collections, and blog articles each have a dedicated working view before anything is published." },
+  { icon: "publish", title: "Publishing stays controlled", description: "The team can prepare catalog changes in the PIM, review them, and decide what is ready to reach Shopify." },
+];
+
+const faqItems = [
+  { question: "What did Du Bruit dans la Cuisine replace with Peak PIM?", answer: "The team moved away from an Airtable Enterprise workflow connected to Shopify through SyncBase and custom scripts. Peak PIM now brings the core product-content work into one Shopify-native application." },
+  { question: "How much product content does the team manage?", answer: "The operating volume is usually 200 to 300 product sheets per month and can reach 500 in a peak month." },
+  { question: "How does the Proginov workflow fit into Peak PIM?", answer: "Product data starts in the Proginov ERP. The team prepares import data, matches it to the product working matrix, enriches the records, reviews the result, and publishes approved content to Shopify." },
+  { question: "Which Shopify content does the team manage in Peak PIM?", answer: "The workflow covers products, variants, media, metafields, collections, pages, and blog articles. Products, collections, and blog content are organized into three working matrices." },
+  { question: "What does Simon say about Peak PIM?", answer: "Simon says the catalog connection takes only a few clicks, bulk changes replace hours of manual Shopify work, and the team is responsive when questions come up." },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://peak-pim.com/" },
+    { "@type": "ListItem", position: 2, name: "Du Bruit dans la Cuisine customer story", item: "https://peak-pim.com/customers/du-bruit-dans-la-cuisine/" },
+  ],
+};
+
+const reviewSchema = {
+  "@context": "https://schema.org",
+  "@type": "Review",
+  author: { "@type": "Person", name: "Simon Tordjman", jobTitle: "COO", worksFor: { "@type": "Organization", name: "Du Bruit dans la Cuisine" } },
+  reviewBody: quote,
+  reviewRating: { "@type": "Rating", ratingValue: 5, bestRating: 5 },
+  itemReviewed: { "@id": "https://peak-pim.com/#software" },
+};
+---
+
+<LandingPageLayout
+  title={title}
+  description={description}
+  canonicalPath={canonicalPath}
+  schemaType="Article"
+  schema={{
+    headline: title,
+    articleSection: "Customer stories",
+    image: "https://peak-pim.com/assets/testimonials/simon-tordjman-du-bruit-dans-la-cuisine.webp",
+    author: { "@type": "Organization", name: "Peak PIM", url: "https://peak-pim.com/" },
+    about: { "@type": "Organization", name: "Du Bruit dans la Cuisine" },
+  }}
+  additionalSchemas={[reviewSchema, breadcrumbSchema, faqSchema]}
+  ogTitle="How Du Bruit dans la Cuisine Runs Product Content in One Place"
+  ogDescription="200–300 product sheets a month, 882 collections, and one Shopify-native workspace for products, media, metafields, and editorial content."
+  ogImage={assets.marketing.customerStories.duBruitDansLaCuisineOg}
+>
+  <CustomerStoryHero
+    title="How Du Bruit dans la Cuisine runs product content from one place"
+    description="A direct Shopify connection and three working matrices replaced a fragmented Airtable workflow for hundreds of product sheets every month."
+    image={assets.testimonials.simonTordjman}
+    imageAlt="Simon Tordjman of Du Bruit dans la Cuisine"
+    imageCaption="Simon Tordjman, Du Bruit dans la Cuisine"
+    companyLogo={assets.customerLogos.light.duBruit}
+    companyName="Du Bruit dans la Cuisine"
+    primaryCta={{ label: ctaLabels.tryFree, href: appStoreUrl, external: true }}
+    secondaryCta={{ label: ctaLabels.seeHowItWorks, href: "#story" }}
+  />
+
+  <CustomerStoryStats title="A high-volume catalog, organized around one Shopify workflow" items={stats} />
+
+  <ProblemGrid
+    tagline="Before Peak PIM"
+    title="The catalog workflow had become a chain of tools"
+    description="The system worked, but every product cycle crossed Airtable, scripts, an ERP export, and Shopify before the data returned to the source system."
+    items={previousWorkflow}
+  />
+
+  <Testimonial
+    quote={quote}
+    name="Simon Tordjman"
+    role="COO, Du Bruit dans la Cuisine"
+    image={assets.testimonials.simonTordjman}
+    companyLogo={assets.customerLogos.light.duBruit}
+  />
+
+  <div id="story">
+    <CustomerStoryChapter
+      title="Connect the existing Shopify catalog in a few clicks"
+      lead="Products, variants, media, and metafields arrive together, so the team starts from the catalog already running the business."
+      tagline="Shopify connection"
+      cardTitle="A working catalog without a technical setup project"
+      body="Du Bruit dans la Cuisine installed Peak PIM and connected its Shopify store directly. The catalog became available immediately, giving the team one place to see the product content it had previously coordinated through Airtable and SyncBase."
+      link={{ label: ctaLabels.learnMore, href: "/1-click-setup" }}
+    >
+      <DuBruitWorkflowVisual slot="visual" view="connection" />
+    </CustomerStoryChapter>
+  </div>
+
+  <CustomerStoryChapter
+    title="Keep the Proginov flow, remove the Airtable detour"
+    lead="The weekly purchasing data can enter a product matrix built around the fields, formulas, and identifiers the team already uses."
+    tagline="Product matrix"
+    cardTitle="Import, enrich, review, and publish in one working view"
+    body="Product work starts with data from Proginov. Peak PIM preserves the operational structure around project codes, suppliers, brands, HTML descriptions, linked products, and Shopify fields, while bulk import and editing replace copy-paste work across separate tools."
+    reverse
+    link={{ label: ctaLabels.learnMore, href: "/shopify-product-import-export" }}
+  >
+    <DuBruitWorkflowVisual slot="visual" view="matrix" />
+  </CustomerStoryChapter>
+
+  <CustomerStoryChapter
+    title="Manage products, collections, and editorial content together"
+    lead="Three focused matrices keep each content type readable without sending the team back into another system."
+    tagline="Catalog content"
+    cardTitle="One operating layer for every customer-facing content workflow"
+    body="The team organized dedicated working matrices for products, collections, and blog articles. That brings collection SEO, recipe content, media, metafields, linked products, and publishing status beside the product catalog instead of splitting the work between Airtable, Notion, and manual Shopify edits."
+    link={{ label: ctaLabels.learnMore, href: "/shopify-collections" }}
+  >
+    <DuBruitWorkflowVisual slot="visual" view="content" />
+  </CustomerStoryChapter>
+
+  <FeatureGrid
+    tagline="The day-to-day difference"
+    title="One place to prepare the whole catalog"
+    description="Peak PIM shortens the route from source data to approved Shopify content while keeping each change visible to the team."
+    features={outcomes}
+    cta={{ label: ctaLabels.learnMore, href: "/bulk-edit" }}
+  />
+
+  <CtaBanner
+    title="Replace catalog busywork with one Shopify workflow"
+    description="Connect the catalog you already have, organize the fields your team needs, and prepare large product-content updates in one place."
+    primaryLabel={ctaLabels.tryFree}
+    primaryHref={appStoreUrl}
+    secondaryLabel={ctaLabels.bookDemo}
+    trustLine="10-day free trial. Free setup. No credit card."
+  />
+
+  <Faq
+    title="Frequently asked questions"
+    description="How Du Bruit dans la Cuisine moved its product-content workflow into Peak PIM and which parts another Shopify team can reuse."
+    items={faqItems}
+  />
+</LandingPageLayout>

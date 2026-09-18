@@ -325,7 +325,10 @@ html {
   gap: 0.2rem;
 }
 
-.section_logo2 .logo2_link--case-study > .logo2_logo--maeli {
+.section_logo2 .logo2_link--case-study > .logo2_logo--maeli,
+.section_logo2 .logo2_link--case-study > .logo2_logo--du-bruit,
+.section_logo2 .logo2_link--case-study > .logo2_logo--us-chess-federation,
+.section_logo2 .logo2_link--case-study > .logo2_logo--house-of-staunton {
   max-height: 2.1rem;
 }
 
@@ -384,6 +387,23 @@ html {
   visibility: visible;
 }
 
+.section_logo2 .logo2_wrapper:has(.logo2_logo--du-bruit) .logo2_case-study-card,
+.section_logo2 .logo2_wrapper:has(.logo2_logo--us-chess-federation) .logo2_case-study-card,
+.section_logo2 .logo2_wrapper:has(.logo2_logo--house-of-staunton) .logo2_case-study-card {
+  right: 0;
+  left: auto;
+  transform: translateY(0.45rem);
+}
+
+.section_logo2 .logo2_wrapper:has(.logo2_logo--du-bruit):hover .logo2_case-study-card,
+.section_logo2 .logo2_wrapper:has(.logo2_logo--du-bruit):focus-within .logo2_case-study-card,
+.section_logo2 .logo2_wrapper:has(.logo2_logo--us-chess-federation):hover .logo2_case-study-card,
+.section_logo2 .logo2_wrapper:has(.logo2_logo--us-chess-federation):focus-within .logo2_case-study-card,
+.section_logo2 .logo2_wrapper:has(.logo2_logo--house-of-staunton):hover .logo2_case-study-card,
+.section_logo2 .logo2_wrapper:has(.logo2_logo--house-of-staunton):focus-within .logo2_case-study-card {
+  transform: translateY(0);
+}
+
 .section_logo2 .logo2_case-study-card__logo {
   display: block;
   width: auto;
@@ -391,6 +411,10 @@ html {
   margin-bottom: 0.4rem;
   grid-column: 1 / -1;
   object-fit: contain;
+}
+
+.section_logo2 .logo2_case-study-card__logo.is-darkened {
+  filter: brightness(0);
 }
 
 .section_logo2 .logo2_case-study-card blockquote {
@@ -816,6 +840,15 @@ path[style*="pp-pos-conn-line-pulse"] {
   .section_logo2 .logo2_wrapper--case-study:hover .logo2_case-study-card,
   .section_logo2 .logo2_wrapper--case-study:focus-within .logo2_case-study-card {
     transform: translateX(-50%);
+  }
+
+  .section_logo2 .logo2_wrapper:has(.logo2_logo--du-bruit):hover .logo2_case-study-card,
+  .section_logo2 .logo2_wrapper:has(.logo2_logo--du-bruit):focus-within .logo2_case-study-card,
+  .section_logo2 .logo2_wrapper:has(.logo2_logo--us-chess-federation):hover .logo2_case-study-card,
+  .section_logo2 .logo2_wrapper:has(.logo2_logo--us-chess-federation):focus-within .logo2_case-study-card,
+  .section_logo2 .logo2_wrapper:has(.logo2_logo--house-of-staunton):hover .logo2_case-study-card,
+  .section_logo2 .logo2_wrapper:has(.logo2_logo--house-of-staunton):focus-within .logo2_case-study-card {
+    transform: none;
   }
 }
 
@@ -1345,6 +1378,14 @@ path[style*="pp-pos-conn-line-pulse"] {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.customers-mega-menu__story-logo.is-on-dark {
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0.25rem;
+  border-radius: 0.4rem;
+  background: rgba(25, 25, 25, 0.94);
 }
 
 .customers-mega-menu__story-content {

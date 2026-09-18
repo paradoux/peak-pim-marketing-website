@@ -1,0 +1,164 @@
+---
+import ProductVisualFrame from "../ui/ProductVisualFrame.astro";
+import { assets } from "../../data/assets";
+
+type View = "connection" | "matrix" | "content";
+type Props = { view?: View };
+
+const { view = "connection" } = Astro.props;
+
+const views = {
+  connection: {
+    section: "Shopify connection",
+    status: "Catalog imported",
+    action: "Review catalog",
+    ariaLabel: "Peak PIM workspace showing the Du Bruit dans la Cuisine Shopify catalog connected with products, variants, media, and metafields imported",
+    eyebrow: "Connected store",
+    title: "Du Bruit dans la Cuisine",
+    summary: [
+      { label: "Source", value: "Shopify" },
+      { label: "Setup", value: "A few clicks" },
+      { label: "Technical config", value: "None" },
+    ],
+    rows: [
+      { object: "Products", scope: "Full catalog", state: "Imported" },
+      { object: "Variants", scope: "Product options", state: "Imported" },
+      { object: "Media", scope: "Product files", state: "Imported" },
+      { object: "Metafields", scope: "Shopify definitions", state: "Ready", focus: true },
+    ],
+    footer: "The existing catalog becomes the starting point",
+  },
+  matrix: {
+    section: "Bulk edit",
+    status: "Working matrix",
+    action: "Review changes",
+    ariaLabel: "Peak PIM product working matrix for Du Bruit dans la Cuisine showing Proginov data, product enrichment fields, and Shopify publishing status",
+    eyebrow: "Product workflow",
+    title: "Proginov to Shopify",
+    summary: [
+      { label: "Monthly volume", value: "200–300" },
+      { label: "Peak volume", value: "Up to 500" },
+      { label: "Source", value: "Proginov" },
+    ],
+    rows: [
+      { object: "Project code", scope: "Purchase file", state: "Matched" },
+      { object: "Supplier + brand", scope: "Grouped view", state: "Ready" },
+      { object: "Descriptions", scope: "HTML content", state: "Edited" },
+      { object: "Publish status", scope: "Shopify", state: "Review", focus: true },
+    ],
+    footer: "Bulk work stays visible before publishing",
+  },
+  content: {
+    section: "Catalog content",
+    status: "3 working matrices",
+    action: "Open workspace",
+    ariaLabel: "Peak PIM workspace for Du Bruit dans la Cuisine organizing products, collections, and blog content in three connected working matrices",
+    eyebrow: "Content operations",
+    title: "One workspace, three matrices",
+    summary: [
+      { label: "Products", value: "Matrix 1" },
+      { label: "Collections", value: "882" },
+      { label: "Blog articles", value: "Matrix 3" },
+    ],
+    rows: [
+      { object: "Products", scope: "Fields + media", state: "Managed" },
+      { object: "Collections", scope: "SEO + products", state: "Managed" },
+      { object: "Blog articles", scope: "Recipes + metafields", state: "Managed" },
+      { object: "Publishing", scope: "Shopify", state: "Controlled", focus: true },
+    ],
+    footer: "Product content stays in one operating layer",
+  },
+} satisfies Record<View, {
+  section: string;
+  status: string;
+  action: string;
+  ariaLabel: string;
+  eyebrow: string;
+  title: string;
+  summary: { label: string; value: string }[];
+  rows: { object: string; scope: string; state: string; focus?: boolean }[];
+  footer: string;
+}>;
+
+const current = views[view];
+---
+
+<ProductVisualFrame ariaLabel={current.ariaLabel} section={current.section} status={current.status} actionLabel={current.action}>
+  <div class="peak-dbdlc-workspace">
+    <aside class="peak-dbdlc-sidebar">
+      <div class="peak-dbdlc-brand">
+        <img src={assets.customerLogos.light.duBruit} alt="" />
+        <span><strong>Du Bruit dans la Cuisine</strong><small>Shopify catalog</small></span>
+      </div>
+      <small>Workspaces</small>
+      <span class:list={{ "is-active": view === "connection" }}><i></i>Connected catalog</span>
+      <span class:list={{ "is-active": view === "matrix" }}><i></i>Product matrix</span>
+      <span class:list={{ "is-active": view === "content" }}><i></i>Content matrices</span>
+      <small>Objects</small>
+      <b>Products + variants</b>
+      <b>Collections</b>
+      <b>Blogs + pages</b>
+    </aside>
+
+    <div class="peak-dbdlc-main">
+      <header class="peak-dbdlc-heading">
+        <div><small>{current.eyebrow}</small><strong>{current.title}</strong></div>
+        <i aria-hidden="true">FR</i>
+      </header>
+
+      <div class="peak-dbdlc-summary">
+        {current.summary.map((item) => <span><small>{item.label}</small><strong>{item.value}</strong></span>)}
+      </div>
+
+      <section class="peak-dbdlc-grid" aria-hidden="true">
+        <div class="peak-dbdlc-grid__head"><span>Object</span><b>Workflow</b><b>Status</b></div>
+        {current.rows.map((row) => (
+          <div class:list={{ "is-focus": row.focus }}><span>{row.object}</span><b>{row.scope}</b><b><mark>{row.state}</mark></b></div>
+        ))}
+      </section>
+
+      <footer class="peak-dbdlc-footer"><span><i></i>{current.footer}</span><b>Shopify connected</b></footer>
+    </div>
+  </div>
+</ProductVisualFrame>
+
+<style>
+  .peak-dbdlc-workspace { display: grid; min-height: 450px; grid-template-columns: 174px minmax(0, 1fr); background: #f6f3ec; color: #191919; font-family: Inter, Arial, sans-serif; }
+  .peak-dbdlc-sidebar { display: flex; flex-direction: column; gap: 7px; padding: 17px 13px; border-right: 1px solid #dedbd3; background: #fbfaf7; }
+  .peak-dbdlc-brand { display: grid; gap: 6px; margin-bottom: 7px; padding: 9px; border: 1px solid #dedbd3; border-radius: 7px; background: #fff; }
+  .peak-dbdlc-brand img { width: 74px; height: 29px; object-fit: contain; object-position: left center; }
+  .peak-dbdlc-brand span { display: grid; gap: 2px; min-width: 0; }
+  .peak-dbdlc-brand strong { overflow: hidden; font-size: 7px; text-overflow: ellipsis; white-space: nowrap; }
+  .peak-dbdlc-brand small { color: #888; font-size: 6px; }
+  .peak-dbdlc-sidebar > small { margin: 7px 7px 0; color: #999; font-size: 6px; text-transform: uppercase; }
+  .peak-dbdlc-sidebar > span { display: flex; align-items: center; gap: 7px; padding: 8px; border-radius: 5px; color: #666; font-size: 7px; font-weight: 600; }
+  .peak-dbdlc-sidebar > span i { width: 6px; height: 6px; flex: none; border-radius: 50%; background: #bbb; }
+  .peak-dbdlc-sidebar > span.is-active { background: #e9edff; color: #2845d6; }
+  .peak-dbdlc-sidebar > span.is-active i { background: #2845d6; }
+  .peak-dbdlc-sidebar > b { margin-inline: 7px; color: #555; font-size: 7px; font-weight: 600; }
+  .peak-dbdlc-main { min-width: 0; padding: 21px; }
+  .peak-dbdlc-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .peak-dbdlc-heading > div { display: grid; gap: 3px; }
+  .peak-dbdlc-heading small, .peak-dbdlc-summary small { color: #777; font-size: 7px; }
+  .peak-dbdlc-heading strong { font-size: 14px; }
+  .peak-dbdlc-heading > i { display: grid; width: 28px; height: 28px; place-items: center; border-radius: 50%; background: #191919; color: #fff; font: normal 7px Inter, Arial, sans-serif; }
+  .peak-dbdlc-summary { display: grid; gap: 8px; margin: 17px 0 13px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .peak-dbdlc-summary span { display: grid; gap: 4px; padding: 10px; border: 1px solid #dedbd4; border-radius: 6px; background: #fff; }
+  .peak-dbdlc-summary strong { color: #2845d6; font-size: 11px; }
+  .peak-dbdlc-grid { overflow: hidden; border: 1px solid #dedad2; border-radius: 7px; background: #fff; }
+  .peak-dbdlc-grid > div { display: grid; min-height: 49px; align-items: stretch; grid-template-columns: 0.85fr 1.25fr 0.9fr; border-top: 1px solid #ebe8e1; }
+  .peak-dbdlc-grid > div:first-child { border-top: 0; background: #f2efe8; }
+  .peak-dbdlc-grid span, .peak-dbdlc-grid b { display: flex; min-width: 0; align-items: center; padding: 7px 9px; overflow: hidden; font-size: 7px; text-overflow: ellipsis; white-space: nowrap; }
+  .peak-dbdlc-grid > div > span { color: #777; }
+  .peak-dbdlc-grid > div > b { border-left: 1px solid #ebe8e1; font-weight: 500; }
+  .peak-dbdlc-grid mark { padding: 4px 6px; border-radius: 999px; background: #edf6ef; color: #438258; font-size: 6px; }
+  .peak-dbdlc-grid .is-focus b { background: #eef1ff; color: #2845d6; }
+  .peak-dbdlc-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 13px; color: #666; font-size: 7px; }
+  .peak-dbdlc-footer span { display: flex; align-items: center; gap: 5px; }
+  .peak-dbdlc-footer span i { width: 6px; height: 6px; border-radius: 50%; background: #53a86d; }
+  .peak-dbdlc-footer > b { padding: 6px 8px; border-radius: 999px; background: #edf6ef; color: #438258; font-size: 6px; }
+  @media (max-width: 767px) { .peak-dbdlc-workspace { min-height: 410px; grid-template-columns: 1fr; } .peak-dbdlc-sidebar { display: none; } .peak-dbdlc-main { padding: 17px; } }
+  @media (max-width: 479px) { .peak-dbdlc-main { padding: 13px; } .peak-dbdlc-heading strong { font-size: 12px; } .peak-dbdlc-summary { gap: 5px; } .peak-dbdlc-summary span { padding: 8px 6px; } .peak-dbdlc-grid span, .peak-dbdlc-grid b { padding-inline: 6px; font-size: 6px; } .peak-dbdlc-footer > b { display: none; } }
+  @media (prefers-reduced-motion: no-preference) { .peak-dbdlc-grid .is-focus b { animation: peak-dbdlc-focus 3s ease-in-out infinite; } @keyframes peak-dbdlc-focus { 50% { background: #e5eaff; box-shadow: inset 3px 0 #2845d6; } } }
+  @media (prefers-reduced-motion: reduce) { .peak-dbdlc-grid .is-focus b { animation: none; } }
+</style>

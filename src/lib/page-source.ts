@@ -28,15 +28,15 @@ const sharedLogoDetails = [
   { source: "Tupperware-White-logo", optimizedSrc: assets.customerLogos.banner.tupperware, width: 145, height: 64, slug: "tupperware", name: "Tupperware", href: "https://www.tupperware.com/fr" },
   { source: "Mae-li-White-logo", optimizedSrc: assets.customerLogos.banner.maeli, width: 123, height: 54, slug: "maeli", name: "Maéli Paris", href: "/customers/maeli-paris/" },
   { source: "Artefact-White-logo", optimizedSrc: assets.customerLogos.banner.artefact, width: 156, height: 69, slug: "artefact", name: "Artefact", href: "https://www.artefact.com/" },
-  { source: "Du-Bruit-Dans-La-Cuisine", optimizedSrc: assets.customerLogos.banner.duBruit, width: 141, height: 62, slug: "du-bruit", name: "Du Bruit dans la Cuisine", href: "https://www.dubruitdanslacuisine.fr/" },
+  { source: "Du-Bruit-Dans-La-Cuisine", optimizedSrc: assets.customerLogos.banner.duBruit, width: 141, height: 62, slug: "du-bruit", name: "Du Bruit dans la Cuisine", href: "/customers/du-bruit-dans-la-cuisine/" },
   { source: "LAFAURIE-White-logo", optimizedSrc: assets.customerLogos.banner.lafaurie, width: 145, height: 64, slug: "lafaurie", name: "Lafaurie", href: "https://lafaurieparis.com/" },
   { source: "/assets/customer-logos/jatni-labs.webp", optimizedSrc: assets.customerLogos.banner.gullyLabs, width: 145, height: 45, slug: "jatni-labs", name: "Gully Labs", href: "https://gullylabs.com/" },
   { source: "/assets/customer-logos/waterdrop.webp", optimizedSrc: assets.customerLogos.banner.waterdrop, width: 145, height: 76, slug: "waterdrop", name: "waterdrop", href: "https://www.waterdrop.com/" },
   { source: "/assets/customer-logos/naked-wolfe.png", optimizedSrc: assets.customerLogos.banner.nakedWolfe, width: 145, height: 57, slug: "naked-wolfe", name: "Naked Wolfe", href: "https://nakedwolfe.com/" },
   { source: "/assets/customer-logos/lillicoco.png", optimizedSrc: assets.customerLogos.banner.lillicoco, width: 145, height: 45, slug: "lillicoco", name: "Lillicoco", href: "https://www.lillicoco.com/" },
   { source: "/assets/customer-logos/what-matters.png", optimizedSrc: assets.customerLogos.banner.whatMatters, width: 145, height: 95, slug: "what-matters", name: "What Matters", href: "https://what-matters.fr/" },
-  { source: "/assets/customer-logos/banner/us-chess-federation.svg", optimizedSrc: assets.customerLogos.banner.usChessFederation, width: 256, height: 182, slug: "us-chess-federation", name: "US Chess Federation", href: "https://new.uschess.org/" },
-  { source: "/assets/customer-logos/banner/house-of-staunton.webp", optimizedSrc: assets.customerLogos.banner.houseOfStaunton, width: 360, height: 364, slug: "house-of-staunton", name: "House of Staunton", href: "https://www.houseofstaunton.com/" },
+  { source: "/assets/customer-logos/banner/us-chess-federation.svg", optimizedSrc: assets.customerLogos.banner.usChessFederation, width: 256, height: 182, slug: "us-chess-federation", name: "US Chess Federation", href: "/customers/house-of-staunton/" },
+  { source: "/assets/customer-logos/banner/house-of-staunton.webp", optimizedSrc: assets.customerLogos.banner.houseOfStaunton, width: 360, height: 364, slug: "house-of-staunton", name: "House of Staunton", href: "/customers/house-of-staunton/" },
 ] as const;
 const supplementalLogoBannerHtml = [
   `<div class="logo2_wrapper"><img width="145" height="64" alt="Lafaurie" src="${assets.customerLogos.banner.lafaurie}" loading="lazy" class="logo2_logo logo2_logo--lafaurie"></div>`,
@@ -57,6 +57,39 @@ const maeliCaseStudyCardHtml = `<aside class="logo2_case-study-card" aria-label=
   </div>
   <a href="/customers/maeli-paris/" class="logo2_case-study-card__cta">See case study <span aria-hidden="true">&rarr;</span></a>
 </aside>`;
+const duBruitCaseStudyCardHtml = `<aside class="logo2_case-study-card" aria-label="Du Bruit dans la Cuisine case study preview">
+  <img width="680" height="300" src="${assets.customerLogos.light.duBruit}" alt="Du Bruit dans la Cuisine" loading="lazy" class="logo2_case-study-card__logo">
+  <blockquote>“We installed Peak PIM to centralize all our product content, and the result has exceeded our expectations.”</blockquote>
+  <div class="logo2_case-study-card__person">
+    <img width="512" height="512" src="${assets.testimonials.simonTordjman}" alt="Simon Tordjman" loading="lazy" class="logo2_case-study-card__portrait">
+    <p><strong>Simon Tordjman</strong><span>COO, Du Bruit dans la Cuisine</span></p>
+  </div>
+  <a href="/customers/du-bruit-dans-la-cuisine/" class="logo2_case-study-card__cta">See case study <span aria-hidden="true">&rarr;</span></a>
+</aside>`;
+const houseOfStauntonCaseStudyCardHtml = `<aside class="logo2_case-study-card" aria-label="House of Staunton case study preview">
+  <img width="360" height="364" src="${assets.customerLogos.banner.houseOfStaunton}" alt="House of Staunton" loading="lazy" class="logo2_case-study-card__logo is-darkened">
+  <blockquote>“Bulk edits save a huge amount of time, and being able to prepare and review changes before publishing them to Shopify makes larger updates much less stressful.”</blockquote>
+  <div class="logo2_case-study-card__person">
+    <img width="2048" height="1365" src="${assets.testimonials.shawnHouseOfStaunton}" alt="Shawn" loading="lazy" class="logo2_case-study-card__portrait">
+    <p><strong>Shawn</strong><span>Owner, House of Staunton Group</span></p>
+  </div>
+  <a href="/customers/house-of-staunton/" class="logo2_case-study-card__cta">See case study <span aria-hidden="true">&rarr;</span></a>
+</aside>`;
+const usChessCaseStudyCardHtml = `<aside class="logo2_case-study-card" aria-label="US Chess Sales case study preview">
+  <img width="256" height="182" src="${assets.customerLogos.banner.usChessFederation}" alt="US Chess Federation" loading="lazy" class="logo2_case-study-card__logo">
+  <blockquote>“Almost all our products matched correctly by SKU, we could review everything before finalizing the reconciliation, and we now have a much better way to identify inconsistencies between stores.”</blockquote>
+  <div class="logo2_case-study-card__person">
+    <img width="2048" height="1365" src="${assets.testimonials.shawnHouseOfStaunton}" alt="Shawn" loading="lazy" class="logo2_case-study-card__portrait">
+    <p><strong>Shawn</strong><span>Owner, House of Staunton Group</span></p>
+  </div>
+  <a href="/customers/house-of-staunton/" class="logo2_case-study-card__cta">See case study <span aria-hidden="true">&rarr;</span></a>
+</aside>`;
+const caseStudyCardsByLogo = {
+  maeli: maeliCaseStudyCardHtml,
+  "du-bruit": duBruitCaseStudyCardHtml,
+  "us-chess-federation": usChessCaseStudyCardHtml,
+  "house-of-staunton": houseOfStauntonCaseStudyCardHtml,
+} as const;
 
 function findSharedLogo(tag: string) {
   return sharedLogoDetails.find(({ source, optimizedSrc }) => tag.includes(source) || tag.includes(optimizedSrc));
@@ -98,9 +131,14 @@ function linkSharedLogos(html: string) {
 
     if (!logo || image.includes('class="logo2_link"')) return wrapper;
 
-    if (logo.slug === "maeli") {
+    const caseStudyCard = caseStudyCardsByLogo[logo.slug as keyof typeof caseStudyCardsByLogo];
+    if (caseStudyCard) {
       const caseStudyOpening = opening.replace('class="logo2_wrapper"', 'class="logo2_wrapper logo2_wrapper--case-study"');
-      return `${caseStudyOpening}<a href="${logo.href}" aria-label="Read Maéli Paris case study" class="logo2_link logo2_link--case-study">${image}<span class="logo2_case-study-badge">Case study</span></a>${maeliCaseStudyCardHtml}${closing}`;
+      return `${caseStudyOpening}<a href="${logo.href}" aria-label="Read ${logo.name} case study" class="logo2_link logo2_link--case-study">${image}<span class="logo2_case-study-badge">Case study</span></a>${caseStudyCard}${closing}`;
+    }
+
+    if (logo.href.startsWith("/")) {
+      return `${opening}<a href="${logo.href}" aria-label="Read ${logo.name} use case" class="logo2_link">${image}</a>${closing}`;
     }
 
     return `${opening}<a href="${logo.href}" target="_blank" rel="nofollow noopener" aria-label="Visit ${logo.name} website" class="logo2_link">${image}</a>${closing}`;

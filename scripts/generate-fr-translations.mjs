@@ -27,6 +27,8 @@ const protectedTerms = [
   "Excel", "JSON", "SKUs", "SKU", "B2B", "B2C", "PIM",
   "Peak", "Tupperware", "Artefact", "Du Bruit dans la Cuisine", "Lafaurie",
   "Gully Labs", "waterdrop", "Naked Wolfe", "Lillicoco", "What Matters",
+  "House of Staunton", "House of Staunton Group", "Wholesale Chess", "US Chess Sales",
+  "US Chess Federation", "Simon Tordjman", "Shawn", "Proginov",
 ].sort((left, right) => right.length - left.length);
 
 function attr(node, name) {

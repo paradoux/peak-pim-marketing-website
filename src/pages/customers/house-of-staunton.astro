@@ -1,0 +1,183 @@
+---
+import CtaBanner from "../../components/sections/CtaBanner.astro";
+import CustomerStoryChapter from "../../components/sections/CustomerStoryChapter.astro";
+import CustomerStoryHero from "../../components/sections/CustomerStoryHero.astro";
+import CustomerStoryStats from "../../components/sections/CustomerStoryStats.astro";
+import Faq from "../../components/sections/Faq.astro";
+import FeatureGrid from "../../components/sections/FeatureGrid.astro";
+import ProblemGrid from "../../components/sections/ProblemGrid.astro";
+import Testimonial from "../../components/sections/Testimonial.astro";
+import HouseOfStauntonCatalogVisual from "../../components/visuals/HouseOfStauntonCatalogVisual.astro";
+import { assets } from "../../data/assets";
+import { ctaLabels } from "../../data/cta-copy";
+import LandingPageLayout from "../../layouts/LandingPageLayout.astro";
+
+// Verified against the Wholesale Chess lead and linked House of Staunton account records in Notion on 2026-09-14.
+const appStoreUrl = "https://apps.shopify.com/peak-pim";
+const canonicalPath = "/customers/house-of-staunton";
+const title = "How House of Staunton Manages 3 Shopify Stores | Peak PIM";
+const description = "See how House of Staunton is moving from Airtable and SyncBase to one Shopify-native PIM for 10,000+ products across three connected stores.";
+const quote = "We have around 10,000 products, and Peak PIM makes managing them so much easier. The SKU reconciliation worked really well, bulk edits are a big time-saver, and metafields and metaobjects are much easier to work with. The team is also very responsive and clearly listens to its users. Definitely recommended!";
+
+const stats = [
+  { value: "3 stores", title: "One connected catalog operation", description: "House of Staunton, Wholesale Chess, and US Chess Sales are managed together while each Shopify store keeps its own destination data." },
+  { value: "10,000+", title: "Products in the first connected catalog", description: "Wholesale Chess alone brought more than 10,000 products into the reconciliation workflow, alongside thousands of media files and metaobjects." },
+  { value: "≈1,700", title: "Products repaired in one bulk operation", description: "A storefront-critical metafield was aligned by copying the correct values from Wholesale Chess and verifying the result live." },
+];
+
+const previousWorkflow = [
+  { icon: "clock", title: "Simple changes took minutes", description: "A routine price update in the Airtable workflow could take minutes, so day-to-day users often fell back to editing directly in Shopify." },
+  { icon: "store", title: "Three stores could drift", description: "Different metafield keys, collection strategies, and product states made it difficult to see which differences were intentional." },
+  { icon: "grid", title: "Bundles were structurally demanding", description: "Reusable boards, wood types, variants, and nested metaobjects had to be assembled in the correct order across all three stores." },
+];
+
+const outcomes = [
+  { icon: "store", title: "One multi-store view", description: "The team can compare the same products, variants, metafields, metaobjects, and collections across all three Shopify stores." },
+  { icon: "edit", title: "Bulk changes at catalog scale", description: "Large groups of records can be reviewed and updated together instead of being opened one product at a time." },
+  { icon: "review", title: "Differences become visible", description: "Reconciliation and Health Center workflows surface mismatches before the team decides what should be linked, corrected, or left alone." },
+  { icon: "publish", title: "Publishing stays controlled", description: "Changes are saved in Peak PIM first, then published to the intended stores with per-store success and failure tracking." },
+];
+
+const faqItems = [
+  { question: "Which Shopify stores does House of Staunton manage with Peak PIM?", answer: "The connected account includes House of Staunton, Wholesale Chess, and US Chess Sales. Peak PIM gives the team one operational view across all three stores." },
+  { question: "How were products matched across the three stores?", answer: "Products and variants use strict, exact SKU matching because the team relies on SKUs in its operational systems. Collections were reconciled by title because collection handles are not always identical across the stores." },
+  { question: "Why is the team moving away from Airtable and SyncBase?", answer: "The existing workflow was too slow for routine catalog work and made cross-store differences harder to manage. Peak PIM brings the Shopify data, bulk editing, reconciliation, structured content, and publishing workflow into one application." },
+  { question: "How did Peak PIM help with the Lux View Pieces metafield?", answer: "The three stores had diverged on the metafield key. After the storefront theme was standardized on the active definition, the correct values were copied from Wholesale Chess to about 1,700 House of Staunton products with bulk edit and verified live." },
+  { question: "How does House of Staunton use metaobjects for chess bundles?", answer: "Boards, wood types, and variants are reusable components in nested bundle structures. The operating plan is to publish the lower-level components across all three stores first, then assemble the bundle above them with searchable references and structured imports." },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://peak-pim.com/" },
+    { "@type": "ListItem", position: 2, name: "House of Staunton use case", item: "https://peak-pim.com/customers/house-of-staunton/" },
+  ],
+};
+
+const reviewSchema = {
+  "@context": "https://schema.org",
+  "@type": "Review",
+  author: { "@type": "Person", name: "Shawn", jobTitle: "Owner", worksFor: { "@type": "Organization", name: "House of Staunton Group" } },
+  reviewBody: quote,
+  reviewRating: { "@type": "Rating", ratingValue: 5, bestRating: 5 },
+  itemReviewed: { "@id": "https://peak-pim.com/#software" },
+};
+---
+
+<LandingPageLayout
+  title={title}
+  description={description}
+  canonicalPath={canonicalPath}
+  schemaType="Article"
+  schema={{
+    headline: title,
+    articleSection: "Customer use cases",
+    image: "https://peak-pim.com/assets/testimonials/house-of-staunton-chess.png",
+    author: { "@type": "Organization", name: "Peak PIM", url: "https://peak-pim.com/" },
+    about: { "@type": "Organization", name: "House of Staunton" },
+  }}
+  additionalSchemas={[reviewSchema, breadcrumbSchema, faqSchema]}
+  ogTitle="How House of Staunton Is Unifying 3 Shopify Stores"
+  ogDescription="10,000+ products, exact SKU reconciliation, structured chess bundles, and one controlled publishing workflow across three stores."
+  ogImage={assets.marketing.customerStories.houseOfStauntonOg}
+>
+  <CustomerStoryHero
+    eyebrow="Customer use case"
+    title="How House of Staunton is unifying three Shopify stores"
+    description="House of Staunton, Wholesale Chess, and US Chess Sales are moving from a slow Airtable plus SyncBase workflow to one catalog operation built directly around Shopify."
+    image={assets.testimonials.houseOfStauntonChess}
+    imageAlt="A man arranging wooden chess pieces on a chessboard"
+    imageCaption="House of Staunton"
+    companyLogo={assets.customerLogos.banner.houseOfStaunton}
+    companyLogoOnDark
+    companyName="House of Staunton"
+    primaryCta={{ label: ctaLabels.tryFree, href: appStoreUrl, external: true }}
+    secondaryCta={{ label: ctaLabels.seeHowItWorks, href: "#story" }}
+  />
+
+  <CustomerStoryStats title="Catalog scale without three disconnected workflows" items={stats} />
+
+  <ProblemGrid
+    tagline="Before Peak PIM"
+    title="The catalog had outgrown the Airtable workflow"
+    description="The old stack could move Shopify data, but it was too slow and too fragmented for the people doing daily product work."
+    items={previousWorkflow}
+  />
+
+  <Testimonial
+    quote={quote}
+    name="Shawn"
+    role="Owner, House of Staunton Group"
+    image={assets.testimonials.shawnHouseOfStaunton}
+  />
+
+  <div id="story">
+    <CustomerStoryChapter
+      title="Match three stores without accepting near misses"
+      lead="Exact SKUs keep product and variant reconciliation aligned with the identifiers the operations team already trusts."
+      tagline="Reconciliation"
+      cardTitle="Connect the fullest catalog first, then review every match"
+      body="The team installed House of Staunton first because it carries the fullest catalog, then connected Wholesale Chess and US Chess Sales. Products and variants use strict SKU matching, while collections use title matching because handles can differ. Every result remains reviewable before reconciliation is finalized."
+      link={{ label: ctaLabels.learnMore, href: "/1-click-setup" }}
+    >
+      <HouseOfStauntonCatalogVisual slot="visual" view="reconciliation" />
+    </CustomerStoryChapter>
+  </div>
+
+  <CustomerStoryChapter
+    title="Repair 1,700 product records in one operation"
+    lead="A live metafield issue became a controlled cross-store correction instead of 1,700 manual product edits."
+    tagline="Bulk metafields"
+    cardTitle="Standardize the definition, copy the trusted values, verify the storefront"
+    body="House of Staunton used a different Lux View Pieces metafield key from Wholesale Chess and US Chess Sales. After the theme was repointed to the shared active definition, the team copied the correct values from Wholesale Chess to about 1,700 products with bulk edit and verified the product pages live."
+    reverse
+    link={{ label: ctaLabels.learnMore, href: "/shopify-metafield-management" }}
+  >
+    <HouseOfStauntonCatalogVisual slot="visual" view="metafields" />
+  </CustomerStoryChapter>
+
+  <CustomerStoryChapter
+    title="Turn chess bundles into reusable catalog structure"
+    lead="Boards, wood types, and variants can be prepared once, published to every store, and referenced from the listings that need them."
+    tagline="Metaobjects"
+    cardTitle="Build the components first, then the bundle above them"
+    body="For the Signature Contemporary X launch, the same boards need to be added to 50 to 60 wood chess piece listings. The planned Peak PIM workflow uses reusable metaobjects, CSV import, SKU search in reference fields, and assisted catalog work so the team can assemble the structure in the right order without repeating every step by hand."
+    link={{ label: ctaLabels.learnMore, href: "/shopify-metaobjects" }}
+  >
+    <HouseOfStauntonCatalogVisual slot="visual" view="bundles" />
+  </CustomerStoryChapter>
+
+  <FeatureGrid
+    tagline="The day-to-day difference"
+    title="One operating layer for a complex chess catalog"
+    description="Peak PIM keeps the team's multi-store data visible, editable, and publishable without hiding the differences that matter."
+    features={outcomes}
+    cta={{ label: ctaLabels.learnMore, href: "/shopify-multi-store-pim" }}
+  />
+
+  <CtaBanner
+    title="Bring every Shopify store into one catalog workflow"
+    description="Reconcile existing data, fix large groups of records, manage structured content, and publish to the right stores from one PIM."
+    primaryLabel={ctaLabels.tryFree}
+    primaryHref={appStoreUrl}
+    secondaryLabel={ctaLabels.bookDemo}
+    trustLine="10-day free trial. Free setup. No credit card."
+  />
+
+  <Faq
+    title="Frequently asked questions"
+    description="How House of Staunton is consolidating three Shopify catalogs and the workflows another multi-store merchant can reuse."
+    items={faqItems}
+  />
+</LandingPageLayout>

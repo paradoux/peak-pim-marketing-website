@@ -1,0 +1,167 @@
+---
+import ProductVisualFrame from "../ui/ProductVisualFrame.astro";
+import { assets } from "../../data/assets";
+
+type View = "reconciliation" | "metafields" | "bundles";
+type Props = { view?: View };
+
+const { view = "reconciliation" } = Astro.props;
+
+const views = {
+  reconciliation: {
+    section: "Reconciliation",
+    status: "3 stores connected",
+    action: "Review matches",
+    ariaLabel: "Peak PIM reconciliation workspace connecting House of Staunton, Wholesale Chess, and US Chess Sales with strict SKU matching",
+    eyebrow: "Cross-store setup",
+    title: "Strict SKU reconciliation",
+    summary: [
+      { label: "Stores", value: "3" },
+      { label: "Match key", value: "Exact SKU" },
+      { label: "Catalog", value: "10,000+" },
+    ],
+    rows: [
+      { object: "Products", hos: "Matched", wholesale: "Source", usChess: "Matched" },
+      { object: "Variants", hos: "Exact SKU", wholesale: "Exact SKU", usChess: "Exact SKU" },
+      { object: "Collections", hos: "Title", wholesale: "Title", usChess: "Title" },
+      { object: "Metafields", hos: "Connected", wholesale: "Connected", usChess: "Connected", focus: true },
+    ],
+    footer: "Review first, then finalize",
+  },
+  metafields: {
+    section: "Bulk edit",
+    status: "1,700 products selected",
+    action: "Publish",
+    ariaLabel: "Peak PIM bulk edit workspace copying the Lux View Pieces metafield to about 1,700 House of Staunton products",
+    eyebrow: "Metafield repair",
+    title: "Lux View Pieces",
+    summary: [
+      { label: "Products", value: "≈1,700" },
+      { label: "Source", value: "Wholesale" },
+      { label: "Destination", value: "HOS" },
+    ],
+    rows: [
+      { object: "Definition", hos: "lux_view.pieces", wholesale: "lux_view.pieces", usChess: "lux_view.pieces" },
+      { object: "Coverage", hos: "1,700 selected", wholesale: "Values ready", usChess: "Already aligned" },
+      { object: "Storefront", hos: "Theme repointed", wholesale: "Displaying", usChess: "Displaying" },
+      { object: "Result", hos: "Verified live", wholesale: "Source kept", usChess: "No change", focus: true },
+    ],
+    footer: "Values copied in one bulk operation",
+  },
+  bundles: {
+    section: "Metaobjects",
+    status: "Bundle workflow",
+    action: "Review",
+    ariaLabel: "Peak PIM metaobject workspace preparing Signature Contemporary X chess boards for reuse across 50 to 60 wood chess piece listings",
+    eyebrow: "Structured bundles",
+    title: "Signature Contemporary X",
+    summary: [
+      { label: "Board", value: "1 entry" },
+      { label: "Listings", value: "50–60" },
+      { label: "Stores", value: "3" },
+    ],
+    rows: [
+      { object: "Board", hos: "Published", wholesale: "Published", usChess: "Published" },
+      { object: "Wood types", hos: "Components", wholesale: "Components", usChess: "Components" },
+      { object: "References", hos: "Search by SKU", wholesale: "Search by SKU", usChess: "Search by SKU" },
+      { object: "Upper bundle", hos: "Ready to assemble", wholesale: "Ready to assemble", usChess: "Ready to assemble", focus: true },
+    ],
+    footer: "Build components before the bundle above them",
+  },
+} satisfies Record<View, {
+  section: string;
+  status: string;
+  action: string;
+  ariaLabel: string;
+  eyebrow: string;
+  title: string;
+  summary: { label: string; value: string }[];
+  rows: { object: string; hos: string; wholesale: string; usChess: string; focus?: boolean }[];
+  footer: string;
+}>;
+
+const current = views[view];
+---
+
+<ProductVisualFrame ariaLabel={current.ariaLabel} section={current.section} status={current.status} actionLabel={current.action}>
+  <div class="peak-hos-workspace">
+    <aside class="peak-hos-sidebar">
+      <div class="peak-hos-brand">
+        <img src={assets.customerLogos.banner.houseOfStaunton} alt="" />
+        <span><strong>House of Staunton</strong><small>Connected catalog</small></span>
+      </div>
+      <small>Workflows</small>
+      <span class:list={{ "is-active": view === "reconciliation" }}><i></i>Reconciliation</span>
+      <span class:list={{ "is-active": view === "metafields" }}><i></i>Bulk metafields</span>
+      <span class:list={{ "is-active": view === "bundles" }}><i></i>Bundle metaobjects</span>
+      <small>Connected stores</small>
+      <b>House of Staunton</b>
+      <b>Wholesale Chess</b>
+      <b>US Chess Sales</b>
+    </aside>
+
+    <div class="peak-hos-main">
+      <header class="peak-hos-heading">
+        <div><small>{current.eyebrow}</small><strong>{current.title}</strong></div>
+        <div class="peak-hos-stores" aria-hidden="true"><i>HOS</i><i>WC</i><i>US</i></div>
+      </header>
+
+      <div class="peak-hos-summary">
+        {current.summary.map((item) => <span><small>{item.label}</small><strong>{item.value}</strong></span>)}
+      </div>
+
+      <section class="peak-hos-grid" aria-hidden="true">
+        <div class="peak-hos-grid__head"><span>Object</span><b><i>HOS</i>House of Staunton</b><b><i>WC</i>Wholesale Chess</b><b><i>US</i>US Chess Sales</b></div>
+        {current.rows.map((row) => (
+          <div class:list={{ "is-focus": row.focus }}><span>{row.object}</span><b>{row.hos}</b><b>{row.wholesale}</b><b>{row.usChess}</b></div>
+        ))}
+      </section>
+
+      <footer class="peak-hos-footer"><span><i></i>{current.footer}</span><b>{view === "bundles" ? "Structured content" : "Shopify data"}</b></footer>
+    </div>
+  </div>
+</ProductVisualFrame>
+
+<style>
+  .peak-hos-workspace { display: grid; min-height: 450px; grid-template-columns: 174px minmax(0, 1fr); background: #f6f3ec; color: #191919; font-family: Inter, Arial, sans-serif; }
+  .peak-hos-sidebar { display: flex; flex-direction: column; gap: 7px; padding: 17px 13px; border-right: 1px solid #dedbd3; background: #fbfaf7; }
+  .peak-hos-brand { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; padding: 8px; border-radius: 7px; background: #191919; color: white; }
+  .peak-hos-brand img { width: 31px; height: 31px; object-fit: contain; }
+  .peak-hos-brand span { display: grid; gap: 2px; min-width: 0; }
+  .peak-hos-brand strong { overflow: hidden; font-size: 7px; text-overflow: ellipsis; white-space: nowrap; }
+  .peak-hos-brand small { color: #aaa; font-size: 6px; }
+  .peak-hos-sidebar > small { margin: 7px 7px 0; color: #999; font-size: 6px; text-transform: uppercase; }
+  .peak-hos-sidebar > span { display: flex; align-items: center; gap: 7px; padding: 8px; border-radius: 5px; color: #666; font-size: 7px; font-weight: 600; }
+  .peak-hos-sidebar > span i { width: 6px; height: 6px; flex: none; border-radius: 50%; background: #bbb; }
+  .peak-hos-sidebar > span.is-active { background: #e9edff; color: #2845d6; }
+  .peak-hos-sidebar > span.is-active i { background: #2845d6; }
+  .peak-hos-sidebar > b { margin-inline: 7px; color: #555; font-size: 7px; font-weight: 600; }
+  .peak-hos-main { min-width: 0; padding: 21px; }
+  .peak-hos-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .peak-hos-heading > div:first-child { display: grid; gap: 3px; }
+  .peak-hos-heading small, .peak-hos-summary small { color: #777; font-size: 7px; }
+  .peak-hos-heading strong { font-size: 14px; }
+  .peak-hos-stores { display: flex; }
+  .peak-hos-stores i, .peak-hos-grid i { display: grid; width: 25px; height: 25px; place-items: center; border: 2px solid #f6f3ec; border-radius: 50%; background: #191919; color: #fff; font: normal 6px Inter, Arial, sans-serif; }
+  .peak-hos-stores i + i { margin-left: -5px; }
+  .peak-hos-summary { display: grid; gap: 8px; margin: 17px 0 13px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .peak-hos-summary span { display: grid; gap: 4px; padding: 10px; border: 1px solid #dedbd4; border-radius: 6px; background: #fff; }
+  .peak-hos-summary strong { color: #2845d6; font-size: 11px; }
+  .peak-hos-grid { overflow: hidden; border: 1px solid #dedad2; border-radius: 7px; background: #fff; }
+  .peak-hos-grid > div { display: grid; min-height: 49px; align-items: stretch; grid-template-columns: 78px repeat(3, minmax(0, 1fr)); border-top: 1px solid #ebe8e1; }
+  .peak-hos-grid > div:first-child { border-top: 0; background: #f2efe8; }
+  .peak-hos-grid span, .peak-hos-grid b { display: flex; min-width: 0; align-items: center; padding: 7px 8px; overflow: hidden; font-size: 7px; text-overflow: ellipsis; white-space: nowrap; }
+  .peak-hos-grid > div > span { color: #777; }
+  .peak-hos-grid > div > b { border-left: 1px solid #ebe8e1; font-weight: 500; }
+  .peak-hos-grid__head b { gap: 4px; font-weight: 600; }
+  .peak-hos-grid__head i { width: 19px; height: 19px; flex: none; border: 0; border-radius: 4px; }
+  .peak-hos-grid .is-focus b { background: #eef1ff; color: #2845d6; }
+  .peak-hos-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 13px; color: #666; font-size: 7px; }
+  .peak-hos-footer span { display: flex; align-items: center; gap: 5px; }
+  .peak-hos-footer span i { width: 6px; height: 6px; border-radius: 50%; background: #53a86d; }
+  .peak-hos-footer b { padding: 6px 8px; border-radius: 999px; background: #edf6ef; color: #438258; font-size: 6px; }
+  @media (max-width: 767px) { .peak-hos-workspace { min-height: 410px; grid-template-columns: 1fr; } .peak-hos-sidebar { display: none; } .peak-hos-main { padding: 17px; } .peak-hos-grid > div { grid-template-columns: 70px repeat(3, minmax(0, 1fr)); } .peak-hos-grid span, .peak-hos-grid b { padding-inline: 6px; } }
+  @media (max-width: 479px) { .peak-hos-main { padding: 13px; } .peak-hos-heading strong { font-size: 12px; } .peak-hos-summary { gap: 5px; } .peak-hos-summary span { padding: 8px 6px; } .peak-hos-grid > div > :nth-child(4), .peak-hos-grid__head > :nth-child(4) { display: none; } .peak-hos-grid > div { grid-template-columns: 68px repeat(2, minmax(0, 1fr)); } .peak-hos-grid span, .peak-hos-grid b { font-size: 6px; } }
+  @media (prefers-reduced-motion: no-preference) { .peak-hos-grid .is-focus b { animation: peak-hos-focus 3s ease-in-out infinite; } @keyframes peak-hos-focus { 50% { background: #e5eaff; box-shadow: inset 3px 0 #2845d6; } } }
+  @media (prefers-reduced-motion: reduce) { .peak-hos-grid .is-focus b { animation: none; } }
+</style>

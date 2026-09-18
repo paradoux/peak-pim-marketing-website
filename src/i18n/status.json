@@ -13,8 +13,8 @@
       "translations": [
         "src/i18n/shared-copy.ts"
       ],
-      "observedSourceHash": "9a5a74c075c83d879df88734ee13b25655816bb7947cc02302651e2bce7bb673",
-      "reviewedSourceHash": "9a5a74c075c83d879df88734ee13b25655816bb7947cc02302651e2bce7bb673",
+      "observedSourceHash": "857e8da7d149a5ce1ba7684e546035a575221c8ae04a0f6a53daeb247a2a78e0",
+      "reviewedSourceHash": "857e8da7d149a5ce1ba7684e546035a575221c8ae04a0f6a53daeb247a2a78e0",
       "status": "reviewed"
     },
     {
@@ -58,6 +58,8 @@
         "src/pages/blog/index.astro",
         "src/pages/build-vs-buy-pim.astro",
         "src/pages/customers/carre-coco.astro",
+        "src/pages/customers/du-bruit-dans-la-cuisine.astro",
+        "src/pages/customers/house-of-staunton.astro",
         "src/pages/customers/maeli-paris.astro",
         "src/pages/custom-integrations.astro",
         "src/pages/guides/index.astro",
@@ -94,8 +96,8 @@
         "src/i18n/pl-translations.json",
         "src/i18n/ja-translations.json"
       ],
-      "observedSourceHash": "f4ce125990953d1128beb38af8dc72e71fa3e2635c56c547b85c5c2264109e2b",
-      "reviewedSourceHash": "f4ce125990953d1128beb38af8dc72e71fa3e2635c56c547b85c5c2264109e2b",
+      "observedSourceHash": "6812b56cea34e57ffd9190fe83e2cfcedaae7a2c0c00eab89526a65c14cedfa1",
+      "reviewedSourceHash": "6812b56cea34e57ffd9190fe83e2cfcedaae7a2c0c00eab89526a65c14cedfa1",
       "status": "reviewed"
     }
   ]

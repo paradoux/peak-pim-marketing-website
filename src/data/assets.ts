@@ -17,6 +17,8 @@ export const assets = {
     customerStories: {
       maeliParisOg: "/assets/og/maeli-paris-customer-story.png",
       carreCocoOg: "/assets/og/carre-coco-customer-story.png",
+      houseOfStauntonOg: "/assets/og/house-of-staunton-customer-story.png",
+      duBruitDansLaCuisineOg: "/assets/og/du-bruit-dans-la-cuisine-customer-story.png",
     },
     featureOg: {
       "/ai-assistant": "/assets/og/ai-assistant.png",
@@ -43,6 +45,8 @@ export const assets = {
     amelieSamson: "/assets/testimonials/amelie-samson.jpg",
     amelieSamsonMaeliParis: "/assets/testimonials/amelie-samson-maeli-paris.webp",
     colineLeleuCarreCoco: "/assets/testimonials/coline-leleu-carre-coco.webp",
+    houseOfStauntonChess: "/assets/testimonials/house-of-staunton-chess.png",
+    shawnHouseOfStaunton: "/assets/testimonials/shawn-house-of-staunton.jpeg",
     simonTordjman: "/assets/testimonials/simon-tordjman-du-bruit-dans-la-cuisine.webp",
   },
   team: {

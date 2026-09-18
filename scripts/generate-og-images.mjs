@@ -25,6 +25,7 @@ const featurePages = [
   { slug: "shopify-product-import-export", title: "Product Import & Export", detail: "Safe spreadsheet workflows for the whole catalog" },
   { slug: "shopify-product-management", title: "Products & Variants", detail: "One connected product model for every store" },
   { slug: "user-roles-permissions", title: "Users & Permissions", detail: "Clear catalog access for every teammate" },
+  { slug: "house-of-staunton-customer-story", eyebrow: "Customer use case", title: "House of Staunton: three stores, one catalog", detail: "10,000+ products, exact SKU reconciliation, and controlled Shopify publishing" },
 ];
 
 const logo = readFileSync(resolve(projectRoot, "public/assets/logo/peak-logo-large.png")).toString("base64");
@@ -32,6 +33,8 @@ const maeliLogo = readFileSync(resolve(projectRoot, "public/mirror/6a02fa863eea8
 const ameliePortrait = readFileSync(resolve(projectRoot, "public/assets/testimonials/amelie-samson-maeli-paris.webp")).toString("base64");
 const carreCocoLogo = readFileSync(resolve(projectRoot, "public/assets/customer-logos/carre-coco.webp")).toString("base64");
 const colinePortrait = readFileSync(resolve(projectRoot, "public/assets/testimonials/coline-leleu-carre-coco.webp")).toString("base64");
+const duBruitLogo = readFileSync(resolve(projectRoot, "public/mirror/6a02fb70081b921fb9432b84_Du-Bruit-Dans-La-Cuisine-Black-logo-7899ce298c.png")).toString("base64");
+const simonPortrait = readFileSync(resolve(projectRoot, "public/assets/testimonials/simon-tordjman-du-bruit-dans-la-cuisine.webp")).toString("base64");
 const spaceGrotesk = readFileSync(resolve(projectRoot, "public/mirror/fonts/V8mDoQDjQSkFtoMM3T6r8E7mPbF4Cw-4ecc7e89b7.woff2")).toString("base64");
 const inter = readFileSync(resolve(projectRoot, "public/mirror/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7-6ab57b19c6.woff2")).toString("base64");
 
@@ -82,7 +85,7 @@ function template(feature) {
     <main class="canvas">
       <section class="copy">
         <img class="logo" src="data:image/png;base64,${logo}" alt="">
-        <div class="eyebrow">Shopify-native PIM</div>
+      <div class="eyebrow">${escapeHtml(feature.eyebrow ?? "Shopify-native PIM")}</div>
         <h1>${escapeHtml(feature.title)}</h1>
         <p>${escapeHtml(feature.detail)}</p>
       </section>
@@ -151,7 +154,9 @@ function customerStoryTemplate(story) {
 }
 
 mkdirSync(outputDirectory, { recursive: true });
-const browser = await chromium.launch();
+const browser = await chromium.launch(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH ? {
+  executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH,
+} : undefined);
 const page = await browser.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });
 
 for (const feature of featurePages) {
@@ -178,6 +183,15 @@ const customerStories = [
     logo: carreCocoLogo,
     logoMime: "image/webp",
     portrait: colinePortrait,
+  },
+  {
+    slug: "du-bruit-dans-la-cuisine-customer-story",
+    title: "How Du Bruit runs product content in one place",
+    detail: "200–300 product sheets a month, 882 collections, and one Shopify-native workflow.",
+    caption: "Simon Tordjman · Du Bruit dans la Cuisine",
+    logo: duBruitLogo,
+    logoMime: "image/png",
+    portrait: simonPortrait,
   },
 ];
 

@@ -74,6 +74,8 @@ Pricing last reviewed on 2026-08-18. The pricing page is the source of truth.
 
 - [How Maéli Paris saves hours every week with Peak PIM](https://peak-pim.com/customers/maeli-paris/)
 - [How Carré Coco manages B2B and B2C catalogs with Peak PIM](https://peak-pim.com/customers/carre-coco/)
+- [How House of Staunton manages three Shopify stores with Peak PIM](https://peak-pim.com/customers/house-of-staunton/)
+- [How Du Bruit dans la Cuisine centralizes product content with Peak PIM](https://peak-pim.com/customers/du-bruit-dans-la-cuisine/)
 
 ## Comparisons
 
@@ -116,6 +118,8 @@ Pricing last reviewed on 2026-08-18. The pricing page is the source of truth.
 - [PIM Shopify pour la mode](https://peak-pim.com/fr/secteurs/mode/)
 - [Cas client Maéli Paris](https://peak-pim.com/fr/clients/maeli-paris/)
 - [Cas client Carré Coco](https://peak-pim.com/fr/clients/carre-coco/)
+- [Comment House of Staunton gère trois boutiques Shopify avec Peak PIM](https://peak-pim.com/fr/clients/house-of-staunton/)
+- [Comment Du Bruit dans la Cuisine centralise son contenu produit avec Peak PIM](https://peak-pim.com/fr/clients/du-bruit-dans-la-cuisine/)
 - [Peak PIM face à Akeneo](https://peak-pim.com/fr/comparatif/akeneo/)
 - [Peak PIM face à Catsy](https://peak-pim.com/fr/comparatif/catsy/)
 - [Peak PIM face à Plytix](https://peak-pim.com/fr/comparatif/plytix/)
@@ -166,6 +170,8 @@ Pricing last reviewed on 2026-08-18. The pricing page is the source of truth.
 - [Bauen vs. Kaufen eines Shopify PIM: ein ehrlicher Vergleich](https://peak-pim.com/de/pim-erstellen-oder-kaufen/)
 - [Wie Maéli Paris mit Peak PIM jede Woche Stunden spart](https://peak-pim.com/de/kunden/maeli-paris/)
 - [So verwaltet Carré Coco die Kataloge B2B und B2C | Peak PIM](https://peak-pim.com/de/kunden/carre-coco/)
+- [Wie House of Staunton drei Shopify-Shops mit Peak PIM verwaltet](https://peak-pim.com/de/kunden/house-of-staunton/)
+- [Wie Du Bruit dans la Cuisine Produktinhalte mit Peak PIM zentralisiert](https://peak-pim.com/de/kunden/du-bruit-dans-la-cuisine/)
 
 ## Pages in Español
 
@@ -207,6 +213,8 @@ Pricing last reviewed on 2026-08-18. The pricing page is the source of truth.
 - [Construir vs comprar un Shopify PIM: una comparación honesta](https://peak-pim.com/es/crear-o-comprar-pim/)
 - [Cómo Maéli Paris ahorra horas cada semana con Peak PIM](https://peak-pim.com/es/clientes/maeli-paris/)
 - [Cómo gestiona Carré Coco los catálogos B2B y B2C | Peak PIM](https://peak-pim.com/es/clientes/carre-coco/)
+- [Cómo House of Staunton gestiona tres tiendas Shopify con Peak PIM](https://peak-pim.com/es/clientes/house-of-staunton/)
+- [Cómo Du Bruit dans la Cuisine centraliza el contenido de producto con Peak PIM](https://peak-pim.com/es/clientes/du-bruit-dans-la-cuisine/)
 
 ## Pages in Italiano
 
@@ -248,6 +256,8 @@ Pricing last reviewed on 2026-08-18. The pricing page is the source of truth.
 - [Costruisci o acquista uno Shopify PIM: un confronto onesto](https://peak-pim.com/it/creare-o-acquistare-pim/)
 - [Come Maéli Paris risparmia ore ogni settimana con Peak PIM](https://peak-pim.com/it/clienti/maeli-paris/)
 - [Come Carré Coco gestisce i cataloghi B2B e B2C | Peak PIM](https://peak-pim.com/it/clienti/carre-coco/)
+- [Come House of Staunton gestisce tre negozi Shopify con Peak PIM](https://peak-pim.com/it/clienti/house-of-staunton/)
+- [Come Du Bruit dans la Cuisine centralizza i contenuti di prodotto con Peak PIM](https://peak-pim.com/it/clienti/du-bruit-dans-la-cuisine/)
 
 ## Pages in Nederlands
 
@@ -289,6 +299,8 @@ Pricing last reviewed on 2026-08-18. The pricing page is the source of truth.
 - [Bouwen versus kopen van een Shopify PIM: een eerlijke vergelijking](https://peak-pim.com/nl/pim-bouwen-of-kopen/)
 - [Hoe Maéli Paris elke week uren bespaart met Peak PIM](https://peak-pim.com/nl/klanten/maeli-paris/)
 - [Hoe Carré Coco de catalogi B2B en B2C beheert | Peak PIM](https://peak-pim.com/nl/klanten/carre-coco/)
+- [Hoe House of Staunton drie Shopify-winkels beheert met Peak PIM](https://peak-pim.com/nl/klanten/house-of-staunton/)
+- [Hoe Du Bruit dans la Cuisine productcontent centraliseert met Peak PIM](https://peak-pim.com/nl/klanten/du-bruit-dans-la-cuisine/)
 
 ## Pages in Português (Brasil)
 
@@ -330,6 +342,8 @@ Pricing last reviewed on 2026-08-18. The pricing page is the source of truth.
 - [Construir vs Comprar um Shopify PIM: uma comparação honesta](https://peak-pim.com/pt-br/criar-ou-comprar-pim/)
 - [Como Maéli Paris economiza horas todas as semanas com Peak PIM](https://peak-pim.com/pt-br/clientes/maeli-paris/)
 - [Como Carré Coco gerencia catálogos B2B e B2C | Peak PIM](https://peak-pim.com/pt-br/clientes/carre-coco/)
+- [Como a House of Staunton gerencia três lojas Shopify com o Peak PIM](https://peak-pim.com/pt-br/clientes/house-of-staunton/)
+- [Como a Du Bruit dans la Cuisine centraliza o conteúdo de produtos com o Peak PIM](https://peak-pim.com/pt-br/clientes/du-bruit-dans-la-cuisine/)
 
 ## Pages in Polski
 
@@ -371,6 +385,8 @@ Pricing last reviewed on 2026-08-18. The pricing page is the source of truth.
 - [Zbuduj vs Kup Shopify PIM: uczciwe porównanie](https://peak-pim.com/pl/zbudowac-czy-kupic-pim/)
 - [Jak Maéli Paris oszczędza godziny co tydzień dzięki Peak PIM](https://peak-pim.com/pl/klienci/maeli-paris/)
 - [Jak Carré Coco zarządza katalogami B2B i B2C | Peak PIM](https://peak-pim.com/pl/klienci/carre-coco/)
+- [Jak House of Staunton zarządza trzema sklepami Shopify w Peak PIM](https://peak-pim.com/pl/klienci/house-of-staunton/)
+- [Jak Du Bruit dans la Cuisine centralizuje treści produktowe w Peak PIM](https://peak-pim.com/pl/klienci/du-bruit-dans-la-cuisine/)
 
 ## Pages in 日本語
 
@@ -412,6 +428,8 @@ Pricing last reviewed on 2026-08-18. The pricing page is the source of truth.
 - [Shopify PIM の構築と購入: 正直な比較](https://peak-pim.com/ja/pim-kaihatsu-ka-kounyu/)
 - [Maéli Paris が Peak PIM を使用して毎週時間を節約する方法](https://peak-pim.com/ja/customers/maeli-paris/)
 - [Carré Coco が B2B および B2C カタログを管理する方法 | Peak PIM](https://peak-pim.com/ja/customers/carre-coco/)
+- [House of Staunton が Peak PIM で3つのShopifyストアを管理する方法](https://peak-pim.com/ja/customers/house-of-staunton/)
+- [Du Bruit dans la Cuisine が Peak PIM で商品コンテンツを一元管理する方法](https://peak-pim.com/ja/customers/du-bruit-dans-la-cuisine/)
 
 ## Company
 

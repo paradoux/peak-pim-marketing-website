@@ -94,6 +94,12 @@ const requiredFiles = [
   "src/pages/search.astro",
   "src/pages/customers/maeli-paris.astro",
   "src/pages/customers/carre-coco.astro",
+  "src/pages/customers/house-of-staunton.astro",
+  "src/pages/customers/du-bruit-dans-la-cuisine.astro",
+  "src/components/visuals/HouseOfStauntonCatalogVisual.astro",
+  "src/components/visuals/DuBruitWorkflowVisual.astro",
+  "public/assets/testimonials/house-of-staunton-chess.png",
+  "public/assets/testimonials/shawn-house-of-staunton.jpeg",
   "public/assets/testimonials/amelie-samson-maeli-paris.webp",
   "public/assets/og/maeli-paris-customer-story.png",
   "public/assets/testimonials/coline-leleu-carre-coco.webp",
@@ -101,6 +107,8 @@ const requiredFiles = [
   "public/assets/customer-logos/banner/us-chess-federation.svg",
   "public/assets/customer-logos/banner/house-of-staunton.webp",
   "public/assets/og/carre-coco-customer-story.png",
+  "public/assets/og/house-of-staunton-customer-story.png",
+  "public/assets/og/du-bruit-dans-la-cuisine-customer-story.png",
   "public/og-build-vs-buy-pim.png",
   "docs/copywriting-system.md",
   "skills/peak-landing-pages/SKILL.md",
@@ -221,7 +229,7 @@ const recipeSource = readFileSync(resolve(projectRoot, "src/data/landing-page-re
 const approvedReferences = recipeSource.split("export const excludedDesignSystemPages")[0];
 if (approvedReferences.includes('"/partners"')) failures.push("The unfinished partners page appears in approved references");
 
-for (const page of ["bulk-edit", "design-system", "shopify-pim-translations", "shopify-product-import-export", "shopify-product-drops", "shopify-catalog-health-center", "ai-catalog-connector", "ai-assistant", "api", "custom-integrations", "shopify-metaobjects", "shopify-metafield-management", "shopify-custom-fields", "user-roles-permissions", "shopify-collections", "shopify-markets-pricing", "shopify-product-management", "history", "search", "build-vs-buy-pim", "customers/maeli-paris", "customers/carre-coco"]) {
+for (const page of ["bulk-edit", "design-system", "shopify-pim-translations", "shopify-product-import-export", "shopify-product-drops", "shopify-catalog-health-center", "ai-catalog-connector", "ai-assistant", "api", "custom-integrations", "shopify-metaobjects", "shopify-metafield-management", "shopify-custom-fields", "user-roles-permissions", "shopify-collections", "shopify-markets-pricing", "shopify-product-management", "history", "search", "build-vs-buy-pim", "customers/maeli-paris", "customers/carre-coco", "customers/house-of-staunton", "customers/du-bruit-dans-la-cuisine"]) {
   const file = resolve(projectRoot, "dist", page, "index.html");
   if (!existsSync(file)) {
     failures.push(`Missing built page /${page}; run npm run build first`);
@@ -297,6 +305,8 @@ for (const slug of [
   "industry/fashion",
   "customers/maeli-paris",
   "customers/carre-coco",
+  "customers/house-of-staunton",
+  "customers/du-bruit-dans-la-cuisine",
 ]) {
   const file = resolve(projectRoot, `dist/${slug}/index.html`);
   if (!existsSync(file)) {
@@ -449,6 +459,59 @@ if (existsSync(carreCocoStoryFile) && existsSync(carreCocoStoryImage)) {
   failures.push("Carré Coco customer story or its Open Graph image is missing");
 }
 
+const houseOfStauntonStoryFile = resolve(projectRoot, "dist/customers/house-of-staunton/index.html");
+const houseOfStauntonStoryImage = resolve(projectRoot, "public/assets/og/house-of-staunton-customer-story.png");
+if (existsSync(houseOfStauntonStoryFile) && existsSync(houseOfStauntonStoryImage)) {
+  const html = readFileSync(houseOfStauntonStoryFile, "utf8");
+  const mainHtml = html.match(/<main\b[\s\S]*?<\/main>/i)?.[0] ?? "";
+  const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((match) => JSON.parse(match[1]));
+  const image = readFileSync(houseOfStauntonStoryImage);
+  if (image.readUInt32BE(16) !== 1200 || image.readUInt32BE(20) !== 630) failures.push("House of Staunton customer-use-case Open Graph image must be 1200 × 630");
+  if (!html.includes("<title>How House of Staunton Manages 3 Shopify Stores | Peak PIM</title>")) failures.push("House of Staunton customer-use-case title tag is incorrect");
+  if (!html.includes('rel="canonical" href="https://peak-pim.com/customers/house-of-staunton/"')) failures.push("House of Staunton customer-use-case canonical URL is incorrect");
+  if (!html.includes('property="og:image" content="https://peak-pim.com/assets/og/house-of-staunton-customer-story.png"')) failures.push("House of Staunton customer use case is missing its registered Open Graph image");
+  for (const fact of ["3 stores", "10,000+", "≈1,700", "Exact SKUs", "50 to 60"]) {
+    if (!mainHtml.includes(fact)) failures.push(`House of Staunton customer use case is missing verified operating fact: ${fact}`);
+  }
+  if (!mainHtml.includes('src="/assets/testimonials/house-of-staunton-chess.png"')) failures.push("House of Staunton customer use case is missing the supplied chess photo");
+  if (!mainHtml.includes('src="/assets/testimonials/shawn-house-of-staunton.jpeg"')) failures.push("House of Staunton customer use case is missing Shawn's supplied portrait");
+  if (!mainHtml.includes("We have around 10,000 products")) failures.push("House of Staunton customer use case is missing Shawn's approved Wholesale Chess testimonial");
+  for (const className of ["peak-customer-story-hero", "peak-customer-story-stats", "peak-problem-grid", "peak-testimonial", "peak-customer-story-chapter", "peak-feature-grid", "peak-cta-banner", "peak-faq"]) {
+    if (!mainHtml.includes(className)) failures.push(`House of Staunton customer use case is missing canonical section: ${className}`);
+  }
+  if (!schemas.some((entry) => entry["@type"] === "Article" && entry.about?.name === "House of Staunton")) failures.push("House of Staunton customer use case Article schema is missing or incomplete");
+  if (!schemas.some((entry) => entry["@type"] === "FAQPage" && entry.mainEntity?.length === 5)) failures.push("House of Staunton customer use case FAQ schema is missing or incomplete");
+  if (!schemas.some((entry) => entry["@type"] === "Review" && entry.author?.name === "Shawn" && entry.reviewRating?.ratingValue === 5)) failures.push("House of Staunton customer use case Review schema is missing or incomplete");
+} else {
+  failures.push("House of Staunton customer use case or its Open Graph image is missing");
+}
+
+const duBruitStoryFile = resolve(projectRoot, "dist/customers/du-bruit-dans-la-cuisine/index.html");
+const duBruitStoryImage = resolve(projectRoot, "public/assets/og/du-bruit-dans-la-cuisine-customer-story.png");
+if (existsSync(duBruitStoryFile) && existsSync(duBruitStoryImage)) {
+  const html = readFileSync(duBruitStoryFile, "utf8");
+  const mainHtml = html.match(/<main\b[\s\S]*?<\/main>/i)?.[0] ?? "";
+  const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((match) => JSON.parse(match[1]));
+  const image = readFileSync(duBruitStoryImage);
+  if (image.readUInt32BE(16) !== 1200 || image.readUInt32BE(20) !== 630) failures.push("Du Bruit dans la Cuisine customer-story Open Graph image must be 1200 × 630");
+  if (!html.includes("<title>How Du Bruit dans la Cuisine Centralizes Product Content | Peak PIM</title>")) failures.push("Du Bruit dans la Cuisine customer-story title tag is incorrect");
+  if (!html.includes('rel="canonical" href="https://peak-pim.com/customers/du-bruit-dans-la-cuisine/"')) failures.push("Du Bruit dans la Cuisine customer-story canonical URL is incorrect");
+  if (!html.includes('property="og:image" content="https://peak-pim.com/assets/og/du-bruit-dans-la-cuisine-customer-story.png"')) failures.push("Du Bruit dans la Cuisine customer story is missing its registered Open Graph image");
+  for (const fact of ["200–300", "Up to 500", "882", "Proginov", "three working matrices"]) {
+    if (!mainHtml.includes(fact)) failures.push(`Du Bruit dans la Cuisine customer story is missing verified operating fact: ${fact}`);
+  }
+  if (!mainHtml.includes('src="/assets/testimonials/simon-tordjman-du-bruit-dans-la-cuisine.webp"')) failures.push("Du Bruit dans la Cuisine customer story is missing Simon's portrait");
+  if (!mainHtml.includes("We installed Peak PIM to centralize")) failures.push("Du Bruit dans la Cuisine customer story is missing Simon's approved testimonial translation");
+  for (const className of ["peak-customer-story-hero", "peak-customer-story-stats", "peak-problem-grid", "peak-testimonial", "peak-customer-story-chapter", "peak-feature-grid", "peak-cta-banner", "peak-faq"]) {
+    if (!mainHtml.includes(className)) failures.push(`Du Bruit dans la Cuisine customer story is missing canonical section: ${className}`);
+  }
+  if (!schemas.some((entry) => entry["@type"] === "Article" && entry.about?.name === "Du Bruit dans la Cuisine")) failures.push("Du Bruit dans la Cuisine customer story Article schema is missing or incomplete");
+  if (!schemas.some((entry) => entry["@type"] === "FAQPage" && entry.mainEntity?.length === 5)) failures.push("Du Bruit dans la Cuisine customer story FAQ schema is missing or incomplete");
+  if (!schemas.some((entry) => entry["@type"] === "Review" && entry.author?.name === "Simon Tordjman" && entry.reviewRating?.ratingValue === 5)) failures.push("Du Bruit dans la Cuisine customer story Review schema is missing or incomplete");
+} else {
+  failures.push("Du Bruit dans la Cuisine customer story or its Open Graph image is missing");
+}
+
 const rolesPermissionsFile = resolve(projectRoot, "dist/user-roles-permissions/index.html");
 if (existsSync(rolesPermissionsFile)) {
   const html = readFileSync(rolesPermissionsFile, "utf8");
@@ -591,6 +654,8 @@ if (existsSync(homeFile)) {
   if (!html.includes('href="https://apps.shopify.com/peak-pim/reviews" target="_blank" rel="noopener" class="customers-mega-menu__reviews-link"')) failures.push("The shared header Customers menu is missing the Reviews destination");
   if (!html.includes('href="/customers/maeli-paris/" class="customers-mega-menu__story-link"')) failures.push("The shared header Customers menu is missing the Maéli Paris testimonial");
   if (!html.includes('href="/customers/carre-coco/" class="customers-mega-menu__story-link"')) failures.push("The shared header Customers menu is missing the Carré Coco use case");
+  if (!html.includes('href="/customers/house-of-staunton/" class="customers-mega-menu__story-link"')) failures.push("The shared header Customers menu is missing the House of Staunton use case");
+  if (!html.includes('href="/customers/du-bruit-dans-la-cuisine/" class="customers-mega-menu__story-link"')) failures.push("The shared header Customers menu is missing the Du Bruit dans la Cuisine use case");
   if (!customerStoryHtml.includes("How Maéli Paris gets hours back every week")) failures.push("The homepage is missing the Maéli Paris customer-story section");
   if (!customerStoryHtml.includes('href="/customers/maeli-paris/"')) failures.push("The homepage Maéli Paris customer story is missing its internal link");
   if (!customerStoryHtml.includes(">See use case</a>")) failures.push("The homepage Maéli Paris customer story must use the approved See use case CTA");
@@ -876,15 +941,15 @@ const homepageLogoLinks = [
   "https://www.tupperware.com/fr",
   "/customers/maeli-paris/",
   "https://www.artefact.com/",
-  "https://www.dubruitdanslacuisine.fr/",
+  "/customers/du-bruit-dans-la-cuisine/",
   "https://lafaurieparis.com/",
   "https://gullylabs.com/",
   "https://www.waterdrop.com/",
   "https://nakedwolfe.com/",
   "https://www.lillicoco.com/",
   "https://what-matters.fr/",
-  "https://new.uschess.org/",
-  "https://www.houseofstaunton.com/",
+  "/customers/house-of-staunton/",
+  "/customers/house-of-staunton/",
 ];
 
 for (const slug of homepageLogoBannerPages) {
@@ -905,13 +970,20 @@ for (const slug of homepageLogoBannerPages) {
   if (!bannerHtml.includes(">Trusted by 50+ top merchants worldwide</h2>")) failures.push(`/${slug} does not use the homepage logo-banner heading`);
   if (bannerClassCount("logo2_wrapper") !== 12) failures.push(`/${slug} does not use the homepage twelve-logo set`);
   if (bannerClassCount("logo2_link") !== 12) failures.push(`/${slug} does not link every homepage customer logo`);
-  if ((bannerHtml.match(/rel="nofollow noopener"/g) ?? []).length !== 11) failures.push(`/${slug} external customer-logo links are missing nofollow and noopener`);
+  if ((bannerHtml.match(/rel="nofollow noopener"/g) ?? []).length !== 8) failures.push(`/${slug} external customer-logo links are missing nofollow and noopener`);
   const bannerImages = bannerHtml.match(/<img\b[^>]*>/g) ?? [];
-  if (bannerImages.length !== 14 || bannerImages.some((image) => !/\bwidth="\d+"/.test(image) || !/\bheight="\d+"/.test(image))) {
+  if (bannerImages.length !== 20 || bannerImages.some((image) => !/\bwidth="\d+"/.test(image) || !/\bheight="\d+"/.test(image))) {
     failures.push(`/${slug} customer logos and case-study images must declare numeric intrinsic dimensions`);
   }
   for (const contract of ["logo2_wrapper--case-study", "logo2_case-study-badge", "logo2_case-study-card", "Amélie Samson", ">See case study "]) {
     if (!bannerHtml.includes(contract)) failures.push(`/${slug} Maéli Paris logo is missing case-study contract: ${contract}`);
+  }
+  if (bannerClassCount("logo2_wrapper--case-study") !== 4 || bannerClassCount("logo2_case-study-badge") !== 4 || bannerClassCount("logo2_case-study-card") !== 4) failures.push(`/${slug} must show case-study badges and previews for Maéli Paris, Du Bruit dans la Cuisine, US Chess, and House of Staunton`);
+  for (const proof of ["Du Bruit dans la Cuisine case study preview", "centralize all our product content", "Simon Tordjman"]) {
+    if (!bannerHtml.includes(proof)) failures.push(`/${slug} Du Bruit dans la Cuisine logo proof is missing: ${proof}`);
+  }
+  for (const proof of ["US Chess Sales case study preview", "House of Staunton case study preview", "Almost all our products matched correctly by SKU", "Bulk edits save a huge amount of time", "Shawn"]) {
+    if (!bannerHtml.includes(proof)) failures.push(`/${slug} chess customer logo proof is missing: ${proof}`);
   }
   for (const logoFile of homepageLogoFiles) {
     if (!bannerHtml.includes(logoFile)) failures.push(`/${slug} is missing homepage customer logo: ${logoFile}`);

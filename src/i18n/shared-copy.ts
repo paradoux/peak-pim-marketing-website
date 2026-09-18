@@ -73,6 +73,8 @@ const frenchSharedCopy: Record<string, string> = {
   "Save hours with weekly Drops and grow revenue in new markets.": "Gagnez des heures chaque semaine avec Drops et développez votre chiffre d'affaires sur de nouveaux marchés.",
   "See use case": "Voir le cas client",
   "B2B and B2C catalogs managed together.": "Catalogues B2B et B2C gérés ensemble.",
+  "Unify product data across three Shopify stores.": "Unifiez les données produits de trois boutiques Shopify.",
+  "Centralize products, collections, media, and metafields.": "Centralisez les produits, collections, médias et champs méta.",
   "Resources": "Ressources",
   "Explore Peak PIM": "Découvrir Peak PIM",
   "See the product, learn the workflows, and find the technical details you need.": "Découvrez le produit, ses workflows et toutes les informations techniques utiles.",

@@ -12,6 +12,7 @@ type Props = {
   imageCaption: string;
   companyLogo?: string;
   companyName?: string;
+  companyLogoOnDark?: boolean;
   primaryCta: Cta;
   secondaryCta?: Cta;
   headingLevel?: "h1" | "h2";
@@ -26,6 +27,7 @@ const {
   imageCaption,
   companyLogo,
   companyName,
+  companyLogoOnDark = false,
   primaryCta,
   secondaryCta,
   headingLevel = "h1",
@@ -43,7 +45,7 @@ const Heading = headingLevel;
               <div class="header84_card-content-top">
                 <div class="peak-customer-story-hero__identity">
                   <div class="tag is-text">{eyebrow}</div>
-                  {companyLogo && <img src={companyLogo} alt={companyName ?? ""} class="peak-customer-story-hero__logo" />}
+                  {companyLogo && <img src={companyLogo} alt={companyName ?? ""} class:list={["peak-customer-story-hero__logo", { "is-on-dark": companyLogoOnDark }]} />}
                 </div>
                 <div class="margin-bottom margin-small"><Heading class="heading-style-h1">{title}</Heading></div>
                 <p class="text-size-medium">{description}</p>
@@ -80,6 +82,15 @@ const Heading = headingLevel;
     height: 3rem;
     object-fit: contain;
     object-position: right center;
+  }
+
+  .peak-customer-story-hero__logo.is-on-dark {
+    width: 3.5rem;
+    height: 3.5rem;
+    padding: 0.25rem;
+    border-radius: 0.5rem;
+    background: #191919;
+    object-position: center;
   }
 
   .peak-customer-story-hero__image-wrapper {
@@ -119,6 +130,12 @@ const Heading = headingLevel;
       width: 6.5rem;
       height: 2.25rem;
       object-position: left center;
+    }
+
+    .peak-customer-story-hero__logo.is-on-dark {
+      width: 3.25rem;
+      height: 3.25rem;
+      object-position: center;
     }
 
     .peak-customer-story-hero__image-wrapper {
