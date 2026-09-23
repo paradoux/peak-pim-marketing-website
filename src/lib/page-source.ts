@@ -238,10 +238,10 @@ function applyContentCorrections(html: string, page: PageDefinition) {
   const enterprisePlanCardStart = '<div class="pricing29_plan"><div class="pricing29_content-top"><div class="margin-bottom margin-xxsmall"><div class="pricing29_content-title"><div class="heading-style-h6">Enterprise</div>';
   const offerListPattern = /"offers": \[[\s\S]*?\n    \],\n    "featureList":/;
   const scalePlanFaqAnswer = "It depends on your plan. Core supports 2 stores, Elite supports 5, Scale supports 8, and Enterprise supports unlimited stores. You can connect additional stores at any time from your Peak PIM dashboard.";
-  const currentPlanFaqAnswer = "Basic supports 1 store, Core supports 2, and Elite supports 3. Need more? Contact us about an Enterprise plan.";
+  const currentPlanFaqAnswer = "Basic and Core include 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.";
   const outdatedMultiStorePlanAnswer = "Yes. Every Peak PIM plan supports multiple stores. The number of stores you can connect scales with your plan: from 2 stores on Core up to unlimited on Enterprise.";
   const outdatedVisibleMultiStorePlanAnswer = "Yes. Every Peak PIM plan supports multiple stores. The number of stores you can connect scales with your plan. From 2 stores on Core up to unlimited on Enterprise.";
-  const currentMultiStorePlanAnswer = "Basic includes 1 connected Shopify store, Core includes 2, and Elite includes 3. For additional stores, contact us about an Enterprise plan.";
+  const currentMultiStorePlanAnswer = "Basic and Core include 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.";
   const scalePlanCardIndex = html.indexOf(scalePlanCardStart);
   const enterprisePlanCardIndex = html.indexOf(enterprisePlanCardStart, scalePlanCardIndex);
 
@@ -270,7 +270,8 @@ function applyContentCorrections(html: string, page: PageDefinition) {
     .replaceAll("Up to 1,500 SKUs", "Unlimited SKUs (fair usage)")
     .replaceAll("Up to 5,000 SKUs", "Unlimited SKUs (fair usage)")
     .replaceAll("20 GB media library", "Unlimited file storage (fair usage)")
-    .replaceAll("Up to 5 Shopify stores", "Up to 3 Shopify stores")
+    .replaceAll("Up to 2 Shopify stores", "1 Shopify store")
+    .replaceAll("Up to 5 Shopify stores", "Up to 2 Shopify stores")
     .replaceAll("150 GB media library", "Unlimited file storage (fair usage)")
     .replaceAll("Unlimited Shopify stores", "Custom Shopify stores")
     .replaceAll("Custom media storage", "Custom file storage")
@@ -411,7 +412,7 @@ function improveHomepagePricingPreview(html: string) {
   const basicFeatureLabels = [
     "1-click setup",
     `${basicPlanValue("Connected Shopify stores")} connected Shopify store`,
-    "Unlimited SKUs (fair usage)",
+    `Up to ${basicPlanValue("SKUs")} SKUs`,
     "Unlimited file storage (fair usage)",
     "Bulk edit",
     "Import & export",
@@ -445,7 +446,7 @@ function improveHomepagePricingPreview(html: string) {
     .replace(pricingSectionPattern, updatedPricingSection)
     .replaceAll(
       "Your plan determines store limits. The Starter plan supports up to 5 stores. Higher tiers unlock more stores and advanced features. You can upgrade anytime as your business grows.",
-      "Basic includes 1 connected Shopify store, Core includes 2, and Elite includes 3. Enterprise store limits are custom.",
+      "Basic and Core include 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.",
     )
     .replaceAll(
       "We're currently in beta, and beta testers get special pricing. Join the beta to access Peak PIM at a reduced rate while we refine the product.",
@@ -495,7 +496,7 @@ function improveHomepagePricingStructuredData(html: string, basicFeatureLabels: 
     throw new Error("The homepage pricing FAQ schema could not be aligned with the current plans.");
   }
 
-  storeQuestion.acceptedAnswer.text = "Basic includes 1 connected Shopify store, Core includes 2, and Elite includes 3. Enterprise store limits are custom.";
+  storeQuestion.acceptedAnswer.text = "Basic and Core include 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.";
   trialQuestion.acceptedAnswer.text = "Yes. Every plan comes with a 10-day free trial. No credit card is required to get started.";
 
   return html.replace(schemaPattern, `${match[1]}\n${JSON.stringify(schema, null, 2)}\n${match[3]}`);
@@ -540,12 +541,12 @@ function improvePricingCrawlerContent(html: string) {
     ['Can I change plans later?', 'Can I switch plans later?'],
     ['Yes. You can upgrade or downgrade your plan at any time. Changes take effect on your next billing cycle.', 'Yes. You can upgrade or downgrade at any time. Changes take effect immediately and billing is adjusted accordingly.'],
     ['How does multi-store pricing work?', 'How many stores can I connect?'],
-    ["All plans include multi-store support. Your plan's SKU limit applies to your total catalog across all connected stores.", 'Basic includes 1 connected Shopify store, Core includes 2, and Elite includes 3. Enterprise store limits are custom.'],
+    ["All plans include multi-store support. Your plan's SKU limit applies to your total catalog across all connected stores.", 'Basic and Core include 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.'],
     ['Enterprise is custom-priced for large catalogs with advanced needs. It includes free setup and full onboarding for your team, catalog, stores, and workflows.', 'Enterprise plans include custom store, seat, update, SKU, and file limits, plus dedicated support and onboarding. Pricing is tailored to your business.'],
-    ['Core supports 2 stores and Elite supports 3. Need more? Contact us about an Enterprise plan.', 'Basic supports 1 store, Core supports 2, and Elite supports 3. Need more? Contact us about an Enterprise plan.'],
+    ['Core supports 2 stores and Elite supports 3. Need more? Contact us about an Enterprise plan.', 'Basic and Core include 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.'],
     ['Yes. Paying annually saves you 2 months compared to monthly billing. Core is $990/year and Elite is $2,490/year. Enterprise billing is tailored to your agreement.', 'Yes. Paying annually saves you 2 months compared to monthly billing. Basic is $490/year, Core is $990/year, and Elite is $2,490/year. Enterprise billing is tailored to your agreement.'],
     ['What happens if I exceed my SKU limit?', 'Are SKUs and file storage capped?'],
-    ["We'll let you know before you hit the limit. You can upgrade your plan at any time to unlock higher SKU limits without losing any of your data.", 'Self-serve plans do not have fixed SKU or file-storage caps. They are covered by fair usage so normal catalog growth is not penalized. We will contact you if exceptional usage requires an Enterprise plan.'],
+    ["We'll let you know before you hit the limit. You can upgrade your plan at any time to unlock higher SKU limits without losing any of your data.", 'Basic includes up to 5,000 SKUs. Upgrade to Core or Elite for unlimited SKUs under fair usage. File storage follows fair usage on all self-serve plans.'],
     ['Enterprise plans include custom SKU limits, unlimited stores, dedicated support, and onboarding. Pricing is tailored to your business. Contact us to discuss.', 'Enterprise plans include custom store, seat, update, SKU, and file limits, plus dedicated support and onboarding. Pricing is tailored to your business.'],
   ];
 
@@ -561,7 +562,7 @@ function improvePricingCrawlerContent(html: string) {
 
   const withCurrentMetadata = corrected
     .replaceAll("Peak PIM pricing starts at $99/mo with free setup, a 10-day trial, and 2 months free annually. Core, Elite, and Enterprise plans for Shopify teams.", "Peak PIM pricing starts at $49/mo with free setup, a 10-day trial, and 2 months free annually. Compare Basic, Core, Elite, and Enterprise plans.")
-    .replaceAll("Peak PIM pricing starts at $99/mo with free setup, a 10-day trial, and 2 months free annually. Enterprise includes full onboarding.", "Peak PIM pricing starts at $49/mo with free setup, a 10-day trial, and fair-use SKUs and files. Enterprise includes full onboarding.")
+    .replaceAll("Peak PIM pricing starts at $99/mo with free setup, a 10-day trial, and 2 months free annually. Enterprise includes full onboarding.", "Peak PIM pricing starts at $49/mo with free setup, a 10-day trial, and 2 months free annually. Compare Basic, Core, Elite, and Enterprise plans.")
     .replaceAll("https://schema.org/PreOrder", "https://schema.org/InStock");
 
   return replacePricingFeatureMatrix(
@@ -601,7 +602,7 @@ function pricingOfferDescription(plan: PricingPlan) {
     return "Enterprise is custom-priced with custom store, seat, update, SKU, and file limits, plus dedicated support and onboarding.";
   }
 
-  return `${plan.name} is ${plan.monthlyPrice}/month or ${plan.annualPrice}/year and includes ${storeCount} connected Shopify ${storeCount === "1" ? "store" : "stores"} and ${updates} monthly updates. SKUs and file storage follow fair usage.`;
+  return `${plan.name} is ${plan.monthlyPrice}/month or ${plan.annualPrice}/year and includes ${storeCount} connected Shopify ${storeCount === "1" ? "store" : "stores"} and ${updates} monthly updates. ${plan.name === "Basic" ? "Basic includes up to 5,000 SKUs. File storage follows fair usage." : "SKUs and file storage follow fair usage."}`;
 }
 
 function enrichPricingStructuredData(html: string) {
@@ -651,7 +652,7 @@ function enrichPricingStructuredData(html: string) {
     additionalProperty: pricingPlanProperties(planIndex),
   }));
 
-  schema.description = "Peak PIM pricing starts at $49 per month with four plans, fair-use SKUs and files, free setup, and a 10-day free trial.";
+  schema.description = "Peak PIM pricing starts at $49 per month with four plans, free setup, and a 10-day free trial.";
 
   const faq = (schema as { mainEntity?: { mainEntity?: Array<{ name?: string; acceptedAnswer?: { text?: string } }> } }).mainEntity?.mainEntity;
   if (faq) {
@@ -664,7 +665,7 @@ function enrichPricingStructuredData(html: string) {
       skuQuestion.acceptedAnswer.text = "An update is one saved record in Peak PIM or one synchronization to a connected store. Bulk actions count each affected record, and saving then publishing counts as two updates.";
     }
     if (storeQuestion?.acceptedAnswer) {
-      storeQuestion.acceptedAnswer.text = "Basic includes 1 connected Shopify store, Core includes 2, and Elite includes 3. Enterprise store limits are custom.";
+      storeQuestion.acceptedAnswer.text = "Basic and Core include 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.";
     }
     if (enterpriseQuestion?.acceptedAnswer) {
       enterpriseQuestion.acceptedAnswer.text = "Enterprise includes custom store, seat, update, SKU, and file limits, plus dedicated support and onboarding.";

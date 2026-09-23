@@ -745,7 +745,15 @@ if (existsSync(pricingFile)) {
     ["Basic", "Monthly updates", "2,000"],
     ["Core", "Monthly updates", "10,000"],
     ["Basic", "Drops", "1 per month"],
-    ["Basic", "SKUs", "Unlimited, fair usage"],
+    ["Basic", "SKUs", "5,000"],
+    ["Core", "SKUs", "Unlimited, fair usage"],
+    ["Elite", "SKUs", "Unlimited, fair usage"],
+    ["Basic", "Connected Shopify stores", "1"],
+    ["Core", "Connected Shopify stores", "1"],
+    ["Elite", "Connected Shopify stores", "2"],
+    ["Enterprise", "Connected Shopify stores", "Custom"],
+    ["Core", "Multi-store management", "Not included"],
+    ["Elite", "Multi-store management", "Included"],
     ["Basic", "File storage", "Unlimited, fair usage"],
     ["Basic", "Users & permissions", "Not included"],
     ["Core", "Drops", "2 per month"],
@@ -1027,7 +1035,7 @@ if (existsSync(multiStoreFile)) {
   }
   if (planCount !== 3) failures.push(`Multi-store pricing teaser has ${planCount} plans; expected three after removing Scale`);
   if (!html.includes("Scale as you grow.")) failures.push("Generic non-plan Scale copy was removed from the multi-store page");
-  for (const currentPlanContent of ["Unlimited SKUs (fair usage)", "Unlimited file storage (fair usage)", "Up to 3 Shopify stores", "Custom Shopify stores", "Custom file storage", "Dedicated support", "Basic supports 1 store, Core supports 2, and Elite supports 3", "Basic includes 1 connected Shopify store, Core includes 2, and Elite includes 3"]) {
+  for (const currentPlanContent of ["Unlimited SKUs (fair usage)", "Unlimited file storage (fair usage)", "Up to 2 Shopify stores", "Custom Shopify stores", "Custom file storage", "Dedicated support", "Basic and Core include 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.", "1 Shopify store"]) {
     if (!html.includes(currentPlanContent)) failures.push(`Multi-store page is missing current pricing content: ${currentPlanContent}`);
   }
   for (const outdatedPlanContent of ["Up to 1,500 SKUs", "Up to 5,000 SKUs", "20 GB media library", "100GB files", "Up to 5 Shopify stores", "150 GB media library", "500GB files", "Unlimited Shopify stores", "unlimited on Enterprise", "Custom media storage", ">Metaobjects</div>", ">Translations</div>", "Account manager", "Elite supports 5"]) {
