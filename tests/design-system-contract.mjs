@@ -521,7 +521,7 @@ if (existsSync(rolesPermissionsFile)) {
   const faqSchema = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
     .map((match) => JSON.parse(match[1])).find((entry) => entry["@type"] === "FAQPage");
   if (faqSchema?.mainEntity?.length !== 9) failures.push("Roles and permissions FAQ schema is missing or incomplete");
-  for (const fact of ["Basic is a single-seat plan without Users &amp; Permissions", "Users &amp; Permissions is not included in Basic", "Core includes 3 seats", "Elite includes 15 seats", "Enterprise is custom", "Standard User Roles &amp; Permissions", "Advanced User Roles &amp; Permissions"]) {
+  for (const fact of ["Basic is a single-seat plan without Users &amp; Permissions", "Users &amp; Permissions is not included in Basic", "Core includes 2 seats", "Elite includes 5 seats", "Enterprise is custom", "Standard User Roles &amp; Permissions", "Advanced User Roles &amp; Permissions"]) {
     if (!html.includes(fact.replaceAll("&", "&amp;")) && !html.includes(fact)) failures.push(`Roles and permissions page is missing current plan guidance: ${fact}`);
   }
 }
@@ -744,6 +744,10 @@ if (existsSync(pricingFile)) {
   for (const [planName, featureName, expectedValue] of [
     ["Basic", "Monthly updates", "2,000"],
     ["Core", "Monthly updates", "10,000"],
+    ["Basic", "Seats", "1"],
+    ["Core", "Seats", "2"],
+    ["Elite", "Seats", "5"],
+    ["Enterprise", "Seats", "Custom"],
     ["Basic", "Drops", "1 per month"],
     ["Basic", "SKUs", "5,000"],
     ["Core", "SKUs", "Unlimited, fair usage"],

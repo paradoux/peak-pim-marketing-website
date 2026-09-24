@@ -410,7 +410,7 @@ test("lead modal · customer proof and trial form share one responsive layout", 
   }
 });
 
-test("pricing · SKU and store limits agree across cards, matrix, and billing periods", async ({ page }) => {
+test("pricing · SKU, seat, and store limits agree across cards, matrix, and billing periods", async ({ page }) => {
   for (const width of [1440, 768, 375]) {
     await prepare(page, "/pricing/", width, 900);
     const cards = page.locator(".pricing-plan-card");
@@ -424,6 +424,7 @@ test("pricing · SKU and store limits agree across cards, matrix, and billing pe
       has: page.locator(".pricing-feature-name > span:first-child", { hasText: new RegExp(`^${label}$`) }),
     });
     await expect(row("Connected Shopify stores").locator(".pricing54_row-content")).toHaveText(["1", "1", "2", "Custom"]);
+    await expect(row("Seats").locator(".pricing54_row-content")).toHaveText(["1", "2", "5", "Custom"]);
     await expect(row("SKUs").locator(".pricing54_row-content")).toHaveText(["5,000", "UnlimitedFair usage", "UnlimitedFair usage", "Custom"]);
     await expect(row("Multi-store management").locator(".pricing-feature-unavailable")).toHaveCount(2);
     await expect(row("Multi-store management").locator(".pricing-feature-check")).toHaveCount(2);

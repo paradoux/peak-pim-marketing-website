@@ -78,7 +78,7 @@ export const pricingFeatureGroups: PricingFeatureGroup[] = [
         label: "Seats",
         description: "The number of teammates who can access your Peak PIM account.",
         href: "/user-roles-permissions",
-        values: ["1", "3", "15", "Custom"],
+        values: ["1", "2", "5", "Custom"],
       },
       {
         label: "Monthly updates",
