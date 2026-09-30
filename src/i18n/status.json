@@ -13,8 +13,8 @@
       "translations": [
         "src/i18n/shared-copy.ts"
       ],
-      "observedSourceHash": "7cef6adaf2ad5ff61800bb5afb7ba3c3ce0b33fb38dc119b8d1562e9a1510be7",
-      "reviewedSourceHash": "7cef6adaf2ad5ff61800bb5afb7ba3c3ce0b33fb38dc119b8d1562e9a1510be7",
+      "observedSourceHash": "7fd2c1fe4387531920ce1a52619556fa7ad9250350d5c42b68cb6c5e25d17dc1",
+      "reviewedSourceHash": "7fd2c1fe4387531920ce1a52619556fa7ad9250350d5c42b68cb6c5e25d17dc1",
       "status": "reviewed"
     },
     {
@@ -61,6 +61,7 @@
         "src/pages/customers/du-bruit-dans-la-cuisine.astro",
         "src/pages/customers/house-of-staunton.astro",
         "src/pages/customers/maeli-paris.astro",
+        "src/pages/customers/unique-wholefood.astro",
         "src/pages/custom-integrations.astro",
         "src/pages/guides/index.astro",
         "src/pages/history.astro",
@@ -96,8 +97,8 @@
         "src/i18n/pl-translations.json",
         "src/i18n/ja-translations.json"
       ],
-      "observedSourceHash": "78d6d444660d46f7865e0d918959f5caf8fb861f833cff70de3dac6c264fcbb0",
-      "reviewedSourceHash": "78d6d444660d46f7865e0d918959f5caf8fb861f833cff70de3dac6c264fcbb0",
+      "observedSourceHash": "6720bc9d06e71fba5a67c1f9d82c05d000f1cca060a4d13f89143e204048d995",
+      "reviewedSourceHash": "6720bc9d06e71fba5a67c1f9d82c05d000f1cca060a4d13f89143e204048d995",
       "status": "reviewed"
     }
   ]

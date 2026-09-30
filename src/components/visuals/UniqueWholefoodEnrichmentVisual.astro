@@ -1,0 +1,71 @@
+---
+import ProductVisualFrame from "../ui/ProductVisualFrame.astro";
+
+type Props = { view: "bulk" | "ai" | "media" };
+const { view } = Astro.props;
+const views = {
+  bulk: { section: "Bulk edit", title: "Choose the work in front of you", description: "Illustrative workflow: filter draft products and edit product and variant fields together.", steps: ["Filter products", "Choose columns", "Edit together"] },
+  ai: { section: "AI enrichment", title: "A prompt for each field", description: "Illustrative workflow: configure a field-specific prompt, test it, and review the generated copy.", steps: ["Set a prompt", "Generate copy", "Review the result"] },
+  media: { section: "Product media", title: "From supplier image to product", description: "Illustrative workflow: copy a supplier image and paste it directly into the product's media.", steps: ["Copy image", "Paste on product", "Image uploaded"] },
+};
+const current = views[view];
+---
+
+<ProductVisualFrame ariaLabel={current.description} section={current.section}>
+  <div class="peak-enrichment-workspace">
+    <header><small>Unique Wholefood</small><strong>{current.title}</strong></header>
+    <div class="peak-enrichment-steps" aria-hidden="true">
+      {current.steps.map((step, index) => <span><i>{index + 1}</i>{step}</span>)}
+    </div>
+    {view === "bulk" && <div class="peak-enrichment-panel">
+      <div class="peak-enrichment-filter"><span>Status: Draft</span><span>Collection filter</span></div>
+      <div class="peak-enrichment-row is-heading"><span>Product</span><span>Content to enrich</span></div>
+      <div class="peak-enrichment-row"><b>Pantry product</b><span>Description</span></div>
+      <div class="peak-enrichment-row is-selected"><b>Fresh produce</b><span>Custom fields</span></div>
+      <div class="peak-enrichment-row"><b>Health & beauty</b><span>Product images</span></div>
+      <footer>Product + variant data in one working view</footer>
+    </div>}
+    {view === "ai" && <div class="peak-enrichment-panel">
+      <div class="peak-enrichment-row is-heading"><span>Product field</span><span>AI action</span></div>
+      <div class="peak-enrichment-row is-selected"><b>Description</b><span>Generate copy</span></div>
+      <div class="peak-enrichment-prompt"><small>Example field prompt</small><p>Use the product title and vendor to draft clear product copy.</p></div>
+      <div class="peak-enrichment-row"><b>Custom field</b><span>Dedicated prompt</span></div>
+      <footer>Test the prompt. Review the content.</footer>
+    </div>}
+    {view === "media" && <div class="peak-enrichment-panel">
+      <div class="peak-enrichment-row is-heading"><span>Product page</span><span>Media</span></div>
+      <div class="peak-enrichment-upload">
+        <svg width="64" height="64" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="5" y="5" width="38" height="38" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="16" r="4" stroke="currentColor" stroke-width="2"/><path d="m7 35 10-10 7 7 7-12 10 15" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        <strong>Paste supplier image</strong><span>Added to product media</span>
+      </div>
+      <footer>Copy + paste for an instant upload</footer>
+    </div>}
+    <p class="peak-enrichment-caption">Illustrative workflow</p>
+  </div>
+</ProductVisualFrame>
+
+<style>
+  .peak-enrichment-workspace { padding: clamp(16px, 3vw, 28px); background: #f6f3ec; }
+  .peak-enrichment-workspace header { display: grid; gap: 7px; }
+  .peak-enrichment-workspace header small { color: #777; font-size: 11px; }
+  .peak-enrichment-workspace header strong { font-size: clamp(17px, 2vw, 23px); line-height: 1.25; }
+  .peak-enrichment-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 24px 0; }
+  .peak-enrichment-steps span { display: grid; align-content: start; gap: 8px; font-size: 10px; line-height: 1.4; }
+  .peak-enrichment-steps i { display: grid; width: 23px; height: 23px; place-items: center; border-radius: 50%; background: #e8ecff; color: #2845d6; font-size: 10px; font-style: normal; font-weight: 700; }
+  .peak-enrichment-panel { overflow: hidden; border: 1px solid #dedbd3; border-radius: 8px; background: #fff; }
+  .peak-enrichment-filter { display: flex; flex-wrap: wrap; gap: 7px; padding: 13px; }
+  .peak-enrichment-filter span { padding: 6px 8px; border: 1px solid #dedbd3; border-radius: 5px; font-size: 10px; }
+  .peak-enrichment-row { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 12px; min-height: 49px; padding: 12px 14px; border-bottom: 1px solid #ebe8e1; font-size: 11px; line-height: 1.4; }
+  .peak-enrichment-row b { font-weight: 600; }
+  .peak-enrichment-row.is-heading { min-height: 35px; background: #f2efe8; color: #777; font-size: 10px; }
+  .peak-enrichment-row.is-selected { background: #eef1ff; color: #2845d6; box-shadow: inset 3px 0 #2845d6; }
+  .peak-enrichment-prompt { margin: 14px; padding: 14px; border: 1px solid #dedbd3; border-radius: 6px; }
+  .peak-enrichment-prompt small { color: #777; font-size: 10px; }
+  .peak-enrichment-prompt p { margin: 8px 0 0; font-size: 12px; line-height: 1.55; }
+  .peak-enrichment-upload { display: grid; min-height: 212px; align-content: center; justify-items: center; gap: 12px; margin: 14px; padding: 18px; border: 1px dashed #bfc7e3; border-radius: 6px; background: #f7f8fc; text-align: center; }
+  .peak-enrichment-upload svg { color: #2845d6; }
+  .peak-enrichment-upload strong { font-size: 14px; }
+  .peak-enrichment-upload span { padding: 6px 9px; border-radius: 99px; background: #edf6ef; color: #377348; font-size: 10px; }
+  .peak-enrichment-panel footer { padding: 14px; color: #666; font-size: 10px; line-height: 1.5; }
+  .peak-enrichment-caption { margin: 12px 0 0; color: #777; font-size: 10px; }
+</style>

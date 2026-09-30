@@ -35,6 +35,8 @@ const carreCocoLogo = readFileSync(resolve(projectRoot, "public/assets/customer-
 const colinePortrait = readFileSync(resolve(projectRoot, "public/assets/testimonials/coline-leleu-carre-coco.webp")).toString("base64");
 const duBruitLogo = readFileSync(resolve(projectRoot, "public/mirror/6a02fb70081b921fb9432b84_Du-Bruit-Dans-La-Cuisine-Black-logo-7899ce298c.png")).toString("base64");
 const duBruitStorefront = readFileSync(resolve(projectRoot, "public/assets/testimonials/du-bruit-dans-la-cuisine-storefront.webp")).toString("base64");
+const uniqueWholefoodLogo = readFileSync(resolve(projectRoot, "public/assets/customer-logos/unique-wholefood.webp")).toString("base64");
+const uniqueWholefoodStore = readFileSync(resolve(projectRoot, "public/assets/testimonials/unique-wholefood-store.webp")).toString("base64");
 const spaceGrotesk = readFileSync(resolve(projectRoot, "public/mirror/fonts/V8mDoQDjQSkFtoMM3T6r8E7mPbF4Cw-4ecc7e89b7.woff2")).toString("base64");
 const inter = readFileSync(resolve(projectRoot, "public/mirror/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7-6ab57b19c6.woff2")).toString("base64");
 
@@ -166,6 +168,15 @@ for (const feature of featurePages) {
 }
 
 const customerStories = [
+  {
+    slug: "unique-wholefood-customer-story",
+    title: "Enriching 10,000+ products with Peak PIM",
+    detail: "Bulk operations, field-specific AI, and faster image uploads for Unique Wholefood.",
+    caption: "Unique Wholefood · Australia",
+    logo: uniqueWholefoodLogo,
+    logoMime: "image/webp",
+    portrait: uniqueWholefoodStore,
+  },
   {
     slug: "maeli-paris-customer-story",
     title: "How Maéli Paris gets hours back every week",

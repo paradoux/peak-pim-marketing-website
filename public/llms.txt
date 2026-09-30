@@ -76,6 +76,7 @@ Pricing last reviewed on 2026-09-24. The pricing page is the source of truth.
 - [How Carré Coco manages B2B and B2C catalogs with Peak PIM](https://peak-pim.com/customers/carre-coco/)
 - [How House of Staunton manages three Shopify stores with Peak PIM](https://peak-pim.com/customers/house-of-staunton/)
 - [How Du Bruit dans la Cuisine centralizes product content with Peak PIM](https://peak-pim.com/customers/du-bruit-dans-la-cuisine/)
+- [How Unique Wholefood enriches 10,000+ products with Peak PIM](https://peak-pim.com/customers/unique-wholefood/): Bulk operations, field-specific AI descriptions and custom-field copy, and faster image uploads.
 
 ## Comparisons
 
@@ -120,6 +121,7 @@ Pricing last reviewed on 2026-09-24. The pricing page is the source of truth.
 - [Cas client Carré Coco](https://peak-pim.com/fr/clients/carre-coco/)
 - [Comment House of Staunton gère trois boutiques Shopify avec Peak PIM](https://peak-pim.com/fr/clients/house-of-staunton/)
 - [Comment Du Bruit dans la Cuisine centralise son contenu produit avec Peak PIM](https://peak-pim.com/fr/clients/du-bruit-dans-la-cuisine/)
+- [Comment Unique Wholefood enrichit plus de 10 000 produits](https://peak-pim.com/fr/clients/unique-wholefood/)
 - [Peak PIM face à Akeneo](https://peak-pim.com/fr/comparatif/akeneo/)
 - [Peak PIM face à Catsy](https://peak-pim.com/fr/comparatif/catsy/)
 - [Peak PIM face à Plytix](https://peak-pim.com/fr/comparatif/plytix/)
@@ -172,6 +174,7 @@ Pricing last reviewed on 2026-09-24. The pricing page is the source of truth.
 - [So verwaltet Carré Coco die Kataloge B2B und B2C | Peak PIM](https://peak-pim.com/de/kunden/carre-coco/)
 - [Wie House of Staunton drei Shopify-Shops mit Peak PIM verwaltet](https://peak-pim.com/de/kunden/house-of-staunton/)
 - [Wie Du Bruit dans la Cuisine Produktinhalte mit Peak PIM zentralisiert](https://peak-pim.com/de/kunden/du-bruit-dans-la-cuisine/)
+- [Wie Unique Wholefood über 10.000 Produkte anreichert](https://peak-pim.com/de/kunden/unique-wholefood/)
 
 ## Pages in Español
 
@@ -215,6 +218,7 @@ Pricing last reviewed on 2026-09-24. The pricing page is the source of truth.
 - [Cómo gestiona Carré Coco los catálogos B2B y B2C | Peak PIM](https://peak-pim.com/es/clientes/carre-coco/)
 - [Cómo House of Staunton gestiona tres tiendas Shopify con Peak PIM](https://peak-pim.com/es/clientes/house-of-staunton/)
 - [Cómo Du Bruit dans la Cuisine centraliza el contenido de producto con Peak PIM](https://peak-pim.com/es/clientes/du-bruit-dans-la-cuisine/)
+- [Cómo Unique Wholefood enriquece más de 10.000 productos](https://peak-pim.com/es/clientes/unique-wholefood/)
 
 ## Pages in Italiano
 
@@ -258,6 +262,7 @@ Pricing last reviewed on 2026-09-24. The pricing page is the source of truth.
 - [Come Carré Coco gestisce i cataloghi B2B e B2C | Peak PIM](https://peak-pim.com/it/clienti/carre-coco/)
 - [Come House of Staunton gestisce tre negozi Shopify con Peak PIM](https://peak-pim.com/it/clienti/house-of-staunton/)
 - [Come Du Bruit dans la Cuisine centralizza i contenuti di prodotto con Peak PIM](https://peak-pim.com/it/clienti/du-bruit-dans-la-cuisine/)
+- [Come Unique Wholefood arricchisce oltre 10.000 prodotti](https://peak-pim.com/it/clienti/unique-wholefood/)
 
 ## Pages in Nederlands
 
@@ -301,6 +306,7 @@ Pricing last reviewed on 2026-09-24. The pricing page is the source of truth.
 - [Hoe Carré Coco de catalogi B2B en B2C beheert | Peak PIM](https://peak-pim.com/nl/klanten/carre-coco/)
 - [Hoe House of Staunton drie Shopify-winkels beheert met Peak PIM](https://peak-pim.com/nl/klanten/house-of-staunton/)
 - [Hoe Du Bruit dans la Cuisine productcontent centraliseert met Peak PIM](https://peak-pim.com/nl/klanten/du-bruit-dans-la-cuisine/)
+- [Hoe Unique Wholefood meer dan 10.000 producten verrijkt](https://peak-pim.com/nl/klanten/unique-wholefood/)
 
 ## Pages in Português (Brasil)
 
@@ -344,6 +350,7 @@ Pricing last reviewed on 2026-09-24. The pricing page is the source of truth.
 - [Como Carré Coco gerencia catálogos B2B e B2C | Peak PIM](https://peak-pim.com/pt-br/clientes/carre-coco/)
 - [Como a House of Staunton gerencia três lojas Shopify com o Peak PIM](https://peak-pim.com/pt-br/clientes/house-of-staunton/)
 - [Como a Du Bruit dans la Cuisine centraliza o conteúdo de produtos com o Peak PIM](https://peak-pim.com/pt-br/clientes/du-bruit-dans-la-cuisine/)
+- [Como a Unique Wholefood enriquece mais de 10.000 produtos](https://peak-pim.com/pt-br/clientes/unique-wholefood/)
 
 ## Pages in Polski
 
@@ -387,6 +394,7 @@ Pricing last reviewed on 2026-09-24. The pricing page is the source of truth.
 - [Jak Carré Coco zarządza katalogami B2B i B2C | Peak PIM](https://peak-pim.com/pl/klienci/carre-coco/)
 - [Jak House of Staunton zarządza trzema sklepami Shopify w Peak PIM](https://peak-pim.com/pl/klienci/house-of-staunton/)
 - [Jak Du Bruit dans la Cuisine centralizuje treści produktowe w Peak PIM](https://peak-pim.com/pl/klienci/du-bruit-dans-la-cuisine/)
+- [Jak Unique Wholefood wzbogaca ponad 10 000 produktów](https://peak-pim.com/pl/klienci/unique-wholefood/)
 
 ## Pages in 日本語
 
@@ -430,6 +438,7 @@ Pricing last reviewed on 2026-09-24. The pricing page is the source of truth.
 - [Carré Coco が B2B および B2C カタログを管理する方法 | Peak PIM](https://peak-pim.com/ja/customers/carre-coco/)
 - [House of Staunton が Peak PIM で3つのShopifyストアを管理する方法](https://peak-pim.com/ja/customers/house-of-staunton/)
 - [Du Bruit dans la Cuisine が Peak PIM で商品コンテンツを一元管理する方法](https://peak-pim.com/ja/customers/du-bruit-dans-la-cuisine/)
+- [Unique Wholefoodが10,000点以上の商品情報を充実させる方法](https://peak-pim.com/ja/jirei/unique-wholefood/)
 
 ## Company
 

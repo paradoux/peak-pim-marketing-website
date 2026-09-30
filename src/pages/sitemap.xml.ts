@@ -83,6 +83,7 @@ export async function GET() {
     { slug: "customers/carre-coco", source: "src/pages/customers/carre-coco.astro" },
     { slug: "customers/house-of-staunton", source: "src/pages/customers/house-of-staunton.astro" },
     { slug: "customers/du-bruit-dans-la-cuisine", source: "src/pages/customers/du-bruit-dans-la-cuisine.astro" },
+    { slug: "customers/unique-wholefood", source: "src/pages/customers/unique-wholefood.astro" },
   ].map((page) => ({ url: canonicalUrl(page.slug), lastModified: sourceLastModified(page.source) }));
   const articleEntries = articles.map((entry) => ({
     url: entryUrl("articles", entry),

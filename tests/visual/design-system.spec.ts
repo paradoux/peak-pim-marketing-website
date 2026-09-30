@@ -24,6 +24,7 @@ const pages = [
   { name: "carre-coco-customer-story", path: "/customers/carre-coco" },
   { name: "house-of-staunton-customer-story", path: "/customers/house-of-staunton" },
   { name: "du-bruit-customer-story", path: "/customers/du-bruit-dans-la-cuisine" },
+  { name: "unique-wholefood-customer-story", path: "/customers/unique-wholefood" },
 ] as const;
 
 const viewports = [
@@ -85,13 +86,14 @@ test("customers menu · House of Staunton use case fits and links from the share
     await toggle.press("Enter");
     await expect(toggle).toHaveAttribute("aria-expanded", "true");
     const stories = header.locator(".customers-mega-menu__stories");
-    await expect(stories.locator(".customers-mega-menu__story-link")).toHaveCount(4);
-    const link = stories.locator('.customers-mega-menu__story-link[href="/customers/house-of-staunton/"]');
+    await expect(stories.locator(".customers-mega-menu__story-link")).toHaveCount(5);
+    const customerPath = target.path.startsWith("/fr/") ? "/fr/clients/" : "/customers/";
+    const link = stories.locator(`.customers-mega-menu__story-link[href="${customerPath}house-of-staunton/"]`);
     await expect(link).toBeVisible();
     await expect(link.locator(".customers-mega-menu__story-image > img")).toHaveAttribute("src", "/assets/testimonials/house-of-staunton-chess.png");
     await expect(link.locator(".customers-mega-menu__story-logo img")).toHaveAttribute("alt", "House of Staunton");
     await expect(link.locator(".customers-mega-menu__story-content > span:not(.customers-mega-menu__action)")).toHaveText(target.description);
-    const duBruitLink = stories.locator('.customers-mega-menu__story-link[href="/customers/du-bruit-dans-la-cuisine/"]');
+    const duBruitLink = stories.locator(`.customers-mega-menu__story-link[href="${customerPath}du-bruit-dans-la-cuisine/"]`);
     await expect(duBruitLink).toBeVisible();
     await expect(duBruitLink.locator(".customers-mega-menu__story-image > img")).toHaveAttribute("src", "/assets/testimonials/du-bruit-dans-la-cuisine-storefront.webp");
     await expect(duBruitLink.locator(".customers-mega-menu__story-logo img")).toHaveAttribute("alt", "Du Bruit dans la Cuisine");
@@ -102,7 +104,7 @@ test("customers menu · House of Staunton use case fits and links from the share
       expect(await link.evaluate((element) => element.getBoundingClientRect().bottom)).toBeLessThanOrEqual(1000);
     }
     await link.click();
-    await expect(page).toHaveURL(/\/customers\/house-of-staunton\/$/);
+    await expect.poll(() => new URL(page.url()).pathname).toBe(`${customerPath}house-of-staunton/`);
   }
 });
 

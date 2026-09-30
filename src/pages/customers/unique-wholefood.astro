@@ -1,0 +1,168 @@
+---
+import CtaBanner from "../../components/sections/CtaBanner.astro";
+import CustomerStoryChapter from "../../components/sections/CustomerStoryChapter.astro";
+import CustomerStoryHero from "../../components/sections/CustomerStoryHero.astro";
+import CustomerStoryStats from "../../components/sections/CustomerStoryStats.astro";
+import Faq from "../../components/sections/Faq.astro";
+import FeatureGrid from "../../components/sections/FeatureGrid.astro";
+import ProblemGrid from "../../components/sections/ProblemGrid.astro";
+import Testimonial from "../../components/sections/Testimonial.astro";
+import UniqueWholefoodEnrichmentVisual from "../../components/visuals/UniqueWholefoodEnrichmentVisual.astro";
+import { assets } from "../../data/assets";
+import { ctaLabels } from "../../data/cta-copy";
+import LandingPageLayout from "../../layouts/LandingPageLayout.astro";
+
+// Evidence and claim boundaries: docs/customer-stories/unique-wholefood.md.
+const appStoreUrl = "https://apps.shopify.com/peak-pim";
+const canonicalPath = "/customers/unique-wholefood";
+const title = "How Unique Wholefood Enriches 10,000+ Products | Peak PIM";
+const description = "See how Unique Wholefood brings bulk editing, AI descriptions, custom fields, and image uploads into Peak PIM to enrich a Shopify catalog of 10,000+ products.";
+const quote = "The AI features make it soo simple to generate descriptions and copy for custom fields at a push of a button so definitely would recommend to anyone who has thousands of products to enrich.";
+
+const stats = [
+  { value: "10,000+", title: "Products to manage and enrich", description: "Unique Wholefood manages more than 10,000 products, with bulk operations that still feel familiar to a Shopify user." },
+  { value: "Field by field", title: "AI shaped around the content", description: "Descriptions and custom fields each get their own prompts, so enrichment follows the information that belongs in each field." },
+  { value: "Copy + paste", title: "A shorter path to product images", description: "Supplier images can be pasted directly onto product pages for instant uploads. Unique Wholefood highlights this as a major time-saver." },
+];
+
+const previousWorkflow = [
+  { icon: "edit", title: "Draft products needed enrichment", description: "New products started in the point-of-sale system and reached Shopify as drafts. Short titles, descriptions, and structured product details still needed work." },
+  { icon: "grid", title: "Content crossed several tools", description: "Unique Wholefood used Airtable, SyncBase, and Make workflows to prepare product information and send it back to Shopify." },
+  { icon: "review", title: "One prompt could not do every job", description: "Product descriptions and individual fields needed different instructions. The team wanted to configure and rerun each prompt inside the catalog." },
+];
+
+const outcomes = [
+  { icon: "edit", title: "Bulk work feels familiar", description: "Unique Wholefood describes bulk operations as intuitive while staying faithful to the Shopify backend experience the team already knows." },
+  { icon: "grid", title: "Enrichment stays with the product", description: "AI descriptions, custom-field copy, and images can be prepared in Peak PIM, alongside the product and variant data they belong to." },
+  { icon: "clock", title: "Small actions save repeated effort", description: "Pasting an image directly onto a product removes a recurring upload step. Across a large catalog, Unique Wholefood reports that this saves the team time." },
+  { icon: "review", title: "Support follows the real workflow", description: "From SyncBase to Peak PIM, Unique Wholefood worked directly with the BREBIA team to test its catalog workflow and get help when issues came up." },
+];
+
+const faqItems = [
+  { question: "How large is Unique Wholefood's product catalog?", answer: "Unique Wholefood manages more than 10,000 products. The story focuses on enriching that catalog with bulk operations, AI-generated copy, and easier image uploads." },
+  { question: "What did the previous enrichment workflow look like?", answer: "New products arrived in Shopify as drafts from the point-of-sale system. Unique Wholefood used Airtable, SyncBase, and Make to correct and enrich product information, with the goal of bringing daily catalog work into Peak PIM." },
+  { question: "How does Unique Wholefood use AI for product enrichment?", answer: "Unique Wholefood uses AI to generate product descriptions and copy for custom fields. Field-specific prompts can be tested and adjusted for the content being prepared." },
+  { question: "How does copying and pasting product images help?", answer: "The team can copy an image from a supplier website and paste it directly onto a product page for an instant upload. Unique Wholefood's review highlights this as a significant time-saver." },
+  { question: "How is Unique Wholefood moving daily catalog work out of Airtable?", answer: "During the September workflow review, Unique Wholefood's online operations manager confirmed that his daily catalog tasks could be handled in Peak PIM without returning to Airtable. The company's latest review highlights the bulk operations, AI enrichment, and image workflow behind that shift." },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question", name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
+const reviewSchema = {
+  "@context": "https://schema.org",
+  "@type": "Review",
+  author: { "@type": "Person", name: "Wayne Choga", jobTitle: "Online Operations Manager", worksFor: { "@type": "Organization", name: "Unique Wholefood" } },
+  reviewBody: quote,
+  reviewRating: { "@type": "Rating", ratingValue: 5, bestRating: 5 },
+  itemReviewed: { "@id": "https://peak-pim.com/#software" },
+};
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://peak-pim.com/" },
+    { "@type": "ListItem", position: 2, name: "Unique Wholefood customer story", item: "https://peak-pim.com/customers/unique-wholefood/" },
+  ],
+};
+---
+
+<LandingPageLayout
+  title={title}
+  description={description}
+  canonicalPath={canonicalPath}
+  schemaType="Article"
+  schema={{
+    headline: title,
+    articleSection: "Customer stories",
+    image: `https://peak-pim.com${assets.testimonials.uniqueWholefoodStore}`,
+    author: { "@type": "Organization", name: "Peak PIM", url: "https://peak-pim.com/" },
+    about: { "@type": "Organization", name: "Unique Wholefood", url: "https://www.uniquewholefood.com.au/" },
+  }}
+  additionalSchemas={[reviewSchema, breadcrumbSchema, faqSchema]}
+  ogTitle="Unique Wholefood: product enrichment at scale"
+  ogDescription="10,000+ products. Bulk operations, field-specific AI, and image uploads in one Shopify-native catalog workflow."
+  ogImage={assets.marketing.customerStories.uniqueWholefoodOg}
+>
+  <CustomerStoryHero
+    title="How Unique Wholefood enriches 10,000+ products"
+    description="Unique Wholefood brings descriptions, custom fields, and images into one Peak PIM workflow, moving daily product enrichment out of Airtable."
+    image={assets.testimonials.uniqueWholefoodStore}
+    imageAlt="Fresh produce and stocked grocery shelves inside Unique Wholefood"
+    imageCaption="Unique Wholefood, Australia"
+    companyLogo={assets.customerLogos.light.uniqueWholefood}
+    companyName="Unique Wholefood"
+    primaryCta={{ label: ctaLabels.tryFree, href: appStoreUrl, external: true }}
+    secondaryCta={{ label: ctaLabels.seeHowItWorks, href: "#story" }}
+  />
+
+  <CustomerStoryStats title="Product enrichment built for a catalog that keeps growing" items={stats} />
+
+  <ProblemGrid
+    tagline="Before Peak PIM"
+    title="Every new product meant more than a new listing"
+    description="For Australian grocer Unique Wholefood, getting a product into Shopify was only the start. The team still needed to turn incoming data into useful product content."
+    items={previousWorkflow}
+  />
+
+  <Testimonial quote={quote} name="Wayne Choga" role="Online Operations Manager, Unique Wholefood" image={assets.testimonials.wayneChoga} />
+
+  <CustomerStoryChapter
+    id="story"
+    title="Start with the products that need work"
+    lead="A large catalog becomes easier to handle when the right products, variants, and fields are in the same working view."
+    tagline="Bulk operations"
+    cardTitle="Bring draft products into a familiar editing workflow"
+    body="Unique Wholefood receives draft products from its point-of-sale system. In Peak PIM, the team can filter by collection, choose the columns it needs, and work with product and variant data together. The company's review describes bulk operations across 10,000+ products as intuitive and faithful to the Shopify backend experience."
+    link={{ label: ctaLabels.learnMore, href: "/bulk-edit" }}
+  >
+    <UniqueWholefoodEnrichmentVisual slot="visual" view="bulk" />
+  </CustomerStoryChapter>
+
+  <CustomerStoryChapter
+    title="Give every field the right AI instructions"
+    lead="A product description and a custom field serve different purposes. Unique Wholefood needed a dedicated prompt and generation action for each."
+    tagline="AI enrichment"
+    cardTitle="Keep prompts beside the content they create"
+    body="The earlier workflow sent enrichment tasks through Airtable and Make. Unique Wholefood worked with the Peak PIM team to configure prompts for individual fields, test the results, and generate content where it is needed. By September, the company was testing conditional prompts for specific vendors and collections. Its latest review confirms that descriptions and custom-field copy are now simple to generate at the push of a button."
+    reverse
+    link={{ label: ctaLabels.learnMore, href: "/shopify-custom-fields" }}
+  >
+    <UniqueWholefoodEnrichmentVisual slot="visual" view="ai" />
+  </CustomerStoryChapter>
+
+  <CustomerStoryChapter
+    title="Add supplier images without the upload detour"
+    lead="Enrichment is visual, too. Repeating a small upload task thousands of times makes it worth simplifying."
+    tagline="Product images"
+    cardTitle="Copy the image, paste it onto the product"
+    body="Unique Wholefood tested image copy and paste directly in Peak PIM during the September workflow review. The company's latest review recommends it to other resellers: copy an image from a supplier website and paste it onto the product page for an instant upload. This simple action saves the team a significant amount of time."
+    link={{ label: ctaLabels.learnMore, href: "/shopify-media-management" }}
+  >
+    <UniqueWholefoodEnrichmentVisual slot="visual" view="media" />
+  </CustomerStoryChapter>
+
+  <FeatureGrid
+    tagline="The day-to-day difference"
+    title="One place to turn product data into product content"
+    description="The shift is practical: fewer trips between tools, familiar bulk operations, and enrichment that stays inside the catalog workflow."
+    features={outcomes}
+    cta={{ label: ctaLabels.learnMore, href: "/shopify-product-management" }}
+  />
+
+  <CtaBanner
+    title="Make product enrichment part of your daily workflow"
+    description="Bring bulk editing, product content, custom fields, and media into one Shopify-native PIM."
+    primaryLabel={ctaLabels.tryFree}
+    primaryHref={appStoreUrl}
+    secondaryLabel={ctaLabels.bookDemo}
+    trustLine="10-day free trial. Free setup. No credit card."
+  />
+
+  <Faq title="Frequently asked questions" description="How Unique Wholefood brings product enrichment into its daily catalog work." items={faqItems} />
+</LandingPageLayout>

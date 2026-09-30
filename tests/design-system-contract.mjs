@@ -515,6 +515,31 @@ if (existsSync(duBruitStoryFile) && existsSync(duBruitStoryImage)) {
   failures.push("Du Bruit dans la Cuisine customer story or its Open Graph image is missing");
 }
 
+const uniqueWholefoodFile = resolve(projectRoot, "dist/customers/unique-wholefood/index.html");
+const uniqueWholefoodImage = resolve(projectRoot, "public/assets/og/unique-wholefood-customer-story.png");
+if (existsSync(uniqueWholefoodFile) && existsSync(uniqueWholefoodImage)) {
+  const html = readFileSync(uniqueWholefoodFile, "utf8");
+  const mainHtml = html.match(/<main\b[\s\S]*?<\/main>/i)?.[0] ?? "";
+  const schemas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((match) => JSON.parse(match[1]));
+  const review = schemas.find((entry) => entry["@type"] === "Review");
+  const image = readFileSync(uniqueWholefoodImage);
+  if (image.readUInt32BE(16) !== 1200 || image.readUInt32BE(20) !== 630) failures.push("Unique Wholefood social image must be 1200 × 630");
+  if (!html.includes('rel="canonical" href="https://peak-pim.com/customers/unique-wholefood/"')) failures.push("Unique Wholefood canonical URL is incorrect");
+  if (!html.includes('property="og:image" content="https://peak-pim.com/assets/og/unique-wholefood-customer-story.png"')) failures.push("Unique Wholefood social image is missing");
+  if (review?.author?.name !== "Wayne Choga" || review?.reviewRating?.ratingValue !== 5 || !mainHtml.includes(review?.reviewBody)) failures.push("Unique Wholefood Review schema must match Wayne's visible five-star testimonial");
+  if (!review?.reviewBody?.includes("The AI features make it soo simple to generate descriptions and copy for custom fields")) failures.push("Wayne's supplied quote must retain its original wording");
+  if (!schemas.some((entry) => entry["@type"] === "Article" && entry.about?.name === "Unique Wholefood")) failures.push("Unique Wholefood Article schema is missing");
+  if (!schemas.some((entry) => entry["@type"] === "FAQPage" && entry.mainEntity?.length === 5)) failures.push("Unique Wholefood FAQ schema is missing");
+  for (const fact of ["10,000+", "Field by field", "Copy + paste", "Airtable", "Illustrative workflow"]) {
+    if (!mainHtml.includes(fact)) failures.push(`Unique Wholefood is missing verified workflow context: ${fact}`);
+  }
+  for (const privateValue of ["app.notion.com", "docs.google.com/document", "@uniquewholefood.com.au", "63b26559-1942-47c8-b47b-22ea593370bc"]) {
+    if (mainHtml.includes(privateValue)) failures.push(`Unique Wholefood must not publish internal CRM data: ${privateValue}`);
+  }
+} else {
+  failures.push("Unique Wholefood customer story or social image is missing");
+}
+
 const rolesPermissionsFile = resolve(projectRoot, "dist/user-roles-permissions/index.html");
 if (existsSync(rolesPermissionsFile)) {
   const html = readFileSync(rolesPermissionsFile, "utf8");

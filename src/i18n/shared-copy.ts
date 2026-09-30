@@ -1,6 +1,8 @@
 import type { Locale } from "./config";
 
 const frenchSharedCopy: Record<string, string> = {
+  "Enrich 10,000+ products with bulk editing and AI.": "Enrichissez plus de 10 000 produits grâce à la modification en bloc et à l'IA.",
+  "Fresh produce and stocked grocery shelves inside Unique Wholefood": "Fruits, légumes et rayons d'épicerie dans un magasin Unique Wholefood",
   "Features": "Fonctionnalités",
   "One Shopify PIM. Every catalog workflow.": "Un PIM Shopify pour tous vos workflows catalogue.",
   "Connect all your stores, plug in your stack, and run your entire catalog from one place.": "Connectez toutes vos boutiques et vos outils, puis pilotez l'ensemble du catalogue depuis un seul endroit.",

@@ -19,6 +19,7 @@ export const assets = {
       carreCocoOg: "/assets/og/carre-coco-customer-story.png",
       houseOfStauntonOg: "/assets/og/house-of-staunton-customer-story.png",
       duBruitDansLaCuisineOg: "/assets/og/du-bruit-dans-la-cuisine-customer-story.png",
+      uniqueWholefoodOg: "/assets/og/unique-wholefood-customer-story.png",
     },
     featureOg: {
       "/ai-assistant": "/assets/og/ai-assistant.png",
@@ -49,6 +50,8 @@ export const assets = {
     shawnHouseOfStaunton: "/assets/testimonials/shawn-house-of-staunton.jpeg",
     simonTordjman: "/assets/testimonials/simon-tordjman-du-bruit-dans-la-cuisine.webp",
     duBruitStorefront: "/assets/testimonials/du-bruit-dans-la-cuisine-storefront.webp",
+    uniqueWholefoodStore: "/assets/testimonials/unique-wholefood-store.webp",
+    wayneChoga: "/assets/testimonials/wayne-choga.png",
   },
   team: {
     foundersTechForRetail: "/assets/team/peak-pim-founders-tech-for-retail.jpg",
@@ -78,6 +81,7 @@ export const assets = {
       aurevia: "/mirror/6a2022daba6e562742a8d98d_Aurevia-Manufaktur-Black-logo-a712cea0b4.png",
       carreCoco: "/mirror/6a2023489b09ba0b5a155587_CARRE-COCO-Black-logo-a5636dbec3.png",
       carreCocoStory: "/assets/customer-logos/carre-coco.webp",
+      uniqueWholefood: "/assets/customer-logos/unique-wholefood.webp",
     },
     dark: {
       tupperware: "/mirror/6a02f7784cad7c89d80b12ca_Tupperware-White-logo-39553531c5.png",
