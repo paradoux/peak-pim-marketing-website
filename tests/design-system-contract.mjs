@@ -18,6 +18,9 @@ const requiredFiles = [
   "src/components/sections/LogoCloud.astro",
   "src/components/sections/ProblemGrid.astro",
   "src/components/sections/CardGrid.astro",
+  "src/components/sections/IntegrationEcosystem.astro",
+  "src/components/sections/IntegrationIntroduction.astro",
+  "src/components/visuals/IntegrationLogoGroup.astro",
   "src/components/sections/FeatureSteps.astro",
   "src/components/sections/FeatureGrid.astro",
   "src/components/sections/Testimonial.astro",
@@ -138,6 +141,9 @@ const canonicalContracts = {
   "src/components/sections/DecisionGuide.astro": ["peak-decision-guide", "section_layout4", "layout4_content", "layout4_item-list"],
   "src/components/sections/CustomerStoryHero.astro": ["peak-customer-story-hero", "section_header84", "header84_card", "heading-style-h1"],
   "src/components/sections/CustomerStoryStats.astro": ["peak-customer-story-stats", "section_stats26", "stats26_list", "stats26_number"],
+  "src/components/sections/IntegrationEcosystem.astro": ["CardGrid", "IntegrationLogoGroup", 'id="integration-ecosystem"'],
+  "src/components/sections/IntegrationIntroduction.astro": ["layout1_content", "IntegrationLogoGroup", 'id="integrations"', 'href="/custom-integrations"'],
+  "src/components/visuals/IntegrationLogoGroup.astro": ["assets.integrationLogos", "Custom integration", "Coming soon", "Native", "data-i18n-skip"],
   "src/components/sections/SocialProofStats.astro": ["peak-social-proof-stats", "peak-social-proof-stats__numbers", "peak-social-proof-stats__logos", "section_stats26", "nofollow noopener"],
   "src/components/sections/CustomerStoryChapter.astro": ["peak-customer-story-chapter", "section_layout358", "layout358_card", "layout358_image-wrapper", "heading-style-h3"],
 };
@@ -689,11 +695,11 @@ if (existsSync(homeFile)) {
   if (!customerStoryHtml.includes(">See use case</a>")) failures.push("The homepage Maéli Paris customer story must use the approved See use case CTA");
   if (!customerStoryHtml.includes('src="/assets/testimonials/amelie-samson-maeli-paris.webp"')) failures.push("The homepage Maéli Paris customer story is missing Amélie's registered portrait");
   if (!customerStoryHtml.includes('src="/mirror/6a02fa863eea804db7dc36f9_Maeli-Black-logo-138c12bb52.png"')) failures.push("The homepage Maéli Paris customer story is missing the registered company logo");
-  for (const fact of ["50+", "210+", "1,455,000"]) {
+  for (const fact of ["70+", "240+", "1,650,000"]) {
     if (!socialProofHtml.includes(fact)) failures.push(`The homepage social-proof section is missing verified fact: ${fact}`);
   }
-  if ((socialProofHtml.match(/class="peak-social-proof-stats__logo-link"/g) ?? []).length !== 6) failures.push("The homepage social-proof section must contain six linked customer logos");
-  if ((socialProofHtml.match(/rel="nofollow noopener"/g) ?? []).length !== 6) failures.push("Every homepage social-proof logo link must use nofollow and noopener");
+  if ((socialProofHtml.match(/class="peak-social-proof-stats__logo-link(?: [^"]*)?"/g) ?? []).length !== 6) failures.push("The homepage social-proof section must contain six linked customer logos");
+  if ((socialProofHtml.match(/rel="nofollow noopener"/g) ?? []).length !== 4) failures.push("External homepage social-proof logo links must use nofollow and noopener");
   const setupIndex = html.indexOf('<section class="section_layout121 color-scheme-1">');
   const pricingIndex = html.indexOf('<section class="section_pricing2 color-scheme-1">');
   const customerStoryIndex = html.indexOf('<header class="section_header84 peak-customer-story-hero');
@@ -753,10 +759,10 @@ if (existsSync(pricingFile)) {
   if (html.includes("unlimited stores")) failures.push("Pricing page still contains the outdated unlimited-stores claim");
   if (html.includes("next billing cycle")) failures.push("Pricing schema conflicts with the visible plan-change policy");
   if (!schema.offers?.every((offer) => offer.availability === "https://schema.org/InStock")) failures.push("Pricing schema does not describe the live plans as available");
-  for (const fact of ["50+", "210+", "1,455,000"]) {
+  for (const fact of ["70+", "240+", "1,650,000"]) {
     if (!socialProofHtml.includes(fact)) failures.push(`The pricing social-proof section is missing verified fact: ${fact}`);
   }
-  if ((socialProofHtml.match(/class="peak-social-proof-stats__logo-link"/g) ?? []).length !== 6) failures.push("The pricing social-proof section must contain six linked customer logos");
+  if ((socialProofHtml.match(/class="peak-social-proof-stats__logo-link(?: [^"]*)?"/g) ?? []).length !== 6) failures.push("The pricing social-proof section must contain six linked customer logos");
   const pricingTableIndex = html.indexOf('class="pricing54_plans"');
   const pricingProofIndex = html.indexOf('<section class="section_stats26 peak-social-proof-stats');
   const pricingFaqIndex = html.indexOf('<section class="section_faq1 color-scheme-1">');
@@ -1007,7 +1013,7 @@ for (const slug of homepageLogoBannerPages) {
 
   if (!bannerHtml) failures.push(`/${slug} is missing the homepage logo banner`);
   if ((mainHtml.match(/\bsection_logo3\b/g) ?? []).length) failures.push(`/${slug} still contains the retired scrolling logo banner`);
-  if (!bannerHtml.includes(">Trusted by 50+ top merchants worldwide</h2>")) failures.push(`/${slug} does not use the homepage logo-banner heading`);
+  if (!bannerHtml.includes(">Trusted by 70+ top merchants worldwide</h2>")) failures.push(`/${slug} does not use the homepage logo-banner heading`);
   if (bannerClassCount("logo2_wrapper") !== 12) failures.push(`/${slug} does not use the homepage twelve-logo set`);
   if (bannerClassCount("logo2_link") !== 12) failures.push(`/${slug} does not link every homepage customer logo`);
   if ((bannerHtml.match(/rel="nofollow noopener"/g) ?? []).length !== 8) failures.push(`/${slug} external customer-logo links are missing nofollow and noopener`);
@@ -1089,10 +1095,10 @@ for (const placement of [
   const proofMatches = html.match(/<section class="section_stats26 peak-social-proof-stats[\s\S]*?<\/section>/g) ?? [];
   const proofHtml = proofMatches[0] ?? "";
   if (proofMatches.length !== 1) failures.push(`${placement.path} must contain exactly one account social-proof section`);
-  for (const fact of ["50+", "210+", "1,455,000"]) {
+  for (const fact of ["70+", "240+", "1,650,000"]) {
     if (!proofHtml.includes(fact)) failures.push(`${placement.path} social proof is missing verified fact: ${fact}`);
   }
-  if ((proofHtml.match(/class="peak-social-proof-stats__logo-link"/g) ?? []).length !== 6) failures.push(`${placement.path} social proof must contain six linked customer logos`);
+  if ((proofHtml.match(/class="peak-social-proof-stats__logo-link(?: [^"]*)?"/g) ?? []).length !== 6) failures.push(`${placement.path} social proof must contain six linked customer logos`);
 
   const beforeIndex = html.indexOf(placement.before);
   const proofIndex = html.indexOf('<section class="section_stats26 peak-social-proof-stats');

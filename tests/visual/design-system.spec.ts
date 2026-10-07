@@ -287,13 +287,13 @@ test("homepage · Maéli Paris customer story sits between pricing and the final
     await expect(story.locator("img").first()).toHaveAttribute("alt", "Maéli Paris");
     await expect(story.locator(".peak-customer-story-hero__image")).toHaveAttribute("src", "/assets/testimonials/amelie-samson-maeli-paris.webp");
     await expect(story.getByRole("link", { name: "See use case" })).toHaveAttribute("href", "/customers/maeli-paris/");
-    await expect(socialProof).toContainText("50+");
-    await expect(socialProof).toContainText("210+");
-    await expect(socialProof).toContainText("1,455,000");
+    await expect(socialProof).toContainText("70+");
+    await expect(socialProof).toContainText("240+");
+    await expect(socialProof).toContainText("1,650,000");
     await expect(socialProof).not.toContainText("Proven in real catalog workflows");
     await expect(socialProof).not.toContainText("Already operating their catalogs with Peak PIM.");
     await expect(socialProof.locator(".peak-social-proof-stats__logo-link")).toHaveCount(6);
-    expect(await socialProof.locator(".peak-social-proof-stats__logo-link").evaluateAll((links) => links.every((link) => (
+    expect(await socialProof.locator('.peak-social-proof-stats__logo-link[target="_blank"]').evaluateAll((links) => links.length === 4 && links.every((link) => (
       link.getAttribute("target") === "_blank" && link.getAttribute("rel") === "nofollow noopener"
     )))).toBe(true);
 
@@ -316,9 +316,9 @@ test("account proof · approved product, scale, comparison, and fashion pages re
     const proof = page.locator(".peak-social-proof-stats");
 
     await expect(proof).toHaveCount(1);
-    await expect(proof).toContainText("50+");
-    await expect(proof).toContainText("210+");
-    await expect(proof).toContainText("1,455,000");
+    await expect(proof).toContainText("70+");
+    await expect(proof).toContainText("240+");
+    await expect(proof).toContainText("1,650,000");
     await expect(proof.locator(".peak-social-proof-stats__logo-link")).toHaveCount(6);
 
     const orderIsCorrect = await page.evaluate(({ before, after }) => {
@@ -504,9 +504,9 @@ test("pricing · categorized feature matrix and accessible information controls"
     await expect(matrix.locator(".pricing-feature-name .feature-status-badge")).toHaveText(["New", "New", "New", "New", "New", "New", "New"]);
     await expect(matrix.locator(".pricing54_top-row-content .heading-style-h6")).toHaveText(["Basic", "Core", "Elite", "Enterprise"]);
     const socialProof = page.locator(".peak-social-proof-stats");
-    await expect(socialProof).toContainText("50+");
-    await expect(socialProof).toContainText("210+");
-    await expect(socialProof).toContainText("1,455,000");
+    await expect(socialProof).toContainText("70+");
+    await expect(socialProof).toContainText("240+");
+    await expect(socialProof).toContainText("1,650,000");
     await expect(socialProof.locator(".peak-social-proof-stats__logo-link")).toHaveCount(6);
     expect(await page.evaluate(() => {
       const matrixElement = document.querySelector(".pricing54_plans");
@@ -1298,7 +1298,7 @@ test("translations · logo strip matches the homepage and FAQ matches the featur
     animations: "disabled",
     maxDiffPixelRatio: 0.015,
   });
-  await expect(page.locator(".section_logo2 h2")).toHaveText("Trusted by 50+ top merchants worldwide");
+  await expect(page.locator(".section_logo2 h2")).toHaveText("Trusted by 70+ top merchants worldwide");
   await expect(page.locator(".section_faq1 h2")).toHaveText("Frequently asked questions");
 
   await prepare(page, "/shopify-media-management", 1440, 1000);
@@ -1307,7 +1307,7 @@ test("translations · logo strip matches the homepage and FAQ matches the featur
   await prepare(page, "/industry/fashion", 1440, 1000);
   expect(await page.evaluate(readStyles, selectors.slice(0, 2))).toEqual(translationStyles.slice(0, 2));
   await expect(page.locator(".section_logo2 .logo2_wrapper")).toHaveCount(12);
-  await expect(page.locator(".section_logo2 h2")).toHaveText("Trusted by 50+ top merchants worldwide");
+  await expect(page.locator(".section_logo2 h2")).toHaveText("Trusted by 70+ top merchants worldwide");
 });
 
 test("shared logo strip · customer case-study badges stay usable across responsive widths", async ({ page }) => {

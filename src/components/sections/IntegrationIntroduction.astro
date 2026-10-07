@@ -1,0 +1,25 @@
+---
+import Button from "../ui/Button.astro";
+import IntegrationLogoGroup from "../visuals/IntegrationLogoGroup.astro";
+import { ctaLabels } from "../../data/cta-copy";
+---
+
+<section id="integrations" class="section_layout1 peak-integration-introduction color-scheme-1">
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="padding-section-medium">
+        <div class="layout1_content">
+          <div>
+            <div class="margin-bottom margin-xsmall"><div class="text-style-tagline">Built around your business</div></div>
+            <div class="margin-bottom margin-small"><h2 class="heading-style-h3">Connect Peak to your whole stack</h2></div>
+            <p class="text-size-medium">From storefronts to fulfillment, connect the tools your team already uses.</p>
+            <div class="margin-top margin-medium"><div class="button-group"><Button href="/custom-integrations" variant="link">{ctaLabels.learnMore}</Button></div></div>
+          </div>
+          <div>
+            <IntegrationLogoGroup group="all" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

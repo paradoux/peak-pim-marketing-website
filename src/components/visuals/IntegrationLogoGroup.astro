@@ -1,0 +1,222 @@
+---
+import { assets } from "../../data/assets";
+import PeakIcon from "../ui/PeakIcon.astro";
+import Button from "../ui/Button.astro";
+import { ctaLabels } from "../../data/cta-copy";
+
+type Props = { group: "storefronts" | "marketplaces" | "operations" | "all" };
+const { group } = Astro.props;
+const groups = {
+  storefronts: [
+    { key: "shopify", name: "Shopify", status: "Native" },
+    { key: "prestashop", name: "PrestaShop" },
+    { key: "magento", name: "Magento" },
+    { key: "woocommerce", name: "WooCommerce" },
+  ],
+  marketplaces: [
+    { key: "amazon", name: "Amazon", status: "Coming soon" },
+    { key: "faire", name: "Faire" },
+    { key: "ankorstore", name: "Ankorstore" },
+    { key: "channable", name: "Channable" },
+    { key: "lengow", name: "Lengow" },
+  ],
+  operations: [
+    { key: "odoo", name: "Odoo" },
+    { key: "fulfil", name: "Fulfil.io" },
+    { key: "bigblue", name: "Bigblue" },
+    { key: "shipbob", name: "ShipBob" },
+    { key: "businessCentral", name: "Business Central" },
+    { key: "make", name: "Make" },
+    { key: "n8n", name: "n8n" },
+  ],
+} as const;
+const tools = group === "all" ? [...groups.storefronts, ...groups.marketplaces, ...groups.operations] : groups[group];
+---
+
+<ul class:list={["peak-integration-logos", { "peak-integration-logos--operations": group === "operations", "peak-integration-logos--compact": group === "all" }]}>
+  {tools.map((tool) => (
+    <li class:list={["peak-integration-logos__item", `peak-integration-logos__item--${tool.key}`]}>
+      <img src={assets.integrationLogos[tool.key]} alt={tool.name} loading="lazy" class="peak-integration-logos__image" data-i18n-skip />
+      {tool.key === "businessCentral" && <span class="peak-integration-logos__label" aria-hidden="true" data-i18n-skip>Business Central</span>}
+      {tool.key === "fulfil" && <span class="peak-integration-logos__wordmark" aria-hidden="true" data-i18n-skip>Fulfil.io</span>}
+      {group !== "all" && "status" in tool && <span class:list={["feature-status-badge", { "peak-integration-logos__native": tool.status === "Native" }]}>{tool.status}</span>}
+    </li>
+  ))}
+  {(group === "operations" || group === "all") && (
+    <li class="peak-integration-logos__item peak-integration-logos__custom">
+      {group !== "all" && <PeakIcon name="code" wrapperClass="icon-1x1-small w-embed" />}
+      <span>Custom integration</span>
+      {group === "all" && <Button href="#" variant="link" crisp>{ctaLabels.talkToUs}</Button>}
+    </li>
+  )}
+</ul>
+
+<style>
+  .peak-integration-logos {
+    display: grid;
+    grid-auto-rows: 4.5rem;
+    align-content: center;
+    width: 100%;
+    min-height: 18rem;
+    margin: 0;
+    padding: 2rem;
+    list-style: none;
+    background: var(--color-paper);
+  }
+
+  .peak-integration-logos--operations {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1rem;
+  }
+
+  .peak-integration-logos__item {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+  }
+
+  .peak-integration-logos__image {
+    display: block;
+    width: 8rem;
+    max-width: 100%;
+    height: 2rem;
+    object-fit: contain;
+    filter: grayscale(1) brightness(0);
+  }
+
+  .peak-integration-logos__item--prestashop .peak-integration-logos__image {
+    width: 10rem;
+  }
+
+  .peak-integration-logos__item--magento .peak-integration-logos__image {
+    width: 8rem;
+    height: 2.75rem;
+  }
+
+  .peak-integration-logos__item--odoo .peak-integration-logos__image {
+    width: 5.5rem;
+  }
+
+  .peak-integration-logos__item--fulfil .peak-integration-logos__image {
+    width: 1.4rem;
+  }
+
+  .peak-integration-logos__wordmark {
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .peak-integration-logos__item--businessCentral {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .peak-integration-logos__label {
+    font-size: 0.7rem;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  .peak-integration-logos__native {
+    background: #e2edcf;
+    color: #344d20;
+  }
+
+  .peak-integration-logos__custom {
+    grid-column: 1 / -1;
+    font-size: 0.9rem;
+  }
+
+  .peak-integration-logos--compact {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: none;
+    grid-auto-rows: minmax(3.5rem, auto);
+    gap: 1rem;
+    min-height: 0;
+    padding: 2rem;
+    border: 1px solid var(--color-scheme-1--border);
+    border-radius: 1rem;
+    background: var(--_primitives---colors--white);
+  }
+
+  .peak-integration-logos--compact .peak-integration-logos__item {
+    height: 3rem;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .peak-integration-logos--compact .peak-integration-logos__image {
+    width: 6rem;
+    height: 1.5rem;
+  }
+
+  .peak-integration-logos--compact .peak-integration-logos__item--magento .peak-integration-logos__image {
+    height: 2rem;
+  }
+
+  .peak-integration-logos--compact .peak-integration-logos__item--odoo .peak-integration-logos__image {
+    width: 4rem;
+  }
+
+  .peak-integration-logos--compact .peak-integration-logos__item--fulfil {
+    flex-direction: row;
+    gap: 0.3rem;
+  }
+
+  .peak-integration-logos--compact .peak-integration-logos__item--fulfil .peak-integration-logos__image {
+    width: 1rem;
+    flex: none;
+  }
+
+  .peak-integration-logos--compact .peak-integration-logos__wordmark {
+    font-size: 1rem;
+  }
+
+  .peak-integration-logos--compact .peak-integration-logos__custom {
+    height: auto;
+    grid-column: 1 / -1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-scheme-1--border);
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+
+  .peak-integration-logos--compact .peak-integration-logos__item--woocommerce .peak-integration-logos__image {
+    width: 3.75rem;
+  }
+
+  .peak-integration-logos--compact .peak-integration-logos__item--make .peak-integration-logos__image {
+    width: 4.5rem;
+  }
+
+  .peak-integration-logos--compact .peak-integration-logos__item--businessCentral .peak-integration-logos__image {
+    width: 1.75rem;
+    height: 1.75rem;
+    filter: grayscale(1);
+  }
+
+  @media (min-width: 992px) {
+    .peak-integration-logos--compact {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 767px) {
+    .peak-integration-logos {
+      padding: 1.5rem;
+    }
+
+    .peak-integration-logos--compact {
+      gap: 0.75rem;
+      padding: 1.25rem;
+    }
+  }
+</style>

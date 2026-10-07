@@ -23,7 +23,7 @@ function innerMatch(html: string, pattern: RegExp) {
   return html.match(pattern)?.[1] ?? "";
 }
 
-const sharedLogoBannerTitle = "Trusted by 50+ top merchants worldwide";
+const sharedLogoBannerTitle = "Trusted by 70+ top merchants worldwide";
 const sharedLogoDetails = [
   { source: "Tupperware-White-logo", optimizedSrc: assets.customerLogos.banner.tupperware, width: 145, height: 64, slug: "tupperware", name: "Tupperware", href: "https://www.tupperware.com/fr" },
   { source: "Mae-li-White-logo", optimizedSrc: assets.customerLogos.banner.maeli, width: 123, height: 54, slug: "maeli", name: "Maéli Paris", href: "/customers/maeli-paris/" },
@@ -90,6 +90,13 @@ const caseStudyCardsByLogo = {
   "us-chess-federation": usChessCaseStudyCardHtml,
   "house-of-staunton": houseOfStauntonCaseStudyCardHtml,
 } as const;
+
+export function getSharedLogoCaseStudy(href: string) {
+  const logo = sharedLogoDetails.find((logo) => logo.href === href);
+  if (!logo) return;
+  const html = caseStudyCardsByLogo[logo.slug as keyof typeof caseStudyCardsByLogo];
+  if (html) return { slug: logo.slug, html };
+}
 
 function findSharedLogo(tag: string) {
   return sharedLogoDetails.find(({ source, optimizedSrc }) => tag.includes(source) || tag.includes(optimizedSrc));

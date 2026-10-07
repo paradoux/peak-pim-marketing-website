@@ -315,24 +315,24 @@ html {
   transform: scale(calc(var(--logo-visual-scale, 1) * 1.04));
 }
 
-.section_logo2 .logo2_wrapper--case-study:hover,
-.section_logo2 .logo2_wrapper--case-study:focus-within {
+:is(.section_logo2, .peak-social-proof-stats) .logo2_wrapper--case-study:hover,
+:is(.section_logo2, .peak-social-proof-stats) .logo2_wrapper--case-study:focus-within {
   z-index: 10;
 }
 
-.section_logo2 .logo2_link--case-study {
+:is(.section_logo2, .peak-social-proof-stats) .logo2_link--case-study {
   flex-direction: column;
   gap: 0.2rem;
 }
 
-.section_logo2 .logo2_link--case-study > .logo2_logo--maeli,
-.section_logo2 .logo2_link--case-study > .logo2_logo--du-bruit,
-.section_logo2 .logo2_link--case-study > .logo2_logo--us-chess-federation,
-.section_logo2 .logo2_link--case-study > .logo2_logo--house-of-staunton {
+:is(.section_logo2, .peak-social-proof-stats) .logo2_link--case-study > .logo2_logo--maeli,
+:is(.section_logo2, .peak-social-proof-stats) .logo2_link--case-study > .logo2_logo--du-bruit,
+:is(.section_logo2, .peak-social-proof-stats) .logo2_link--case-study > .logo2_logo--us-chess-federation,
+:is(.section_logo2, .peak-social-proof-stats) .logo2_link--case-study > .logo2_logo--house-of-staunton {
   max-height: 2.1rem;
 }
 
-.section_logo2 .logo2_case-study-badge {
+:is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-badge {
   display: inline-flex;
   align-items: center;
   min-height: 1.15rem;
@@ -347,7 +347,7 @@ html {
   white-space: nowrap;
 }
 
-.section_logo2 .logo2_case-study-card {
+:is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-card {
   position: absolute;
   left: 50%;
   bottom: calc(100% + 0.5rem);
@@ -370,7 +370,7 @@ html {
   visibility: hidden;
 }
 
-.section_logo2 .logo2_case-study-card::after {
+:is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-card::after {
   position: absolute;
   top: 100%;
   right: 0;
@@ -379,32 +379,32 @@ html {
   content: "";
 }
 
-.section_logo2 .logo2_wrapper--case-study:hover .logo2_case-study-card,
-.section_logo2 .logo2_wrapper--case-study:focus-within .logo2_case-study-card {
+:is(.section_logo2, .peak-social-proof-stats) .logo2_wrapper--case-study:hover .logo2_case-study-card,
+:is(.section_logo2, .peak-social-proof-stats) .logo2_wrapper--case-study:focus-within .logo2_case-study-card {
   opacity: 1;
   pointer-events: auto;
   transform: translate(-50%, 0);
   visibility: visible;
 }
 
-.section_logo2 .logo2_wrapper:has(.logo2_logo--du-bruit) .logo2_case-study-card,
-.section_logo2 .logo2_wrapper:has(.logo2_logo--us-chess-federation) .logo2_case-study-card,
-.section_logo2 .logo2_wrapper:has(.logo2_logo--house-of-staunton) .logo2_case-study-card {
+:is(.section_logo2, .peak-social-proof-stats) .logo2_wrapper:has(.logo2_logo--du-bruit) .logo2_case-study-card,
+:is(.section_logo2, .peak-social-proof-stats) .logo2_wrapper:has(.logo2_logo--us-chess-federation) .logo2_case-study-card,
+:is(.section_logo2, .peak-social-proof-stats) .logo2_wrapper:has(.logo2_logo--house-of-staunton) .logo2_case-study-card {
   right: 0;
   left: auto;
   transform: translateY(0.45rem);
 }
 
-.section_logo2 .logo2_wrapper:has(.logo2_logo--du-bruit):hover .logo2_case-study-card,
-.section_logo2 .logo2_wrapper:has(.logo2_logo--du-bruit):focus-within .logo2_case-study-card,
-.section_logo2 .logo2_wrapper:has(.logo2_logo--us-chess-federation):hover .logo2_case-study-card,
-.section_logo2 .logo2_wrapper:has(.logo2_logo--us-chess-federation):focus-within .logo2_case-study-card,
-.section_logo2 .logo2_wrapper:has(.logo2_logo--house-of-staunton):hover .logo2_case-study-card,
-.section_logo2 .logo2_wrapper:has(.logo2_logo--house-of-staunton):focus-within .logo2_case-study-card {
+:is(.section_logo2, .peak-social-proof-stats) .logo2_wrapper:has(.logo2_logo--du-bruit):hover .logo2_case-study-card,
+:is(.section_logo2, .peak-social-proof-stats) .logo2_wrapper:has(.logo2_logo--du-bruit):focus-within .logo2_case-study-card,
+:is(.section_logo2, .peak-social-proof-stats) .logo2_wrapper:has(.logo2_logo--us-chess-federation):hover .logo2_case-study-card,
+:is(.section_logo2, .peak-social-proof-stats) .logo2_wrapper:has(.logo2_logo--us-chess-federation):focus-within .logo2_case-study-card,
+:is(.section_logo2, .peak-social-proof-stats) .logo2_wrapper:has(.logo2_logo--house-of-staunton):hover .logo2_case-study-card,
+:is(.section_logo2, .peak-social-proof-stats) .logo2_wrapper:has(.logo2_logo--house-of-staunton):focus-within .logo2_case-study-card {
   transform: translateY(0);
 }
 
-.section_logo2 .logo2_case-study-card__logo {
+:is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-card__logo {
   display: block;
   width: auto;
   height: 2.85rem;
@@ -413,13 +413,14 @@ html {
   object-fit: contain;
 }
 
-.section_logo2 .logo2_case-study-card__logo.is-darkened {
+:is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-card__logo.is-darkened {
   filter: brightness(0);
 }
 
-.section_logo2 .logo2_case-study-card blockquote {
+:is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-card blockquote {
   margin: 0;
   padding-bottom: 1.1rem;
+  border-left: 0;
   border-bottom: 1px solid rgba(26, 26, 26, 0.1);
   font-size: 1rem;
   font-weight: 500;
@@ -428,7 +429,7 @@ html {
   line-height: 1.52;
 }
 
-.section_logo2 .logo2_case-study-card__person {
+:is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-card__person {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -436,7 +437,7 @@ html {
   margin-top: 1.1rem;
 }
 
-.section_logo2 .logo2_case-study-card__portrait {
+:is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-card__portrait {
   width: 3.1rem;
   height: 3.1rem;
   flex: none;
@@ -445,7 +446,7 @@ html {
   object-fit: cover;
 }
 
-.section_logo2 .logo2_case-study-card__person p {
+:is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-card__person p {
   display: grid;
   gap: 0.05rem;
   margin: 0;
@@ -453,15 +454,15 @@ html {
   line-height: 1.35;
 }
 
-.section_logo2 .logo2_case-study-card__person strong {
+:is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-card__person strong {
   font-size: 0.88rem;
 }
 
-.section_logo2 .logo2_case-study-card__person span {
+:is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-card__person span {
   color: var(--color-muted);
 }
 
-.section_logo2 .logo2_case-study-card__cta {
+:is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-card__cta {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -474,21 +475,21 @@ html {
   white-space: nowrap;
 }
 
-.section_logo2 .logo2_case-study-card__cta:hover,
-.section_logo2 .logo2_case-study-card__cta:focus-visible {
+:is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-card__cta:hover,
+:is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-card__cta:focus-visible {
   text-decoration: none;
 }
 
-.section_logo2 .logo2_case-study-card__cta span {
+:is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-card__cta span {
   transition: transform 160ms ease;
 }
 
-.section_logo2 .logo2_case-study-card__cta:hover span,
-.section_logo2 .logo2_case-study-card__cta:focus-visible span {
+:is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-card__cta:hover span,
+:is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-card__cta:focus-visible span {
   transform: translateX(0.2rem);
 }
 
-.section_logo2 .logo2_case-study-card__cta:focus-visible {
+:is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-card__cta:focus-visible {
   outline: 2px solid var(--color-brand-blue);
   outline-offset: 0.2rem;
 }
@@ -793,12 +794,12 @@ path[style*="pp-pos-conn-line-pulse"] {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
-  .section_logo2 .logo2_case-study-card {
+  :is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-card {
     top: calc(100% + 0.8rem);
     bottom: auto;
   }
 
-  .section_logo2 .logo2_case-study-card::after {
+  :is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-card::after {
     top: auto;
     bottom: 100%;
   }
@@ -811,7 +812,7 @@ path[style*="pp-pos-conn-line-pulse"] {
 }
 
 @media (max-width: 767px), (hover: none) {
-  .section_logo2 .logo2_case-study-card {
+  :is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-card {
     display: none;
   }
 }
@@ -826,7 +827,7 @@ path[style*="pp-pos-conn-line-pulse"] {
 @media (prefers-reduced-motion: reduce) {
   .section_logo2 .logo2_link,
   .section_logo2 .logo2_link > img,
-  .section_logo2 .logo2_case-study-card {
+  :is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-card {
     transition: none;
   }
 
@@ -837,17 +838,17 @@ path[style*="pp-pos-conn-line-pulse"] {
     transform: none;
   }
 
-  .section_logo2 .logo2_wrapper--case-study:hover .logo2_case-study-card,
-  .section_logo2 .logo2_wrapper--case-study:focus-within .logo2_case-study-card {
+  :is(.section_logo2, .peak-social-proof-stats) .logo2_wrapper--case-study:hover .logo2_case-study-card,
+  :is(.section_logo2, .peak-social-proof-stats) .logo2_wrapper--case-study:focus-within .logo2_case-study-card {
     transform: translateX(-50%);
   }
 
-  .section_logo2 .logo2_wrapper:has(.logo2_logo--du-bruit):hover .logo2_case-study-card,
-  .section_logo2 .logo2_wrapper:has(.logo2_logo--du-bruit):focus-within .logo2_case-study-card,
-  .section_logo2 .logo2_wrapper:has(.logo2_logo--us-chess-federation):hover .logo2_case-study-card,
-  .section_logo2 .logo2_wrapper:has(.logo2_logo--us-chess-federation):focus-within .logo2_case-study-card,
-  .section_logo2 .logo2_wrapper:has(.logo2_logo--house-of-staunton):hover .logo2_case-study-card,
-  .section_logo2 .logo2_wrapper:has(.logo2_logo--house-of-staunton):focus-within .logo2_case-study-card {
+  :is(.section_logo2, .peak-social-proof-stats) .logo2_wrapper:has(.logo2_logo--du-bruit):hover .logo2_case-study-card,
+  :is(.section_logo2, .peak-social-proof-stats) .logo2_wrapper:has(.logo2_logo--du-bruit):focus-within .logo2_case-study-card,
+  :is(.section_logo2, .peak-social-proof-stats) .logo2_wrapper:has(.logo2_logo--us-chess-federation):hover .logo2_case-study-card,
+  :is(.section_logo2, .peak-social-proof-stats) .logo2_wrapper:has(.logo2_logo--us-chess-federation):focus-within .logo2_case-study-card,
+  :is(.section_logo2, .peak-social-proof-stats) .logo2_wrapper:has(.logo2_logo--house-of-staunton):hover .logo2_case-study-card,
+  :is(.section_logo2, .peak-social-proof-stats) .logo2_wrapper:has(.logo2_logo--house-of-staunton):focus-within .logo2_case-study-card {
     transform: none;
   }
 }

@@ -1,0 +1,22 @@
+---
+import CardGrid from "./CardGrid.astro";
+import IntegrationLogoGroup from "../visuals/IntegrationLogoGroup.astro";
+
+const cards = [
+  { title: "Your storefronts", description: "Native Shopify sync, with custom connections for your other storefronts." },
+  { title: "Your marketplaces", description: "Bring marketplace product data into your catalog with a custom integration." },
+  { title: "Your operations", description: "Connect your ERP, fulfillment partners and internal tools around your product data." },
+];
+---
+
+<CardGrid
+  id="integration-ecosystem"
+  tagline="Your existing tools, connected"
+  title="Shopify native. Connected to your entire environment."
+  description="Keep the tools your team already uses. Connect Shopify natively and bring your other systems together with custom integrations."
+  cards={cards}
+>
+  <IntegrationLogoGroup slot="visual-1" group="storefronts" />
+  <IntegrationLogoGroup slot="visual-2" group="marketplaces" />
+  <IntegrationLogoGroup slot="visual-3" group="operations" />
+</CardGrid>

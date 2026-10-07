@@ -56,6 +56,24 @@ export const assets = {
   team: {
     foundersTechForRetail: "/assets/team/peak-pim-founders-tech-for-retail.jpg",
   },
+  integrationLogos: {
+    channable: "/assets/integrations/channable.svg",
+    lengow: "/assets/integrations/lengow.svg",
+    woocommerce: "/assets/integrations/woocommerce.svg",
+    make: "/assets/integrations/make.png",
+    n8n: "/assets/integrations/n8n.svg",
+    businessCentral: "/assets/integrations/business-central.svg",
+    shopify: "/assets/integrations/shopify.svg",
+    prestashop: "/assets/integrations/prestashop.svg",
+    magento: "/assets/integrations/magento.svg",
+    odoo: "/assets/integrations/odoo.png",
+    amazon: "/assets/integrations/amazon.svg",
+    faire: "/assets/integrations/faire.svg",
+    ankorstore: "/assets/integrations/ankorstore.svg",
+    fulfil: "/assets/integrations/fulfil.svg",
+    bigblue: "/assets/integrations/bigblue.svg",
+    shipbob: "/assets/integrations/shipbob.svg",
+  },
   customerLogos: {
     banner: {
       tupperware: "/assets/customer-logos/banner/tupperware.webp",
