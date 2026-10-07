@@ -100,8 +100,8 @@
         "src/i18n/pl-translations.json",
         "src/i18n/ja-translations.json"
       ],
-      "observedSourceHash": "7d47445258b59486e81325dfe0b8fe6c3cebed7ee8a941fc38fd755e1623062d",
-      "reviewedSourceHash": "7d47445258b59486e81325dfe0b8fe6c3cebed7ee8a941fc38fd755e1623062d",
+      "observedSourceHash": "50a960556ce62043889c03ea0b9d464bbab91925734740fc1d0333d16ee589d7",
+      "reviewedSourceHash": "50a960556ce62043889c03ea0b9d464bbab91925734740fc1d0333d16ee589d7",
       "status": "reviewed"
     }
   ]

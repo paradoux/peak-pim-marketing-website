@@ -6,6 +6,7 @@ import LeadCaptureModal from "../components/LeadCaptureModal.astro";
 import OpenAIAdsTracking from "../components/OpenAIAdsTracking.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
+import { assets } from "../data/assets";
 import { contentJsonLd, entryPath, entryUrl, formatDate, type ContentEntry, type ContentKind } from "../lib/content";
 import { defaultLocale, getLocaleAlternates, getRoutePath, localeMetadata } from "../i18n/config";
 import { canonicalUrl as getCanonicalUrl } from "../lib/site-url";
@@ -33,6 +34,7 @@ const eyebrow = kind === "articles" ? "Article" : "Guide";
 <html lang={localeMetadata[locale].hreflang} data-wf-domain="peak-pim.com">
   <head>
     <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href={assets.logo.favicon} />
     <OpenAIAdsTracking />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>

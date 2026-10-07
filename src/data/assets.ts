@@ -2,7 +2,7 @@ export const assets = {
   logo: {
     peak: "/assets/logo/peak-logo-large.png",
     peakSmall: "/assets/logo/peak-logo-large-500.png",
-    favicon: "/assets/logo/favicon-peak-pim.png",
+    favicon: "/assets/logo/favicon-peak-pim-padded.png",
     webclip: "/assets/logo/peak-webclip.png",
   },
   productUi: {
