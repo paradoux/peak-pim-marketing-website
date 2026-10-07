@@ -56,6 +56,8 @@ Child elements use the same BEM-style namespace, such as `peak-feature-grid__car
 
 The Webflow stylesheet owns sizing and interaction behavior. Do not override it to make one landing page look different.
 
+The shared primary-button interaction in `src/styles/global.css` changes dark buttons to Peak blue with white text on hover and keyboard focus, using a 180ms color transition. It preserves the pill geometry, respects reduced motion, and excludes secondary, alternate, and text-link variants.
+
 ### CTA copy
 
 Button appearance comes from the canonical primitives above; button wording comes from `docs/copywriting-system.md` and `src/data/cta-copy.ts`. The approved vocabulary is `Get Peak PIM`, `Try for free`, `Book a demo`, `Talk to us`, `See pricing`, `See how it works`, `See the comparison` (or compact `See comparison`), and `Learn more`.

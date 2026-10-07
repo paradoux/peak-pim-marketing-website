@@ -26,6 +26,22 @@ html {
   scroll-padding-top: calc(var(--site-header-height) + 1rem);
 }
 
+.button:not(.is-secondary):not(.is-secondary-copy):not(.is-alternate):not(.is-link) {
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+}
+
+.button:not(.is-secondary):not(.is-secondary-copy):not(.is-alternate):not(.is-link):is(:hover, :focus-visible) {
+  background-color: var(--color-brand-blue);
+  border-color: var(--color-brand-blue);
+  color: white;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button:not(.is-secondary):not(.is-secondary-copy):not(.is-alternate):not(.is-link) {
+    transition: none;
+  }
+}
+
 .site-main .section_pricing29 .pricing29_grid-list {
   width: 100%;
   max-width: 72rem;
