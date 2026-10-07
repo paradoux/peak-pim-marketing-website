@@ -10,13 +10,16 @@ export const ctaLabels = {
   learnMore: "Learn more",
 } as const;
 
-export const bookDemoUrl = "https://calendar.app.google/M9DEEDbc6AxRaNNX6";
+export const bookDemoUrl = "/book-a-demo/";
+export const googleBookingUrl = "https://calendar.app.google/xrdkJh8QCoHqiJzy7";
+export const googleBookingEmbedUrl = "https://calendar.google.com/calendar/appointments/schedules/AcZssZ1_QwawE2iAjuSnFFCFE1fNCGIfmZCXXcLDcDZ3QR7o0KuAiTmpX5WJ_TmenVq7M_TFMa4rtD85?gv=true";
 
 export type CanonicalCtaLabel = (typeof ctaLabels)[keyof typeof ctaLabels];
 
 export const canonicalCtaLabels = Object.values(ctaLabels);
 
 export const ctaExceptions = {
+  headerDemo: "Demo with your data",
   liveDemo: "Live demo",
   apiDocumentation: "View API documentation",
   seeUseCase: "See use case",
@@ -106,7 +109,7 @@ export function normalizeCtaCopyInHtml(html: string) {
             nextAttributes += ` href="${bookDemoUrl}"`;
           }
 
-          return `<a${nextAttributes} target="_blank" rel="noopener">`;
+          return `<a${nextAttributes} data-demo-booking="" aria-haspopup="dialog" aria-controls="demo-booking-modal">`;
         });
       }
 

@@ -1,6 +1,7 @@
 import type { Locale } from "./config";
 
 const frenchSharedCopy: Record<string, string> = {
+  "Demo with your data": "Démo avec vos données",
   "Enrich 10,000+ products with bulk editing and AI.": "Enrichissez plus de 10 000 produits grâce à la modification en bloc et à l'IA.",
   "Fresh produce and stocked grocery shelves inside Unique Wholefood": "Fruits, légumes et rayons d'épicerie dans un magasin Unique Wholefood",
   "Features": "Fonctionnalités",

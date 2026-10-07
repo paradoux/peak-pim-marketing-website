@@ -7,6 +7,7 @@ const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const outputDirectory = resolve(projectRoot, "public/assets/og");
 
 const featurePages = [
+  { slug: "book-a-demo", eyebrow: "Live product demo", title: "See Peak with your own products", detail: "Your catalog, your workflows, your questions. Real product. No slides." },
   { slug: "ai-assistant", title: "AI Assistant", detail: "Catalog answers, approved drafts, and separately confirmed publishing" },
   { slug: "history", title: "Catalog History", detail: "Every saved edit and published change, with before and after" },
   { slug: "search", title: "Global Search", detail: "Every catalog record and app page, one keystroke away" },

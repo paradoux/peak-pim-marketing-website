@@ -29,7 +29,7 @@ const {
 } = Astro.props;
 const isBookDemo = isBookDemoLabel(secondaryLabel);
 const resolvedSecondaryHref = isBookDemo ? bookDemoUrl : secondaryHref;
-const resolvedSecondaryExternal = isBookDemo ? true : secondaryExternal;
+const resolvedSecondaryExternal = isBookDemo ? false : secondaryExternal;
 const resolvedSecondaryCrisp = isBookDemo ? false : secondaryCrisp;
 ---
 

@@ -65,6 +65,7 @@ export async function GET() {
     "ai-catalog-connector",
     "api",
     "custom-integrations",
+    "book-a-demo",
     "shopify-metaobjects",
     "shopify-collections",
     "shopify-markets-pricing",

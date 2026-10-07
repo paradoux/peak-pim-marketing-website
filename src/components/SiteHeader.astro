@@ -2,6 +2,7 @@
 import { getSharedHeaderHtml } from "../lib/page-source";
 import { exploreNavigationLinks, featureNavigationGroups, resourceNavigationLinks } from "../data/site-navigation";
 import { assets } from "../data/assets";
+import { bookDemoUrl, ctaExceptions } from "../data/cta-copy";
 import { localizeInternalHref, type Locale } from "../i18n/config";
 import { localizeSharedMarkup, translateSharedCopy } from "../i18n/shared-copy";
 
@@ -196,6 +197,10 @@ if (headerWithFeatureMenu === sharedHeaderHtml) {
 
 const headerHtml = headerWithFeatureMenu
   .replace(
+    /<div class="navbar10_menu-right">[\s\S]*?<\/div>/,
+    `<div class="navbar10_menu-right"><a href="${escapeHtml(localizedHref(bookDemoUrl))}" class="button w-button" data-demo-booking="" aria-haspopup="dialog" aria-controls="demo-booking-modal">${escapeHtml(tr(ctaExceptions.headerDemo))}</a></div>`,
+  )
+  .replace(
     '<a href="https://apps.shopify.com/peak-pim/reviews" target="_blank" class="navbar10_link w-nav-link">Reviews</a>',
     `${customerMenuHtml}${resourceMenuHtml}`,
   )
@@ -361,6 +366,7 @@ const localizedHeaderHtml = localizeSharedMarkup(locale, headerHtml);
     }
 
     document.addEventListener("click", function(event) {
+      if (event.target instanceof Element && event.target.closest("#demo-booking-modal")) return;
       if (!header.contains(event.target)) {
         closeAllDropdowns();
         setMobileMenu(false);

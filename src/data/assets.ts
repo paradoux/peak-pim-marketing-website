@@ -27,6 +27,7 @@ export const assets = {
       "/search": "/assets/og/search.png",
       "/ai-catalog-connector": "/assets/og/ai-catalog-connector.png",
       "/api": "/assets/og/api.png",
+      "/book-a-demo": "/assets/og/book-a-demo.png",
       "/custom-integrations": "/assets/og/custom-integrations.png",
       "/shopify-catalog-health-center": "/assets/og/shopify-catalog-health-center.png",
       "/shopify-collections": "/assets/og/shopify-collections.png",
@@ -54,6 +55,7 @@ export const assets = {
     wayneChoga: "/assets/testimonials/wayne-choga.png",
   },
   team: {
+    theau: "/assets/team/theau-co-founder.jpg",
     foundersTechForRetail: "/assets/team/peak-pim-founders-tech-for-retail.jpg",
   },
   integrationLogos: {

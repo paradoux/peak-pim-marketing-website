@@ -780,6 +780,56 @@ html {
   z-index: 1;
 }
 
+.peak-home-rating-wrapper {
+  margin-bottom: 1rem;
+}
+
+.peak-home-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 0;
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.peak-home-rating:hover .peak-home-rating__stars {
+  color: #e9a23b;
+}
+
+.peak-home-rating:hover .peak-home-rating__logo {
+  opacity: 1;
+}
+
+.peak-home-rating:focus-visible {
+  outline: 2px solid var(--color-brand-blue);
+  outline-offset: 3px;
+}
+
+.peak-home-rating__stars {
+  display: flex;
+  gap: 0.125rem;
+  color: #b68a48;
+}
+
+.peak-home-rating__stars svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.peak-home-rating__label {
+  color: var(--color-muted);
+  font-size: 0.75rem;
+}
+
+.peak-home-rating__logo {
+  width: 4.375rem;
+  height: 1.25rem;
+  object-fit: contain;
+  opacity: 0.65;
+}
+
 path[style*="pp-pos-conn-line-pulse"] {
   opacity: 0.85;
   animation: none !important;

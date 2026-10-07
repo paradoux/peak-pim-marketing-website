@@ -19,7 +19,7 @@ CTA copy describes the action or destination. Use the exported values from `src/
 | --- | --- | --- |
 | Start or install Peak PIM | `Get Peak PIM` | The visitor goes directly to the Shopify App Store or installation flow. |
 | Start the free trial | `Try for free` | The destination genuinely starts the 10-day free trial. |
-| Schedule a demonstration | `Book a demo` | Link to `https://calendar.app.google/M9DEEDbc6AxRaNNX6` in a new tab. Never open Crisp. |
+| Schedule a demonstration | `Book a demo` | Open the shared booking modal, with the localized `/book-a-demo/` page as the link destination. Never open Crisp. |
 | Start a general sales conversation | `Talk to us` | The action opens Crisp or another general contact flow. |
 | View pricing | `See pricing` | The destination is the pricing page or pricing section. |
 | View a workflow or product explanation | `See how it works` | The destination explains a feature, solution, or workflow. |
@@ -41,9 +41,9 @@ Exceptions are allowed when the page context materially benefits from different 
 - Use sentence case and no ending punctuation.
 - Use no more than one primary and one secondary CTA in a section.
 - Use one primary conversion label consistently across a page.
-- Keep the global header actions as `Book a demo` and `Get Peak PIM`.
+- Use one primary global header action: `Demo with your data`. This header-specific label opens the shared booking modal, with the localized booking page as its link destination.
 - Use `Book a demo` only for scheduling and `Talk to us` only for a general conversation.
-- Every `Book a demo` CTA uses the shared `bookDemoUrl` from `src/data/cta-copy.ts`, opens the Google Calendar booking page in a new tab, and never carries `data-open-crisp`.
+- Every `Book a demo` CTA uses the shared `bookDemoUrl` from `src/data/cta-copy.ts`, opens the shared booking modal with Google Calendar embedded, and never carries `data-open-crisp`.
 - Use `Try for free` only when a free-trial flow is available at the destination.
 - Do not add “Peak PIM” when the page already supplies the context, except for the branded `Get Peak PIM` action.
 - Retire vague or duplicated variants such as `Ask for a demo`, `Try Peak PIM free`, `Contact sales`, `Ask us anything`, `Explore`, `View`, `See more`, `Full comparison`, and `See current pricing` unless a specific wording is registered as an approved exception.

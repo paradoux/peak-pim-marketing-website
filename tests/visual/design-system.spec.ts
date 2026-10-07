@@ -230,9 +230,9 @@ test("homepage · hero CTA pair is responsive and uses canonical actions", async
     await expect(actions).toHaveCount(2);
     await expect(actions).toHaveText(["Try for free", "Book a demo"]);
     await expect(actions.nth(0)).toHaveAttribute("href", "https://apps.shopify.com/peak-pim");
-    await expect(actions.nth(1)).toHaveAttribute("href", "https://calendar.app.google/M9DEEDbc6AxRaNNX6");
-    await expect(actions.nth(1)).toHaveAttribute("target", "_blank");
-    await expect(actions.nth(1)).toHaveAttribute("rel", "noopener");
+    await expect(actions.nth(1)).toHaveAttribute("href", "/book-a-demo/");
+    await expect(actions.nth(1)).not.toHaveAttribute("target", "_blank");
+    await expect(actions.nth(1)).toHaveAttribute("data-demo-booking", "");
     await expect(actions.nth(1)).not.toHaveAttribute("data-open-crisp", "");
     await expect(actions.nth(0)).toBeVisible();
     await expect(actions.nth(1)).toBeVisible();

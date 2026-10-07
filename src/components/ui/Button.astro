@@ -1,4 +1,5 @@
 ---
+import { bookDemoUrl } from "../../data/cta-copy";
 type Props = {
   href: string;
   variant?: "primary" | "secondary" | "alternate" | "secondary-alternate" | "link";
@@ -7,6 +8,7 @@ type Props = {
 };
 
 const { href, variant = "primary", external = false, crisp = false } = Astro.props;
+const booking = href === bookDemoUrl;
 const classes = {
   primary: "button w-button",
   secondary: "button is-secondary w-button",
@@ -19,9 +21,12 @@ const classes = {
 <a
   href={href}
   class={classes}
-  target={external ? "_blank" : undefined}
-  rel={external ? "noopener" : undefined}
-  data-open-crisp={crisp ? "" : undefined}
+  target={external && !booking ? "_blank" : undefined}
+  rel={external && !booking ? "noopener" : undefined}
+  data-open-crisp={crisp && !booking ? "" : undefined}
+  data-demo-booking={booking ? "" : undefined}
+  aria-haspopup={booking ? "dialog" : undefined}
+  aria-controls={booking ? "demo-booking-modal" : undefined}
 >
   {variant === "link" ? (
     <>

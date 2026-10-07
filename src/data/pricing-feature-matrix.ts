@@ -1,3 +1,4 @@
+import { bookDemoUrl } from "./cta-copy";
 export type PricingPlanValue = boolean | string;
 
 export type PricingFeature = {
@@ -53,7 +54,7 @@ export const pricingPlans: PricingPlan[] = [
     summary: "For larger operations with custom limits, data models, and support.",
     highlights: ["3+ stores", "Complex data", "Dedicated support"],
     ctaLabel: "Contact us",
-    ctaHref: "https://calendar.app.google/M9DEEDbc6AxRaNNX6",
+    ctaHref: bookDemoUrl,
   },
 ];
 

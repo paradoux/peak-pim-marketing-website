@@ -1,6 +1,7 @@
 ---
 import CrispChat from "../components/CrispChat.astro";
 import GlobalWebflowStyles from "../components/GlobalWebflowStyles.astro";
+import DemoBookingModal from "../components/DemoBookingModal.astro";
 import LeadCaptureModal from "../components/LeadCaptureModal.astro";
 import OpenAIAdsTracking from "../components/OpenAIAdsTracking.astro";
 import SiteFooter from "../components/SiteFooter.astro";
@@ -158,6 +159,7 @@ const ogImageUrl = resolvedOgImage ? new URL(resolvedOgImage, "https://peak-pim.
       <main class="main-wrapper"><slot /></main>
       <SiteFooter locale={locale} currentPath={effectiveCanonicalPath} />
       {locale === defaultLocale && <LeadCaptureModal />}
+      <DemoBookingModal />
       <CrispChat />
     </div>
     <script is:inline>

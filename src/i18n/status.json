@@ -13,8 +13,8 @@
       "translations": [
         "src/i18n/shared-copy.ts"
       ],
-      "observedSourceHash": "7fd2c1fe4387531920ce1a52619556fa7ad9250350d5c42b68cb6c5e25d17dc1",
-      "reviewedSourceHash": "7fd2c1fe4387531920ce1a52619556fa7ad9250350d5c42b68cb6c5e25d17dc1",
+      "observedSourceHash": "369af130dcd48ca87a5c4bc8a421d7227b3fa34ff3ed374c7c789964ae30f19f",
+      "reviewedSourceHash": "369af130dcd48ca87a5c4bc8a421d7227b3fa34ff3ed374c7c789964ae30f19f",
       "status": "reviewed"
     },
     {
@@ -85,7 +85,10 @@
         "src/data/pricing-feature-matrix.ts",
         "src/data/site-navigation.ts",
         "src/data/social-proof.ts",
-        "src/lib/page-source.ts"
+        "src/lib/page-source.ts",
+        "src/components/sections/DemoBooking.astro",
+        "src/components/DemoBookingModal.astro",
+        "src/pages/book-a-demo.astro"
       ],
       "translations": [
         "src/i18n/fr-translations.json",
@@ -97,8 +100,8 @@
         "src/i18n/pl-translations.json",
         "src/i18n/ja-translations.json"
       ],
-      "observedSourceHash": "5caa9e16d37fad7a267d1d0cbefd9a54854c0b67458882b90534c539d400d49b",
-      "reviewedSourceHash": "5caa9e16d37fad7a267d1d0cbefd9a54854c0b67458882b90534c539d400d49b",
+      "observedSourceHash": "7d47445258b59486e81325dfe0b8fe6c3cebed7ee8a941fc38fd755e1623062d",
+      "reviewedSourceHash": "7d47445258b59486e81325dfe0b8fe6c3cebed7ee8a941fc38fd755e1623062d",
       "status": "reviewed"
     }
   ]

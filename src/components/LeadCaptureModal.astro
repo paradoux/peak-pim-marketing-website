@@ -370,7 +370,7 @@ const turnstileSiteKey =
       const delayMs = isMobile ? rule.mobileDelayMs ?? rule.delayMs : rule.delayMs;
       const scrollDepth = isMobile ? rule.mobileScrollDepth ?? rule.scrollDepth : rule.scrollDepth;
       const maybeOpen = () => {
-        if (delayReached && depthReached) {
+        if (delayReached && depthReached && !document.querySelector("dialog[open]")) {
           window.removeEventListener("scroll", checkDepth);
           open(offer.id, null, "automatic");
         }

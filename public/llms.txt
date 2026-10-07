@@ -27,6 +27,8 @@ Peak PIM helps Shopify teams:
 
 ## Primary Pages
 
+- [Book a demo](https://peak-pim.com/book-a-demo/): Schedule a live product walkthrough, with your own Shopify catalog or demo data.
+
 - [Home](https://peak-pim.com/)
 - [Pricing](https://peak-pim.com/pricing/)
 - [1-click setup](https://peak-pim.com/1-click-setup/)
@@ -453,3 +455,14 @@ Pricing last reviewed on 2026-09-24. The pricing page is the source of truth.
 - Robots: https://peak-pim.com/robots.txt
 - Admin area: https://peak-pim.com/admin/ is private and should not be indexed or summarized.
 - Staging and Pages preview domains are non-production and should not be indexed.
+
+## Localized demo booking
+
+- [Français](https://peak-pim.com/fr/reserver-une-demo/)
+- [Deutsch](https://peak-pim.com/de/demo-buchen/)
+- [Español](https://peak-pim.com/es/reservar-demo/)
+- [Italiano](https://peak-pim.com/it/prenota-demo/)
+- [Nederlands](https://peak-pim.com/nl/demo-boeken/)
+- [Português (Brasil)](https://peak-pim.com/pt-br/agendar-demo/)
+- [Polski](https://peak-pim.com/pl/umow-demo/)
+- [日本語](https://peak-pim.com/ja/demo-yoyaku/)

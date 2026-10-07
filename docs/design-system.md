@@ -62,7 +62,7 @@ Button appearance comes from the canonical primitives above; button wording come
 
 Registered destination-specific exceptions include `Live demo` for the self-guided product experience and `View API documentation` for the public developer documentation. Keep both scoped to the placements documented in `docs/copywriting-system.md`.
 
-`Book a demo` always opens the shared Google Calendar booking URL from `src/data/cta-copy.ts` in a new tab. It must never trigger Crisp. Reserve Crisp for `Talk to us`, Contact, and other explicitly approved conversation actions.
+`Book a demo` opens the shared `DemoBookingModal.astro`, with an accessible Google Calendar embed and an optional own-catalog live demo introduction. Its link points to the localized `/book-a-demo/` page so direct sharing, modified clicks, and navigation without JavaScript still work. The calendar loads only when the modal opens. It must never trigger Crisp. Reserve Crisp for `Talk to us`, Contact, and other explicitly approved conversation actions.
 
 ### Lead capture modal
 
@@ -81,7 +81,7 @@ The header mega menu and footer share the feature taxonomy defined in `src/data/
 - **Manage & Enrich**: products and variants, collections, metafields, metaobjects, translations, Markets and catalog pricing, custom fields, and other structured product-content capabilities.
 - **Solutions**: industry- and team-specific landing pages such as Fashion.
 
-The self-guided product experience uses one shared `Live demo` navigation link from `exploreNavigationLinks`. Keep it in the Resources footer column, as a secondary CTA beneath the Peak footer logo, and as a discreet utility link in the Features mega menu. The Resources column also owns Help Center, Product Updates, and API documentation. In the footer bottom bar, keep the Privacy Policy beside the copyright and place the icon-only social links on the right with enough clearance for the chat launcher; preserve their accessible names. Stack these elements cleanly when the row no longer fits. The demo opens in a new tab and must not replace the global `Book a demo` and `Get Peak PIM` actions.
+The self-guided product experience uses one shared `Live demo` navigation link from `exploreNavigationLinks`. Keep it in the Resources footer column, as a secondary CTA beneath the Peak footer logo, and as a discreet utility link in the Features mega menu. The Resources column also owns Help Center, Product Updates, and API documentation. In the footer bottom bar, keep the Privacy Policy beside the copyright and place the icon-only social links on the right with enough clearance for the chat launcher; preserve their accessible names. Stack these elements cleanly when the row no longer fits. The self-guided demo opens in a new tab. The global header has one primary `Demo with your data` CTA for the scheduled demo, opening the shared booking modal.
 
 Choose the category from the visitor's job, not from the internal technical architecture. Do not add page-specific feature links directly to `SiteHeader.astro` or `SiteFooter.astro`; update the shared navigation data instead.
 
@@ -170,3 +170,7 @@ Do not introduce a new heading scale, generic card system, button treatment, con
 - Check horizontal overflow, one H1, logical hierarchy, keyboard operation, FAQ state, and reduced motion.
 - Run `npm run build`, `npm run check:design-system`, and `npm run test:visual`.
 - Add any genuinely reusable section wrapper to `/design-system` and to the contract test.
+
+### Live demo booking
+
+`DemoBooking.astro` shares the introductory copy and Google booking calendar between the modal and dedicated booking page. `DemoBookingModal.astro` uses the existing native-dialog interaction pattern, cream and white surfaces, keyboard dismissal, focus restoration, scroll locking, and reduced-motion support. Keep booking details in Google Calendar; do not duplicate availability or collect a second booking form.

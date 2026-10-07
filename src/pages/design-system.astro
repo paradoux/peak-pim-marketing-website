@@ -1,4 +1,5 @@
 ---
+import Button from "../components/ui/Button.astro";
 import CtaBanner from "../components/sections/CtaBanner.astro";
 import CardGrid from "../components/sections/CardGrid.astro";
 import ComparisonHero from "../components/sections/ComparisonHero.astro";
@@ -35,7 +36,7 @@ import TranslationWorkflowDemo from "../components/visuals/TranslationWorkflowDe
 import TranslationsCardVisual from "../components/visuals/TranslationsCardVisual.astro";
 import BuildVsBuyDecisionVisual from "../components/visuals/BuildVsBuyDecisionVisual.astro";
 import { assets } from "../data/assets";
-import { ctaLabels } from "../data/cta-copy";
+import { bookDemoUrl, ctaLabels } from "../data/cta-copy";
 import LandingPageLayout from "../layouts/LandingPageLayout.astro";
 
 const principles = [
@@ -287,6 +288,11 @@ const socialProofLogos = [
   />
   <CustomerStoryStats title="Approved customer-story proof summary" items={customerStoryStats} />
   <SocialProofStats title="Approved account proof with customer context" stats={socialProofStats} logos={socialProofLogos} />
+  <section class="padding-global"><div class="container-large"><div class="padding-section-medium">
+    <div class="margin-bottom margin-small"><h2 class="heading-style-h3">Live demo booking</h2></div>
+    <p>The shared booking modal uses the same content and calendar as the dedicated booking page.</p>
+    <div class="margin-top margin-small"><Button href={bookDemoUrl}>{ctaLabels.bookDemo}</Button></div>
+  </div></div></section>
   <IntegrationIntroduction />
   <IntegrationEcosystem />
   <CustomerStoryChapter

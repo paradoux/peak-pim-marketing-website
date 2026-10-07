@@ -1,0 +1,18 @@
+---
+import DemoBooking from "../components/sections/DemoBooking.astro";
+import LandingPageLayout from "../layouts/LandingPageLayout.astro";
+import { assets } from "../data/assets";
+---
+
+<LandingPageLayout
+  title="Book a Live Product Demo | Peak PIM"
+  description="Book a live Peak PIM walkthrough focused on your team's workflows. Explore with your own Shopify catalog or our demo data. Real product, no slides."
+  canonicalPath="/book-a-demo"
+  ogImage={assets.marketing.featureOg["/book-a-demo"]}
+>
+  <section class="section_layout1 color-scheme-1">
+    <div class="padding-global"><div class="container-large"><div class="padding-section-medium">
+      <DemoBooking />
+    </div></div></div>
+  </section>
+</LandingPageLayout>

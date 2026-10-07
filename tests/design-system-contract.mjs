@@ -3,6 +3,9 @@ import { resolve } from "node:path";
 
 const projectRoot = resolve(import.meta.dirname, "..");
 const requiredFiles = [
+  "src/components/DemoBookingModal.astro",
+  "src/components/sections/DemoBooking.astro",
+  "src/pages/book-a-demo.astro",
   "scripts/generate-og-images.mjs",
   "src/layouts/LandingPageLayout.astro",
   "src/lib/site-url.ts",
@@ -664,7 +667,7 @@ if (existsSync(homeFile)) {
   if (!heroHtml.includes('href="/ai-catalog-connector" class="ppim-home-pill-wrap"')) failures.push("Homepage announcement must link to the MCP landing page");
   if (!heroHtml.includes("Connect your catalog to AI assistants with MCP")) failures.push("Homepage announcement must promote the MCP connector");
   if (heroHtml.includes("Peak PIM is now available on the Shopify App Store")) failures.push("Homepage still contains the superseded App Store announcement");
-  if (!/href="https:\/\/apps\.shopify\.com\/peak-pim"[^>]*class="button w-button">Try for free<\/a>[\s\S]*?<a(?=[^>]*href="https:\/\/calendar\.app\.google\/M9DEEDbc6AxRaNNX6")(?=[^>]*target="_blank")(?=[^>]*rel="noopener")[^>]*class="button is-secondary w-button"[^>]*>Book a demo<\/a>/.test(heroHtml)) {
+  if (!/href="https:\/\/apps\.shopify\.com\/peak-pim"[^>]*class="button w-button">Try for free<\/a>[\s\S]*?<a(?=[^>]*href="\/book-a-demo\/")(?=[^>]*data-demo-booking)[^>]*class="button is-secondary w-button"[^>]*>Book a demo<\/a>/.test(heroHtml)) {
     failures.push("Homepage hero must show Try for free first and Book a demo second using the canonical button variants");
   }
   if ((footerHtml.match(/class="footer1_link-column/g) ?? []).length !== 5) failures.push("The shared footer must contain the Features area plus four dedicated link columns");
@@ -858,6 +861,7 @@ if (existsSync(sitemapFile)) {
     "Get Peak PIM",
     "Try for free",
     "Book a demo",
+    "Demo with your data",
     "Live demo",
     "View API documentation",
     "See use case",
@@ -874,7 +878,7 @@ if (existsSync(sitemapFile)) {
     source,
     ...localizedCtaCaches.map((cache) => cache[source]).filter(Boolean),
   ]));
-  const bookDemoLabels = new Set(["Book a demo", ...localizedCtaCaches.map((cache) => cache["Book a demo"]).filter(Boolean)]);
+  const bookDemoLabels = new Set(["Book a demo", "Demo with your data"].flatMap((label) => [label, ...localizedCtaCaches.map((cache) => cache[label]).filter(Boolean)]));
 
   for (const pageUrl of sitemapUrls) {
     const pathname = new URL(pageUrl).pathname;
@@ -906,8 +910,8 @@ if (existsSync(sitemapFile)) {
 
       if (!approvedCtas.has(label)) failures.push(`${pathname} contains non-approved CTA copy: ${label}`);
       if (bookDemoLabels.has(label)) {
-        if (!match[2].includes('href="https://calendar.app.google/M9DEEDbc6AxRaNNX6"')) failures.push(`${pathname} contains a Book a demo CTA with the wrong destination`);
-        if (!match[2].includes('target="_blank"') || !match[2].includes('rel="noopener"')) failures.push(`${pathname} contains a Book a demo CTA that does not open safely in a new tab`);
+        if (!/href="\/(?:book-a-demo|fr\/reserver-une-demo|de\/demo-buchen|es\/reservar-demo|it\/prenota-demo|nl\/demo-boeken|pt-br\/agendar-demo|pl\/umow-demo|ja\/demo-yoyaku)\/"/.test(match[2])) failures.push(`${pathname} contains a Book a demo CTA with the wrong destination`);
+        if (!match[2].includes("data-demo-booking") || match[2].includes('target="_blank"')) failures.push(`${pathname} contains a Book a demo CTA that does not open the shared booking modal`);
         if (/data-open-crisp/i.test(match[2])) failures.push(`${pathname} contains a Book a demo CTA that still opens Crisp`);
       }
     }
