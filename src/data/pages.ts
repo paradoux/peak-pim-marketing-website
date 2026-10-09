@@ -13,7 +13,7 @@ export const pages: PageDefinition[] = [
     title: "Peak PIM | Product Management for Shopify Merchants",
     description:
       "Manage, edit, and sync your product data across multiple Shopify stores from one place. Bulk editing, media management, and real-time sync.",
-    h1: "One place for all your Shopify products",
+    h1: "Shopify runs your store. Peak PIM runs your catalog.",
   },
   {
     slug: "1-click-setup",

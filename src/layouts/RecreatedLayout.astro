@@ -3,6 +3,7 @@ import CrispChat from "../components/CrispChat.astro";
 import CustomerStoryHero from "../components/sections/CustomerStoryHero.astro";
 import SocialProofStats from "../components/sections/SocialProofStats.astro";
 import IntegrationIntroduction from "../components/sections/IntegrationIntroduction.astro";
+import HomepageOutcomes from "../components/sections/HomepageOutcomes.astro";
 import GlobalWebflowStyles from "../components/GlobalWebflowStyles.astro";
 import DemoBookingModal from "../components/DemoBookingModal.astro";
 import OpenAIAdsTracking from "../components/OpenAIAdsTracking.astro";
@@ -35,6 +36,7 @@ const defaultAlternate = localeAlternates.find((alternate) => alternate.locale =
 const homepagePricingMarker = '<section class="section_pricing2 color-scheme-1">';
 const homepagePricingIndex = page.slug === "" ? mainHtml.indexOf(homepagePricingMarker) : -1;
 const homepageSetupIndex = page.slug === "" ? mainHtml.indexOf('<section class="section_layout121 color-scheme-1">') : -1;
+const homepageFeaturesIndex = page.slug === "" ? mainHtml.indexOf('<section class="section_layout375 color-scheme-1">') : -1;
 const homepageCtaMarker = '<section class="section_cta51 color-scheme-1">';
 const homepageCtaIndex = page.slug === "" ? mainHtml.indexOf(homepageCtaMarker) : -1;
 const pricingFaqMarker = '<section class="section_faq1 color-scheme-1">';
@@ -50,6 +52,10 @@ if (page.slug === "" && (homepageSetupIndex === -1 || homepageSetupIndex >= home
   throw new Error("The homepage proof sections could not be placed around pricing.");
 }
 
+if (page.slug === "" && (homepageFeaturesIndex === -1 || homepageFeaturesIndex >= homepageSetupIndex)) {
+  throw new Error("The homepage outcomes section could not be placed before product features.");
+}
+
 if (page.slug === "pricing" && pricingFaqIndex === -1) {
   throw new Error("The pricing social proof could not be placed before the FAQ.");
 }
@@ -58,7 +64,8 @@ if (supportingProofMarker && supportingProofIndex === -1) {
   throw new Error(`The ${page.slug} social proof could not be placed at its approved conversion point.`);
 }
 
-const homepageMainBeforeIntegrations = homepageSetupIndex >= 0 ? mainHtml.slice(0, homepageSetupIndex) : mainHtml;
+const homepageMainBeforeOutcomes = homepageFeaturesIndex >= 0 ? mainHtml.slice(0, homepageFeaturesIndex) : mainHtml;
+const homepageMainBeforeIntegrations = homepageFeaturesIndex >= 0 ? mainHtml.slice(homepageFeaturesIndex, homepageSetupIndex) : "";
 const homepageMainBeforeProof = homepageSetupIndex >= 0 ? mainHtml.slice(homepageSetupIndex, homepagePricingIndex) : "";
 const homepageMainBetweenProofAndStory = homepagePricingIndex >= 0 && homepageCtaIndex >= 0 ? mainHtml.slice(homepagePricingIndex, homepageCtaIndex) : "";
 const homepageMainAfterStory = homepageCtaIndex >= 0 ? mainHtml.slice(homepageCtaIndex) : "";
@@ -119,6 +126,8 @@ const fallbackJsonLd = {
       <div class="site-main">
         {page.slug === "" ? (
           <>
+            <Fragment set:html={homepageMainBeforeOutcomes} />
+            <HomepageOutcomes />
             <Fragment set:html={homepageMainBeforeIntegrations} />
             <IntegrationIntroduction />
             <Fragment set:html={homepageMainBeforeProof} />

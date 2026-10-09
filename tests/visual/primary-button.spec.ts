@@ -30,7 +30,7 @@ test("primary keyboard focus is consistent at every breakpoint without changing 
     await expect(primary).toHaveCSS("background-color", "rgb(40, 69, 214)");
     await expect(primary).toHaveCSS("color", "rgb(255, 255, 255)");
     await expect(primary).toHaveCSS("transition-duration", "0s");
-    const secondary = page.locator("#hero .button.is-secondary");
+    const secondary = page.locator(".site-footer__logo-cta .button.is-secondary");
     await secondary.hover();
     await expect(secondary).not.toHaveCSS("background-color", "rgb(40, 69, 214)");
     await expect(secondary).toHaveCSS("color", "rgb(26, 26, 26)");

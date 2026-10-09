@@ -220,7 +220,7 @@ test("localized public pages · every language remains responsive across represe
   }
 });
 
-test("homepage · hero CTA pair is responsive and uses canonical actions", async ({ page }) => {
+test("homepage · primary demo CTA is responsive and opens booking", async ({ page }) => {
   for (const width of [1440, 768, 375]) {
     await prepare(page, "/", width, 1000);
     const hero = page.locator(".section_landing-big_hero-header");
@@ -229,15 +229,16 @@ test("homepage · hero CTA pair is responsive and uses canonical actions", async
     await expect(announcement).toHaveAttribute("href", "/ai-catalog-connector");
     await expect(announcement).not.toHaveAttribute("target", "_blank");
     const actions = hero.locator(".button-group.is-center .button");
-    await expect(actions).toHaveCount(2);
-    await expect(actions).toHaveText(["Try for free", "Book a demo"]);
-    await expect(actions.nth(0)).toHaveAttribute("href", "https://apps.shopify.com/peak-pim");
-    await expect(actions.nth(1)).toHaveAttribute("href", "/book-a-demo/");
-    await expect(actions.nth(1)).not.toHaveAttribute("target", "_blank");
-    await expect(actions.nth(1)).toHaveAttribute("data-demo-booking", "");
-    await expect(actions.nth(1)).not.toHaveAttribute("data-open-crisp", "");
-    await expect(actions.nth(0)).toBeVisible();
-    await expect(actions.nth(1)).toBeVisible();
+    await expect(actions).toHaveCount(1);
+    await expect(actions).toHaveText(["Demo with your data"]);
+    await expect(actions).toHaveClass("button w-button");
+    await expect(actions).toHaveAttribute("href", "/book-a-demo/");
+    await expect(actions).not.toHaveAttribute("target", "_blank");
+    await expect(actions).toHaveAttribute("data-demo-booking", "");
+    await expect(actions).not.toHaveAttribute("data-open-crisp", "");
+    await actions.click();
+    await expect(page.locator("#demo-booking-modal")).toBeVisible();
+    await page.locator(".peak-demo-modal__close").click();
     const pricingPreviewCta = page.getByRole("link", { name: "See pricing", exact: true });
     await expect(pricingPreviewCta).toHaveCount(1);
     await expect(pricingPreviewCta).toHaveAttribute("href", "/pricing/");

@@ -41,7 +41,7 @@ Exceptions are allowed when the page context materially benefits from different 
 - Use sentence case and no ending punctuation.
 - Use no more than one primary and one secondary CTA in a section.
 - Use one primary conversion label consistently across a page.
-- Use one primary global header action: `Demo with your data`. This header-specific label opens the shared booking modal, with the localized booking page as its link destination.
+- Use one primary action in the global header and homepage hero: `Demo with your data`. This label opens the shared booking modal, with the localized booking page as its link destination.
 - Use `Book a demo` only for scheduling and `Talk to us` only for a general conversation.
 - Every `Book a demo` CTA uses the shared `bookDemoUrl` from `src/data/cta-copy.ts`, opens the shared booking modal with Google Calendar embedded, and never carries `data-open-crisp`.
 - Use `Try for free` only when a free-trial flow is available at the destination.

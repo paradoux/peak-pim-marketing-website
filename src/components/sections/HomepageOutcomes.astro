@@ -1,0 +1,51 @@
+---
+import SectionHeading from "../ui/SectionHeading.astro";
+
+const cards = [
+  {
+    title: "Hours back every week",
+    description: "Bulk edit thousands of products, collections and media at once, schedule launches with Drops, and let AI draft missing content. No more CSV round trips between Shopify stores.",
+  },
+  {
+    title: "Fewer errors",
+    description: "Review every change before it reaches Shopify. The Health Center flags missing fields and store mismatches, and History shows who changed what.",
+  },
+  {
+    title: "A catalog that sells more",
+    description: "Complete, consistent content converts better on your Shopify store, on Google and in AI assistants like ChatGPT. Fill the gaps with AI and translate for new markets.",
+  },
+];
+---
+
+<section id="outcomes" class="section_layout395 color-scheme-1">
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="padding-section-large">
+        <div class="margin-bottom margin-xxlarge outcomes-heading">
+          <SectionHeading title="Why merchants choose Peak PIM" />
+        </div>
+        <div class="w-layout-grid layout395_row outcomes-grid">
+          {cards.map((card) => (
+            <article class="layout395_card">
+              <div class="layout395_card-content outcomes-content">
+                <div>
+                  <div class="margin-bottom margin-xsmall"><h3 class="heading-style-h4">{card.title}</h3></div>
+                  <p>{card.description}</p>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .outcomes-heading :global(h2) { text-wrap: balance; }
+  .outcomes-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .outcomes-content { gap: 2rem; justify-content: flex-start; }
+  @media (max-width: 991px) {
+    .outcomes-grid { grid-template-columns: 1fr; }
+  }
+</style>

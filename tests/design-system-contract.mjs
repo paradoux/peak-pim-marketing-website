@@ -667,8 +667,8 @@ if (existsSync(homeFile)) {
   if (!heroHtml.includes('href="/ai-catalog-connector" class="ppim-home-pill-wrap"')) failures.push("Homepage announcement must link to the MCP landing page");
   if (!heroHtml.includes("Connect your catalog to AI assistants with MCP")) failures.push("Homepage announcement must promote the MCP connector");
   if (heroHtml.includes("Peak PIM is now available on the Shopify App Store")) failures.push("Homepage still contains the superseded App Store announcement");
-  if (!/href="https:\/\/apps\.shopify\.com\/peak-pim"[^>]*class="button w-button">Try for free<\/a>[\s\S]*?<a(?=[^>]*href="\/book-a-demo\/")(?=[^>]*data-demo-booking)[^>]*class="button is-secondary w-button"[^>]*>Book a demo<\/a>/.test(heroHtml)) {
-    failures.push("Homepage hero must show Try for free first and Book a demo second using the canonical button variants");
+  if (!/<a(?=[^>]*href="\/book-a-demo\/")(?=[^>]*data-demo-booking)[^>]*class="button w-button"[^>]*>Demo with your data<\/a>/.test(heroHtml) || heroHtml.includes(">Try for free<")) {
+    failures.push("Homepage hero must show a single primary Demo with your data CTA");
   }
   if ((footerHtml.match(/class="footer1_link-column/g) ?? []).length !== 5) failures.push("The shared footer must contain the Features area plus four dedicated link columns");
   for (const heading of ["Features", "Solutions", "Compare", "Peak", "Resources"]) {
