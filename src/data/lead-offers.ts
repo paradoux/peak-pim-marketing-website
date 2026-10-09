@@ -7,17 +7,6 @@ export type LeadOffer = {
   submitLabel: string;
   successTitle: string;
   successDescription: string;
-  autoOpen?: {
-    enabled: boolean;
-    delayMs: number;
-    scrollDepth: number;
-    mobileDelayMs?: number;
-    mobileScrollDepth?: number;
-    cooldownDays: number;
-    exactPaths?: readonly string[];
-    pathPrefixes?: readonly string[];
-    excludedPathPrefixes?: readonly string[];
-  };
 };
 
 export const leadOffers = {
@@ -32,30 +21,6 @@ export const leadOffers = {
     successTitle: "Your extended trial is requested",
     successDescription:
       "Our team will send you an email with all the information you need to set up and use your 30-day free trial. Check your inbox, and your spam folder just in case.",
-    autoOpen: {
-      enabled: true,
-      delayMs: 60_000,
-      scrollDepth: 55,
-      mobileDelayMs: 85_000,
-      mobileScrollDepth: 65,
-      cooldownDays: 14,
-      exactPaths: ["/"],
-      pathPrefixes: [
-        "/1-click-setup",
-        "/api",
-        "/bulk-edit",
-        "/shopify-",
-        "/ai-catalog-connector",
-        "/developer-api",
-        "/user-roles-permissions",
-        "/industry/",
-        "/vs/",
-        "/build-vs-buy-pim",
-        "/replace-your-shopify-app-stack",
-        "/customers/",
-      ],
-      excludedPathPrefixes: ["/pricing", "/legals", "/admin", "/design-system"],
-    },
   },
 } as const satisfies Record<string, LeadOffer>;
 

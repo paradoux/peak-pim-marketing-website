@@ -14,6 +14,31 @@ export const bookDemoUrl = "/book-a-demo/";
 export const googleBookingUrl = "https://calendar.app.google/xrdkJh8QCoHqiJzy7";
 export const googleBookingEmbedUrl = "https://calendar.google.com/calendar/appointments/schedules/AcZssZ1_QwawE2iAjuSnFFCFE1fNCGIfmZCXXcLDcDZ3QR7o0KuAiTmpX5WJ_TmenVq7M_TFMa4rtD85?gv=true";
 
+export const demoAutoOpen = {
+  enabled: true,
+  delayMs: 60_000,
+  scrollDepth: 55,
+  mobileDelayMs: 85_000,
+  mobileScrollDepth: 65,
+  cooldownDays: 14,
+  exactPaths: ["/"],
+  pathPrefixes: [
+    "/1-click-setup",
+    "/api",
+    "/bulk-edit",
+    "/shopify-",
+    "/ai-catalog-connector",
+    "/developer-api",
+    "/user-roles-permissions",
+    "/industry/",
+    "/vs/",
+    "/build-vs-buy-pim",
+    "/replace-your-shopify-app-stack",
+    "/customers/",
+  ],
+  excludedPathPrefixes: ["/pricing", "/legals", "/admin", "/design-system"],
+} as const;
+
 export type CanonicalCtaLabel = (typeof ctaLabels)[keyof typeof ctaLabels];
 
 export const canonicalCtaLabels = Object.values(ctaLabels);

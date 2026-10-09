@@ -128,3 +128,96 @@ test("booking animates when motion is allowed and remains shareable without Java
   await expect(fallback.locator("[data-demo-booking-page] iframe")).toHaveAttribute("src", new RegExp(calendarPath));
   await context.close();
 });
+
+
+test("retired trial links open the booking modal across shared layouts", async ({ page }) => {
+  for (const path of ["/", "/shopify-pim-translations/", "/customers/maeli-paris/", "/blog/"]) {
+    await page.goto(`${path}?lead-modal=30-day-extended-trial`, { waitUntil: "domcontentloaded" });
+    await expect(page.locator("#demo-booking-modal")).toBeVisible();
+    await expect(page.locator("#demo-booking-title")).toHaveText("See Peak with your own data");
+    await expect(page.locator("[data-lead-modal-root], [data-lead-form], .cf-turnstile")).toHaveCount(0);
+    await expect(page.locator("#demo-booking-modal iframe")).toHaveAttribute("src", new RegExp(calendarPath));
+  }
+});
+
+for (const width of [1440, 768, 375]) {
+  test(`automatic demo prompt keeps delay, scroll and cooldown at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.clock.install();
+    await page.goto("/", { waitUntil: "load" });
+    const modal = page.locator("#demo-booking-modal");
+    const delay = width < 768 ? 85_000 : 60_000;
+    await page.clock.fastForward(delay);
+    await expect(modal).not.toBeVisible();
+    await page.evaluate(() => {
+      window.scrollTo(0, document.documentElement.scrollHeight);
+      window.dispatchEvent(new Event("scroll"));
+    });
+    await expect(modal).toBeVisible();
+    await expect(page.locator("#demo-booking-title")).toHaveText("See Peak with your own data");
+    expect(await modal.evaluate(el => el.scrollWidth - el.clientWidth)).toBeLessThanOrEqual(1);
+    await page.screenshot({ path: `test-results/demo-prompt-${width}.png` });
+    await modal.getByRole("button", { name: "Close demo booking" }).click();
+    await expect(modal).not.toBeVisible();
+    await page.reload({ waitUntil: "load" });
+    await page.evaluate(() => { window.scrollTo(0, document.documentElement.scrollHeight); window.dispatchEvent(new Event("scroll")); });
+    await page.clock.fastForward(delay);
+    await expect(modal).not.toBeVisible();
+    // Frequency caps never block an explicit request.
+    await page.locator("#hero [data-demo-booking]").click();
+    await expect(modal).toBeVisible();
+  });
+}
+
+test("scroll alone does not open the demo and a manual opening cancels the automatic prompt", async ({ page }) => {
+  await page.clock.install({ time: new Date("2026-10-09T11:59:00Z") });
+  await page.clock.pauseAt(new Date("2026-10-09T12:00:00Z"));
+  await page.goto("/", { waitUntil: "load" });
+  await page.evaluate(() => { window.scrollTo(0, document.documentElement.scrollHeight); window.dispatchEvent(new Event("scroll")); });
+  await page.clock.fastForward(59_000);
+  const modal = page.locator("#demo-booking-modal");
+  await expect(modal).not.toBeVisible();
+  await page.locator("#hero [data-demo-booking]").dispatchEvent("click");
+  await modal.getByRole("button", { name: "Close demo booking" }).dispatchEvent("click");
+  await page.clock.fastForward(90_000);
+  await expect(modal).not.toBeVisible();
+});
+
+test("automatic demo respects exclusions, locales and previous trial suppression", async ({ page }) => {
+  await page.clock.install();
+  for (const path of ["/pricing/", "/book-a-demo/", "/blog/", "/fr/"]) {
+    await page.goto(path, { waitUntil: "load" });
+    await page.evaluate(() => { window.scrollTo(0, document.documentElement.scrollHeight); window.dispatchEvent(new Event("scroll")); });
+    await page.clock.fastForward(90_000);
+    await expect(page.locator("#demo-booking-modal")).not.toBeVisible();
+  }
+  for (const key of ["peak-lead-seen:30-day-extended-trial", "peak-lead-completed:30-day-extended-trial"]) {
+    await page.evaluate(key => { localStorage.clear(); localStorage.setItem(key, String(Date.now())); }, key);
+    await page.goto("/", { waitUntil: "load" });
+    await page.evaluate(() => { window.scrollTo(0, document.documentElement.scrollHeight); window.dispatchEvent(new Event("scroll")); });
+    await page.clock.fastForward(90_000);
+    await expect(page.locator("#demo-booking-modal")).not.toBeVisible();
+  }
+});
+
+
+test("automatic demo waits for another dialog and allows a prompt after cooldown expires", async ({ page }) => {
+  await page.clock.install();
+  await page.goto("/", { waitUntil: "load" });
+  await page.evaluate(() => {
+    localStorage.setItem("peak-demo-seen", String(Date.now() - 15 * 86_400_000));
+    const other = document.createElement("dialog");
+    other.id = "test-other-dialog";
+    document.body.append(other);
+    other.showModal();
+    window.scrollTo(0, document.documentElement.scrollHeight);
+    window.dispatchEvent(new Event("scroll"));
+  });
+  await page.clock.fastForward(90_000);
+  await expect(page.locator("#demo-booking-modal")).not.toBeVisible();
+  await page.evaluate(() => {
+    document.querySelector<HTMLDialogElement>("#test-other-dialog")!.close();
+    window.dispatchEvent(new Event("scroll"));
+  });
+  await expect(page.locator("#demo-booking-modal")).toBeVisible();
+});

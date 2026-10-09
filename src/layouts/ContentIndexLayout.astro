@@ -2,7 +2,6 @@
 import CrispChat from "../components/CrispChat.astro";
 import GlobalWebflowStyles from "../components/GlobalWebflowStyles.astro";
 import DemoBookingModal from "../components/DemoBookingModal.astro";
-import LeadCaptureModal from "../components/LeadCaptureModal.astro";
 import OpenAIAdsTracking from "../components/OpenAIAdsTracking.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
@@ -94,8 +93,7 @@ const noindex = noindexWhenEmpty && entries.length === 0;
         </section>
       </main>
       <SiteFooter locale={locale} currentPath={effectiveCanonicalPath} />
-      {locale === defaultLocale && <LeadCaptureModal />}
-      <DemoBookingModal />
+      <DemoBookingModal autoOpen={locale === defaultLocale} />
       <CrispChat />
     </div>
   </body>

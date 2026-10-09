@@ -1,8 +1,11 @@
 ---
 import DemoBooking from "./sections/DemoBooking.astro";
+
+type Props = { autoOpen?: boolean };
+const { autoOpen = false } = Astro.props;
 ---
 
-<dialog id="demo-booking-modal" class="peak-demo-modal" aria-labelledby="demo-booking-title">
+<dialog data-auto-open={autoOpen ? "true" : undefined} id="demo-booking-modal" class="peak-demo-modal" aria-labelledby="demo-booking-title">
   <div class="peak-demo-modal__panel">
     <button class="peak-demo-modal__close" type="button" aria-label="Close demo booking" autofocus>
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
@@ -12,6 +15,7 @@ import DemoBooking from "./sections/DemoBooking.astro";
 </dialog>
 
 <script>
+  import { demoAutoOpen } from "../data/cta-copy";
   const dialog = document.querySelector<HTMLDialogElement>("#demo-booking-modal");
   if (dialog) {
     let trigger: HTMLElement | null = null;
@@ -26,25 +30,79 @@ import DemoBooking from "./sections/DemoBooking.astro";
       dialog.close();
       closing = false;
     };
-    document.addEventListener("click", (event) => {
-      if (!(event instanceof MouseEvent) || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-      const link = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-demo-booking]") : null;
-      if (!link || dialog.open) return;
-      event.preventDefault();
-      trigger = link;
+    const seenKey = "peak-demo-seen";
+    let shownThisPage = false;
+    const open = (openingTrigger: HTMLElement | null = null) => {
+      if (dialog.open || document.querySelector("dialog[open]")) return;
+      trigger = openingTrigger ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null);
       const pageCalendar = document.querySelector<HTMLIFrameElement>("[data-demo-booking-page] iframe");
       if (pageCalendar) {
         pageCalendar.scrollIntoView({ behavior: reducedMotion.matches ? "instant" : "smooth", block: "center" });
         pageCalendar.focus({ preventScroll: true });
         return;
       }
+      shownThisPage = true;
+      try { localStorage.setItem(seenKey, String(Date.now())); } catch {}
       const frame = dialog.querySelector<HTMLIFrameElement>("iframe[data-booking-src]");
       if (frame && !frame.hasAttribute("src")) frame.src = frame.dataset.bookingSrc!;
       dialog.showModal();
       dialog.scrollTop = 0;
       document.documentElement.classList.add("has-demo-booking");
       if (!reducedMotion.matches) dialog.animate([{ opacity: 0, transform: "translateY(16px)" }, { opacity: 1, transform: "translateY(0)" }], { duration: 220, easing: "ease-out" });
+    };
+    document.addEventListener("click", (event) => {
+      if (!(event instanceof MouseEvent) || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const link = event.target instanceof Element ? event.target.closest<HTMLElement>('[data-demo-booking], [data-lead-modal="30-day-extended-trial"]') : null;
+      if (!link) return;
+      event.preventDefault();
+      open(link);
     });
+
+    // Preserve links to the retired trial popup using the shared booking flow.
+    if (new URLSearchParams(window.location.search).get("lead-modal") === "30-day-extended-trial") {
+      window.setTimeout(() => open(), 250);
+    }
+
+    const rule = demoAutoOpen;
+    const pathname = window.location.pathname;
+    const eligible = dialog.dataset.autoOpen === "true" && rule.enabled &&
+      !rule.excludedPathPrefixes.some(prefix => pathname.startsWith(prefix)) &&
+      (rule.exactPaths.some(path => pathname === path) || rule.pathPrefixes.some(prefix => pathname.startsWith(prefix)));
+    const onCooldown = () => {
+      try {
+        // Respect visitors who already dismissed or completed the old offer.
+        if (localStorage.getItem("peak-lead-completed:30-day-extended-trial")) return true;
+        const lastSeen = Math.max(Number(localStorage.getItem(seenKey) || 0), Number(localStorage.getItem("peak-lead-seen:30-day-extended-trial") || 0));
+        return Date.now() - lastSeen < rule.cooldownDays * 86_400_000;
+      } catch { return false; }
+    };
+    if (eligible && !onCooldown()) {
+      let delayReached = false;
+      let depthReached = false;
+      const isMobile = window.matchMedia("(max-width: 767px)").matches;
+      const maybeOpen = () => {
+        if (shownThisPage || onCooldown()) {
+          window.removeEventListener("scroll", checkDepth);
+          return;
+        }
+        if (delayReached && depthReached && !document.querySelector("dialog[open]")) {
+          window.removeEventListener("scroll", checkDepth);
+          open();
+        }
+      };
+      const checkDepth = () => {
+        const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+        const depth = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 100;
+        if (depth >= (isMobile ? rule.mobileScrollDepth : rule.scrollDepth)) {
+          depthReached = true;
+          maybeOpen();
+        }
+      };
+      window.setTimeout(() => { delayReached = true; maybeOpen(); }, isMobile ? rule.mobileDelayMs : rule.delayMs);
+      window.addEventListener("scroll", checkDepth, { passive: true });
+      if (document.readyState === "complete") window.requestAnimationFrame(checkDepth);
+      else window.addEventListener("load", checkDepth, { once: true });
+    }
     dialog.querySelector(".peak-demo-modal__close")?.addEventListener("click", close);
     dialog.addEventListener("cancel", (event) => { event.preventDefault(); void close(); });
     dialog.addEventListener("click", (event) => { if (event.target === dialog) void close(); });

@@ -162,11 +162,11 @@ for (const [file, contracts] of Object.entries(canonicalContracts)) {
 const designSystemSource = readFileSync(resolve(projectRoot, "src/pages/design-system.astro"), "utf8");
 if (/from ["'][^"']*partners/i.test(designSystemSource)) failures.push("The catalogue imports the unfinished partners page");
 
-const leadModalSource = readFileSync(resolve(projectRoot, "src/components/LeadCaptureModal.astro"), "utf8");
-for (const contract of ["lead-modal__proof", "amelieSamsonMaeliParis", "Founder, Maéli Paris"]) {
-  if (!leadModalSource.includes(contract)) failures.push(`Lead modal is missing customer-proof contract: ${contract}`);
+for (const layout of ["RecreatedLayout", "LandingPageLayout", "ContentLayout", "ContentIndexLayout"]) {
+  const source = readFileSync(resolve(projectRoot, `src/layouts/${layout}.astro`), "utf8");
+  if (source.includes("LeadCaptureModal")) failures.push(`${layout} still renders the retired trial popup`);
+  if (!source.includes("<DemoBookingModal autoOpen={locale === defaultLocale} />")) failures.push(`${layout} is missing the shared demo prompt`);
 }
-if (leadModalSource.includes("lead-modal__proof-link")) failures.push("Lead modal still includes the removed customer-story button");
 
 const partnersBuildFile = resolve(projectRoot, "dist/partners/index.html");
 if (existsSync(partnersBuildFile)) failures.push("The unfinished partners page was included in the production build");

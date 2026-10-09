@@ -1,34 +1,30 @@
-# Lead capture modal
+# Demo prompt and legacy lead capture
 
-The lead capture system is rendered once by every shared site layout. It submits to the same-origin `/api/lead` Cloudflare Pages Function, which validates the request and forwards an approved payload to Make.com. The Make webhook URL never appears in browser code.
+The shared `DemoBookingModal.astro` replaces the 30-day trial email form with “See Peak with your own data” and the existing Google booking calendar. Every shared layout renders a single booking dialog; its calendar loads only when opened.
 
 ## Open the modal
 
-Use the registered offer ID on any link or button:
+Use the shared booking CTA:
 
 ```html
-<a href="#" data-lead-modal="30-day-extended-trial">Get a 30-day trial</a>
+<a href="/book-a-demo/" data-demo-booking>Book a demo</a>
 ```
 
-It can also be opened from JavaScript:
+Existing `?lead-modal=30-day-extended-trial` links and `data-lead-modal="30-day-extended-trial"` triggers now open the booking flow. On the dedicated booking page, they focus the inline calendar.
 
-```js
-window.PeakLeadCapture.open("30-day-extended-trial");
-```
+## Automatic prompt
 
-For local review, append `?lead-modal=30-day-extended-trial` to any page URL.
+Rules live in `demoAutoOpen` in `src/data/cta-copy.ts`. On eligible English pages, opening requires 60 seconds plus 55% scroll on desktop, or 85 seconds plus 65% scroll on mobile. The homepage, selected feature, solution, comparison, and customer pages retain their previous eligibility. Pricing, legal, admin, design-system, and dedicated booking pages do not open automatically. Localized pages retain their manual translated booking modal.
 
-## Add or change an offer
+Any booking modal opening starts a 14-day cooldown in local storage. A manual opening also prevents another automatic prompt on the same page. Previous trial-popup cooldowns and successful submissions remain respected. Other open dialogs are never interrupted.
 
-Offers, copy, success messages, and automatic trigger rules live in `src/data/lead-offers.ts`. Automatic opening requires both the configured delay and scroll depth. Rules can use separate mobile thresholds and page allowlists/exclusions. The current extended-trial offer opens after 60 seconds plus 55% scroll on eligible desktop pages, or after 85 seconds plus 65% scroll on mobile. It is frequency-capped for 14 days with local storage and permanently suppressed in that browser after a successful submission.
+## Retained trial infrastructure
 
-The automatic offer is limited to the homepage, feature, solution, and comparison pages. Pricing, legal, admin, and design-system routes are excluded. Manual CTA triggers always remain available.
+The historical offer definition in `src/data/lead-offers.ts`, `/api/lead`, `/api/lead-event`, and admin reports remain available for existing integrations and historical data. The website no longer renders the email form, loads its Turnstile widget, or sends trial-modal events. Google Calendar bookings are not reported as trial submissions.
+
+The following configuration documents the retained legacy endpoints.
 
 ## Environment variables
-
-Browser build variable:
-
-- `PUBLIC_TURNSTILE_SITE_KEY`: optional Cloudflare Turnstile site-key override for local or preview testing. The production site key is public and included in the modal component so direct Pages deployments cannot accidentally omit bot protection.
 
 Cloudflare Pages Function secrets:
 

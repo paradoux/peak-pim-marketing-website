@@ -364,54 +364,6 @@ test("account proof · approved product, scale, comparison, and fashion pages re
   }
 });
 
-test("lead modal · customer proof and trial form share one responsive layout", async ({ page }) => {
-  for (const viewport of [
-    { name: "desktop", width: 1440, height: 900 },
-    { name: "mobile", width: 375, height: 812 },
-  ]) {
-    await prepare(page, "/?lead-modal=30-day-extended-trial", viewport.width, viewport.height);
-    const dialog = page.locator("[data-lead-modal-root]");
-    await dialog.waitFor({ state: "visible" });
-    await expect(dialog.locator(".lead-modal__proof-image")).toBeVisible();
-    await expect(dialog.locator(".lead-modal__proof-logo")).toBeVisible();
-    await expect(dialog.locator("blockquote")).toContainText("Peak PIM saves us hours every week");
-    await expect(dialog.locator("blockquote")).toContainText("opens new markets and new revenue opportunities");
-    await expect(dialog.locator(".lead-modal__proof-link")).toHaveCount(0);
-    await expect(dialog.locator("[data-lead-modal-title]")).toHaveText("Get your 30 days extended trial");
-    await expect(dialog.locator("input[name='email']")).toBeVisible();
-
-    const layout = await dialog.locator(".lead-modal__layout").evaluate((element) => {
-      const proof = element.querySelector(".lead-modal__proof")?.getBoundingClientRect();
-      const state = element.querySelector(".lead-modal__state")?.getBoundingClientRect();
-      const quote = element.querySelector("blockquote");
-      const attribution = element.querySelector(".lead-modal__proof-attribution")?.getBoundingClientRect();
-      const quoteRect = quote?.getBoundingClientRect();
-      const quoteStyle = quote ? getComputedStyle(quote) : null;
-      return proof && state && attribution && quoteRect && quoteStyle ? {
-        proofLeft: proof.left,
-        proofTop: proof.top,
-        proofRight: proof.right,
-        proofBottom: proof.bottom,
-        stateLeft: state.left,
-        stateTop: state.top,
-        attributionLeft: attribution.left,
-        quoteTextLeft: quoteRect.left + parseFloat(quoteStyle.borderLeftWidth) + parseFloat(quoteStyle.paddingLeft),
-        quoteBorderLeftWidth: parseFloat(quoteStyle.borderLeftWidth),
-      } : null;
-    });
-    expect(layout).not.toBeNull();
-    expect(Math.abs(layout!.attributionLeft - layout!.quoteTextLeft)).toBeLessThanOrEqual(1);
-    if (viewport.name === "desktop") expect(layout!.proofRight).toBeLessThanOrEqual(layout!.stateLeft + 1);
-    if (viewport.name === "desktop") expect(await dialog.locator("blockquote").evaluate((element) => parseFloat(getComputedStyle(element).fontSize))).toBeGreaterThanOrEqual(19);
-    if (viewport.name === "mobile") {
-      expect(layout!.proofBottom).toBeLessThanOrEqual(layout!.stateTop + 1);
-      expect(layout!.quoteBorderLeftWidth).toBe(0);
-    }
-    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
-    await expect(page).toHaveScreenshot(`lead-modal-social-proof-${viewport.name}.png`, { animations: "disabled", fullPage: false, maxDiffPixelRatio: 0.015 });
-  }
-});
-
 test("pricing · SKU, seat, and store limits agree across cards, matrix, and billing periods", async ({ page }) => {
   for (const width of [1440, 768, 375]) {
     await prepare(page, "/pricing/", width, 900);

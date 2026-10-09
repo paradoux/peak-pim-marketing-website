@@ -5,7 +5,6 @@ import SocialProofStats from "../components/sections/SocialProofStats.astro";
 import IntegrationIntroduction from "../components/sections/IntegrationIntroduction.astro";
 import GlobalWebflowStyles from "../components/GlobalWebflowStyles.astro";
 import DemoBookingModal from "../components/DemoBookingModal.astro";
-import LeadCaptureModal from "../components/LeadCaptureModal.astro";
 import OpenAIAdsTracking from "../components/OpenAIAdsTracking.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import SiteHeader from "../components/SiteHeader.astro";
@@ -168,8 +167,7 @@ const fallbackJsonLd = {
         )}
       </div>
       <SiteFooter locale={locale} currentPath={canonicalPath} />
-      {locale === defaultLocale && <LeadCaptureModal />}
-      <DemoBookingModal />
+      <DemoBookingModal autoOpen={locale === defaultLocale} />
       <CrispChat />
     </div>
     <script is:inline>

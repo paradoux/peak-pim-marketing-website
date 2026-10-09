@@ -68,7 +68,7 @@ Registered destination-specific exceptions include `Live demo` for the self-guid
 
 ### Lead capture modal
 
-Use the shared `LeadCaptureModal.astro` system for email capture. Never recreate a form or modal inside a landing page, and never expose a Make.com webhook URL in browser code. Register offer copy and trigger rules in `src/data/lead-offers.ts`, then open it with `data-lead-modal="offer-id"`. See `docs/lead-capture.md` for configuration, privacy, Turnstile, and Make scenario details.
+Use the shared `DemoBookingModal.astro` for “See Peak with your own data”. Open it with a `/book-a-demo/` link and `data-demo-booking`; never recreate the booking modal inside a landing page. The automatic prompt uses `demoAutoOpen` in `src/data/cta-copy.ts`. See `docs/lead-capture.md` for trigger rules and the retained legacy trial infrastructure.
 
 Choose the label from the destination and intent, not from the wording of an individual section. Reusable section props use the `CtaLabel` type, historical recreated pages are normalized when rendered, and the design-system contract checks every public sitemap page. Page-specific wording is allowed only when it is explicitly approved and registered in `ctaExceptions` with a placement-specific test.
 
