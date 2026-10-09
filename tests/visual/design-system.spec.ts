@@ -1188,72 +1188,17 @@ test("translations · logo strip matches the homepage and FAQ matches the featur
   await prepare(page, "/shopify-pim-translations", 1440, 1000);
   const translationStyles = await page.evaluate(readStyles, selectors);
   await expect(page.locator(".section_logo2.color-scheme-2")).toHaveCount(1);
-  await expect(page.locator(".section_logo2 .logo2_wrapper")).toHaveCount(12);
-  await expect(page.locator(".section_logo2 .logo2_link")).toHaveCount(12);
-  expect(await page.locator('.section_logo2 .logo2_link[target="_blank"]').evaluateAll((links) => links.length === 8 && links.every((link) => (
+  await expect(page.locator(".section_logo2 .logo2_wrapper")).toHaveCount(24);
+  await expect(page.locator(".section_logo2 .logo2_link")).toHaveCount(24);
+  expect(await page.locator('.section_logo2 .logo2_link[target="_blank"]').evaluateAll((links) => links.length === 16 && links.every((link) => (
     link.getAttribute("target") === "_blank" && link.getAttribute("rel") === "nofollow noopener"
   )))).toBe(true);
-  const maeliLogoLink = page.locator('.section_logo2 .logo2_link[href="/customers/maeli-paris/"]');
+  const maeliLogoLink = page.locator('.section_logo2 .logo2_link[href="/customers/maeli-paris/"]').first();
   await expect(maeliLogoLink).toHaveAttribute("aria-label", "Read Maéli Paris case study");
-  await expect(maeliLogoLink.locator(".logo2_case-study-badge")).toHaveText("Case study");
-  await expect(page.locator(".section_logo2 .logo2_case-study-card")).toHaveCount(4);
-  const maeliWrapper = maeliLogoLink.locator("..");
-  await expect(maeliWrapper.locator(".logo2_case-study-card")).not.toBeVisible();
-  const restingLogoStyles = await maeliLogoLink.evaluate((element) => ({
-    linkTransform: getComputedStyle(element).transform,
-    imageTransform: getComputedStyle(element.querySelector("img")!).transform,
-  }));
-  await maeliLogoLink.hover();
-  await expect.poll(() => maeliLogoLink.evaluate((element) => ({
-    linkTransform: getComputedStyle(element).transform,
-    imageTransform: getComputedStyle(element.querySelector("img")!).transform,
-  }))).not.toEqual(restingLogoStyles);
-  await expect(maeliWrapper.locator(".logo2_case-study-card")).toBeVisible();
-  await expect(maeliWrapper.locator(".logo2_case-study-card__cta")).toHaveAttribute("href", "/customers/maeli-paris/");
-  const houseOfStauntonLogoLink = page.locator('.section_logo2 .logo2_link[href="/customers/house-of-staunton/"]');
-  await expect(houseOfStauntonLogoLink).toHaveCount(2);
-  const houseLogoLink = houseOfStauntonLogoLink.filter({ has: page.locator('.logo2_logo--house-of-staunton') });
-  await expect(houseLogoLink).toHaveAttribute("aria-label", "Read House of Staunton case study");
-  await expect(houseLogoLink.locator(".logo2_case-study-badge")).toHaveText("Case study");
-  await expect(houseLogoLink).not.toHaveAttribute("target", "_blank");
-  await expect(houseLogoLink).not.toHaveAttribute("rel", "nofollow noopener");
-  await expect(maeliWrapper.locator(".logo2_case-study-card")).toHaveScreenshot("maeli-logo-case-study-card.png", {
-    animations: "disabled",
-    maxDiffPixelRatio: 0.01,
-  });
-  const usChessLogoLink = page.locator('.section_logo2 .logo2_link[aria-label="Read US Chess Federation case study"]');
-  await expect(usChessLogoLink).toHaveAttribute("href", "/customers/house-of-staunton/");
-  await expect(usChessLogoLink.locator(".logo2_case-study-badge")).toHaveText("Case study");
-  await usChessLogoLink.hover();
-  const usChessCard = usChessLogoLink.locator("..").locator(".logo2_case-study-card");
-  await expect(usChessCard).toBeVisible();
-  await expect(usChessCard).toContainText("Almost all our products matched correctly by SKU");
-  await expect(usChessCard.locator(".logo2_case-study-card__cta")).toHaveAttribute("href", "/customers/house-of-staunton/");
-  await houseLogoLink.hover();
-  const houseCard = houseLogoLink.locator("..").locator(".logo2_case-study-card");
-  await expect(houseCard).toBeVisible();
-  await expect(houseCard).toContainText("Bulk edits save a huge amount of time");
-  await expect(houseCard.locator(".logo2_case-study-card__cta")).toHaveAttribute("href", "/customers/house-of-staunton/");
-  const duBruitLogoLink = page.locator('.section_logo2 .logo2_link[aria-label="Read Du Bruit dans la Cuisine case study"]');
-  await expect(duBruitLogoLink).toHaveAttribute("href", "/customers/du-bruit-dans-la-cuisine/");
-  await expect(duBruitLogoLink.locator(".logo2_case-study-badge")).toHaveText("Case study");
-  await duBruitLogoLink.hover();
-  const duBruitCard = duBruitLogoLink.locator("..").locator(".logo2_case-study-card");
-  await expect(duBruitCard).toBeVisible();
-  await expect(duBruitCard).toContainText("centralize all our product content");
-  await expect(duBruitCard).toContainText("Simon Tordjman");
-  await expect(duBruitCard.locator(".logo2_case-study-card__cta")).toHaveAttribute("href", "/customers/du-bruit-dans-la-cuisine/");
-  const waterdropLogoLink = page.locator('.section_logo2 .logo2_link[href="https://www.waterdrop.com/"]');
-  await waterdropLogoLink.hover();
-  await expect.poll(() => waterdropLogoLink.evaluate((element) => ({
-    background: getComputedStyle(element).backgroundColor,
-    imageOpacity: getComputedStyle(element.querySelector("img")!).opacity,
-  }))).toEqual({ background: "rgba(0, 0, 0, 0)", imageOpacity: "1" });
-  await expect(page.locator(".section_logo2")).toHaveScreenshot("translations-logo-strip-waterdrop-hover.png", {
-    animations: "disabled",
-    maxDiffPixelRatio: 0.015,
-  });
-  await expect(page.locator(".section_logo2 h2")).toHaveText("Trusted by 70+ top merchants worldwide");
+  await expect(page.locator(".section_logo2 .peak-logo-marquee__duplicate")).toHaveCount(12);
+  await expect(page.locator(".section_logo2 .logo2_case-study-card")).toHaveCount(8);
+  await expect(page.locator(".section_logo2 .peak-logo-marquee__group[aria-hidden]")).not.toHaveAttribute("inert", "");
+  await expect(page.locator(".section_logo2 h2")).toHaveText("They run their catalogs on Peak");
   await expect(page.locator(".section_faq1 h2")).toHaveText("Frequently asked questions");
 
   await prepare(page, "/shopify-media-management", 1440, 1000);
@@ -1261,36 +1206,58 @@ test("translations · logo strip matches the homepage and FAQ matches the featur
 
   await prepare(page, "/industry/fashion", 1440, 1000);
   expect(await page.evaluate(readStyles, selectors.slice(0, 2))).toEqual(translationStyles.slice(0, 2));
-  await expect(page.locator(".section_logo2 .logo2_wrapper")).toHaveCount(12);
-  await expect(page.locator(".section_logo2 h2")).toHaveText("Trusted by 70+ top merchants worldwide");
+  await expect(page.locator(".section_logo2 .logo2_wrapper")).toHaveCount(24);
+  await expect(page.locator(".section_logo2 h2")).toHaveText("They run their catalogs on Peak");
 });
 
-test("shared logo strip · customer case-study badges stay usable across responsive widths", async ({ page }) => {
-  for (const width of [768, 375]) {
-    await prepare(page, "/shopify-pim-translations", width, 1024);
+test("shared logo strip · motion, pause, keyboard links, and reduced motion", async ({ page }) => {
+  for (const width of [1440, 768, 375]) {
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await prepare(page, "/", width, 1000);
     const strip = page.locator(".section_logo2");
     await strip.scrollIntoViewIfNeeded();
-    await expect(strip.locator(".logo2_case-study-badge")).toHaveCount(4);
-    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
-
-    for (const proof of [
-      { label: "Read Du Bruit dans la Cuisine case study", href: "/customers/du-bruit-dans-la-cuisine/" },
-      { label: "Read US Chess Federation case study", href: "/customers/house-of-staunton/" },
-      { label: "Read House of Staunton case study", href: "/customers/house-of-staunton/" },
-    ]) {
-      const link = strip.locator(`.logo2_link[aria-label="${proof.label}"]`);
-      await expect(link).toHaveAttribute("href", proof.href);
-      if (width >= 768) {
-        await link.hover();
-        const card = link.locator("xpath=..").locator(".logo2_case-study-card");
-        await expect(card).toBeVisible();
-        const rect = await card.evaluate((element) => element.getBoundingClientRect().toJSON());
-        expect(rect.left).toBeGreaterThanOrEqual(0);
-        expect(rect.right).toBeLessThanOrEqual(width);
-      } else {
-        await expect(link.locator("xpath=..").locator(".logo2_case-study-card")).toBeHidden();
-      }
+    const track = strip.locator(".peak-logo-marquee__track");
+    await page.mouse.move(0, 0);
+    await expect(track).toHaveCSS("animation-play-state", "running");
+    const initial = await track.evaluate(el => getComputedStyle(el).transform);
+    await expect.poll(() => track.evaluate(el => getComputedStyle(el).transform)).not.toBe(initial);
+    const widths = await strip.locator(".peak-logo-marquee__group").evaluateAll(groups => groups.map(el => el.getBoundingClientRect().width));
+    expect(widths[0]).toBeCloseTo(widths[1], 2);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+    await strip.hover();
+    await expect(track).toHaveCSS("animation-play-state", "paused");
+    await expect(strip.getByRole("checkbox")).toHaveCount(0);
+    await expect(strip.locator(".logo2_case-study-badge")).toHaveCount(8);
+    if (width >= 768) {
+      const maeli = strip.locator('.logo2_wrapper').filter({ has: page.locator('.logo2_logo--maeli') }).first();
+      await maeli.hover();
+      const preview = maeli.locator('.logo2_case-study-card');
+      await expect(preview).toBeVisible();
+      expect(await preview.evaluate(el => el.matches(':popover-open'))).toBe(true);
+      const bounds = await preview.boundingBox();
+      expect(bounds!.x).toBeGreaterThanOrEqual(0);
+      expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(width);
+      await preview.locator('a').hover();
+      await expect(preview).toBeVisible();
+      await page.mouse.move(0, 0);
+      await expect(preview).toBeHidden();
+      await track.evaluate(el => { el.getAnimations()[0].currentTime = 85_000; });
+      const repeatedMaeli = strip.locator('.peak-logo-marquee__duplicate').filter({ has: page.locator('.logo2_logo--maeli') });
+      await repeatedMaeli.hover();
+      await expect(repeatedMaeli.locator('.logo2_case-study-card')).toBeVisible();
+      await page.mouse.move(0, 0);
+      await expect(repeatedMaeli.locator('.logo2_case-study-card')).toBeHidden();
     }
+    await strip.locator(".logo2_link").first().focus();
+    await expect(strip.locator(".logo2_link").first()).toBeFocused();
+    await expect(track).toHaveCSS("animation-name", "none");
+    await expect(strip.locator(".peak-logo-marquee__group[aria-hidden]")).toBeHidden();
+    await page.keyboard.press("Tab");
+    await expect(strip.locator('.logo2_link[href="/customers/maeli-paris/"]').first()).toBeFocused();
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await expect(track).toHaveCSS("animation-name", "none");
+    await expect(strip.locator(".logo2_link")).toHaveCount(24);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
   }
 });
 
@@ -1316,7 +1283,7 @@ for (const specimen of [
     await section.scrollIntoViewIfNeeded();
     await expect(section).toBeVisible();
     if (specimen.name === "logo-strip-canonical") {
-      await page.locator(`${specimen.selector} img`).evaluateAll(async (images) => {
+      await page.locator(`${specimen.selector} .peak-logo-marquee__group:not([aria-hidden]) .logo2_link > img`).evaluateAll(async (images) => {
         await Promise.all(images.map((image) => (image as HTMLImageElement).complete
           ? Promise.resolve()
           : new Promise<void>((resolve) => image.addEventListener("load", () => resolve(), { once: true }))));

@@ -106,7 +106,7 @@ Feature pages are described as `WebPage` entities about the single canonical Pea
 ## Canonical sections
 
 - `Hero.astro` exposes `peak-hero` and emits `section_header26` and `header26_component`.
-- `LogoCloud.astro` exposes `peak-logo-cloud` and emits the exact compact dark `section_logo2` proof strip used on the homepage. Feature pages and the Media page must use this shared treatment rather than the retired light scrolling logo strip.
+- `LogoCloud.astro` exposes `peak-logo-cloud` and emits the shared dark `section_logo2` merchant marquee used on the homepage. Twelve linked logos move slowly in one muted row with fading edges; a repeated group makes the loop seamless without adding duplicate keyboard stops. Hover or focus stops motion. Customer-story badges open the approved previews above the row. Keyboard navigation and reduced motion show a static grid of the original links. Feature pages and the Media page use the same treatment.
 - `ProblemGrid.astro` exposes `peak-problem-grid` and emits `section_layout237`.
 - `FeatureSteps.astro` exposes `peak-feature-steps` and emits `section_layout239` and its three-item visual grid.
 - `CardGrid.astro` exposes `peak-card-grid` and emits `section_layout395`; every item keeps its visual, tag, heading, and description inside the same bordered card.

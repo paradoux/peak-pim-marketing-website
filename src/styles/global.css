@@ -274,12 +274,6 @@ html {
   margin: 0;
 }
 
-/* Keep the shared merchant logo cloud balanced as the approved set grows. */
-.section_logo2 .logo2_logo-list {
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: clamp(0.85rem, 1.5vw, 1.5rem);
-}
-
 .section_logo2 .logo2_wrapper {
   position: relative;
   min-width: 0;
@@ -856,9 +850,6 @@ path[style*="pp-pos-conn-line-pulse"] {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .section_logo2 .logo2_logo-list {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
 
   :is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-card {
     top: calc(100% + 0.8rem);
@@ -871,11 +862,6 @@ path[style*="pp-pos-conn-line-pulse"] {
   }
 }
 
-@media screen and (max-width: 767px) {
-  .section_logo2 .logo2_logo-list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
 
 @media (max-width: 767px), (hover: none) {
   :is(.section_logo2, .peak-social-proof-stats) .logo2_case-study-card {
@@ -883,12 +869,6 @@ path[style*="pp-pos-conn-line-pulse"] {
   }
 }
 
-@media screen and (max-width: 479px) {
-  .section_logo2 .logo2_logo-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-}
 
 @media (prefers-reduced-motion: reduce) {
   .section_logo2 .logo2_link,
@@ -2248,5 +2228,57 @@ path[style*="pp-pos-conn-line-pulse"] {
   .language-suggestion__accept,
   .language-suggestion__dismiss {
     transition: none;
+  }
+}
+
+/* Shared merchant marquee: one quiet, continuous row, with a static accessible grid on focus. */
+.section_logo2 .container-large { max-width: none; }
+.section_logo2 .padding-section-medium { padding-top: 2.75rem; padding-bottom: 2.75rem; }
+.section_logo2 .logo2_content { display: block; }
+.section_logo2 .logo2_content-left { position: relative; max-width: none; margin-bottom: 1.5rem; text-align: center; }
+.section_logo2 .heading-style-h6 { text-align: center; color: #999; font-size: .875rem; line-height: 1.5; text-transform: uppercase; }
+.section_logo2 .peak-logo-marquee { width: 100%; min-width: 0; padding-top: 0; display: block; overflow: hidden; mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent); }
+.peak-logo-marquee__track { display: flex; width: max-content; animation: peak-logo-marquee-scroll 90s linear infinite; }
+.peak-logo-marquee__group { display: flex; flex: none; align-items: center; gap: 3rem; padding: 0 1.5rem; }
+.section_logo2 .logo2_wrapper, .peak-logo-marquee__duplicate { display: flex; align-items: center; justify-content: center; flex: 0 0 12rem; width: 12rem; height: 6rem; }
+.section_logo2 .logo2_link > img { width: auto; max-width: 100%; max-height: 3.75rem; object-fit: contain; opacity: .62; transform: scale(var(--logo-visual-scale, 1)); }
+.section_logo2 .peak-logo-marquee .logo2_logo { max-height: 3.75rem; }
+.section_logo2:hover .peak-logo-marquee__track,
+.section_logo2:focus-within .peak-logo-marquee__track { animation-play-state: paused; }
+@keyframes peak-logo-marquee-scroll { to { transform: translateX(-50%); } }
+/* Show every original link when navigating by keyboard, without clipped focus targets. */
+.section_logo2:has(.logo2_link:focus-visible, .logo2_case-study-card:focus-within) .peak-logo-marquee { mask-image: none; }
+.section_logo2:has(.logo2_link:focus-visible, .logo2_case-study-card:focus-within) .peak-logo-marquee__track { animation: none; width: 100%; }
+.section_logo2:has(.logo2_link:focus-visible, .logo2_case-study-card:focus-within) .peak-logo-marquee__group:not([aria-hidden]) { display: grid; width: 100%; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 1rem; padding: 0; }
+.section_logo2:has(.logo2_link:focus-visible, .logo2_case-study-card:focus-within) .peak-logo-marquee__group[aria-hidden] { display: none; }
+@media (max-width: 767px) {
+  .section_logo2 .padding-section-medium { padding-top: 2rem; padding-bottom: 2rem; }
+  .section_logo2 .peak-logo-marquee .logo2_logo { max-height: 3.25rem; }
+  .peak-logo-marquee__group { gap: 2rem; padding: 0 1rem; }
+  .section_logo2 .logo2_wrapper, .peak-logo-marquee__duplicate { flex-basis: 10rem; width: 10rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .section_logo2 .peak-logo-marquee { mask-image: none; }
+  .peak-logo-marquee__track { animation: none; width: 100%; }
+  .peak-logo-marquee__group:not([aria-hidden]) { display: grid; width: 100%; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 1rem; padding: 0; }
+  .peak-logo-marquee__group[aria-hidden] { display: none; }
+}
+
+/* Top-layer previews stay outside the marquee's clipping and edge mask. */
+.section_logo2 .peak-logo-marquee .logo2_case-study-card[popover] {
+  position: fixed; inset: auto; margin: 0; transform: none; transition: none;
+}
+.section_logo2 .peak-logo-marquee .logo2_case-study-card[popover]:not(:popover-open) { display: none; }
+.section_logo2 .peak-logo-marquee .logo2_case-study-card[popover]:popover-open {
+  opacity: 1; visibility: visible; pointer-events: auto;
+}
+.section_logo2 .peak-logo-marquee .logo2_case-study-card[popover]::after { display: none; }
+.section_logo2 .logo2_link--case-study { gap: .5rem; }
+.section_logo2 .logo2_case-study-badge { font-size: .65rem; }
+
+@media (min-width: 992px) {
+  .section_landing-big_hero-header h1 {
+    max-width: 18ch;
+    margin-inline: auto;
   }
 }

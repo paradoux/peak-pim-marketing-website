@@ -23,7 +23,7 @@ function innerMatch(html: string, pattern: RegExp) {
   return html.match(pattern)?.[1] ?? "";
 }
 
-const sharedLogoBannerTitle = "Trusted by 70+ top merchants worldwide";
+const sharedLogoBannerTitle = "They run their catalogs on Peak";
 const sharedLogoDetails = [
   { source: "Tupperware-White-logo", optimizedSrc: assets.customerLogos.banner.tupperware, width: 145, height: 64, slug: "tupperware", name: "Tupperware", href: "https://www.tupperware.com/fr" },
   { source: "Mae-li-White-logo", optimizedSrc: assets.customerLogos.banner.maeli, width: 123, height: 54, slug: "maeli", name: "Maéli Paris", href: "/customers/maeli-paris/" },
@@ -40,12 +40,12 @@ const sharedLogoDetails = [
 ] as const;
 const supplementalLogoBannerHtml = [
   `<div class="logo2_wrapper"><img width="145" height="64" alt="Lafaurie" src="${assets.customerLogos.banner.lafaurie}" loading="lazy" class="logo2_logo logo2_logo--lafaurie"></div>`,
+  `<div class="logo2_wrapper"><img width="256" height="182" alt="US Chess Federation" src="${assets.customerLogos.banner.usChessFederation}" loading="lazy" class="logo2_logo logo2_logo--us-chess-federation"></div>`,
   `<div class="logo2_wrapper"><img width="145" height="45" alt="Gully Labs" src="${assets.customerLogos.banner.gullyLabs}" loading="lazy" class="logo2_logo logo2_logo--jatni-labs"></div>`,
   `<div class="logo2_wrapper"><img width="145" height="76" alt="Waterdrop" src="${assets.customerLogos.banner.waterdrop}" loading="lazy" class="logo2_logo logo2_logo--waterdrop"></div>`,
   `<div class="logo2_wrapper"><img width="145" height="57" alt="Naked Wolfe" src="${assets.customerLogos.banner.nakedWolfe}" loading="lazy" class="logo2_logo logo2_logo--transparent-source logo2_logo--naked-wolfe"></div>`,
   `<div class="logo2_wrapper"><img width="145" height="45" alt="Lillicoco" src="${assets.customerLogos.banner.lillicoco}" loading="lazy" class="logo2_logo logo2_logo--transparent-source logo2_logo--lillicoco"></div>`,
   `<div class="logo2_wrapper"><img width="145" height="95" alt="What Matters" src="${assets.customerLogos.banner.whatMatters}" loading="lazy" class="logo2_logo logo2_logo--transparent-source logo2_logo--what-matters"></div>`,
-  `<div class="logo2_wrapper"><img width="256" height="182" alt="US Chess Federation" src="${assets.customerLogos.banner.usChessFederation}" loading="lazy" class="logo2_logo logo2_logo--us-chess-federation"></div>`,
   `<div class="logo2_wrapper"><img width="360" height="364" alt="House of Staunton" src="${assets.customerLogos.banner.houseOfStaunton}" loading="lazy" class="logo2_logo logo2_logo--house-of-staunton"></div>`,
 ].join("");
 const maeliCaseStudyCardHtml = `<aside class="logo2_case-study-card" aria-label="Maéli Paris case study preview">
@@ -168,7 +168,21 @@ function updateSharedLogoBanner(html: string) {
     `$1${supplementalLogoBannerHtml}`,
   );
 
-  return linkSharedLogos(addSharedLogoModifiers(withEveryLogo));
+  return addSharedLogoModifiers(withEveryLogo).replace(
+    /<section class="section_logo2 color-scheme-2">[\s\S]*?<\/section>/g,
+    (section) => section
+      .replace(
+        /(<div[^>]*class="logo2_logo-list"[^>]*>)((?:<div[^>]*class="logo2_wrapper"[^>]*><img[^>]*><\/div>)+)/,
+        (_match, opening, items) => {
+          const linkedItems = linkSharedLogos(items);
+          const duplicateItems = linkedItems
+            .replace(/\sid="[^"]*"/g, "")
+            .replace(/class="logo2_wrapper/g, 'class="peak-logo-marquee__duplicate logo2_wrapper')
+            .replace(/<a /g, '<a tabindex="-1" ');
+          return `${opening.replace('class="logo2_logo-list"', 'class="logo2_logo-list peak-logo-marquee"')}<div class="peak-logo-marquee__track"><div class="peak-logo-marquee__group">${linkedItems}</div><div class="peak-logo-marquee__group" aria-hidden="true">${duplicateItems}</div></div>`;
+        },
+      ),
+  );
 }
 
 const sharedHeaderHtml = normalizeCtaCopyInHtml(

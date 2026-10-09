@@ -1017,24 +1017,20 @@ for (const slug of homepageLogoBannerPages) {
 
   if (!bannerHtml) failures.push(`/${slug} is missing the homepage logo banner`);
   if ((mainHtml.match(/\bsection_logo3\b/g) ?? []).length) failures.push(`/${slug} still contains the retired scrolling logo banner`);
-  if (!bannerHtml.includes(">Trusted by 70+ top merchants worldwide</h2>")) failures.push(`/${slug} does not use the homepage logo-banner heading`);
-  if (bannerClassCount("logo2_wrapper") !== 12) failures.push(`/${slug} does not use the homepage twelve-logo set`);
-  if (bannerClassCount("logo2_link") !== 12) failures.push(`/${slug} does not link every homepage customer logo`);
-  if ((bannerHtml.match(/rel="nofollow noopener"/g) ?? []).length !== 8) failures.push(`/${slug} external customer-logo links are missing nofollow and noopener`);
+  if (!bannerHtml.includes(">They run their catalogs on Peak</h2>")) failures.push(`/${slug} does not use the homepage logo-banner heading`);
+  if (bannerClassCount("logo2_wrapper") !== 24) failures.push(`/${slug} does not use the homepage twelve-logo set`);
+  if (bannerClassCount("logo2_link") !== 24) failures.push(`/${slug} does not link every homepage customer logo`);
+  if ((bannerHtml.match(/rel="nofollow noopener"/g) ?? []).length !== 16) failures.push(`/${slug} external customer-logo links are missing nofollow and noopener`);
   const bannerImages = bannerHtml.match(/<img\b[^>]*>/g) ?? [];
-  if (bannerImages.length !== 20 || bannerImages.some((image) => !/\bwidth="\d+"/.test(image) || !/\bheight="\d+"/.test(image))) {
-    failures.push(`/${slug} customer logos and case-study images must declare numeric intrinsic dimensions`);
+  if (bannerImages.length !== 40 || bannerImages.some((image) => !/\bwidth="\d+"/.test(image) || !/\bheight="\d+"/.test(image))) {
+    failures.push(`/${slug} original and decorative customer logos must declare numeric intrinsic dimensions`);
   }
-  for (const contract of ["logo2_wrapper--case-study", "logo2_case-study-badge", "logo2_case-study-card", "Amélie Samson", ">See case study "]) {
-    if (!bannerHtml.includes(contract)) failures.push(`/${slug} Maéli Paris logo is missing case-study contract: ${contract}`);
+  for (const contract of ["peak-logo-marquee__track", 'aria-hidden="true"']) {
+    if (!bannerHtml.includes(contract)) failures.push(`/${slug} is missing accessible marquee markup: ${contract}`);
   }
-  if (bannerClassCount("logo2_wrapper--case-study") !== 4 || bannerClassCount("logo2_case-study-badge") !== 4 || bannerClassCount("logo2_case-study-card") !== 4) failures.push(`/${slug} must show case-study badges and previews for Maéli Paris, Du Bruit dans la Cuisine, US Chess, and House of Staunton`);
-  for (const proof of ["Du Bruit dans la Cuisine case study preview", "centralize all our product content", "Simon Tordjman"]) {
-    if (!bannerHtml.includes(proof)) failures.push(`/${slug} Du Bruit dans la Cuisine logo proof is missing: ${proof}`);
-  }
-  for (const proof of ["US Chess Sales case study preview", "House of Staunton case study preview", "Almost all our products matched correctly by SKU", "Bulk edits save a huge amount of time", "Shawn"]) {
-    if (!bannerHtml.includes(proof)) failures.push(`/${slug} chess customer logo proof is missing: ${proof}`);
-  }
+  if (bannerClassCount("peak-logo-marquee__duplicate") !== 12) failures.push(`/${slug} must repeat all twelve logos for a seamless loop`);
+  if (bannerClassCount("logo2_case-study-badge") !== 8 || bannerClassCount("logo2_case-study-card") !== 8) failures.push(`/${slug} must retain customer-story badges and previews`);
+  if (bannerHtml.includes("peak-logo-marquee__pause")) failures.push(`/${slug} must not show a play/pause control`);
   for (const logoFile of homepageLogoFiles) {
     if (!bannerHtml.includes(logoFile)) failures.push(`/${slug} is missing homepage customer logo: ${logoFile}`);
   }

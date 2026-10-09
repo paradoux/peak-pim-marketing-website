@@ -15,7 +15,7 @@
 ## Section wrappers
 
 - `Hero.astro`: `peak-hero` (`section_header26`); centered H1, lead, two-button group, wide product visual.
-- `LogoCloud.astro`: `peak-logo-cloud` (`section_logo2`); exact compact dark customer-proof strip from the homepage, with its original heading, spacing, and four white merchant logos.
+- `LogoCloud.astro`: `peak-logo-cloud` (`section_logo2`); shared dark merchant marquee from the homepage, with twelve muted linked logos, fading edges, a seamless repeat, customer-story badges and hover previews, and a static grid for keyboard navigation and reduced motion.
 - `ProblemGrid.astro`: `peak-problem-grid` (`section_layout237`); three parallel items with H4 headings.
 - `FeatureSteps.astro`: `peak-feature-steps` (`section_layout239`); three equal visual workflow steps.
 - `CardGrid.astro`: `peak-card-grid` (`section_layout395`); three complete bordered cards, each containing its visual, tag, H4, and body copy.

@@ -3,7 +3,7 @@ import { getSharedLogoBannerHtml } from "../../lib/page-source";
 
 type Props = { title?: string };
 
-const { title = "Trusted by 70+ top merchants worldwide" } = Astro.props;
+const { title = "They run their catalogs on Peak" } = Astro.props;
 
 function escapeHtml(value: string) {
   return value
@@ -19,7 +19,7 @@ const logoCloudHtml = getSharedLogoBannerHtml()
     `<section class="section_logo2 peak-logo-cloud color-scheme-2" aria-label="${escapeHtml(title)}">`,
   )
   .replace('class="logo2_component"', 'class="logo2_component peak-logo-cloud__component"')
-  .replace('class="logo2_logo-list"', 'class="logo2_logo-list peak-logo-cloud__list"')
+  .replace('class="logo2_logo-list peak-logo-marquee"', 'class="logo2_logo-list peak-logo-marquee peak-logo-cloud__list"')
   .replace(/class="logo2_wrapper([^"]*)"/g, 'class="logo2_wrapper$1 peak-logo-cloud__item"')
   .replace(
     /<h2 class="heading-style-h6">[^<]*<\/h2>/,
