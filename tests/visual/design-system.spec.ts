@@ -1241,6 +1241,8 @@ test("shared logo strip · motion, pause, keyboard links, and reduced motion", a
       await expect(preview).toBeVisible();
       await page.mouse.move(0, 0);
       await expect(preview).toBeHidden();
+      await strip.locator(".heading-style-h6").hover();
+      await expect(track).toHaveCSS("animation-play-state", "paused");
       await track.evaluate(el => { el.getAnimations()[0].currentTime = 85_000; });
       const repeatedMaeli = strip.locator('.peak-logo-marquee__duplicate').filter({ has: page.locator('.logo2_logo--maeli') });
       await repeatedMaeli.hover();
