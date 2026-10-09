@@ -695,7 +695,7 @@ if (existsSync(homeFile)) {
   if (!html.includes('href="/customers/du-bruit-dans-la-cuisine/" class="customers-mega-menu__story-link"')) failures.push("The shared header Customers menu is missing the Du Bruit dans la Cuisine use case");
   if (!customerStoryHtml.includes("How Maéli Paris gets hours back every week")) failures.push("The homepage is missing the Maéli Paris customer-story section");
   if (!customerStoryHtml.includes('href="/customers/maeli-paris/"')) failures.push("The homepage Maéli Paris customer story is missing its internal link");
-  if (!customerStoryHtml.includes(">See use case</a>")) failures.push("The homepage Maéli Paris customer story must use the approved See use case CTA");
+  if (!customerStoryHtml.includes(">Read story</a>")) failures.push("The homepage Maéli Paris customer story must use the approved Read story CTA");
   if (!customerStoryHtml.includes('src="/assets/testimonials/amelie-samson-maeli-paris.webp"')) failures.push("The homepage Maéli Paris customer story is missing Amélie's registered portrait");
   if (!customerStoryHtml.includes('src="/mirror/6a02fa863eea804db7dc36f9_Maeli-Black-logo-138c12bb52.png"')) failures.push("The homepage Maéli Paris customer story is missing the registered company logo");
   for (const fact of ["70+", "240+", "1,650,000"]) {
@@ -864,7 +864,7 @@ if (existsSync(sitemapFile)) {
     "Demo with your data",
     "Live demo",
     "View API documentation",
-    "See use case",
+    "Read story",
     "Talk to us",
     "See pricing",
     "See how it works",

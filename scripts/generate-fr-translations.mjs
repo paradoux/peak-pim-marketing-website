@@ -144,7 +144,7 @@ function applyFrenchGlossary(text, source = "") {
     "See how it works": "Voir comment ça marche",
     "See pricing": "Voir les tarifs",
     "See the comparison": "Voir la comparaison",
-    "See use case": "Voir le cas client",
+    "Read story": "Lire le témoignage",
     "Talk to us": "Nous contacter",
     "SKUs managed": "SKU gérés",
     "Standard": "Standard",

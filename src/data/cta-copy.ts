@@ -47,7 +47,7 @@ export const ctaExceptions = {
   headerDemo: "Demo with your data",
   liveDemo: "Live demo",
   apiDocumentation: "View API documentation",
-  seeUseCase: "See use case",
+  seeUseCase: "Read story",
 } as const;
 
 export const frenchCtaLabels = {
@@ -62,7 +62,7 @@ export const frenchCtaLabels = {
   learnMore: "En savoir plus",
   liveDemo: "Démo en ligne",
   apiDocumentation: "Voir la documentation API",
-  seeUseCase: "Voir le cas client",
+  seeUseCase: "Lire le témoignage",
 } as const;
 
 export type CtaExceptionLabel = (typeof ctaExceptions)[keyof typeof ctaExceptions];

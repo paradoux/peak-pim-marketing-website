@@ -87,6 +87,8 @@ test("customers menu · House of Staunton use case fits and links from the share
     await expect(toggle).toHaveAttribute("aria-expanded", "true");
     const stories = header.locator(".customers-mega-menu__stories");
     await expect(stories.locator(".customers-mega-menu__story-link")).toHaveCount(5);
+    await expect(header.locator("#customers-use-cases-heading")).toHaveText(target.path.startsWith("/fr/") ? "Témoignages clients" : "Customer stories");
+    await expect(stories.locator(".customers-mega-menu__action")).toHaveText(Array(5).fill(target.path.startsWith("/fr/") ? "Lire le témoignage→" : "Read story→"));
     const customerPath = target.path.startsWith("/fr/") ? "/fr/clients/" : "/customers/";
     const link = stories.locator(`.customers-mega-menu__story-link[href="${customerPath}house-of-staunton/"]`);
     await expect(link).toBeVisible();
@@ -286,7 +288,7 @@ test("homepage · Maéli Paris customer story sits between pricing and the final
     await expect(story.locator("h2")).toHaveText("How Maéli Paris gets hours back every week");
     await expect(story.locator("img").first()).toHaveAttribute("alt", "Maéli Paris");
     await expect(story.locator(".peak-customer-story-hero__image")).toHaveAttribute("src", "/assets/testimonials/amelie-samson-maeli-paris.webp");
-    await expect(story.getByRole("link", { name: "See use case" })).toHaveAttribute("href", "/customers/maeli-paris/");
+    await expect(story.getByRole("link", { name: "Read story" })).toHaveAttribute("href", "/customers/maeli-paris/");
     await expect(socialProof).toContainText("70+");
     await expect(socialProof).toContainText("240+");
     await expect(socialProof).toContainText("1,650,000");
@@ -650,7 +652,7 @@ test("global navigation · every feature is grouped and reachable", async ({ pag
     await expect(customersToggle).toHaveAttribute("aria-expanded", "true");
     await expect(featureToggle).toHaveAttribute("aria-expanded", "false");
     await expect(header.locator(".customers-mega-menu__dropdown")).toBeVisible();
-    await expect(header.locator(".customers-mega-menu__section-heading")).toHaveText(["Reviews", "Use cases"]);
+    await expect(header.locator(".customers-mega-menu__section-heading")).toHaveText(["Reviews", "Customer stories"]);
     await expect(header.locator(".customers-mega-menu__reviews-link strong")).toHaveText("Verified Shopify reviews");
     await expect(header.locator(".customers-mega-menu__reviews-link > span:not(.customers-mega-menu__action)")).toContainText("Shopify App Store");
     expect(await header.locator(".customers-mega-menu__marker").evaluateAll((markers) => markers.every((marker) => {
