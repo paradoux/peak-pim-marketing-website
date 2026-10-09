@@ -230,7 +230,7 @@ test("homepage · primary demo CTA is responsive and opens booking", async ({ pa
     await expect(announcement).not.toHaveAttribute("target", "_blank");
     const actions = hero.locator(".button-group.is-center .button");
     await expect(actions).toHaveCount(1);
-    await expect(actions).toHaveText(["Demo with your data"]);
+    await expect(actions).toHaveText(["Book a demo"]);
     await expect(actions).toHaveClass("button w-button");
     await expect(actions).toHaveAttribute("href", "/book-a-demo/");
     await expect(actions).not.toHaveAttribute("target", "_blank");
