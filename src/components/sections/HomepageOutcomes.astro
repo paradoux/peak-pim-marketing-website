@@ -14,6 +14,10 @@ const cards = [
     title: "A catalog that sells more",
     description: "Complete, consistent content converts better on your Shopify store, on Google and in AI assistants like ChatGPT. Fill the gaps with AI and translate for new markets.",
   },
+  {
+    title: "Security",
+    description: "Keep product information and workflows in one source of truth, with advanced permissions, change history and backups. No more spreadsheets scattered across computers or knowledge locked with individual teammates.",
+  },
 ];
 ---
 
@@ -43,7 +47,7 @@ const cards = [
 
 <style>
   .outcomes-heading :global(h2) { text-wrap: balance; }
-  .outcomes-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .outcomes-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .outcomes-content { gap: 2rem; justify-content: flex-start; }
   @media (max-width: 991px) {
     .outcomes-grid { grid-template-columns: 1fr; }
