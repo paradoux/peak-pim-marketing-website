@@ -1,4 +1,6 @@
 ---
+import { assets } from "../../data/assets";
+
 type Props = { id?: string };
 const { id = "contact" } = Astro.props;
 ---
@@ -6,9 +8,11 @@ const { id = "contact" } = Astro.props;
   <div class="padding-global"><div class="container-large"><div class="padding-section-large">
     <div class="cta51_card peak-cta-banner__card color-scheme-2">
       <div class="text-align-center"><div class="max-width-large align-center">
-        <div class="margin-bottom margin-xsmall"><div class="text-style-tagline">Your direct line to Peak</div></div>
-        <div class="margin-bottom margin-small"><h2 class="heading-style-h2">Let’s build your next client project together</h2></div>
-        <p class="text-size-medium">Talk directly with Théau about a client, your setup offer, or partnership terms. We’ll help you find the right starting point.</p>
+        <div class="margin-bottom margin-medium"><h2 class="heading-style-h2">Contact</h2></div>
+        <div class="peak-partner-contact__host">
+          <img src={assets.team.theau} alt="Théau" width="64" height="64" loading="lazy" />
+          <p class="text-size-medium text-weight-semibold">Théau - co-founder</p>
+        </div>
       </div></div>
       <nav class="button-group is-center margin-top margin-medium" aria-label="Contact Théau and Peak PIM">
         <!--email_off--><a href="mailto:theau@peak-pim.com">theau@peak-pim.com</a><!--/email_off-->
@@ -19,6 +23,8 @@ const { id = "contact" } = Astro.props;
   </div></div></div>
 </section>
 <style>
+  .peak-partner-contact__host { display: flex; align-items: center; justify-content: center; gap: .75rem; }
+  .peak-partner-contact__host img { width: 4rem; height: 4rem; flex-shrink: 0; border-radius: 50%; object-fit: cover; }
   .peak-partner-contact nav { gap: 1.5rem 2rem; }
   .peak-partner-contact nav a { color: inherit; text-decoration: underline; text-underline-offset: .25em; overflow-wrap: anywhere; }
   .peak-partner-contact nav a:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; }
