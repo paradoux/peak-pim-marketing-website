@@ -44,6 +44,7 @@ export type CanonicalCtaLabel = (typeof ctaLabels)[keyof typeof ctaLabels];
 export const canonicalCtaLabels = Object.values(ctaLabels);
 
 export const ctaExceptions = {
+  exploreAll: "Explore all",
   headerDemo: "Demo with your data",
   liveDemo: "Live demo",
   apiDocumentation: "View API documentation",

@@ -28,6 +28,8 @@ CTA copy describes the action or destination. Use the exported values from `src/
 
 ### Exceptions
 
+`Explore all` is approved beside the homepage feature showcase tabs. It opens the existing Features navigation menu to browse the full feature set.
+
 Exceptions are allowed when the page context materially benefits from different wording. They must be explicitly approved, registered in `ctaExceptions` in `src/data/cta-copy.ts`, scoped to the named placement, and covered by the design-system contract. A different CTA order or use of an approved compact label is not an exception.
 
 `Live demo` is approved for the global footer CTA that opens the self-guided Peak PIM product experience. Keep `Book a demo` for the scheduled sales demonstration flow.

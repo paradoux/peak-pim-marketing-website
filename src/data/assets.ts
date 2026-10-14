@@ -10,6 +10,12 @@ export const assets = {
     axome: "/assets/partner-logos/axome.svg",
   },
   productUi: {
+    bulkEditProductView: "/assets/product-ui/bulk-edit-product-view.png",
+    mediaManagementProductView: "/assets/product-ui/media-management-product-view.png",
+    dropsProductView: "/assets/product-ui/drops-product-view.png",
+    automationsProductView: "/assets/product-ui/automations-product-view.png",
+
+    multiStoreProductView: "/assets/product-ui/multi-store-product-view.png",
     homepageFreerideRed: "/assets/product-ui/peak-pim-freeride-x-red.jpg",
     summitJacketRed: "/assets/product-ui/summit-gear-shell-jacket-red.webp",
     freerideRed: "/assets/product-ui/peakpro-freeride-x-red.webp",

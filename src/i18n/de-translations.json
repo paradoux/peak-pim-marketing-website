@@ -1,4 +1,7 @@
 {
+  "Manage data across all your Shopify stores from a single dashboard.": "Verwalten Sie Daten für alle Ihre Shopify-Shops über ein einziges Dashboard.",
+  "Edit hundreds of products, files, collections, metafields and more at once.": "Bearbeiten Sie Hunderte von Produkten, Dateien, Kollektionen, Metafeldern und mehr auf einmal.",
+  "Upload, organize, and assign files across your catalog from a single media library.": "Laden Sie Dateien hoch, organisieren Sie sie und weisen Sie sie Ihrem gesamten Katalog über eine zentrale Medienbibliothek zu.",
   ": \"Une veste…\"": ": „Eine Weste…“",
   ": \"Veste Alpine\",": ": „Veste Alpine“,",
   "· 0 errors": "· 0 Fehler",
@@ -1422,6 +1425,7 @@
   "Expired campaign copy, empty collections, and duplicate records stay live because nobody has one account-wide view of what changed where.": "Abgelaufene Kampagnenkopien, leere Sammlungen und doppelte Datensätze bleiben aktiv, da niemand einen kontoweiten Überblick darüber hat, was sich wo geändert hat.",
   "Explicit Shopify publishing": "Explizite Shopify-Veröffentlichung",
   "Explicit storefront actions": "Explizite Storefront-Aktionen",
+  "Explore all": "Alle entdecken",
   "Explore Peak PIM": "Entdecken Sie Peak PIM",
   "Explore Peak PIM with a ready-to-use sample catalog.": "Entdecken Sie Peak PIM mit einem gebrauchsfertigen Beispielkatalog.",
   "Export": "Exportieren",
@@ -2132,6 +2136,7 @@
   "Media · 3": "Medien · 3",
   "Media chaos across your Shopify stores": "Medienchaos in Ihren Shopify-Filialen",
   "Media edit": "Medien bearbeiten",
+  "Media Management": "Medienmanagement",
   "Media management": "Medienmanagement",
   "Media management at scale": "Medienmanagement im großen Maßstab",
   "Membership is tracked per product, per collection, and per store. From a product page, you can add the product to a collection in one store or use Add to all stores, then remove individual memberships where a regional assortment differs.": "Die Mitgliedschaft wird pro Produkt, pro Kollektion und pro Geschäft verfolgt. Von einer Produktseite aus können Sie das Produkt zu einer Kollektion in einem Geschäft hinzufügen oder „Zu allen Geschäften hinzufügen“ verwenden und dann einzelne Mitgliedschaften entfernen, wenn sich das regionale Sortiment unterscheidet.",

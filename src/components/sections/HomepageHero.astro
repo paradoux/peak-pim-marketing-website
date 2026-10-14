@@ -32,6 +32,12 @@ if (brandStart < 0 || ratingStart < brandStart || brandEnd < ratingStart || !des
 </Hero>
 
 <style>
+  /* Lower the announcement without shifting the hero content below it. */
+  :global(.peak-hero .hero-badge-wrapper) {
+    position: relative;
+    top: 0.75rem;
+  }
+
   .peak-home-hero-rating :global(.peak-home-rating-wrapper) {
     margin-bottom: 0;
   }

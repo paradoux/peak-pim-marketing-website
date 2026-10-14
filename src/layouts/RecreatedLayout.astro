@@ -6,6 +6,7 @@ import IntegrationIntroduction from "../components/sections/IntegrationIntroduct
 import HomepageHero from "../components/sections/HomepageHero.astro";
 import HomepageOutcomes from "../components/sections/HomepageOutcomes.astro";
 import HomepageWorkflows from "../components/sections/HomepageWorkflows.astro";
+import HomepageFeatures from "../components/sections/HomepageFeatures.astro";
 import GlobalWebflowStyles from "../components/GlobalWebflowStyles.astro";
 import DemoBookingModal from "../components/DemoBookingModal.astro";
 import OpenAIAdsTracking from "../components/OpenAIAdsTracking.astro";
@@ -39,6 +40,7 @@ const homepagePricingMarker = '<section class="section_pricing2 color-scheme-1">
 const homepagePricingIndex = page.slug === "" ? mainHtml.indexOf(homepagePricingMarker) : -1;
 const homepageSetupIndex = page.slug === "" ? mainHtml.indexOf('<section class="section_layout121 color-scheme-1">') : -1;
 const homepageFeaturesIndex = page.slug === "" ? mainHtml.indexOf('<section class="section_layout375 color-scheme-1">') : -1;
+const homepageBenefitsIndex = page.slug === "" ? mainHtml.indexOf('<section class="section_layout395 color-scheme-1">', homepageFeaturesIndex) : -1;
 const homepageCtaMarker = '<section class="section_cta51 color-scheme-1">';
 const homepageCtaIndex = page.slug === "" ? mainHtml.indexOf(homepageCtaMarker) : -1;
 const pricingFaqMarker = '<section class="section_faq1 color-scheme-1">';
@@ -58,6 +60,10 @@ if (page.slug === "" && (homepageFeaturesIndex === -1 || homepageFeaturesIndex >
   throw new Error("The homepage outcomes section could not be placed before product features.");
 }
 
+if (page.slug === "" && (homepageBenefitsIndex <= homepageFeaturesIndex || homepageBenefitsIndex >= homepageSetupIndex)) {
+  throw new Error("The homepage Shopify benefits section could not be preserved after product features.");
+}
+
 if (page.slug === "pricing" && pricingFaqIndex === -1) {
   throw new Error("The pricing social proof could not be placed before the FAQ.");
 }
@@ -72,7 +78,8 @@ const homepageHeroEnd = homepageMainBeforeOutcomes.indexOf('</header>', homepage
 if (page.slug === "" && (homepageHeroStart < 0 || homepageHeroEnd <= homepageHeroStart)) {
   throw new Error("The homepage hero could not be replaced.");
 }
-const homepageMainBeforeIntegrations = homepageFeaturesIndex >= 0 ? mainHtml.slice(homepageFeaturesIndex, homepageSetupIndex) : "";
+const homepageFeaturesHtml = homepageFeaturesIndex >= 0 ? mainHtml.slice(homepageFeaturesIndex, homepageBenefitsIndex) : "";
+const homepageMainBeforeIntegrations = homepageBenefitsIndex >= 0 ? mainHtml.slice(homepageBenefitsIndex, homepageSetupIndex) : "";
 const homepageMainBeforeProof = homepageSetupIndex >= 0 ? mainHtml.slice(homepageSetupIndex, homepagePricingIndex) : "";
 const homepageMainBetweenProofAndStory = homepagePricingIndex >= 0 && homepageCtaIndex >= 0 ? mainHtml.slice(homepagePricingIndex, homepageCtaIndex) : "";
 const homepageMainAfterStory = homepageCtaIndex >= 0 ? mainHtml.slice(homepageCtaIndex) : "";
@@ -142,6 +149,7 @@ const fallbackJsonLd = {
             ) : <Fragment set:html={homepageMainBeforeOutcomes} />}
             <HomepageOutcomes />
             {locale === defaultLocale && <HomepageWorkflows />}
+            <HomepageFeatures html={homepageFeaturesHtml} />
             <Fragment set:html={homepageMainBeforeIntegrations} />
             <IntegrationIntroduction />
             <Fragment set:html={homepageMainBeforeProof} />

@@ -13,9 +13,9 @@
       "translations": [
         "src/i18n/shared-copy.ts"
       ],
-      "observedSourceHash": "ca73b2e210bbf7692f08506da7a5dbd56d3b1d3a9af449de321ced4be818efe9",
+      "observedSourceHash": "b24548fa0c80f4a2a026983990a88af52d6af7f72868fe0dfd743cd0f9550a45",
       "reviewedSourceHash": "ca73b2e210bbf7692f08506da7a5dbd56d3b1d3a9af449de321ced4be818efe9",
-      "status": "reviewed"
+      "status": "stale"
     },
     {
       "id": "shopify-pim-translations-fr",
@@ -100,7 +100,7 @@
         "src/i18n/pl-translations.json",
         "src/i18n/ja-translations.json"
       ],
-      "observedSourceHash": "50607d9c42d4beb493cec9f6059d58b8e081b976bd991d882de188ba226aa013",
+      "observedSourceHash": "d493033d26c34b74ddb504ce01fa412811f5c922297321ad18f8b982d1832d06",
       "reviewedSourceHash": "3be49555f464c5421b4e01a318008b4b202c29ef893bd206ca1d6239dbda1468",
       "status": "stale"
     }

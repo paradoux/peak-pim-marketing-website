@@ -98,8 +98,5 @@ export const comparisonNavigationLinks: SiteNavigationLink[] = [
 export const communityNavigationLinks: SiteNavigationLink[] = [
   { label: "Shopify App", href: "https://apps.shopify.com/peak-pim", external: true },
   { label: "LinkedIn", href: "https://www.linkedin.com/company/peak-pim/", external: true },
-  { label: "X / Twitter", href: "https://x.com/peak_pim", external: true },
   { label: "YouTube", href: "https://www.youtube.com/@peak-pim", external: true },
-  { label: "Google Reviews", href: "https://share.google/gj5Ju0RrU4EGvE4HS", external: true },
-  { label: "Reddit", href: "https://www.reddit.com/user/peak-pim/", external: true },
 ];

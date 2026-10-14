@@ -36,7 +36,7 @@ for (const width of [1440, 1280, 1024, 1023, 768, 390, 375, 320]) {
     expect(badge.y + badge.height).toBeLessThan(copy.y);
     expect(badge.y + badge.height).toBeLessThan(art.y);
     const heroBox = (await hero.boundingBox())!;
-    expect(badge.y - heroBox.y).toBeLessThanOrEqual(33);
+    expect(badge.y - heroBox.y).toBeCloseTo(44, 0);
     const ctaBox = (await hero.getByRole("link", { name: "Book a demo", exact: true }).boundingBox())!;
     const ratingBox = (await hero.locator(".peak-home-rating").boundingBox())!;
     expect(ratingBox.x).toBeGreaterThan(ctaBox.x + ctaBox.width);

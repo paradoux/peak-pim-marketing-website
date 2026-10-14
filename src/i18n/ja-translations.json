@@ -1,4 +1,7 @@
 {
+  "Manage data across all your Shopify stores from a single dashboard.": "すべてのShopifyストアのデータを、ひとつのダッシュボードで管理。",
+  "Edit hundreds of products, files, collections, metafields and more at once.": "数百件の商品、ファイル、コレクション、メタフィールドなどを一括編集。",
+  "Upload, organize, and assign files across your catalog from a single media library.": "ひとつのメディアライブラリから、カタログ全体のファイルをアップロード、整理、割り当て。",
   ": \"Une veste…\"": "：「うーん、もう…」",
   ": \"Veste Alpine\",": "：「ヴェステ・アルパイン」、",
   "· 0 errors": "· エラー0件",
@@ -1422,6 +1425,7 @@
   "Expired campaign copy, empty collections, and duplicate records stay live because nobody has one account-wide view of what changed where.": "何がどこで変更されたのかをアカウント全体で把握できる人はいないため、期限切れのキャンペーン コピー、空のコレクション、重複レコードはそのまま残ります。",
   "Explicit Shopify publishing": "明示的な Shopify 公開",
   "Explicit storefront actions": "明示的な店頭アクション",
+  "Explore all": "すべて見る",
   "Explore Peak PIM": "Peak PIM を探索する",
   "Explore Peak PIM with a ready-to-use sample catalog.": "すぐに使用できるサンプル カタログを使用して Peak PIM を探索してください。",
   "Export": "エクスポート",
@@ -2132,6 +2136,7 @@
   "Media · 3": "メディア・3",
   "Media chaos across your Shopify stores": "Shopify ストア全体でのメディアの混乱",
   "Media edit": "メディア編集",
+  "Media Management": "メディア管理",
   "Media management": "メディア管理",
   "Media management at scale": "大規模なメディア管理",
   "Membership is tracked per product, per collection, and per store. From a product page, you can add the product to a collection in one store or use Add to all stores, then remove individual memberships where a regional assortment differs.": "メンバーシップは商品ごと、コレクションごと、およびストアごとに追跡されます。商品ページから、1 つのストアのコレクションに商品を追加するか、[すべてのストアに追加] を使用して、地域の品揃えが異なる個々のメンバーシップを削除できます。",

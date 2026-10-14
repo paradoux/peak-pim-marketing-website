@@ -33,6 +33,7 @@ const requiredFiles = [
   "src/components/visuals/IntegrationLogoGroup.astro",
   "src/components/sections/FeatureSteps.astro",
   "src/components/sections/HomepageWorkflows.astro",
+  "src/components/sections/HomepageFeatures.astro",
   "src/components/sections/FeatureGrid.astro",
   "src/components/sections/Testimonial.astro",
   "src/components/sections/CtaBanner.astro",
@@ -673,6 +674,17 @@ if (existsSync(homeFile)) {
   const html = readFileSync(homeFile, "utf8");
   const heroHtml = html.match(/<header id="hero"[\s\S]*?<\/header>/)?.[0] ?? "";
   const outcomesHtml = html.match(/<section id="outcomes"[\s\S]*?<\/section>/)?.[0] ?? "";
+  const featuresHtml = html.match(/<section id="features"[\s\S]*?<\/section>/)?.[0] ?? "";
+  if ((featuresHtml.match(/role="tab"/g) ?? []).length !== 5 || (featuresHtml.match(/role="tabpanel"/g) ?? []).length !== 5) failures.push("Homepage features must retain five accessible tabs and their preview panels");
+  const featureOrder = [...featuresHtml.matchAll(/data-feature="([^"]+)"/g)].map(match => match[1]);
+  if (featureOrder.join(",") !== "multi-stores,bulk-edit,media,drops,automations") failures.push("Homepage features must showcase Multi-stores, Bulk Edit, Media Management, Drops, and Automations in order");
+  if (!featuresHtml.includes("Powerful features") || !featuresHtml.includes("peak-home-features__stage")) failures.push("Homepage features must use the approved heading and large tabbed preview");
+  if (!featuresHtml.includes("data-explore-features") || !featuresHtml.includes("Explore all") || !featuresHtml.includes('aria-controls="w-dropdown-list-0"')) failures.push("Homepage features must offer Explore all through the existing Features menu");
+  const shopifyBenefitsIndex = html.indexOf("Built for Shopify, made for the job");
+  if (shopifyBenefitsIndex <= html.indexOf('id="features"') || shopifyBenefitsIndex >= html.indexOf('class="section_layout121')) failures.push("The original Shopify benefits must remain between the feature showcase and setup");
+  for (const title of ["Shopify native", "Made for the job", "Multi-store ready"]) {
+    if (!html.includes(title)) failures.push(`The homepage is missing its original Shopify benefit: ${title}`);
+  }
   if ((outcomesHtml.match(/class="feature-mega-menu__marker" aria-hidden="true"/g) ?? []).length !== 4) failures.push("Each homepage outcome must use the decorative blue mega-menu marker");
   if (!heroHtml.includes("peak-hero--split") || !heroHtml.includes('id="ppim-hh"')) failures.push("Homepage hero must pair its copy with the supplied catalog animation");
   if (!heroHtml.includes("Shopify Catalog management, for the AI era.")) failures.push("Homepage hero must use the approved headline");
@@ -698,8 +710,11 @@ if (existsSync(homeFile)) {
   if (!/href="\/pricing\/"[^>]*>Pricing<\/a><a href="https:\/\/apps\.shopify\.com\/peak-pim\/reviews" target="_blank" rel="noopener"[^>]*>Reviews<\/a><a href="\/customers\/maeli-paris\/"[^>]*>Testimonials<\/a>/.test(footerHtml)) failures.push("The footer must place Reviews and Testimonials directly after Pricing in the Peak column");
   if ((footerHtml.match(/class="site-footer__heading-marker"/g) ?? []).length !== 5) failures.push("Every footer column heading must use the shared circle marker");
   if (/⚡️|⛰️|🔍|🤙/.test(footerHtml)) failures.push("The footer still contains decorative column emojis");
-  if ((footerHtml.match(/class="footer1_social-link w-inline-block"/g) ?? []).length !== 6) failures.push("The footer must preserve all six original social-network links");
-  if ((footerHtml.match(/class="icon-embed-xsmall w-embed"/g) ?? []).length !== 6) failures.push("Every footer social-network link must preserve its icon");
+  if ((footerHtml.match(/class="footer1_social-link w-inline-block"/g) ?? []).length !== 3) failures.push("The footer must contain only Shopify, LinkedIn, and YouTube social links");
+  if ((footerHtml.match(/class="icon-embed-xsmall w-embed"/g) ?? []).length !== 3) failures.push("Every footer social-network link must preserve its icon");
+  for (const removedHost of ["share.google", "x.com", "www.reddit.com"]) {
+    if (footerHtml.includes(`href="https://${removedHost}/`)) failures.push(`The footer must not contain ${removedHost}`);
+  }
   if (!html.includes('<div>Resources</div><div class="dropdown-chevron w-embed">')) failures.push("The shared header is missing the Resources dropdown toggle");
   if (!html.includes('<div>Customers</div><div class="dropdown-chevron w-embed">')) failures.push("The shared header is missing the Customers dropdown toggle");
   if (html.includes('class="navbar10_link w-nav-link">Reviews</a>')) failures.push("The shared header still contains the standalone Reviews link");
@@ -868,6 +883,7 @@ if (existsSync(sitemapFile)) {
   if ((sitemap.match(/<lastmod>/g) ?? []).length !== sitemapUrls.length) failures.push("Sitemap last-modified dates are incomplete");
 
   const approvedCtaSources = [
+    "Explore all",
     "Get Peak PIM",
     "Try for free",
     "Book a demo",

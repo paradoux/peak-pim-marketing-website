@@ -1,5 +1,5 @@
 ---
-import { comparisonNavigationLinks, exploreNavigationLinks, featureNavigationGroups } from "../data/site-navigation";
+import { communityNavigationLinks, comparisonNavigationLinks, exploreNavigationLinks, featureNavigationGroups } from "../data/site-navigation";
 import { ctaExceptions } from "../data/cta-copy";
 import { getSharedFooterHtml } from "../lib/page-source";
 import { getLocaleAlternates, localeMetadata, localizeInternalHref, publicPath, type Locale } from "../i18n/config";
@@ -124,6 +124,9 @@ if (
 }
 
 const socialListHtml = originalSocialListHtml
+  .replace(/<a\b[^>]*href="([^"]+)"[^>]*>[\s\S]*?<\/a>/g, (link, href) =>
+    communityNavigationLinks.some(item => item.href === href) ? link : "",
+  )
   .replace('class="footer1_link-list"', 'class="footer1_link-list site-footer__social-links site-footer__bottom-social-links"')
   .replaceAll('target="_blank"', 'target="_blank" rel="noopener"');
 const logoCtaHtml = `<div class="site-footer__logo-cta"><a href="${escapeHtml(liveDemoLink.href)}" target="_blank" rel="noopener" class="button is-secondary w-button">${escapeHtml(tr(ctaExceptions.liveDemo))}</a></div>`;
