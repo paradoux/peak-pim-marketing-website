@@ -159,9 +159,9 @@ const ogImageUrl = resolvedOgImage ? new URL(resolvedOgImage, "https://peak-pim.
   <body>
     <div class="page-wrapper site-page">
       <GlobalWebflowStyles />
-      <SiteHeader locale={locale} />
+      <slot name="header"><SiteHeader locale={locale} /></slot>
       <main class="main-wrapper"><slot /></main>
-      <SiteFooter locale={locale} currentPath={effectiveCanonicalPath} showLanguageSwitcher={!partnerPage} />
+      <slot name="footer"><SiteFooter locale={locale} currentPath={effectiveCanonicalPath} showLanguageSwitcher={!partnerPage} /></slot>
       <DemoBookingModal autoOpen={!partnerPage && locale === defaultLocale} />
       <CrispChat />
     </div>

@@ -5,6 +5,10 @@ export const assets = {
     favicon: "/assets/logo/favicon-peak-pim-padded.png",
     webclip: "/assets/logo/peak-webclip.png",
   },
+  partnerLogos: {
+    // Official Axome navigation logo: https://www.axome.com/
+    axome: "/assets/partner-logos/axome.svg",
+  },
   productUi: {
     summitJacketRed: "/assets/product-ui/summit-gear-shell-jacket-red.webp",
     freerideRed: "/assets/product-ui/peakpro-freeride-x-red.webp",

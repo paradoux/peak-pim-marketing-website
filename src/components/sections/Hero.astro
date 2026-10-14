@@ -10,6 +10,7 @@ type Cta = {
 };
 
 type Props = {
+  id?: string;
   title: string;
   description: string;
   primaryCta?: Cta;
@@ -18,17 +19,18 @@ type Props = {
   trustLine?: string;
 };
 
-const { title, description, primaryCta, secondaryCta, layout = "centered", trustLine } = Astro.props;
+const { id, title, description, primaryCta, secondaryCta, layout = "centered", trustLine } = Astro.props;
 const hasVisual = Astro.slots.has("default");
 ---
 
-<header class:list={["section_header26", "peak-hero", { "peak-hero--split": layout === "split" }]}>
+<header id={id} class:list={["section_header26", "peak-hero", { "peak-hero--split": layout === "split" }]}>
   <div class="padding-global">
     <div class="container-large">
       <div class="padding-section-large">
         {layout === "split" ? (
           <div class="peak-hero__split">
             <div class="peak-hero__content">
+              <slot name="brand" />
               <div class="margin-bottom margin-small">
                 <h1 class="heading-style-h1">{title}</h1>
               </div>
@@ -58,6 +60,7 @@ const hasVisual = Astro.slots.has("default");
             <div class="margin-bottom margin-xxlarge">
               <div class="text-align-center">
                 <div class="max-width-large align-center">
+                  <slot name="brand" />
                   <div class="margin-bottom margin-small">
                     <h1 class="heading-style-h1">{title}</h1>
                   </div>

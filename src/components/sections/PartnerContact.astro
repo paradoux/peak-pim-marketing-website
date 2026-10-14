@@ -1,0 +1,25 @@
+---
+type Props = { id?: string };
+const { id = "contact" } = Astro.props;
+---
+<section id={id} class="section_cta51 peak-cta-banner peak-partner-contact color-scheme-1">
+  <div class="padding-global"><div class="container-large"><div class="padding-section-large">
+    <div class="cta51_card peak-cta-banner__card color-scheme-2">
+      <div class="text-align-center"><div class="max-width-large align-center">
+        <div class="margin-bottom margin-xsmall"><div class="text-style-tagline">Your direct line to Peak</div></div>
+        <div class="margin-bottom margin-small"><h2 class="heading-style-h2">Let’s build your next client project together</h2></div>
+        <p class="text-size-medium">Talk directly with Théau about a client, your setup offer, or partnership terms. We’ll help you find the right starting point.</p>
+      </div></div>
+      <nav class="button-group is-center margin-top margin-medium" aria-label="Contact Théau and Peak PIM">
+        <a href="mailto:theau@peak-pim.com">theau@peak-pim.com</a>
+        <a href="https://www.linkedin.com/in/theau/" target="_blank" rel="noopener">Théau on LinkedIn ↗</a>
+        <a href="https://peak-pim.com/" target="_blank" rel="noopener">Peak PIM website ↗</a>
+      </nav>
+    </div>
+  </div></div></div>
+</section>
+<style>
+  .peak-partner-contact nav { gap: 1.5rem 2rem; }
+  .peak-partner-contact nav a { color: inherit; text-decoration: underline; text-underline-offset: .25em; overflow-wrap: anywhere; }
+  .peak-partner-contact nav a:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; }
+</style>

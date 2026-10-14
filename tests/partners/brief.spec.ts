@@ -21,26 +21,39 @@ for (const path of ["/", "/axome/"]) {
       await expect(page.locator("[data-language-suggestion]")).toHaveCount(0);
       await page.screenshot({ path: testInfo.outputPath("full-page.png"), fullPage: true, animations: "disabled" });
 
+      const ids = ["hero", "problem", "solution", "implementation", "partnership", "contact"];
+      expect(await page.locator("main > [id]").evaluateAll(nodes => nodes.map(node => node.id))).toEqual(ids);
+      const header = page.locator(".peak-one-pager-header");
+      for (const link of await header.locator("a").all()) expect(await link.getAttribute("href")).toMatch(/^#/);
+      await expect(page.locator(".site-footer")).toHaveCount(0);
+      await expect(page.locator("#partnership")).toContainText("percentage depends on the deal");
+      await expect(page.locator("#contact a[href='mailto:theau@peak-pim.com']")).toBeVisible();
+      await expect(page.locator("#contact a[href='https://www.linkedin.com/in/theau/']")).toBeVisible();
+      await expect(page.locator("#contact a[href='https://peak-pim.com/']")).toBeVisible();
+      if (path.includes("axome")) {
+        await expect(page.locator(".peak-partner-brand img[alt='Axome']")).toBeVisible();
+        expect(await page.locator(".peak-partner-brand img[alt='Axome']").evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
+      }
       const flow = page.getByRole("link", { name: "See how it works", exact: true });
       await flow.click();
-      await expect(page).toHaveURL(/#how-it-works$/);
-      await expect(page.locator("#how-it-works")).toBeInViewport();
-
-      const question = page.getByRole("button", { name: "What is Peak PIM?", exact: true });
-      await question.focus();
-      await page.keyboard.press("Enter");
-      await expect(question).toHaveAttribute("aria-expanded", "true");
-      await page.keyboard.press("Space");
-      await expect(question).toHaveAttribute("aria-expanded", "false");
-
-      const booking = page.locator(".peak-hero a[data-demo-booking]");
-      await expect(booking).toHaveAttribute("href", "https://peak-pim.com/book-a-demo/");
-      await booking.click();
-      const dialog = page.locator("#demo-booking-modal");
-      await expect(dialog).toBeVisible();
-      await expect(dialog.locator("iframe")).toHaveAttribute("src", /calendar.google.com/);
-      await page.keyboard.press("Escape");
-      await expect(dialog).not.toBeVisible();
+      await expect(page).toHaveURL(/#implementation$/);
+      await expect(page.locator("#implementation")).toBeInViewport();
+      if (width < 992) {
+        const summary = header.locator("summary");
+        await summary.focus();
+        await page.keyboard.press("Enter");
+        await expect(header.locator("details")).toHaveAttribute("open", "");
+        await page.keyboard.press("Escape");
+        await expect(header.locator("details")).not.toHaveAttribute("open");
+        await summary.click();
+        await header.locator("details").getByRole("link", { name: "Contact", exact: true }).click();
+        await expect(header.locator("details")).not.toHaveAttribute("open");
+      } else {
+        await header.getByRole("link", { name: "Contact", exact: true }).click();
+      }
+      await expect(page).toHaveURL(/#contact$/);
+      await expect(page.locator("#contact")).toBeInViewport();
+      expect(await page.locator("#contact").evaluate(el => el.getBoundingClientRect().top)).toBeGreaterThanOrEqual(60);
       expect(failures).toEqual([]);
     });
   }
@@ -51,11 +64,13 @@ test("unknown partner is a 404", async ({ page }) => {
   expect(response?.status()).toBe(404);
 });
 
-test("booking retains its real destination without JavaScript", async ({ browser }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false });
+test("section navigation and contact work without JavaScript", async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 375, height: 812 } });
   const page = await context.newPage();
   await page.goto(`${process.env.PEAK_PARTNERS_BASE_URL ?? "http://localhost:4323"}/axome/`, { waitUntil: "domcontentloaded" });
-  await expect(page.locator(".peak-hero a[data-demo-booking]")).toHaveAttribute("href", "https://peak-pim.com/book-a-demo/");
-  await expect(page.locator(".peak-hero")).toBeVisible();
+  await page.locator(".peak-one-pager-header summary").click();
+  await page.locator(".peak-one-pager-header details").getByRole("link", { name: "Contact", exact: true }).click();
+  await expect(page).toHaveURL(/#contact$/);
+  await expect(page.locator("#contact a[href='mailto:theau@peak-pim.com']")).toBeVisible();
   await context.close();
 });

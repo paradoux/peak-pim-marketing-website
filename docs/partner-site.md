@@ -1,7 +1,7 @@
 # Partner presentations
 
 The partner site shares the approved marketing components, styles, fonts, visuals,
-header, footer, and demo booking. It has its own routes and output directory.
+section primitives, with a section-only header and a direct-contact closing section. It has its own routes and output directory.
 The unfinished `src/content/recreated-pages/partners.html` is never imported.
 
 ## Content
@@ -12,9 +12,11 @@ The unfinished `src/content/recreated-pages/partners.html` is never imported.
 - Shared presentation: `partners/src/components/PartnerBrief.astro`.
 
 To add a presentation, add one record to `partners` with a unique lowercase,
-hyphenated slug, for example `axome`. Build and verify it before sharing.
+hyphenated slug, for example `axome`, and a registered logo from `src/data/assets.ts`. Build and verify it before sharing.
 Do not invent endorsements, referral fees, or agreed partnership terms. The first
 version is English; partner content is separate from the marketing translation queue.
+
+Agency sections are Hero, Problem, Solution, Implementation, Partnership, and Contact. Revenue share is on monthly plans, with the percentage depending on the deal. No fixed rate, duration, or payout schedule is promised. Visibility is an offer to feature the agency, not a link to the unfinished marketing partners page.
 
 The general page does not list personalized links. All pages carry `noindex` in
 their HTML and Cloudflare response headers, and there is no sitemap. This is not
@@ -46,11 +48,16 @@ The build writes to `dist-partners`. Asset preparation copies `public/mirror` an
 `public/assets`, excluding unfinished advertising assets. It never copies the
 marketing site's redirects, robots rules, sitemap, functions, or bindings.
 
-Partner middleware makes shared marketing navigation absolute; `/` returns to
-the partner introduction and `#` links stay on the current page. Booking uses the
-shared modal, with the main site's booking URL as its no-JavaScript destination.
-The shared layout disables automatic demo prompts, marketing ad tracking, and
-language suggestions only for partner pages.
+The one-pager header only links to local sections. Contact provides Théau's email,
+LinkedIn profile, and the marketing website. Layout slots replace the standard
+header and footer only on these presentations. Partner middleware still makes any
+shared marketing navigation absolute, including the 404 page. Automatic demo
+prompts, marketing ad tracking, and language suggestions remain disabled.
+
+Axome's logo comes from the navigation on https://www.axome.com/ (retrieved
+2026-10-14); the unmodified SVG is registered in `src/data/assets.ts` and rendered
+in monochrome on the light surface. Théau's profile was verified from
+https://fr.linkedin.com/in/theau.
 
 After changes to shared code, also run the normal marketing build and contracts:
 

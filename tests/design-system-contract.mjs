@@ -3,6 +3,10 @@ import { resolve } from "node:path";
 
 const projectRoot = resolve(import.meta.dirname, "..");
 const requiredFiles = [
+  "src/components/OnePagerHeader.astro",
+  "src/components/ui/PartnerBrand.astro",
+  "src/components/sections/PartnerContact.astro",
+  "public/assets/partner-logos/axome.svg",
   "src/components/DemoBookingModal.astro",
   "src/components/sections/DemoBooking.astro",
   "src/pages/book-a-demo.astro",

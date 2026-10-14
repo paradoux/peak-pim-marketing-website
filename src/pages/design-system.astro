@@ -1,4 +1,7 @@
 ---
+import OnePagerHeader from "../components/OnePagerHeader.astro";
+import PartnerBrand from "../components/ui/PartnerBrand.astro";
+import PartnerContact from "../components/sections/PartnerContact.astro";
 import Button from "../components/ui/Button.astro";
 import CtaBanner from "../components/sections/CtaBanner.astro";
 import CardGrid from "../components/sections/CardGrid.astro";
@@ -176,6 +179,13 @@ const socialProofLogos = [
     <TranslationWorkflowDemo />
   </Hero>
 
+  <section id="agency-pattern" class="padding-global"><div class="container-large"><div class="padding-section-medium">
+    <h2 class="heading-style-h3">Agency one-pager</h2>
+    <p class="margin-top margin-small">Section-only navigation and co-branding use the same Peak typography and surfaces. Contact replaces the marketing footer.</p>
+    <div class="margin-top margin-medium"><PartnerBrand name="Axome" logo={assets.partnerLogos.axome} /></div>
+    <OnePagerHeader homeHref="#agency-pattern" links={[{ label: "Agency pattern", href: "#agency-pattern" }, { label: "Contact", href: "#agency-contact-pattern" }]} />
+  </div></div></section>
+  <PartnerContact id="agency-contact-pattern" />
   <LogoCloud />
   <ProblemGrid tagline="Core rule" title="Reuse before creating" description="The system is a component layer over the website’s original design, not a second design language." items={principles} />
   <CardGrid id="components" tagline="Page-building workflow" title="How every new landing page is assembled" description="The same process protects consistency while leaving room for feature-specific copy and product visuals." cards={steps}>

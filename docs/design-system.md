@@ -176,3 +176,9 @@ Do not introduce a new heading scale, generic card system, button treatment, con
 ### Live demo booking
 
 `DemoBooking.astro` shares the introductory copy and Google booking calendar between the modal and dedicated booking page. `DemoBookingModal.astro` uses the existing native-dialog interaction pattern, cream and white surfaces, keyboard dismissal, focus restoration, scroll locking, and reduced-motion support. Keep booking details in Google Calendar; do not duplicate availability or collect a second booking form.
+
+### Agency one-pagers
+
+`OnePagerHeader.astro` (`peak-one-pager-header`) is the approved section-only header for partner presentations. It accepts hash links only and uses a native disclosure menu below 992px. `PartnerBrand.astro` (`peak-partner-brand`) pairs the registered Peak and partner logos. `PartnerContact.astro` (`peak-partner-contact`) reuses the CTA card for direct email, LinkedIn, and website links. All three render in `/design-system`.
+
+`LandingPageLayout` exposes optional `header` and `footer` slots; ordinary marketing pages retain their shared navigation. `Hero` exposes an optional `brand` slot above its H1. Agency one-pagers use Hero, ProblemGrid, CardGrid, FeatureSteps, FeatureGrid, and PartnerContact in that order.

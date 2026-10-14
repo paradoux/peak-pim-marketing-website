@@ -1,0 +1,18 @@
+---
+import { assets } from "../../data/assets";
+type Props = { name: string; logo?: string };
+const { name, logo } = Astro.props;
+---
+<div class="peak-partner-brand margin-bottom margin-medium" aria-label={`Peak PIM × ${name}`}>
+  <img src={assets.logo.peakSmall} alt="Peak PIM" width="128" height="56" />
+  <span aria-hidden="true">×</span>
+  {logo ? <img class="peak-partner-brand__partner" src={logo} alt={name} width="140" height="28" /> : <strong>{name}</strong>}
+</div>
+<style>
+  .peak-partner-brand { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
+  .peak-partner-brand img { width: 128px; height: auto; object-fit: contain; }
+  .peak-partner-brand .peak-partner-brand__partner { width: 140px; max-height: 56px; filter: brightness(0); }
+  .peak-partner-brand > span { color: var(--color-muted); font-size: 1.5rem; }
+  .peak-partner-brand strong { font-size: 1.25rem; }
+  @media (max-width: 479px) { .peak-partner-brand { gap: 1rem; } .peak-partner-brand img { width: 110px; } .peak-partner-brand .peak-partner-brand__partner { width: 120px; } }
+</style>

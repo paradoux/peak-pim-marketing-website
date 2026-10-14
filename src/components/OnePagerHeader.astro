@@ -1,0 +1,52 @@
+---
+import { assets } from "../data/assets";
+
+type Props = { links: { label: string; href: string }[]; homeHref?: string };
+const { links, homeHref = "#hero" } = Astro.props;
+if ([homeHref, ...links.map((link) => link.href)].some((href) => !/^#[a-z][a-z0-9-]*$/.test(href))) {
+  throw new Error("OnePagerHeader accepts section anchors only.");
+}
+---
+
+<header class="site-header peak-one-pager-header">
+  <div class="padding-global"><div class="container-large peak-one-pager-header__inner">
+    <a href={homeHref} aria-label="Back to introduction"><img src={assets.logo.peakSmall} alt="Peak PIM" width="128" height="56" /></a>
+    <nav class="peak-one-pager-header__desktop" aria-label="Page sections">
+      {links.map((link) => <a class="navbar10_link w-nav-link" href={link.href}>{link.label}</a>)}
+    </nav>
+    <details class="peak-one-pager-header__mobile">
+      <summary class="button is-secondary">Sections</summary>
+      <nav aria-label="Page sections">{links.map((link) => <a class="navbar10_link" href={link.href}>{link.label}</a>)}</nav>
+    </details>
+  </div></div>
+</header>
+
+<style>
+  .peak-one-pager-header__inner { display: flex; align-items: center; justify-content: space-between; min-height: var(--site-header-height); gap: 1rem; }
+  .peak-one-pager-header__inner > a { flex: none; }
+  .peak-one-pager-header img { width: 128px; height: auto; }
+  .peak-one-pager-header__desktop { display: flex; align-items: center; }
+  .peak-one-pager-header__mobile { display: none; }
+  @media (max-width: 991px) {
+    .peak-one-pager-header__desktop { display: none; }
+    .peak-one-pager-header__mobile { display: block; }
+    .peak-one-pager-header summary { cursor: pointer; }
+    .peak-one-pager-header__mobile nav { position: absolute; top: 100%; left: 0; right: 0; display: grid; padding: 1rem 5%; background: var(--color-paper); border-bottom: 1px solid #d5d1c9; box-shadow: 0 .5rem 1.5rem #1a1a1a14; }
+    .peak-one-pager-header__mobile nav a { padding: .75rem 0; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLDetailsElement>(".peak-one-pager-header__mobile").forEach((menu) => {
+    menu.addEventListener("click", (event) => {
+      const link = event.target instanceof Element ? event.target.closest("a") : null;
+      if (!link) return;
+      menu.open = false;
+      const target = document.getElementById(link.hash.slice(1));
+      if (target) { target.tabIndex = -1; target.focus({ preventScroll: true }); }
+    });
+    menu.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") { menu.open = false; menu.querySelector("summary")?.focus(); }
+    });
+  });
+</script>

@@ -19,6 +19,19 @@ for (const file of files) {
   collect(parse(html));
   const attr = (node, name) => node.attrs.find((item) => item.name === name)?.value;
   assert.equal(nodes.filter((node) => node.tagName === "h1").length, 1, file);
+  if (file !== "404.html") {
+    for (const id of ["hero", "problem", "solution", "implementation", "partnership", "contact"]) assert(nodes.some(node => attr(node, "id") === id), `Missing ${id}`);
+    const header = nodes.find(node => (attr(node, "class") ?? "").includes("peak-one-pager-header"));
+    assert(header, "Missing one-pager header");
+    const checkHeader = node => {
+      if (node.tagName === "a") assert(attr(node, "href").startsWith("#"), "Header must only link to sections");
+      node.childNodes?.forEach(checkHeader);
+    };
+    checkHeader(header);
+    assert(!nodes.some(node => attr(node, "class") === "site-footer"), "Do not render marketing footer");
+    assert(html.includes("percentage depends on the deal"));
+    for (const href of ["mailto:theau@peak-pim.com", "https://www.linkedin.com/in/theau/", "https://peak-pim.com/"]) assert(nodes.some(node => node.tagName === "a" && attr(node, "href") === href), `Missing contact ${href}`);
+  }
   const canonical = nodes.find((node) => node.tagName === "link" && attr(node, "rel") === "canonical");
   const path = file === "index.html" ? "/" : file === "404.html" ? "/404/" : `/${file.replace(/\/index\.html$/, "")}/`;
   assert.equal(attr(canonical, "href"), `https://partners.peak-pim.com${path}`);

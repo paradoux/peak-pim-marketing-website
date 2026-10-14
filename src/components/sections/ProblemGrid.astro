@@ -7,6 +7,7 @@ import type { CtaLabel } from "../../data/cta-copy";
 type IconName = Parameters<typeof PeakIcon>[0]["name"];
 type Item = { icon: IconName; title: string; description: string };
 type Props = {
+  id?: string;
   tagline?: string;
   title: string;
   description?: string;
@@ -14,10 +15,10 @@ type Props = {
   link?: { label: CtaLabel; href: string };
 };
 
-const { tagline, title, description, items, link } = Astro.props;
+const { id, tagline, title, description, items, link } = Astro.props;
 ---
 
-<section class="section_layout237 peak-problem-grid color-scheme-1">
+<section id={id} class="section_layout237 peak-problem-grid color-scheme-1">
   <div class="padding-global">
     <div class="container-large">
       <div class="padding-section-large">
