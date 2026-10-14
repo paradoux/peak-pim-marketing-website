@@ -1,0 +1,1056 @@
+---
+import SectionHeading from "../ui/SectionHeading.astro";
+import Button from "../ui/Button.astro";
+import { assets } from "../../data/assets";
+import { ctaExceptions, ctaLabels } from "../../data/cta-copy";
+
+const stores = {
+  us: { name: "Heritage", domain: "heritage.com", country: "US", color: "#1A2CA3" },
+  fr: { name: "Maison", domain: "maison.fr", country: "FR", color: "#534AB7" },
+  gb: { name: "Atelier", domain: "atelier.co.uk", country: "GB", color: "#993C1D" },
+  de: { name: "Werkstatt", domain: "werkstatt.de", country: "DE", color: "#0F6E56" },
+};
+
+const workflows = [
+  {
+    id: "drop",
+    tag: "Seasonal brands",
+    title: "Schedule your winter collection drop",
+    line: "Prepare new prices, titles and collections in advance. They go live Friday at 9:00 and roll back Monday.",
+    chips: ["Drops", "Bulk edit", "Collections"],
+    steps: ["Prepare", "Schedule", "Live"],
+  },
+  {
+    id: "supplier",
+    tag: "Retailers and multi-brand shops",
+    title: "Onboard a new supplier catalog",
+    line: "Import their spreadsheet, match it to your existing SKUs, and create only what's new.",
+    chips: ["Supplier import", "Validation", "Bulk edit"],
+    steps: ["Import", "Match", "Create"],
+  },
+  {
+    id: "ai",
+    tag: "DTC brands and content teams",
+    title: "Write every missing description, SEO title and alt text",
+    line: "The Peak PIM AI Assistant drafts them. You review every change before anything is published.",
+    chips: ["AI Assistant", "Data health", "Media"],
+    steps: ["Find gaps", "Draft", "Review"],
+  },
+  {
+    id: "germany",
+    tag: "International sellers",
+    title: "Launch your catalog in Germany",
+    line: "Titles, descriptions and SEO get translated, with a local price list for the German market.",
+    chips: ["Translations", "Markets", "Price lists"],
+    steps: ["Translate", "Price", "Publish"],
+  },
+  {
+    id: "discount",
+    tag: "Multi-store merchants",
+    title: "Run the same discount on all your stores",
+    line: "Create one -20% campaign once. It goes live on your three Shopify stores.",
+    chips: ["Discounts", "Multi-store"],
+    steps: ["Create", "Pick stores", "Publish"],
+  },
+  {
+    id: "media",
+    tag: "Every merchant",
+    title: "Replace a product photo everywhere at once",
+    line: "Upload the new image once. It updates on every product and store that uses it.",
+    chips: ["Media", "Shopify DAM"],
+    steps: ["Upload", "Replace", "Updated"],
+  },
+];
+
+const dropRows = [
+  { image: assets.productUi.summitJacketRed, name: "Summit Gear Shell Jacket", variant: "Red", sku: "SG-SJ-RED", before: "$219.00", after: "$175.00" },
+  { image: assets.productUi.freerideRed, name: "PeakPro Freeride X", variant: "Red", sku: "PP-FRX-RED", before: "$189.00", after: "$149.00" },
+  { image: assets.productUi.nordicBootBlack, name: "Nordic FLR Boot", variant: "Black", sku: "NF-BT-BLK", before: "$329.00", after: "$259.00" },
+];
+
+const supplierRows = [
+  { sku: "SG-SJ-RED", name: "Summit Gear Shell Jacket, Red", status: "matched" },
+  { sku: "ST-30L-BLK", name: "Ski Traverse 30L Backpack, Black", status: "matched" },
+  { sku: "NF-BT-GRY", name: "Nordic FLR Boot, Grey", status: "new" },
+];
+
+const aiFields = [
+  { label: "Description", value: "A 30 L touring pack with diagonal ski carry and a dedicated pocket for avalanche tools." },
+  { label: "SEO title", value: "Ski Traverse 30L Touring Backpack in Black" },
+  { label: "Image alt text", value: "Black Ski Traverse 30L backpack, front view", typing: true },
+];
+---
+
+<section id="workflows" class="peak-workflows color-scheme-1">
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="padding-section-large">
+        <div class="margin-bottom margin-xxlarge">
+          <SectionHeading
+            tagline="Workflows"
+            title="Features are the tools. Workflows are the work."
+            description="Six real workflows Shopify merchants set up in Peak PIM, from supplier import to multi-store launch."
+          />
+        </div>
+
+        <div class="peak-workflows__switcher" data-workflows>
+          <div class="peak-workflows__tabs" role="tablist" aria-label="Workflows" aria-orientation="vertical">
+            {workflows.map((workflow, index) => (
+              <button
+                type="button"
+                class="peak-workflows__tab"
+                role="tab"
+                id={`workflow-tab-${workflow.id}`}
+                aria-selected={index === 0 ? "true" : "false"}
+                aria-controls={`workflow-panel-${workflow.id}`}
+                tabindex={index === 0 ? "0" : "-1"}
+                data-workflow-tab
+              >
+                <span class="peak-workflows__tag">{workflow.tag}</span>
+                <span class="peak-workflows__tab-title">{workflow.title}</span>
+                <span class="peak-workflows__progress" aria-hidden="true"></span>
+              </button>
+            ))}
+          </div>
+
+          <div class="peak-workflows__panels">
+            {workflows.map((workflow, index) => (
+              <div class="peak-workflows__item">
+                <h3 class="peak-workflows__accordion-heading">
+                  <button
+                    type="button"
+                    class="peak-workflows__accordion"
+                    id={`workflow-accordion-${workflow.id}`}
+                    aria-expanded={index === 0 ? "true" : "false"}
+                    aria-controls={`workflow-panel-${workflow.id}`}
+                    data-workflow-accordion
+                  >
+                    <span class="peak-workflows__accordion-text">
+                      <span class="peak-workflows__tag">{workflow.tag}</span>
+                      <span class="peak-workflows__tab-title">{workflow.title}</span>
+                    </span>
+                    <svg class="peak-workflows__chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" /></svg>
+                  </button>
+                </h3>
+
+                <div
+                  class="peak-workflows__panel"
+                  id={`workflow-panel-${workflow.id}`}
+                  role="tabpanel"
+                  aria-labelledby={`workflow-tab-${workflow.id}`}
+                  tabindex="0"
+                  hidden={index !== 0}
+                  data-workflow-panel
+                >
+                  <ul class="peak-workflows__chips" aria-label="Features used">
+                    {workflow.chips.map((chip) => <li>{chip}</li>)}
+                  </ul>
+                  <p class="peak-workflows__line">{workflow.line}</p>
+
+                  <div class="peak-workflows__stage">
+                    {workflow.id === "drop" && (
+                      <div class="peak-wf-card">
+                        <div class="peak-wf-head">
+                          <span class="peak-wf-head-text">
+                            <small>Drop</small>
+                            <b>Winter drop · 24 products</b>
+                          </span>
+                          <em class="peak-wf-pill is-cobalt">Scheduled</em>
+                        </div>
+                        <div class="peak-wf-timeline">
+                          <span><i></i><b>Fri 9:00</b> · goes live</span>
+                          <span class="peak-wf-timeline-line" aria-hidden="true"></span>
+                          <span><i class="is-end"></i><b>Mon 9:00</b> · rolls back</span>
+                        </div>
+                        <ul class="peak-wf-rows">
+                          {dropRows.map((row) => (
+                            <li>
+                              <img src={row.image} alt="" width="40" height="40" loading="lazy" decoding="async" />
+                              <span class="peak-wf-row-text">
+                                <b>{row.name}, {row.variant}</b>
+                                <code>{row.sku}</code>
+                              </span>
+                              <span class="peak-wf-price"><s>{row.before}</s><b>{row.after}</b></span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {workflow.id === "supplier" && (
+                      <div class="peak-wf-card">
+                        <div class="peak-wf-head">
+                          <span class="peak-wf-file" aria-hidden="true">XLSX</span>
+                          <span class="peak-wf-head-text">
+                            <small>Supplier import</small>
+                            <b><code>supplier_fw27.xlsx</code> · 160 rows</b>
+                          </span>
+                        </div>
+                        <div class="peak-wf-counters">
+                          <span class="is-cobalt"><b>142</b>matched</span>
+                          <span class="is-green"><b>18</b>new</span>
+                          <span><b>0</b>duplicates</span>
+                        </div>
+                        <ul class="peak-wf-rows is-compact">
+                          {supplierRows.map((row) => (
+                            <li>
+                              <span class="peak-wf-row-text"><b>{row.name}</b><code>{row.sku}</code></span>
+                              <em class:list={["peak-wf-pill", row.status === "new" ? "is-green" : "is-cobalt"]}>{row.status}</em>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {workflow.id === "ai" && (
+                      <div class="peak-wf-card">
+                        <div class="peak-wf-head">
+                          <img class="peak-wf-thumb" src={assets.productUi.skiBackpackBlack} alt="" width="44" height="44" loading="lazy" decoding="async" />
+                          <span class="peak-wf-head-text">
+                            <small>Product</small>
+                            <b>Ski Traverse 30L Backpack, Black</b>
+                          </span>
+                          <code class="peak-wf-sku">ST-30L-BLK</code>
+                        </div>
+                        <div class="peak-wf-fields">
+                          {aiFields.map((field) => (
+                            <div class="peak-wf-field">
+                              <span class="peak-wf-field-label">
+                                <small>{field.label} · <s>empty</s></small>
+                                <em class="peak-wf-pill is-cobalt">Draft · review</em>
+                              </span>
+                              <span class="peak-wf-input">{field.value}{field.typing && <i class="peak-wf-cursor" aria-hidden="true"></i>}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {workflow.id === "germany" && (
+                      <div class="peak-wf-card is-storefront">
+                        <div class="peak-wf-storefront-head" style={`--from:#0A4F3E;--to:${stores.de.color}`}>
+                          <svg class="peak-wf-leaf" width="14" height="14" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M20.919 4.546c-0.025 0-0.075 0.026-0.097 0.026s-0.361 0.094-0.892 0.262c-0.529-1.541-1.47-2.962-3.134-2.962h-0.144c-0.356-0.5-0.921-0.832-1.564-0.868l-0.005-0c-3.881 0-5.736 4.845-6.317 7.305-1.492 0.456-2.578 0.795-2.699 0.842-0.844 0.266-0.867 0.29-0.965 1.087-0.094 0.577-2.287 17.574-2.287 17.574l16.946 3.183zM17.18 2.935c0.867 0.092 1.426 1.083 1.786 2.193-0.436 0.142-0.919 0.289-1.447 0.457v-0.315c0.001-0.049 0.002-0.107 0.002-0.165 0-0.777-0.125-1.524-0.355-2.224l0.014 0.050zM16.506 5.727v0.169c-0.942 0.29-1.978 0.605-2.992 0.92 0.264-1.607 1.237-2.944 2.58-3.699l0.026-0.013c0.248 0.705 0.391 1.518 0.391 2.365 0 0.091-0.002 0.182-0.005 0.273l0-0.013zM14.963 2.042c0 0 0.001 0 0.001 0 0.19 0 0.366 0.063 0.507 0.17l-0.002-0.002c-1.749 1.048-2.947 2.861-3.132 4.964l-0.002 0.024c-0.82 0.266-1.616 0.506-2.361 0.722 0.648-2.231 2.216-5.867 4.988-5.867zM15.638 15.132c-0.648-0.32-1.408-0.514-2.211-0.530l-0.005-0c-1.808 0-1.879 1.132-1.879 1.426 0 1.540 4.049 2.143 4.049 5.785 0.014 0.128 0.021 0.277 0.021 0.427 0 2.359-1.912 4.271-4.271 4.271-0.002 0-0.005 0-0.007 0h0c-0.050 0.002-0.108 0.002-0.166 0.002-1.676 0-3.187-0.703-4.255-1.830l-0.003-0.003 0.807-2.607c0.774 0.680 1.745 1.154 2.817 1.328l0.033 0.004c0.012 0 0.025 0.001 0.039 0.001 0.646 0 1.171-0.520 1.180-1.165v-0.001c0-2.023-3.317-2.117-3.317-5.447-0-0.020-0-0.044-0-0.068 0-3.026 2.453-5.478 5.478-5.478 0.195 0 0.388 0.010 0.578 0.030l-0.024-0.002c0.077-0.004 0.167-0.007 0.258-0.007 0.756 0 1.474 0.169 2.116 0.471l-0.030-0.013-1.181 3.393zM20.170 30.970l9.017-1.951s-3.254-22.010-3.280-22.156c-0.018-0.133-0.128-0.235-0.263-0.240h-0c-0.121 0-2.411-0.170-2.411-0.170s-1.593-1.592-1.798-1.763c-0.043-0.039-0.093-0.070-0.148-0.091l-0.003-0.001-1.142 26.372z" fill="currentColor" /></svg>
+                          <span class="peak-wf-head-text"><b>{stores.de.name}</b><small>{stores.de.domain}</small></span>
+                          <span class="peak-wf-mono is-light">{stores.de.country}</span>
+                        </div>
+                        <div class="peak-wf-storefront-body">
+                          <img src={assets.productUi.skiBackpackBlack} alt="" width="112" height="112" loading="lazy" decoding="async" />
+                          <span class="peak-wf-storefront-text">
+                            <small class="peak-wf-source">US source · Ski Traverse 30L Backpack · $89.00</small>
+                            <b lang="de">Ski-Rucksack Traverse 30L</b>
+                            <span lang="de">Technischer Skirucksack, 30 L</span>
+                            <span class="peak-wf-storefront-price">
+                              <strong>€85,00</strong>
+                              <em class="peak-wf-pill is-green">translated</em>
+                            </span>
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
+                    {workflow.id === "discount" && (
+                      <div class="peak-wf-card">
+                        <div class="peak-wf-head">
+                          <span class="peak-wf-head-text">
+                            <small>Discount · percentage off</small>
+                            <b><code>WINTER20</code> · -20%</b>
+                          </span>
+                          <em class="peak-wf-pill is-green">Published</em>
+                        </div>
+                        <ul class="peak-wf-rows is-stores">
+                          {[stores.us, stores.fr, stores.gb].map((store) => (
+                            <li>
+                              <span class="peak-wf-mono" style={`--mono:${store.color}`}>{store.country}</span>
+                              <span class="peak-wf-row-text"><b>{store.name}</b><small>{store.domain}</small></span>
+                              <span class="peak-wf-status"><i></i>live</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {workflow.id === "media" && (
+                      <div class="peak-wf-card">
+                        <div class="peak-wf-asset">
+                          <img src={assets.productUi.summitJacketRed} alt="" width="120" height="120" loading="lazy" decoding="async" />
+                          <span class="peak-wf-asset-text">
+                            <small>Asset</small>
+                            <code>peak-pim-summit-gear-shell-jacket-red.png</code>
+                            <em class="peak-wf-pill">2400 × 2400 · 2.4 MB</em>
+                          </span>
+                        </div>
+                        <div class="peak-wf-usage">
+                          <small>Used by · 3 stores</small>
+                          <span class="peak-wf-monos">
+                            {[stores.us, stores.fr, stores.gb].map((store) => (
+                              <span class="peak-wf-mono" style={`--mono:${store.color}`} title={store.name}>{store.country}</span>
+                            ))}
+                          </span>
+                          <span class="peak-wf-status"><i></i>Replaced · just now</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <ol class="peak-workflows__steps">
+                    {workflow.steps.map((step, stepIndex) => (
+                      <li class:list={{ "is-result": stepIndex === workflow.steps.length - 1 }}>
+                        <span class="peak-workflows__step-number" aria-hidden="true">
+                          {stepIndex === workflow.steps.length - 1 ? (
+                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5.2l2 2 4-4.4" stroke="currentColor" stroke-width="1.6" /></svg>
+                          ) : stepIndex + 1}
+                        </span>
+                        {step}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div class="margin-top margin-xlarge">
+          <div class="button-group is-center">
+            <Button href="https://apps.shopify.com/peak-pim" external>{ctaLabels.getPeakPim}</Button>
+            <Button href="https://app.peak-pim.com/demo" variant="secondary" external>{ctaExceptions.liveDemo}</Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .peak-workflows {
+    --wf-cobalt: #2845d6;
+    --wf-cobalt-deep: #1a2ca3;
+    --wf-cobalt-tint: #eef1fe;
+    --wf-text: #2c2c2a;
+    --wf-text-secondary: #6b6b6b;
+    --wf-text-tertiary: #8a8983;
+    --wf-strip: #faf8f2;
+    --wf-input: #f8f7f3;
+    --wf-input-border: #e8e6de;
+    --wf-divider: #eeeae0;
+    --wf-divider-soft: #f4f1ea;
+    --wf-green-dot: #1d9e75;
+    --wf-green-text: #0f6e56;
+    --wf-green-tint: #eef7f1;
+    --wf-card-shadow: 0 1px 3px rgba(13, 26, 99, 0.05), 0 14px 36px rgba(13, 26, 99, 0.1);
+    --wf-panel-shadow: 0 4px 12px rgba(13, 26, 99, 0.06), 0 24px 60px rgba(13, 26, 99, 0.12);
+    --wf-mono: "JetBrains Mono", "SF Mono", ui-monospace, monospace;
+  }
+
+  .peak-workflows__switcher {
+    display: grid;
+    grid-template-columns: minmax(0, 38fr) minmax(0, 62fr);
+    gap: 2rem;
+    align-items: start;
+  }
+
+  /* Workflow list */
+  .peak-workflows__tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .peak-workflows__tab,
+  .peak-workflows__accordion {
+    position: relative;
+    display: flex;
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: var(--wf-text-secondary);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .peak-workflows__tab {
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  .peak-workflows__tab::before,
+  .peak-workflows__item:has(.peak-workflows__accordion[aria-expanded="true"])::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 3px;
+    background: var(--wf-cobalt);
+    opacity: 0;
+  }
+
+  .peak-workflows__tab:hover { color: var(--wf-text); }
+
+  .peak-workflows__tab[aria-selected="true"] {
+    background: #fff;
+    color: var(--wf-text);
+    box-shadow: var(--wf-card-shadow);
+  }
+
+  .peak-workflows__tab[aria-selected="true"]::before { opacity: 1; }
+
+  .peak-workflows__tab:focus-visible,
+  .peak-workflows__accordion:focus-visible,
+  .peak-workflows__panel:focus-visible {
+    outline: 2px solid var(--wf-cobalt);
+    outline-offset: 2px;
+  }
+
+  .peak-workflows__tag {
+    color: var(--wf-text-tertiary);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    line-height: 1.3;
+    text-transform: uppercase;
+  }
+
+  .peak-workflows__tab-title {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .peak-workflows__progress {
+    position: absolute;
+    right: 1.25rem;
+    bottom: 0.5rem;
+    left: 1.25rem;
+    height: 2px;
+    border-radius: 99px;
+    background: var(--wf-cobalt);
+    transform: scaleX(0);
+    transform-origin: left;
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .peak-workflows__switcher:not(.is-manual) .peak-workflows__tab[aria-selected="true"] .peak-workflows__progress {
+      opacity: 1;
+      animation: peak-workflows-progress 6s linear forwards;
+    }
+
+    .peak-workflows__switcher.is-paused .peak-workflows__progress { animation-play-state: paused !important; }
+  }
+
+  @keyframes peak-workflows-progress {
+    to { transform: scaleX(1); }
+  }
+
+  /* Active workflow panel */
+  .peak-workflows__panels {
+    display: grid;
+    padding: 1.75rem;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: var(--wf-panel-shadow);
+  }
+
+  .peak-workflows__item { display: contents; }
+  .peak-workflows__accordion-heading { display: none; }
+
+  .peak-workflows__panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    grid-area: 1 / 1;
+    min-width: 0;
+    border-radius: 6px;
+  }
+
+  /* Inactive panels stay in the DOM and keep the panel at a stable height. */
+  .peak-workflows__panel[hidden] { visibility: hidden; }
+
+  .peak-workflows__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .peak-workflows__chips li {
+    padding: 0.3rem 0.6rem;
+    border-radius: 5px;
+    background: var(--wf-cobalt-tint);
+    color: var(--wf-cobalt-deep);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .peak-workflows__line {
+    margin: 0;
+    color: var(--wf-text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  .peak-workflows__stage {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    min-height: 19rem;
+    padding: 1.75rem;
+    border-radius: 10px;
+    background: var(--wf-strip);
+    container-type: inline-size;
+  }
+
+  .peak-workflows__steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--wf-divider);
+    border-radius: 10px;
+    list-style: none;
+    counter-reset: none;
+  }
+
+  .peak-workflows__steps li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+    padding: 0.7rem 0.875rem;
+    color: var(--wf-text-secondary);
+    font-size: 0.8125rem;
+    font-weight: 500;
+  }
+
+  .peak-workflows__steps li + li { border-left: 1px solid var(--wf-divider); }
+
+  .peak-workflows__step-number {
+    display: grid;
+    flex: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    place-items: center;
+    border-radius: 99px;
+    background: var(--wf-strip);
+    color: var(--wf-text-tertiary);
+    font-size: 0.6875rem;
+    font-weight: 600;
+  }
+
+  .peak-workflows__steps li.is-result { color: var(--wf-green-text); }
+  .peak-workflows__steps li.is-result .peak-workflows__step-number { background: var(--wf-green-tint); color: var(--wf-green-text); }
+
+  /* UI fragments */
+  .peak-wf-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    width: 100%;
+    max-width: 30rem;
+    padding: 1rem;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: var(--wf-card-shadow);
+    color: var(--wf-text);
+    font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.8125rem;
+    line-height: 1.35;
+  }
+
+  .peak-wf-card code {
+    font-family: var(--wf-mono);
+    font-size: 0.6875rem;
+  }
+
+  .peak-wf-card small {
+    color: var(--wf-text-tertiary);
+    font-size: 0.59375rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .peak-wf-head {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  .peak-wf-head-text,
+  .peak-wf-row-text,
+  .peak-wf-storefront-text,
+  .peak-wf-asset-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+    text-align: left;
+  }
+
+  .peak-wf-head-text b { font-size: 0.875rem; font-weight: 600; }
+
+  .peak-wf-pill {
+    flex: none;
+    padding: 0.2rem 0.55rem;
+    border-radius: 99px;
+    background: var(--wf-input);
+    color: var(--wf-text-secondary);
+    font-size: 0.6875rem;
+    font-style: normal;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .peak-wf-pill.is-cobalt { background: var(--wf-cobalt-tint); color: var(--wf-cobalt-deep); }
+  .peak-wf-pill.is-green { background: var(--wf-green-tint); color: var(--wf-green-text); }
+
+  .peak-wf-timeline {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.625rem 0.75rem;
+    border-radius: 8px;
+    background: var(--wf-strip);
+    color: var(--wf-text-secondary);
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
+
+  .peak-wf-timeline b { color: var(--wf-text); font-weight: 600; }
+
+  .peak-wf-timeline i {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    margin-right: 0.375rem;
+    border-radius: 99px;
+    background: var(--wf-cobalt);
+    vertical-align: 1px;
+  }
+
+  .peak-wf-timeline i.is-end { background: #fff; box-shadow: inset 0 0 0 1.5px var(--wf-cobalt); }
+
+  .peak-wf-timeline-line {
+    flex: 1;
+    min-width: 1rem;
+    height: 1px;
+    background: repeating-linear-gradient(90deg, var(--wf-cobalt) 0 4px, transparent 4px 7px);
+  }
+
+  .peak-wf-rows {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .peak-wf-rows li {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.5rem 0;
+  }
+
+  .peak-wf-rows li + li { border-top: 1px solid var(--wf-divider-soft); }
+  .peak-wf-rows b { font-weight: 500; }
+  .peak-wf-rows code { color: var(--wf-text-tertiary); }
+
+  .peak-wf-rows img,
+  .peak-wf-thumb {
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    background: var(--wf-strip);
+    object-fit: contain;
+  }
+
+  .peak-wf-thumb { width: 44px; height: 44px; }
+
+  .peak-wf-price {
+    display: flex;
+    flex: none;
+    align-items: baseline;
+    gap: 0.4rem;
+  }
+
+  .peak-wf-price s { color: var(--wf-text-tertiary); }
+  .peak-wf-price b { color: var(--wf-cobalt-deep); font-weight: 600; }
+
+  .peak-wf-file {
+    display: grid;
+    flex: none;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    border-radius: 6px;
+    background: var(--wf-green-tint);
+    color: var(--wf-green-text);
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .peak-wf-counters {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .peak-wf-counters span {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    padding: 0.625rem 0.75rem;
+    border-radius: 8px;
+    background: var(--wf-strip);
+    color: var(--wf-text-secondary);
+    font-size: 0.75rem;
+  }
+
+  .peak-wf-counters b { color: var(--wf-text); font-size: 1.25rem; font-weight: 600; line-height: 1.2; }
+  .peak-wf-counters .is-cobalt { background: var(--wf-cobalt-tint); color: var(--wf-cobalt-deep); }
+  .peak-wf-counters .is-cobalt b { color: var(--wf-cobalt); }
+  .peak-wf-counters .is-green { background: var(--wf-green-tint); color: var(--wf-green-text); }
+  .peak-wf-counters .is-green b { color: var(--wf-green-text); }
+
+  .peak-wf-sku { flex: none; color: var(--wf-text-tertiary); }
+
+  .peak-wf-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .peak-wf-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .peak-wf-field-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .peak-wf-field-label s { text-decoration-thickness: 1px; }
+  .peak-wf-field-label .peak-wf-pill { font-size: 0.625rem; }
+
+  .peak-wf-input {
+    padding: 0.45rem 0.6rem;
+    border: 1px solid var(--wf-input-border);
+    border-radius: 5px;
+    background: var(--wf-input);
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .peak-wf-cursor {
+    display: inline-block;
+    width: 1.5px;
+    height: 0.95em;
+    margin-left: 1px;
+    background: var(--wf-cobalt);
+    vertical-align: -0.12em;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .peak-wf-cursor { animation: peak-workflows-blink 1s steps(1) infinite; }
+  }
+
+  @keyframes peak-workflows-blink {
+    50% { opacity: 0; }
+  }
+
+  .peak-wf-card.is-storefront { gap: 0; padding: 0; overflow: hidden; }
+
+  .peak-wf-storefront-head {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.75rem 1rem;
+    background: linear-gradient(90deg, var(--from), var(--to));
+    color: #fff;
+  }
+
+  .peak-wf-storefront-head small { color: rgba(255, 255, 255, 0.75); letter-spacing: 0; text-transform: none; font-size: 0.6875rem; }
+  .peak-wf-leaf { flex: none; color: rgba(255, 255, 255, 0.95); }
+
+  .peak-wf-storefront-body {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .peak-wf-storefront-body img {
+    flex: none;
+    width: 112px;
+    height: 112px;
+    border-radius: 8px;
+    background: var(--wf-strip);
+    object-fit: contain;
+  }
+
+  .peak-wf-storefront-text { gap: 0.25rem; }
+  .peak-wf-storefront-text .peak-wf-source { margin-bottom: 0.25rem; color: #b5b3ac; letter-spacing: 0; text-transform: none; font-size: 0.6875rem; }
+  .peak-wf-storefront-text b { font-size: 1rem; font-weight: 600; }
+  .peak-wf-storefront-text > span { color: var(--wf-text-secondary); }
+
+  .peak-wf-storefront-price {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.375rem;
+  }
+
+  .peak-wf-storefront-price strong { color: var(--wf-text); font-size: 0.9375rem; font-weight: 600; }
+
+  .peak-wf-mono {
+    display: grid;
+    flex: none;
+    width: 28px;
+    height: 28px;
+    place-items: center;
+    border-radius: 6px;
+    background: var(--mono);
+    color: #fff;
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .peak-wf-mono.is-light { background: rgba(255, 255, 255, 0.18); }
+
+  .peak-wf-rows.is-stores b { font-weight: 600; }
+  .peak-wf-rows.is-stores small { letter-spacing: 0; text-transform: none; font-size: 0.6875rem; }
+
+  .peak-wf-status {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 0.375rem;
+    color: var(--wf-green-text);
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .peak-wf-status i {
+    width: 7px;
+    height: 7px;
+    border-radius: 99px;
+    background: var(--wf-green-dot);
+  }
+
+  .peak-wf-asset {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .peak-wf-asset img {
+    flex: none;
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    background: var(--wf-strip);
+    object-fit: contain;
+  }
+
+  .peak-wf-asset-text { gap: 0.4rem; align-items: flex-start; }
+  .peak-wf-asset-text code { font-size: 0.75rem; overflow-wrap: anywhere; }
+
+  .peak-wf-usage {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.625rem 0.75rem;
+    border-radius: 8px;
+    background: var(--wf-strip);
+  }
+
+  .peak-wf-usage small { white-space: nowrap; }
+  .peak-wf-monos { display: flex; flex: 1; gap: 0.25rem; }
+  .peak-wf-usage .peak-wf-mono { width: 22px; height: 22px; border-radius: 5px; font-size: 0.5rem; }
+
+  /* Narrow fragment stages (tablet panel and mobile accordion) */
+  @container (max-width: 26rem) {
+    .peak-wf-timeline { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+    .peak-wf-timeline-line { display: none; }
+    .peak-wf-price { flex-direction: column; align-items: flex-end; gap: 0; }
+    .peak-wf-usage { flex-wrap: wrap; }
+    .peak-wf-usage .peak-wf-status { flex-basis: 100%; }
+  }
+
+  /* Mobile: accordion */
+  @media (max-width: 767px) {
+    .peak-workflows__switcher { display: block; }
+    .peak-workflows__tabs { display: none; }
+
+    .peak-workflows__panels {
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .peak-workflows__item {
+      position: relative;
+      display: block;
+    }
+
+    .peak-workflows__item + .peak-workflows__item { border-top: 1px solid var(--wf-divider); }
+    .peak-workflows__item:has(.peak-workflows__accordion[aria-expanded="true"])::before { opacity: 1; }
+
+    .peak-workflows__accordion-heading {
+      display: block;
+      margin: 0;
+      font-size: inherit;
+      line-height: inherit;
+    }
+
+    .peak-workflows__accordion {
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 1.125rem;
+    }
+
+    .peak-workflows__accordion[aria-expanded="true"] { color: var(--wf-text); }
+
+    .peak-workflows__accordion-text {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      gap: 0.3rem;
+      min-width: 0;
+      text-align: left;
+    }
+
+    .peak-workflows__chevron { flex: none; color: var(--wf-text-tertiary); transition: transform 180ms ease; }
+    .peak-workflows__accordion[aria-expanded="true"] .peak-workflows__chevron { transform: rotate(180deg); }
+
+    .peak-workflows__panel { padding: 0 1.125rem 1.125rem; gap: 1rem; }
+    .peak-workflows__panel[hidden] { display: none; }
+
+    .peak-workflows__stage { min-height: 0; padding: 1rem 0.75rem; }
+    .peak-wf-card { padding: 0.875rem; }
+    .peak-wf-card.is-storefront { padding: 0; }
+    .peak-wf-storefront-body img { width: 84px; height: 84px; }
+    .peak-wf-asset img { width: 88px; height: 88px; }
+    .peak-workflows__steps li { padding: 0.6rem 0.5rem; gap: 0.375rem; font-size: 0.75rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .peak-workflows__tab,
+    .peak-workflows__chevron { transition: none; }
+  }
+</style>
+
+<script>
+  const mobileQuery = window.matchMedia("(max-width: 767px)");
+
+  document.querySelectorAll<HTMLElement>("[data-workflows]").forEach((switcher) => {
+    const tabs = Array.from(switcher.querySelectorAll<HTMLButtonElement>("[data-workflow-tab]"));
+    const accordions = Array.from(switcher.querySelectorAll<HTMLButtonElement>("[data-workflow-accordion]"));
+    const panels = Array.from(switcher.querySelectorAll<HTMLElement>("[data-workflow-panel]"));
+    let active = 0;
+
+    function select(index: number) {
+      active = index;
+      tabs.forEach((tab, tabIndex) => {
+        const selected = tabIndex === index;
+        tab.setAttribute("aria-selected", String(selected));
+        tab.tabIndex = selected || (index === -1 && tabIndex === 0) ? 0 : -1;
+      });
+      accordions.forEach((accordion, accordionIndex) => accordion.setAttribute("aria-expanded", String(accordionIndex === index)));
+      panels.forEach((panel, panelIndex) => { panel.hidden = panelIndex !== index; });
+    }
+
+    function stopRotation() {
+      switcher.classList.add("is-manual");
+    }
+
+    function applyLayout() {
+      panels.forEach((panel, index) => {
+        if (mobileQuery.matches) {
+          panel.setAttribute("role", "region");
+          panel.setAttribute("aria-labelledby", accordions[index].id);
+          panel.removeAttribute("tabindex");
+        } else {
+          panel.setAttribute("role", "tabpanel");
+          panel.setAttribute("aria-labelledby", tabs[index].id);
+          panel.tabIndex = 0;
+        }
+      });
+
+      if (!mobileQuery.matches && active === -1) select(0);
+    }
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => {
+        stopRotation();
+        select(index);
+      });
+
+      tab.addEventListener("keydown", (event) => {
+        const keys: Record<string, number> = {
+          ArrowDown: (index + 1) % tabs.length,
+          ArrowRight: (index + 1) % tabs.length,
+          ArrowUp: (index - 1 + tabs.length) % tabs.length,
+          ArrowLeft: (index - 1 + tabs.length) % tabs.length,
+          Home: 0,
+          End: tabs.length - 1,
+        };
+        const next = keys[event.key];
+        if (next === undefined) return;
+        event.preventDefault();
+        stopRotation();
+        select(next);
+        tabs[next].focus();
+      });
+
+      // The progress line drives auto-rotation, so reduced motion and manual selection stop it.
+      tab.querySelector(".peak-workflows__progress")?.addEventListener("animationend", () => {
+        if (switcher.classList.contains("is-manual") || tab.getAttribute("aria-selected") !== "true") return;
+        select((index + 1) % tabs.length);
+      });
+    });
+
+    accordions.forEach((accordion, index) => {
+      accordion.addEventListener("click", () => {
+        stopRotation();
+        select(accordion.getAttribute("aria-expanded") === "true" ? -1 : index);
+      });
+    });
+
+    let hovered = false;
+    let visible = false;
+    const updatePaused = () => switcher.classList.toggle("is-paused", hovered || !visible);
+
+    switcher.addEventListener("mouseenter", () => { hovered = true; updatePaused(); });
+    switcher.addEventListener("mouseleave", () => { hovered = false; updatePaused(); });
+
+    new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      updatePaused();
+    }, { threshold: 0.4 }).observe(switcher);
+
+    updatePaused();
+    applyLayout();
+    mobileQuery.addEventListener("change", applyLayout);
+  });
+</script>
