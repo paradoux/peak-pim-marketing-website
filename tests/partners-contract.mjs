@@ -30,6 +30,7 @@ for (const file of files) {
     checkHeader(header);
     assert(!nodes.some(node => attr(node, "class") === "site-footer"), "Do not render marketing footer");
     assert(html.includes("percentage depends on the deal"));
+    assert.match(html, /<!--email_off--><a href="mailto:theau@peak-pim\.com"[^>]*>theau@peak-pim\.com<\/a><!--\/email_off-->/, "Keep the contact email usable without Cloudflare's decode script");
     for (const href of ["mailto:theau@peak-pim.com", "https://www.linkedin.com/in/theau/", "https://peak-pim.com/"]) assert(nodes.some(node => node.tagName === "a" && attr(node, "href") === href), `Missing contact ${href}`);
   }
   const canonical = nodes.find((node) => node.tagName === "link" && attr(node, "rel") === "canonical");
