@@ -10,6 +10,7 @@ export const assets = {
     axome: "/assets/partner-logos/axome.svg",
   },
   productUi: {
+    homepageFreerideRed: "/assets/product-ui/peak-pim-freeride-x-red.jpg",
     summitJacketRed: "/assets/product-ui/summit-gear-shell-jacket-red.webp",
     freerideRed: "/assets/product-ui/peakpro-freeride-x-red.webp",
     skiBackpackBlack: "/assets/product-ui/ski-traverse-30l-backpack-black.webp",

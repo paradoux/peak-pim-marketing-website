@@ -135,6 +135,8 @@ Use `CardGrid` when the approved reference shows complete bordered cards. Use `F
 
 ## What may be new
 
+`HomepageWorkflows.astro` is the homepage workflow-card pattern, shown in `/design-system`. It reuses `SectionHeading`, the existing complete-card structure, standard heading container and section spacing. Seven dark, borderless cards share one full-width horizontal row, with “Create your own workflow” third. It reuses the logo marquee animation at a slower 180-second loop, with no fading at the screen edges; the card row sits outside the heading container. Hover pauses movement and transfers its current position to native scrolling without requiring a click; movement resumes from that position on exit. Keyboard focus and reduced motion also support native scrolling. The third card is a large centered plus above its title, with no supporting copy. The duplicate group is hidden from assistive technology and has no duplicate IDs. There are no product visuals, step strips, section CTAs, or navigation arrows. Below 768px, cards retain the slow automatic loop with smaller spacing and a glimpse of the next card. Touch pauses movement for native swiping; the loop resumes from the new position after touch scrolling settles. Reduced-motion users get a static swipe row. The section is currently an English-only preview; translations remain pending.
+
 A feature-specific product demonstration may be new when an existing visual cannot explain the workflow. It must sit inside the canonical section wrapper, remain legible at 375px, and provide a static state under `prefers-reduced-motion`.
 
 ### HTML/CSS illustration language
@@ -183,3 +185,7 @@ Do not introduce a new heading scale, generic card system, button treatment, con
 `OnePagerHeader.astro` (`peak-one-pager-header`) is the approved section-only header for partner presentations. It accepts hash links only and uses a native disclosure menu below 992px. `PartnerBrand.astro` (`peak-partner-brand`) pairs the registered Peak and partner logos. `PartnerContact.astro` (`peak-partner-contact`) reuses the CTA card for direct email, LinkedIn, and website links. All three render in `/design-system`.
 
 `LandingPageLayout` exposes optional `header` and `footer` slots; ordinary marketing pages retain their shared navigation. `Hero` exposes an optional `brand` slot above its H1. Agency one-pagers use Hero, ProblemGrid, visual CardGrid, FeatureSteps, text CardGrid, and PartnerContact in that order.
+
+### Homepage split hero
+
+`HomepageHero.astro` reuses `Hero` with its split layout and the existing homepage announcement, rating, description, and Book a demo button. `HomepageHeroAnimation.astro` contains the supplied three-scene catalog animation and registered product photo. The columns stack below 1024px; the animation uses its compact composition below a 480px container width, reserves its canvas aspect ratio, and shows the published stores when reduced motion is enabled. This English homepage preview is also shown in `/design-system`.

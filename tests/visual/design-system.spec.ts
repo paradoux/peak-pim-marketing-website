@@ -290,20 +290,12 @@ test("homepage · Maéli Paris customer story sits between pricing and the final
     await expect(story.locator("img").first()).toHaveAttribute("alt", "Maéli Paris");
     await expect(story.locator(".peak-customer-story-hero__image")).toHaveAttribute("src", "/assets/testimonials/amelie-samson-maeli-paris.webp");
     await expect(story.getByRole("link", { name: "Read story" })).toHaveAttribute("href", "/customers/maeli-paris/");
-    await expect(socialProof).toContainText("70+");
-    await expect(socialProof).toContainText("240+");
-    await expect(socialProof).toContainText("1,650,000");
-    await expect(socialProof).not.toContainText("Proven in real catalog workflows");
-    await expect(socialProof).not.toContainText("Already operating their catalogs with Peak PIM.");
-    await expect(socialProof.locator(".peak-social-proof-stats__logo-link")).toHaveCount(6);
-    expect(await socialProof.locator('.peak-social-proof-stats__logo-link[target="_blank"]').evaluateAll((links) => links.length === 4 && links.every((link) => (
-      link.getAttribute("target") === "_blank" && link.getAttribute("rel") === "nofollow noopener"
-    )))).toBe(true);
+    await expect(socialProof).toHaveCount(0);
 
     const sectionOrder = await page.locator(".section_layout121, .peak-social-proof-stats, .section_pricing2, .peak-customer-story-hero, .section_cta51").evaluateAll((sections) =>
       sections.map((section) => Array.from(section.classList).find((className) => ["section_layout121", "peak-social-proof-stats", "section_pricing2", "peak-customer-story-hero", "section_cta51"].includes(className))),
     );
-    expect(sectionOrder).toEqual(["section_layout121", "peak-social-proof-stats", "section_pricing2", "peak-customer-story-hero", "section_cta51"]);
+    expect(sectionOrder).toEqual(["section_layout121", "section_pricing2", "peak-customer-story-hero", "section_cta51"]);
     expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
   }
 });

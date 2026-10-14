@@ -1,0 +1,65 @@
+---
+import Hero from "./Hero.astro";
+import HomepageHeroAnimation from "../visuals/HomepageHeroAnimation.astro";
+import { bookDemoUrl, ctaLabels } from "../../data/cta-copy";
+import { getPage, getPageDocument } from "../../lib/page-source";
+
+type Props = { headingLevel?: "h1" | "h2" };
+const page = getPage("")!;
+const { mainHtml } = getPageDocument(page);
+const brandStart = mainHtml.indexOf('<div class="hero-badge-wrapper">');
+const ratingStart = mainHtml.indexOf('<div class="peak-home-rating-wrapper">', brandStart);
+const brandEnd = mainHtml.indexOf('<div class="margin-bottom margin-small"><h1', brandStart);
+const description = mainHtml.match(/<p class="text-size-medium max-width-large align-center">([^<]+)<\/p>/)?.[1];
+if (brandStart < 0 || ratingStart < brandStart || brandEnd < ratingStart || !description) {
+  throw new Error("The homepage hero copy could not be extracted.");
+}
+---
+
+<Hero
+  id="hero"
+  layout="split"
+  headingLevel={Astro.props.headingLevel}
+  title={page.h1!}
+  description={description}
+  primaryCta={{ label: ctaLabels.bookDemo, href: bookDemoUrl }}
+>
+  <Fragment slot="announcement" set:html={mainHtml.slice(brandStart, ratingStart)} />
+  <div slot="cta-proof" class="peak-home-hero-rating" set:html={mainHtml.slice(ratingStart, brandEnd)} />
+  <div class="peak-home-hero-animation">
+    <HomepageHeroAnimation />
+  </div>
+</Hero>
+
+<style>
+  .peak-home-hero-rating :global(.peak-home-rating-wrapper) {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 479px) {
+    .peak-home-hero-rating :global(.peak-home-rating) {
+      display: grid;
+      grid-template-columns: max-content max-content;
+      gap: 0 0.35rem;
+    }
+
+    .peak-home-hero-rating :global(.peak-home-rating__stars) {
+      grid-column: 1 / -1;
+      justify-self: center;
+    }
+  }
+
+  .peak-home-hero-animation {
+    width: 100%;
+    max-width: 620px;
+    margin-inline: auto;
+    container-type: inline-size;
+  }
+
+  /* Reserve the supplied mobile canvas ratio before its script initializes. */
+  @container (width < 480px) {
+    .peak-home-hero-animation :global(.ppim-hh) {
+      aspect-ratio: 380 / 500;
+    }
+  }
+</style>

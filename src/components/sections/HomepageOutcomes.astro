@@ -4,11 +4,11 @@ import SectionHeading from "../ui/SectionHeading.astro";
 const cards = [
   {
     title: "Hours back every week",
-    description: "Bulk edit thousands of products, collections and media at once, schedule launches with Drops, and let AI draft missing content. No more CSV round trips between Shopify stores.",
+    description: "Bulk edit thousands of products, collections and media at once, schedule launches with Drops, and let AI draft missing content. No more CSV round trips between your ERP and Shopify stores, or outdated spreadsheets.",
   },
   {
     title: "Fewer errors",
-    description: "Review every change before it reaches Shopify. The Health Center flags missing fields and store mismatches, and History shows who changed what.",
+    description: "Easily spot missing, incorrect or unoptimized content, from inaccurate descriptions and missing prices to empty metafields and mismatches between stores.",
   },
   {
     title: "A catalog that sells more",
@@ -33,7 +33,12 @@ const cards = [
             <article class="layout395_card">
               <div class="layout395_card-content outcomes-content">
                 <div>
-                  <div class="margin-bottom margin-xsmall"><h3 class="heading-style-h4">{card.title}</h3></div>
+                  <div class="margin-bottom margin-xsmall">
+                    <h3 class="heading-style-h4 outcomes-title">
+                      <span class="feature-mega-menu__marker" aria-hidden="true"></span>
+                      <span>{card.title}</span>
+                    </h3>
+                  </div>
                   <p>{card.description}</p>
                 </div>
               </div>
@@ -49,6 +54,12 @@ const cards = [
   .outcomes-heading :global(h2) { text-wrap: balance; }
   .outcomes-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .outcomes-content { gap: 2rem; justify-content: flex-start; }
+  .outcomes-content p { padding-left: calc(0.5rem + 1rem); text-align: left; }
+  .outcomes-title { display: flex; align-items: flex-start; gap: 1rem; }
+  .outcomes-title .feature-mega-menu__marker { margin-top: calc((1lh - 0.5rem) / 2); }
+  @media (min-width: 992px) {
+    .outcomes-heading :global(.max-width-large) { max-width: none; }
+  }
   @media (max-width: 991px) {
     .outcomes-grid { grid-template-columns: 1fr; }
   }

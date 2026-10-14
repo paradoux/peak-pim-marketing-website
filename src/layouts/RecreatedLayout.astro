@@ -3,7 +3,9 @@ import CrispChat from "../components/CrispChat.astro";
 import CustomerStoryHero from "../components/sections/CustomerStoryHero.astro";
 import SocialProofStats from "../components/sections/SocialProofStats.astro";
 import IntegrationIntroduction from "../components/sections/IntegrationIntroduction.astro";
+import HomepageHero from "../components/sections/HomepageHero.astro";
 import HomepageOutcomes from "../components/sections/HomepageOutcomes.astro";
+import HomepageWorkflows from "../components/sections/HomepageWorkflows.astro";
 import GlobalWebflowStyles from "../components/GlobalWebflowStyles.astro";
 import DemoBookingModal from "../components/DemoBookingModal.astro";
 import OpenAIAdsTracking from "../components/OpenAIAdsTracking.astro";
@@ -65,6 +67,11 @@ if (supportingProofMarker && supportingProofIndex === -1) {
 }
 
 const homepageMainBeforeOutcomes = homepageFeaturesIndex >= 0 ? mainHtml.slice(0, homepageFeaturesIndex) : mainHtml;
+const homepageHeroStart = homepageMainBeforeOutcomes.indexOf('<header class="section_landing-big_hero-header">');
+const homepageHeroEnd = homepageMainBeforeOutcomes.indexOf('</header>', homepageHeroStart) + '</header>'.length;
+if (page.slug === "" && (homepageHeroStart < 0 || homepageHeroEnd <= homepageHeroStart)) {
+  throw new Error("The homepage hero could not be replaced.");
+}
 const homepageMainBeforeIntegrations = homepageFeaturesIndex >= 0 ? mainHtml.slice(homepageFeaturesIndex, homepageSetupIndex) : "";
 const homepageMainBeforeProof = homepageSetupIndex >= 0 ? mainHtml.slice(homepageSetupIndex, homepagePricingIndex) : "";
 const homepageMainBetweenProofAndStory = homepagePricingIndex >= 0 && homepageCtaIndex >= 0 ? mainHtml.slice(homepagePricingIndex, homepageCtaIndex) : "";
@@ -126,16 +133,18 @@ const fallbackJsonLd = {
       <div class="site-main">
         {page.slug === "" ? (
           <>
-            <Fragment set:html={homepageMainBeforeOutcomes} />
+            {locale === defaultLocale ? (
+              <>
+                <Fragment set:html={homepageMainBeforeOutcomes.slice(0, homepageHeroStart)} />
+                <HomepageHero />
+                <Fragment set:html={homepageMainBeforeOutcomes.slice(homepageHeroEnd)} />
+              </>
+            ) : <Fragment set:html={homepageMainBeforeOutcomes} />}
             <HomepageOutcomes />
+            {locale === defaultLocale && <HomepageWorkflows />}
             <Fragment set:html={homepageMainBeforeIntegrations} />
             <IntegrationIntroduction />
             <Fragment set:html={homepageMainBeforeProof} />
-            <SocialProofStats
-              title={accountSocialProofTitle}
-              stats={accountSocialProofStats}
-              logos={accountSocialProofLogos}
-            />
             <Fragment set:html={homepageMainBetweenProofAndStory} />
             <CustomerStoryHero
               eyebrow="Customer story"

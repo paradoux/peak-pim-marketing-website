@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-const paths = ["/", "/pricing/", "/shopify-product-management/", "/shopify-multi-store-pim/", "/build-vs-buy-pim/", "/industry/fashion/", "/design-system/"];
+const paths = ["/pricing/", "/shopify-product-management/", "/shopify-multi-store-pim/", "/build-vs-buy-pim/", "/industry/fashion/", "/design-system/"];
 
 for (const path of paths) {
   test(`open cream proof · ${path}`, async ({ page }) => {

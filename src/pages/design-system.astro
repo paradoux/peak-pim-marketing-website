@@ -13,6 +13,8 @@ import CustomerStoryHero from "../components/sections/CustomerStoryHero.astro";
 import CustomerStoryStats from "../components/sections/CustomerStoryStats.astro";
 import SocialProofStats from "../components/sections/SocialProofStats.astro";
 import IntegrationIntroduction from "../components/sections/IntegrationIntroduction.astro";
+import HomepageHero from "../components/sections/HomepageHero.astro";
+import HomepageWorkflows from "../components/sections/HomepageWorkflows.astro";
 import IntegrationEcosystem from "../components/sections/IntegrationEcosystem.astro";
 import DecisionGuide from "../components/sections/DecisionGuide.astro";
 import Faq from "../components/sections/Faq.astro";
@@ -310,6 +312,8 @@ const socialProofLogos = [
     <div class="margin-top margin-small"><Button href={bookDemoUrl}>{ctaLabels.bookDemo}</Button></div>
   </div></div></section>
   <IntegrationIntroduction />
+  <HomepageHero headingLevel="h2" />
+  <HomepageWorkflows />
   <IntegrationEcosystem />
   <CustomerStoryChapter
     id="customer-story-pattern"

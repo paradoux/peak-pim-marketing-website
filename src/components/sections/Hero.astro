@@ -17,22 +17,25 @@ type Props = {
   secondaryCta?: Cta;
   layout?: "centered" | "split";
   trustLine?: string;
+  headingLevel?: "h1" | "h2";
 };
 
 const { id, title, description, primaryCta, secondaryCta, layout = "centered", trustLine } = Astro.props;
 const hasVisual = Astro.slots.has("default");
+const Heading = Astro.props.headingLevel ?? "h1";
 ---
 
 <header id={id} class:list={["section_header26", "peak-hero", { "peak-hero--split": layout === "split" }]}>
   <div class="padding-global">
     <div class="container-large">
-      <div class="padding-section-large">
+      <div class:list={["padding-section-large", { "peak-hero__announced-padding": Astro.slots.has("announcement") }]}>
+        <slot name="announcement" />
         {layout === "split" ? (
           <div class="peak-hero__split">
             <div class="peak-hero__content">
               <slot name="brand" />
               <div class="margin-bottom margin-small">
-                <h1 class="heading-style-h1">{title}</h1>
+                <Heading class="heading-style-h1">{title}</Heading>
               </div>
               <p class="text-size-medium">{description}</p>
               {(primaryCta || secondaryCta) && (
@@ -48,6 +51,7 @@ const hasVisual = Astro.slots.has("default");
                         {secondaryCta.label}
                       </Button>
                     )}
+                    <slot name="cta-proof" />
                   </div>
                 </div>
               )}
@@ -62,7 +66,7 @@ const hasVisual = Astro.slots.has("default");
                 <div class="max-width-large align-center">
                   <slot name="brand" />
                   <div class="margin-bottom margin-small">
-                    <h1 class="heading-style-h1">{title}</h1>
+                    <Heading class="heading-style-h1">{title}</Heading>
                   </div>
                   <p class="text-size-medium">{description}</p>
                   {(primaryCta || secondaryCta) && (
@@ -94,6 +98,10 @@ const hasVisual = Astro.slots.has("default");
 </header>
 
 <style>
+  .peak-hero__announced-padding {
+    padding-top: 2rem;
+  }
+
   .peak-hero__split {
     display: grid;
     grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
@@ -114,7 +122,7 @@ const hasVisual = Astro.slots.has("default");
     min-width: 0;
   }
 
-  @media screen and (max-width: 991px) {
+  @media screen and (max-width: 1023px) {
     .peak-hero__split {
       grid-template-columns: 1fr;
     }

@@ -1,0 +1,129 @@
+---
+import SectionHeading from "../ui/SectionHeading.astro";
+
+const workflows = [
+  { id: "drop", title: "Schedule your winter collection drop", line: "Prepare new prices, visibility and collections in advance. They go live Friday at 9:00 and roll back Monday.", chips: ["Drops", "Bulk edit", "Collections"] },
+  { id: "supplier", title: "Onboard a new supplier catalog", line: "Import their spreadsheet, match it to your existing SKUs, and create only what's new.", chips: ["Supplier import", "Validation", "Bulk edit"] },
+  { id: "custom", title: "Create your own workflow", line: "", chips: [] },
+  { id: "ai", title: "Write every missing description, SEO title and alt text", line: "Use the AI assistant in Peak PIM or a connected AI tool via MCP to draft in your brand tone. You review before anything is published.", chips: ["AI assistant", "MCP", "Data health", "Media"] },
+  { id: "germany", title: "Launch your catalog in Germany", line: "Titles, descriptions and SEO get translated, with a local price list for the German market.", chips: ["Translations", "Markets", "Price lists"] },
+  { id: "discount", title: "Run the same discount on all your stores", line: "Create one -20% campaign once. It goes live on your three Shopify stores.", chips: ["Discounts", "Multi-store"] },
+  { id: "media", title: "Replace a product photo everywhere at once", line: "Upload the new image once. It updates on every product and store that uses it.", chips: ["Media", "Shopify DAM"] },
+] as const;
+---
+
+<!-- English preview; localized versions follow copy approval. -->
+<section id="workflows" class="section_layout395 peak-home-workflows" aria-label="Catalog workflows">
+  <div class="padding-section-large">
+    <div class="padding-global">
+      <div class="container-large">
+        <div class="margin-bottom margin-xxlarge">
+          <SectionHeading title="Run your catalog from one place" description="Explore what Shopify merchants run in Peak PIM, then combine the features to create your own workflow." />
+        </div>
+      </div>
+    </div>
+        <div class="peak-home-workflows__marquee" role="region" aria-label="Workflow examples, scroll horizontally to explore" tabindex="0">
+          <div class="peak-home-workflows__track">
+            {[false, true].map((duplicate) => (
+              <div class="peak-home-workflows__group" aria-hidden={duplicate ? "true" : undefined} inert={duplicate}>
+                {workflows.map((workflow) => (
+                  <article class:list={["layout395_card peak-home-workflows__card", { "peak-home-workflows__custom": workflow.id === "custom" }]} aria-labelledby={duplicate ? undefined : `workflow-title-${workflow.id}`}>
+                    <div class="layout395_card-content peak-home-workflows__content">
+                      {workflow.id === "custom" && <span class="peak-home-workflows__create-icon" aria-hidden="true">+</span>}
+                      <h3 id={duplicate ? undefined : `workflow-title-${workflow.id}`} class="heading-style-h6">{workflow.title}</h3>
+                      {workflow.line && <p>{workflow.line}</p>}
+                      {workflow.chips.length > 0 && <ul class="peak-home-workflows__chips" aria-label="Features used">
+                        {workflow.chips.map((chip) => <li>{chip}</li>)}
+                      </ul>}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+  </div>
+</section>
+
+<style>
+  .peak-home-workflows { color: #2c2c2a; }
+  .peak-home-workflows__marquee { overflow-x: auto; scrollbar-width: none; }
+  .peak-home-workflows__marquee::-webkit-scrollbar { display: none; }
+  .peak-home-workflows__track { display: flex; width: max-content; animation: peak-logo-marquee-scroll 180s linear infinite; }
+  .peak-home-workflows__group { display: grid; grid-template-columns: repeat(7, 19rem); flex: none; gap: 1.5rem; padding-right: 1.5rem; }
+  .peak-home-workflows__marquee:focus-visible { outline: 2px solid #2845d6; outline-offset: -3px; }
+  .peak-home-workflows__marquee.is-manual .peak-home-workflows__track { animation: none; }
+  .peak-home-workflows__card { min-width: 0; background: var(--color-ink); color: #fff; border: 0; border-radius: 12px; }
+  .peak-home-workflows__content { gap: .875rem; padding: 1.5rem; justify-content: flex-start; }
+  .peak-home-workflows__content p { color: #d0d0c9; font-size: .875rem; line-height: 1.6; }
+  .peak-home-workflows__chips { display: flex; flex-wrap: wrap; gap: .375rem; padding: .25rem 0 0; margin: auto 0 0; list-style: none; }
+  .peak-home-workflows__chips li { padding: .3rem .5rem; border-radius: 99px; background: #41413e; color: #e3e7ff; font-size: .625rem; font-weight: 500; line-height: 1.4; }
+  .peak-home-workflows__custom .peak-home-workflows__content { align-items: center; text-align: center; }
+  .peak-home-workflows__custom h3 { text-align: center; }
+  .peak-home-workflows__create-icon { display: grid; place-items: center; flex: 1; width: 100%; color: #e3e7ff; font-size: 10rem; font-weight: 300; line-height: 1; }
+  @media (min-width: 992px) {
+    .peak-home-workflows :global(.max-width-large) { max-width: none; }
+    .peak-home-workflows :global(.text-size-medium) { max-width: 48rem; margin-inline: auto; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .peak-home-workflows__track { animation: none; }
+    .peak-home-workflows__group[aria-hidden] { display: none; }
+  }
+  @media (max-width: 767px) {
+    .peak-home-workflows__group { grid-template-columns: repeat(7, min(19rem, calc(100vw - 3rem))); gap: 1rem; padding-right: 1rem; }
+    .peak-home-workflows__content { padding: 1.25rem; }
+  }
+</style>
+
+<script>
+  const marquee = document.querySelector<HTMLElement>(".peak-home-workflows__marquee");
+  if (marquee) {
+    const track = marquee.querySelector<HTMLElement>(".peak-home-workflows__track")!;
+    const group = track.querySelector<HTMLElement>(".peak-home-workflows__group")!;
+    const staticView = matchMedia("(prefers-reduced-motion: reduce)");
+    const canHover = matchMedia("(hover: hover)");
+    let touching = false;
+    let touchInteraction = false;
+    let touchResumeTimer: ReturnType<typeof setTimeout> | undefined;
+    const startManual = () => {
+      if (staticView.matches || marquee.classList.contains("is-manual")) return;
+      // Transfer the animated position to native scrolling without moving the cards.
+      const offset = -new DOMMatrix(getComputedStyle(track).transform).m41;
+      marquee.classList.add("is-manual");
+      marquee.scrollLeft = offset;
+    };
+    const resume = () => {
+      if (touching || touchResumeTimer || marquee.matches(":focus-visible") || (canHover.matches && marquee.matches(":hover")) || !marquee.classList.contains("is-manual")) return;
+      touchInteraction = false;
+      const offset = marquee.scrollLeft % group.offsetWidth;
+      marquee.classList.remove("is-manual");
+      marquee.scrollLeft = 0;
+      const animation = track.getAnimations()[0];
+      if (animation) animation.currentTime = offset / group.offsetWidth * Number(animation.effect!.getComputedTiming().duration);
+    };
+    const resumeAfterTouch = () => {
+      clearTimeout(touchResumeTimer);
+      touchResumeTimer = setTimeout(() => {
+        touchResumeTimer = undefined;
+        resume();
+      }, 300);
+    };
+    marquee.addEventListener("touchstart", () => {
+      touching = true;
+      touchInteraction = true;
+      clearTimeout(touchResumeTimer);
+      touchResumeTimer = undefined;
+      startManual();
+    }, { passive: true });
+    const endTouch = () => { touching = false; resumeAfterTouch(); };
+    marquee.addEventListener("touchend", endTouch, { passive: true });
+    marquee.addEventListener("touchcancel", endTouch, { passive: true });
+    marquee.addEventListener("scroll", () => {
+      if (touchInteraction && !touching) resumeAfterTouch();
+    }, { passive: true });
+    marquee.addEventListener("pointerenter", (event) => { if (event.pointerType !== "touch") startManual(); });
+    marquee.addEventListener("focus", startManual);
+    marquee.addEventListener("pointerleave", (event) => { if (event.pointerType !== "touch") resume(); });
+    marquee.addEventListener("blur", resume);
+  }
+</script>

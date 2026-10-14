@@ -22,6 +22,9 @@ const requiredFiles = [
   "src/components/ui/ProductVisualFrame.astro",
   "src/components/ui/SectionHeading.astro",
   "src/components/sections/Hero.astro",
+  "src/components/sections/HomepageHero.astro",
+  "src/components/visuals/HomepageHeroAnimation.astro",
+  "public/assets/product-ui/peak-pim-freeride-x-red.jpg",
   "src/components/sections/LogoCloud.astro",
   "src/components/sections/ProblemGrid.astro",
   "src/components/sections/CardGrid.astro",
@@ -29,6 +32,7 @@ const requiredFiles = [
   "src/components/sections/IntegrationIntroduction.astro",
   "src/components/visuals/IntegrationLogoGroup.astro",
   "src/components/sections/FeatureSteps.astro",
+  "src/components/sections/HomepageWorkflows.astro",
   "src/components/sections/FeatureGrid.astro",
   "src/components/sections/Testimonial.astro",
   "src/components/sections/CtaBanner.astro",
@@ -667,7 +671,11 @@ if (existsSync(importExportFile)) {
 const homeFile = resolve(projectRoot, "dist/index.html");
 if (existsSync(homeFile)) {
   const html = readFileSync(homeFile, "utf8");
-  const heroHtml = html.match(/<header class="section_landing-big_hero-header"[\s\S]*?<div class="landing-big_hero-header_image-wrapper">/)?.[0] ?? "";
+  const heroHtml = html.match(/<header id="hero"[\s\S]*?<\/header>/)?.[0] ?? "";
+  const outcomesHtml = html.match(/<section id="outcomes"[\s\S]*?<\/section>/)?.[0] ?? "";
+  if ((outcomesHtml.match(/class="feature-mega-menu__marker" aria-hidden="true"/g) ?? []).length !== 4) failures.push("Each homepage outcome must use the decorative blue mega-menu marker");
+  if (!heroHtml.includes("peak-hero--split") || !heroHtml.includes('id="ppim-hh"')) failures.push("Homepage hero must pair its copy with the supplied catalog animation");
+  if (!heroHtml.includes("Shopify Catalog management, for the AI era.")) failures.push("Homepage hero must use the approved headline");
   const customerStoryHtml = html.match(/<header class="section_header84 peak-customer-story-hero[\s\S]*?<\/header>/)?.[0] ?? "";
   const socialProofHtml = html.match(/<section class="section_stats26 peak-social-proof-stats[\s\S]*?<\/section>/)?.[0] ?? "";
   const footerHtml = html.match(/<footer class="footer1_component"[\s\S]*?<\/footer>/)?.[0] ?? "";
@@ -705,17 +713,12 @@ if (existsSync(homeFile)) {
   if (!customerStoryHtml.includes(">Read story</a>")) failures.push("The homepage Maéli Paris customer story must use the approved Read story CTA");
   if (!customerStoryHtml.includes('src="/assets/testimonials/amelie-samson-maeli-paris.webp"')) failures.push("The homepage Maéli Paris customer story is missing Amélie's registered portrait");
   if (!customerStoryHtml.includes('src="/mirror/6a02fa863eea804db7dc36f9_Maeli-Black-logo-138c12bb52.png"')) failures.push("The homepage Maéli Paris customer story is missing the registered company logo");
-  for (const fact of ["70+", "240+", "1,650,000"]) {
-    if (!socialProofHtml.includes(fact)) failures.push(`The homepage social-proof section is missing verified fact: ${fact}`);
-  }
-  if ((socialProofHtml.match(/class="peak-social-proof-stats__logo-link(?: [^"]*)?"/g) ?? []).length !== 6) failures.push("The homepage social-proof section must contain six linked customer logos");
-  if ((socialProofHtml.match(/rel="nofollow noopener"/g) ?? []).length !== 4) failures.push("External homepage social-proof logo links must use nofollow and noopener");
+  if (socialProofHtml) failures.push("The homepage must not show the removed Trusted by merchants worldwide section");
   const setupIndex = html.indexOf('<section class="section_layout121 color-scheme-1">');
   const pricingIndex = html.indexOf('<section class="section_pricing2 color-scheme-1">');
   const customerStoryIndex = html.indexOf('<header class="section_header84 peak-customer-story-hero');
-  const socialProofIndex = html.indexOf('<section class="section_stats26 peak-social-proof-stats');
   const finalCtaIndex = html.indexOf('<section class="section_cta51 color-scheme-1">', customerStoryIndex);
-  if (!(setupIndex < socialProofIndex && socialProofIndex < pricingIndex && pricingIndex < customerStoryIndex && customerStoryIndex < finalCtaIndex)) failures.push("The homepage social proof must follow setup, while the customer story remains between pricing and the final CTA");
+  if (!(setupIndex < pricingIndex && pricingIndex < customerStoryIndex && customerStoryIndex < finalCtaIndex)) failures.push("The homepage pricing must follow setup, while the customer story remains between pricing and the final CTA");
   if (html.includes('class="navbar10_link w-nav-link">Help Center</a>')) failures.push("The shared header still contains the standalone Help Center link");
   for (const href of ["https://app.peak-pim.com/demo", "https://help.peak-pim.com/en/", "https://www.linkedin.com/company/peak-pim/posts/", "https://developers.peak-pim.com/"]) {
     if (!html.includes(`href="${href}" target="_blank" rel="noopener" class="resources-mega-menu__link"`)) failures.push(`The shared header Resources menu is missing ${href}`);
