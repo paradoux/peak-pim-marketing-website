@@ -1,0 +1,10 @@
+---
+import PartnerBrief from "../components/PartnerBrief.astro";
+import { partners } from "../data/partners";
+
+export function getStaticPaths() {
+  return partners.map((brief) => ({ params: { slug: brief.slug }, props: { brief } }));
+}
+const { brief } = Astro.props;
+---
+<PartnerBrief brief={brief} />

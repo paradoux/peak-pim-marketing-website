@@ -16,6 +16,7 @@ type Props = {
   description: string;
   canonicalPath: string;
   noindex?: boolean;
+  partnerPage?: boolean;
   schemaType?: "WebPage" | "SoftwareApplication" | "Article";
   schema?: Record<string, unknown>;
   additionalSchemas?: Record<string, unknown>[];
@@ -30,6 +31,7 @@ const {
   description,
   canonicalPath,
   noindex = false,
+  partnerPage = false,
   schemaType = "WebPage",
   schema = {},
   additionalSchemas = [],
@@ -40,11 +42,14 @@ const {
 } = Astro.props;
 const locale = localeProp ?? Astro.locals.locale ?? defaultLocale;
 const effectiveCanonicalPath = getRoutePath(canonicalPath, locale) ?? canonicalPath;
-const canonicalUrl = getCanonicalUrl(effectiveCanonicalPath);
-const localeAlternates = getLocaleAlternates(effectiveCanonicalPath);
+const canonicalUrl = partnerPage
+  ? new URL(new URL(getCanonicalUrl(canonicalPath)).pathname, Astro.site).href
+  : getCanonicalUrl(effectiveCanonicalPath);
+const localeAlternates = partnerPage ? [] : getLocaleAlternates(effectiveCanonicalPath);
 const defaultAlternate = localeAlternates.find((alternate) => alternate.locale === defaultLocale);
 const organizationId = "https://peak-pim.com/#organization";
-const websiteId = "https://peak-pim.com/#website";
+const websiteOrigin = partnerPage ? Astro.site!.origin : "https://peak-pim.com";
+const websiteId = `${websiteOrigin}/#website`;
 const softwareId = "https://peak-pim.com/#software";
 const normalizedCanonicalPath = canonicalPath === "/" ? "/" : `/${canonicalPath.replace(/^\/+|\/+$/g, "")}`;
 const englishCanonicalPath = findLocalizedRoute(normalizedCanonicalPath)?.paths.en ?? normalizedCanonicalPath;
@@ -66,8 +71,8 @@ const website = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "@id": websiteId,
-  name: "Peak PIM",
-  url: "https://peak-pim.com/",
+  name: partnerPage ? "Peak PIM Partners" : "Peak PIM",
+  url: `${websiteOrigin}/`,
   publisher: { "@id": organizationId },
 };
 const jsonLd = {
@@ -119,7 +124,7 @@ const ogImageUrl = resolvedOgImage ? new URL(resolvedOgImage, "https://peak-pim.
 <html lang={localeMetadata[locale].hreflang}>
   <head>
     <meta charset="utf-8" />
-    <OpenAIAdsTracking />
+    {!partnerPage && <OpenAIAdsTracking />}
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -156,8 +161,8 @@ const ogImageUrl = resolvedOgImage ? new URL(resolvedOgImage, "https://peak-pim.
       <GlobalWebflowStyles />
       <SiteHeader locale={locale} />
       <main class="main-wrapper"><slot /></main>
-      <SiteFooter locale={locale} currentPath={effectiveCanonicalPath} />
-      <DemoBookingModal autoOpen={locale === defaultLocale} />
+      <SiteFooter locale={locale} currentPath={effectiveCanonicalPath} showLanguageSwitcher={!partnerPage} />
+      <DemoBookingModal autoOpen={!partnerPage && locale === defaultLocale} />
       <CrispChat />
     </div>
     <script>import "../lib/logo-marquee";</script>

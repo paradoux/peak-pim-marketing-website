@@ -20,7 +20,14 @@
     "i18n:sync": "node scripts/i18n-status.mjs --sync",
     "i18n:translate": "node scripts/generate-fr-translations.mjs",
     "i18n:translate-fr": "node scripts/generate-fr-translations.mjs --locale fr",
-    "astro": "astro"
+    "astro": "astro",
+    "partners:prepare": "node scripts/prepare-partners.mjs",
+    "partners:dev": "npm run partners:prepare && cd partners && astro dev --config ../astro.partners.config.mjs --port 4322 --background",
+    "partners:build": "npm run partners:prepare && astro build --config astro.partners.config.mjs",
+    "partners:check": "node tests/partners-contract.mjs",
+    "partners:test": "playwright test --config playwright.partners.config.ts",
+    "partners:preview": "astro preview --config astro.partners.config.mjs --port 4322",
+    "partners:deploy": "npm run partners:build && npm run partners:check && cd partners && wrangler pages deploy ../dist-partners --project-name peak-pim-partners"
   },
   "dependencies": {
     "astro": "^7.0.5",

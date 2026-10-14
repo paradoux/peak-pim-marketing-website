@@ -1,0 +1,8 @@
+---
+import LandingPageLayout from "../../../src/layouts/LandingPageLayout.astro";
+import Hero from "../../../src/components/sections/Hero.astro";
+import { ctaLabels } from "../../../src/data/cta-copy";
+---
+<LandingPageLayout title="Page not found | Peak PIM Partners" description="This partner presentation could not be found." canonicalPath="/404" partnerPage noindex>
+  <Hero title="This presentation isn’t here" description="Check the link you received, or visit the partner introduction to learn how Peak PIM works." primaryCta={{ label: ctaLabels.learnMore, href: "/" }} />
+</LandingPageLayout>

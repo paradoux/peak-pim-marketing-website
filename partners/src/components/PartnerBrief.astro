@@ -1,0 +1,95 @@
+---
+import LandingPageLayout from "../../../src/layouts/LandingPageLayout.astro";
+import Hero from "../../../src/components/sections/Hero.astro";
+import LogoCloud from "../../../src/components/sections/LogoCloud.astro";
+import ProblemGrid from "../../../src/components/sections/ProblemGrid.astro";
+import CardGrid from "../../../src/components/sections/CardGrid.astro";
+import CtaBanner from "../../../src/components/sections/CtaBanner.astro";
+import Faq from "../../../src/components/sections/Faq.astro";
+import ProductsVariantsHeroVisual from "../../../src/components/visuals/ProductsVariantsHeroVisual.astro";
+import ProductsVariantsCardVisual from "../../../src/components/visuals/ProductsVariantsCardVisual.astro";
+import AiAssistantCardVisual from "../../../src/components/visuals/AiAssistantCardVisual.astro";
+import { assets } from "../../../src/data/assets";
+import { bookDemoUrl, ctaLabels } from "../../../src/data/cta-copy";
+import type { PartnerBrief } from "../data/partners";
+
+type Props = { brief: PartnerBrief };
+const { brief } = Astro.props;
+const faqItems = [
+  { question: "What is Peak PIM?", answer: "Peak is a Shopify-native product information management platform. It gives teams one workspace for product and variant information, collections, media, metafields, metaobjects, and translations, with publishing to connected Shopify stores." },
+  { question: "Does Peak replace Shopify or the agency?", answer: "Shopify remains the commerce platform. Peak adds a workspace for managing product information. The agency's project scope and the merchant's operating responsibilities are agreed together; Peak does not assume ownership of the wider storefront project." },
+  { question: "Can we start with a real client catalog?", answer: "Yes. Book a demo to discuss the client's catalog, stores, and workflow. We can plan a walkthrough with their own data and agree the right next step before a rollout." },
+  { question: "What about ERP systems or custom integrations?", answer: "Peak has a public API, and custom connections can be scoped around the client's systems and data ownership. Technical feasibility, delivery, and any additional cost need to be confirmed for the project.", link: { label: ctaLabels.learnMore, href: "https://peak-pim.com/custom-integrations/" } },
+  { question: "How do pricing and partnership terms work?", answer: "Product plans are available on the Peak PIM pricing page. Referral arrangements, project responsibilities, and any commercial terms are discussed separately. This briefing does not establish a partnership agreement.", link: { label: ctaLabels.seePricing, href: "https://peak-pim.com/pricing/" } },
+];
+---
+
+<LandingPageLayout
+  title={`${brief.slug ? `Peak PIM for ${brief.name}` : "Peak PIM for Shopify Partners"} | Partner briefing`}
+  description={brief.description}
+  canonicalPath={brief.slug ? `/${brief.slug}` : "/"}
+  partnerPage
+  noindex
+  ogImage={assets.marketing.featureOg["/shopify-product-management"]}
+>
+  <Hero
+    layout="split"
+    title={brief.title}
+    description={brief.description}
+    primaryCta={{ label: ctaLabels.bookDemo, href: bookDemoUrl }}
+    secondaryCta={{ label: ctaLabels.seeHowItWorks, href: "#how-it-works" }}
+    trustLine={brief.audience}
+  ><div inert><ProductsVariantsHeroVisual /></div></Hero>
+
+  <LogoCloud />
+
+  <ProblemGrid
+    tagline="The right client fit"
+    title={brief.fitTitle}
+    description={brief.fitDescription}
+    items={[
+      { icon: "store", title: "Several stores. Repeated work.", description: "A merchant runs regional, B2B, or B2C stores and repeats product updates. Manage shared information together while keeping deliberate store differences." },
+      { icon: "edit", title: "A catalog that needs structure", description: "Product content lives across spreadsheets, files, and Shopify fields. Bring the catalog into one workspace for editing, enrichment, and review." },
+      { icon: "publish", title: "Changes beyond the launch", description: "New collections, translations, and recurring updates keep arriving. Give the merchant's team a clear way to prepare changes and publish them to Shopify." },
+    ]}
+  />
+
+  <CardGrid
+    id="how-it-works"
+    tagline="How Peak works"
+    title="Connect. Enrich. Publish."
+    description="One workspace for the catalog, with control over what reaches each Shopify store."
+    cards={[
+      { tagline: "01 · Connect", title: "Bring the catalog together", description: "Connect Shopify stores and bring product information into Peak. Work with shared product records and the differences each store needs." },
+      { tagline: "02 · Enrich", title: "Prepare better product content", description: "Edit fields, manage media and translations, and use AI to help draft changes. Review the content before it goes live." },
+      { tagline: "03 · Publish", title: "Send changes to the right stores", description: "Review store-specific changes and publish to Shopify. Keep preparation separate from the moment customers see the update." },
+    ]}
+  >
+    <div slot="visual-1" class="max-width-full" inert><ProductsVariantsCardVisual mode="canonical" /></div>
+    <div slot="visual-2" class="max-width-full" inert><AiAssistantCardVisual mode="approval" /></div>
+    <div slot="visual-3" class="max-width-full" inert><ProductsVariantsCardVisual mode="publish" /></div>
+  </CardGrid>
+
+  <ProblemGrid
+    tagline="Working together"
+    title={brief.collaborationTitle}
+    description={brief.collaborationDescription}
+    items={[
+      { icon: "store", title: brief.slug ? `${brief.name}: the client context` : "You: the client context", description: brief.partnerRole },
+      { icon: "grid", title: "Peak: the catalog workflow", description: "We demonstrate the relevant workflows, review the product fit, and scope any integration or onboarding needs with your team." },
+      { icon: "review", title: "Together: a practical handover", description: "Agree who configures, reviews, publishes, and supports each part of the workflow, so the merchant knows how to operate after launch." },
+    ]}
+  />
+
+  <CtaBanner
+    title={brief.nextStep}
+    description="Show us the stores, the product data, and the work that takes too much time. We’ll help you assess where Peak fits."
+    primaryLabel={ctaLabels.bookDemo}
+    primaryHref={bookDemoUrl}
+    secondaryLabel={ctaLabels.seePricing}
+    secondaryHref="https://peak-pim.com/pricing/"
+    trustLine="A conversation about fit, scope, and next steps."
+  />
+
+  <Faq title="A few things to know" description="The essentials before bringing Peak into a client conversation." items={faqItems} />
+</LandingPageLayout>

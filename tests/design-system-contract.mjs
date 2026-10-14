@@ -165,7 +165,10 @@ if (/from ["'][^"']*partners/i.test(designSystemSource)) failures.push("The cata
 for (const layout of ["RecreatedLayout", "LandingPageLayout", "ContentLayout", "ContentIndexLayout"]) {
   const source = readFileSync(resolve(projectRoot, `src/layouts/${layout}.astro`), "utf8");
   if (source.includes("LeadCaptureModal")) failures.push(`${layout} still renders the retired trial popup`);
-  if (!source.includes("<DemoBookingModal autoOpen={locale === defaultLocale} />")) failures.push(`${layout} is missing the shared demo prompt`);
+  const demoPrompt = layout === "LandingPageLayout"
+    ? "<DemoBookingModal autoOpen={!partnerPage && locale === defaultLocale} />"
+    : "<DemoBookingModal autoOpen={locale === defaultLocale} />";
+  if (!source.includes(demoPrompt)) failures.push(`${layout} is missing the shared demo prompt`);
 }
 
 const partnersBuildFile = resolve(projectRoot, "dist/partners/index.html");

@@ -13,8 +13,8 @@
       "translations": [
         "src/i18n/shared-copy.ts"
       ],
-      "observedSourceHash": "4b1bb1391197fba860befd41ba304518bab0b74beba6787b6799688918038389",
-      "reviewedSourceHash": "4b1bb1391197fba860befd41ba304518bab0b74beba6787b6799688918038389",
+      "observedSourceHash": "ca73b2e210bbf7692f08506da7a5dbd56d3b1d3a9af449de321ced4be818efe9",
+      "reviewedSourceHash": "ca73b2e210bbf7692f08506da7a5dbd56d3b1d3a9af449de321ced4be818efe9",
       "status": "reviewed"
     },
     {
@@ -100,8 +100,8 @@
         "src/i18n/pl-translations.json",
         "src/i18n/ja-translations.json"
       ],
-      "observedSourceHash": "36db74d3168da16297ece059429d55b6ac85c358a7f159dd8a1ed0c3699ace97",
-      "reviewedSourceHash": "36db74d3168da16297ece059429d55b6ac85c358a7f159dd8a1ed0c3699ace97",
+      "observedSourceHash": "4fa4ec49a4d6450b59de9773cdf84388731ddb1cd591cb873478fdc91d06f1aa",
+      "reviewedSourceHash": "4fa4ec49a4d6450b59de9773cdf84388731ddb1cd591cb873478fdc91d06f1aa",
       "status": "reviewed"
     }
   ]

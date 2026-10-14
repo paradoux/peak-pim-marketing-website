@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Crawling is allowed so crawlers can read the noindex directive.
+# Partner presentations are intentionally absent from public sitemaps.

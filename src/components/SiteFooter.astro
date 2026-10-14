@@ -5,8 +5,8 @@ import { getSharedFooterHtml } from "../lib/page-source";
 import { getLocaleAlternates, localeMetadata, localizeInternalHref, publicPath, type Locale } from "../i18n/config";
 import { localizeSharedMarkup, translateSharedCopy } from "../i18n/shared-copy";
 
-type Props = { locale?: Locale; currentPath?: string };
-const { locale = "en", currentPath = Astro.url.pathname } = Astro.props;
+type Props = { locale?: Locale; currentPath?: string; showLanguageSwitcher?: boolean };
+const { locale = "en", currentPath = Astro.url.pathname, showLanguageSwitcher = true } = Astro.props;
 const tr = (value: string) => translateSharedCopy(locale, value);
 const localizedHref = (href: string) => localizeInternalHref(href, locale);
 
@@ -127,7 +127,7 @@ const socialListHtml = originalSocialListHtml
   .replace('class="footer1_link-list"', 'class="footer1_link-list site-footer__social-links site-footer__bottom-social-links"')
   .replaceAll('target="_blank"', 'target="_blank" rel="noopener"');
 const logoCtaHtml = `<div class="site-footer__logo-cta"><a href="${escapeHtml(liveDemoLink.href)}" target="_blank" rel="noopener" class="button is-secondary w-button">${escapeHtml(tr(ctaExceptions.liveDemo))}</a></div>`;
-const localeAlternates = getLocaleAlternates(currentPath);
+const localeAlternates = showLanguageSwitcher ? getLocaleAlternates(currentPath) : [];
 const languageMenuLabel = localeMetadata[locale].languageMenuLabel;
 const languageSuggestionCopy: Record<Locale, { label: string; message: string; action: string; dismiss: string }> = {
   en: { label: "Language suggestion", message: "Peak PIM is available in English.", action: "{language}", dismiss: "Keep browsing in English" },
