@@ -239,44 +239,19 @@ test("homepage · primary demo CTA is responsive and opens booking", async ({ pa
     await actions.click();
     await expect(page.locator("#demo-booking-modal")).toBeVisible();
     await page.locator(".peak-demo-modal__close").click();
-    const pricingPreviewCta = page.getByRole("link", { name: "See pricing", exact: true });
-    await expect(pricingPreviewCta).toHaveCount(1);
-    await expect(pricingPreviewCta).toHaveAttribute("href", "/pricing/");
-    await expect(pricingPreviewCta).not.toHaveAttribute("data-open-crisp", "");
-    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
 
-    if (width === 1440) {
-      await pricingPreviewCta.click();
-      await expect(page).toHaveURL(/\/pricing\/$/);
-    }
   }
 });
 
-test("homepage · pricing preview matches the current Basic plan", async ({ page }) => {
+test("homepage · pricing preview is removed", async ({ page }) => {
   for (const width of [1440, 768, 375]) {
     await prepare(page, "/", width, 1000);
-    const pricing = page.locator(".section_pricing2");
-
-    await expect(pricing).toContainText("Basic plan");
-    await expect(pricing).toContainText("$49");
-    await expect(pricing.locator(".pricing2_feature")).toHaveText([
-      "1-click setup",
-      "1 connected Shopify store",
-      "Up to 5,000 SKUs",
-      "Unlimited file storage (fair usage)",
-      "Bulk edit",
-      "Import & export",
-      "Shopify sync",
-      "AI Connector (MCP)",
-      "Drops (scheduled changes)",
-    ]);
-    await expect(pricing).not.toContainText("20GB");
-    await expect(pricing).not.toContainText("Priority support");
-    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+    await expect(page.locator(".section_pricing2")).toHaveCount(0);
+    await expect(page.locator("#compare")).toHaveCount(1);
   }
 });
 
-test("homepage · Maéli Paris customer story sits between pricing and the final CTA", async ({ page }) => {
+test("homepage · Maéli Paris customer story sits between comparison and the final CTA", async ({ page }) => {
   for (const viewport of [
     { name: "desktop", width: 1440, height: 1000 },
     { name: "tablet", width: 768, height: 1024 },
@@ -292,10 +267,10 @@ test("homepage · Maéli Paris customer story sits between pricing and the final
     await expect(story.getByRole("link", { name: "Read story" })).toHaveAttribute("href", "/customers/maeli-paris/");
     await expect(socialProof).toHaveCount(0);
 
-    const sectionOrder = await page.locator(".section_layout121, .peak-social-proof-stats, .section_pricing2, .peak-customer-story-hero, .section_cta51").evaluateAll((sections) =>
-      sections.map((section) => Array.from(section.classList).find((className) => ["section_layout121", "peak-social-proof-stats", "section_pricing2", "peak-customer-story-hero", "section_cta51"].includes(className))),
+    const sectionOrder = await page.locator(".section_layout121, .peak-social-proof-stats, .peak-home-comparison, .peak-customer-story-hero, .section_cta51").evaluateAll((sections) =>
+      sections.map((section) => Array.from(section.classList).find((className) => ["section_layout121", "peak-social-proof-stats", "peak-home-comparison", "peak-customer-story-hero", "section_cta51"].includes(className))),
     );
-    expect(sectionOrder).toEqual(["section_layout121", "section_pricing2", "peak-customer-story-hero", "section_cta51"]);
+    expect(sectionOrder).toEqual(["section_layout121", "peak-home-comparison", "peak-customer-story-hero", "section_cta51"]);
     expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
   }
 });

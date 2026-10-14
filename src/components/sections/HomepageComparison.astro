@@ -1,0 +1,114 @@
+---
+import SectionHeading from "../ui/SectionHeading.astro";
+import { assets } from "../../data/assets";
+import { pricingPlans } from "../../data/pricing-feature-matrix";
+
+// Competitor claims reviewed on 2026-10-14; official sources are in docs/design-system.md.
+// Akeneo here means its paid Advanced / Premium packages, not Community Edition.
+const rows = [
+  { label: "Type", values: ["Shopify-native PIM", "Enterprise PIM", "Separate apps"] },
+  { label: "Starting price", values: [`${pricingPlans[0].monthlyPrice}/mo`, "Custom quote", "Varies by app"] },
+  { label: "Getting started", values: ["Connect a store in one click", "Configure your PIM and connector", "Set up each app separately"] },
+  { label: "Bulk edit", values: [{ supported: true }, { supported: true }, { supported: true }] },
+  { label: "Multi-store Shopify sync", values: [{ supported: true, note: "From Elite" }, { supported: true, note: "Via the Shopify app" }, "Depends on apps"] },
+  { label: "Metafields & metaobjects", values: [{ supported: true, note: "By plan" }, { supported: true, note: "Mapping required" }, "Depends on apps"] },
+  { label: "Catalog workflows in one tool", values: [{ supported: true }, { supported: true }, { supported: false }] },
+];
+const appLogos = [
+  { name: "Matrixify", src: assets.appLogos.matrixify },
+  { name: "Syncio", src: assets.appLogos.syncio },
+  { name: "Booster SEO", src: assets.appLogos.boosterSeo },
+  { name: "Transcy", src: assets.appLogos.transcy },
+];
+---
+
+<section id="compare" class="section_comparison11 peak-home-comparison color-scheme-1">
+  <div class="padding-global">
+    <div class="container-large">
+      <div class="padding-section-large">
+        <div class="comparison11_component">
+          <div class="margin-bottom margin-xxlarge">
+            <SectionHeading title="Your best option" description="Compare Peak with the two most common alternatives: an enterprise PIM or a patchwork of apps. See what changes for your team." />
+          </div>
+          <div class="comparison11_content" role="table" aria-label="Catalog management comparison">
+            <div role="rowgroup">
+              <div class="w-layout-grid comparison11_top-row" role="row">
+                <div class="comparison11_top-row-title" role="columnheader"><div class="heading-style-h6">Solution</div></div>
+                <div class="comparison11_top-row-content background-color-secondary" role="columnheader">
+                  <img class="comparison11_logo" src={assets.logo.peak} alt="Peak PIM" width="680" height="300" loading="lazy" />
+                </div>
+                <div class="comparison11_top-row-content" role="columnheader">
+                  <img class="comparison11_logo" src={assets.competitorLogos.akeneo} alt="Akeneo" width="680" height="300" loading="lazy" />
+                </div>
+                <div class="comparison11_top-row-content" role="columnheader" aria-label="Shopify + a patchwork of apps">
+                  <div class="peak-home-comparison__app-stack">
+                    <div class="peak-home-comparison__app-row">
+                      <img class="peak-home-comparison__shopify" src={assets.appLogos.shopify} alt="Shopify" title="Shopify" width="40" height="40" loading="lazy" data-i18n-skip />
+                      <span class="peak-home-comparison__plus" aria-hidden="true">+</span>
+                      <div class="peak-home-comparison__app-icons">
+                        {appLogos.map(app => <img src={app.src} alt={app.name} title={app.name} width="28" height="28" loading="lazy" data-i18n-skip />)}
+                        <span class="peak-home-comparison__app-count" role="img" aria-label="5 more apps"><span data-i18n-skip>+5</span></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="comparison11_list-row" role="rowgroup">
+              {rows.map(row => (
+                <div class="w-layout-grid comparison11_row" role="row">
+                  <div class="comparison11_feature" role="rowheader">{row.label}</div>
+                  {row.values.map((value, index) => (
+                    <div class:list={["comparison11_row-content", index === 0 && "background-color-secondary"]} role="cell">
+                      {typeof value === "string" ? value : (
+                        <div class="peak-home-comparison__capability">
+                          <span class="comparison11_icon-wrapper" role="img" aria-label={value.supported ? "Yes" : "No"}>
+                            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                              <path d={value.supported ? "M5 12l4 4L19 6" : "M7 7l10 10M17 7L7 17"} stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                          </span>
+                          {"note" in value && <span class="peak-home-comparison__qualifier">{value.note}</span>}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .comparison11_logo { width: 6.8rem; height: 3rem; object-fit: contain; }
+  .comparison11_top-row-content { justify-content: center; }
+  .peak-home-comparison__capability { display: flex; flex-direction: column; align-items: center; gap: .25rem; }
+  .peak-home-comparison__qualifier { font-size: .75rem; font-weight: 400; line-height: 1.4; }
+  .peak-home-comparison__app-stack { display: flex; align-items: center; justify-content: center; }
+  .peak-home-comparison__app-row { display: flex; align-items: center; gap: .25rem; }
+  .peak-home-comparison__app-count { display: flex; align-items: center; justify-content: center; background: var(--color-scheme-1--text); color: var(--color-scheme-1--background); font-size: .625rem; font-weight: 600; white-space: nowrap; }
+  .peak-home-comparison__shopify { width: 2.5rem; height: 2.5rem; object-fit: contain; }
+  .peak-home-comparison__plus { font-size: 1rem; font-weight: 400; }
+  .peak-home-comparison__app-icons { display: flex; align-items: center; }
+  .peak-home-comparison__app-icons img, .peak-home-comparison__app-count { position: relative; flex: none; width: 1.75rem; height: 1.75rem; border-radius: 50%; object-fit: contain; box-shadow: 0 0 0 2px var(--color-scheme-1--background); }
+  .peak-home-comparison__app-icons > * + * { margin-left: -.4375rem; }
+  @media screen and (max-width: 767px) {
+    .comparison11_feature { grid-column: 1 / -1; }
+    .comparison11_row-content { padding-inline: .5rem; font-size: .875rem; overflow-wrap: anywhere; }
+    .comparison11_top-row-content { justify-content: center; font-size: .875rem; }
+    .peak-home-comparison__app-row { gap: .1875rem; }
+    .peak-home-comparison__shopify { width: 1.375rem; height: 1.375rem; }
+    .peak-home-comparison__plus { font-size: .75rem; }
+    .peak-home-comparison__app-icons img, .peak-home-comparison__app-count { width: 1.25rem; height: 1.25rem; }
+    .peak-home-comparison__app-icons > * + * { margin-left: -.625rem; }
+    .peak-home-comparison__app-count { font-size: .5625rem; }
+  }
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    .peak-home-comparison__shopify { width: 1.75rem; height: 1.75rem; }
+    .peak-home-comparison__app-icons img, .peak-home-comparison__app-count { width: 1.375rem; height: 1.375rem; }
+    .peak-home-comparison__app-icons > * + * { margin-left: -.625rem; }
+  }
+</style>

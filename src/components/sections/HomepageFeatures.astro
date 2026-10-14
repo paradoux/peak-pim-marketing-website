@@ -25,7 +25,7 @@ if (!section) throw new Error("The homepage features source section is missing."
 const title = text(findAll(section, node => node.nodeName === "h2")[0]);
 const description = text(findAll(section, node => hasClass(node, "text-size-medium"))[0]);
 const cards = [
-  { id: "multi-stores", title: "Multi-stores", description: "Manage data across all your Shopify stores from a single dashboard.", image: assets.productUi.multiStoreProductView, width: 2976, height: 1452 },
+  { id: "multi-stores", title: "Multi-stores", description: "Manage data across all your stores & channels from a single dashboard.", image: assets.productUi.multiStoreProductView, width: 2976, height: 1452 },
   { id: "bulk-edit", title: "Bulk Edit", description: "Edit hundreds of products, files, collections, metafields and more at once.", image: assets.productUi.bulkEditProductView, width: 2542, height: 1450 },
   { id: "media", title: "Media Management", description: "Upload, organize, and assign files across your catalog from a single media library.", image: assets.productUi.mediaManagementProductView, width: 2532, height: 1462 },
   { id: "drops", title: "Drops", description: "Schedule changes and automatic rollbacks.", image: assets.productUi.dropsProductView, width: 2540, height: 1460 },
@@ -154,8 +154,8 @@ const cards = [
   .peak-home-features__tabs button:focus-visible { outline: 2px solid #2845d6; outline-offset: -2px; }
   .peak-home-features__panel[hidden] { display: none; }
   .peak-home-features__panel:focus-visible { outline: 2px solid #2845d6; outline-offset: 6px; border-radius: 1rem; }
-  .peak-home-features__stage { position: relative; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 1rem; background: #1a1a1a; background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px); background-size: 14px 14px; }
-  .peak-home-features__capture { position: absolute; inset: 6%; display: flex; align-items: center; justify-content: center; }
+  .peak-home-features__stage { position: relative; overflow: hidden; border-radius: 1rem; background: #1a1a1a; background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px); background-size: 14px 14px; }
+  .peak-home-features__capture { padding: 4% 6%; }
   .peak-home-features__capture-frame { width: 100%; padding: 6px; border: 1px solid #ffffff40; border-radius: 14px; background: #ffffff24; box-shadow: 0 20px 60px #0004; }
   .peak-home-features__capture-window { overflow: hidden; border: 1px solid #dcd9d2; border-radius: 8px; background: #faf9f6; }
   .peak-home-features__capture-bar { display: flex; align-items: center; gap: 6px; height: 30px; padding-inline: 12px; border-bottom: 1px solid #e4e0d8; }
@@ -171,13 +171,12 @@ const cards = [
     .peak-home-features__navigation { flex-direction: column; gap: 0.75rem; }
     .peak-home-features__caption { min-height: 4.5rem; }
     .peak-home-features__tabs button { padding-inline: 0.875rem; }
-    .peak-home-features__stage { aspect-ratio: 4 / 3; }
   }
   @media (max-width: 767px) {
     .peak-home-features__navigation { margin-bottom: 1rem; }
     .peak-home-features__tabs { border-radius: 0.625rem; }
     .peak-home-features__tabs button { font-size: 0.875rem; }
-    .peak-home-features__stage { aspect-ratio: 1; background-image: radial-gradient(rgba(255,255,255,0.08) 0.8px, transparent 0.8px); background-size: 11.2px 11.2px; }
+    .peak-home-features__stage { background-image: radial-gradient(rgba(255,255,255,0.08) 0.8px, transparent 0.8px); background-size: 11.2px 11.2px; }
     .peak-home-features__caption { margin-bottom: 1rem; min-height: 4.5rem; }
   }
   @media (prefers-reduced-motion: no-preference) {

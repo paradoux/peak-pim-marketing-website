@@ -15,17 +15,19 @@ for (const width of [1440, 1024, 768, 375]) {
     await page.evaluate(() => document.fonts.ready);
     await page.addStyleTag({ content: "html { scroll-behavior: auto !important; }" });
     const section = page.locator("#features");
-    const benefits = page.locator("section").filter({ has: page.getByRole("heading", { name: "Built for Shopify, made for the job", exact: true }) });
+    const benefits = page.locator("section").filter({ has: page.getByRole("heading", { name: "Built for Shopify merchants", exact: true }) });
     await expect(benefits.locator(".layout395_card")).toHaveCount(3);
-    await expect(benefits.locator("h3")).toHaveText(["Shopify native", "Made for the job", "Multi-store ready"]);
+    await expect(benefits.locator(".text-size-medium")).toHaveCount(0);
+    await expect(benefits.locator("h3")).toHaveText(["One-click connection", "Two-way sync", "All your Shopify data"]);
     expect(await section.evaluate(node => {
       let next = node.nextElementSibling;
       while (next && next.tagName !== "SECTION") next = next.nextElementSibling;
-      return next?.textContent?.includes("Built for Shopify, made for the job");
+      return next?.textContent?.includes("Built for Shopify merchants");
     })).toBe(true);
     const tabs = section.getByRole("tab");
     await expect(tabs).toHaveText(["Multi-stores", "Bulk Edit", "Media Management", "Drops", "Automations"]);
     let firstTop = 0;
+    let firstPadding = 0;
     for (let i = 0; i < 5; i++) {
       await tabs.nth(i).click();
       await expect(section.getByRole("tab", { selected: true })).toHaveCount(1);
@@ -33,7 +35,7 @@ for (const width of [1440, 1024, 768, 375]) {
       await expect(panel).toHaveCount(1);
       await expect(panel).toHaveAccessibleName(await tabs.nth(i).innerText());
       await expect(panel.locator("h3")).toHaveCount(0);
-      await expect(panel.locator(".peak-home-features__caption p")).toHaveText(["Manage data across all your Shopify stores from a single dashboard.", "Edit hundreds of products, files, collections, metafields and more at once.", "Upload, organize, and assign files across your catalog from a single media library.", "Schedule changes and automatic rollbacks.", "Run repeatable catalog workflows automatically."][i]);
+      await expect(panel.locator(".peak-home-features__caption p")).toHaveText(["Manage data across all your stores & channels from a single dashboard.", "Edit hundreds of products, files, collections, metafields and more at once.", "Upload, organize, and assign files across your catalog from a single media library.", "Schedule changes and automatic rollbacks.", "Run repeatable catalog workflows automatically."][i]);
       const captionBox = (await panel.locator(".peak-home-features__caption").boundingBox())!;
       const navigationBox = (await section.locator(".peak-home-features__navigation").boundingBox())!;
       const stageBox = (await panel.locator(".peak-home-features__stage").boundingBox())!;
@@ -48,6 +50,11 @@ for (const width of [1440, 1024, 768, 375]) {
       expect(geometry.artY).toBeGreaterThan(geometry.y);
       expect(geometry.artWidth).toBeLessThan(geometry.width);
       expect(geometry.artHeight).toBeLessThan(geometry.height);
+      const paddingAbove = geometry.artY - geometry.y;
+      const paddingBelow = geometry.height - geometry.artHeight - paddingAbove;
+      if (i === 0) firstPadding = paddingAbove;
+      expect(paddingAbove).toBeCloseTo(firstPadding, 0);
+      expect(paddingBelow).toBeCloseTo(firstPadding, 0);
       if (i === 4) await expect(panel.getByText("Coming soon", { exact: true })).toBeVisible();
       const capture = panel.locator(".peak-home-features__capture img");
       const file = ["multi-store", "bulk-edit", "media-management", "drops", "automations"][i];

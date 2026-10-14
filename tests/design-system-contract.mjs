@@ -30,10 +30,14 @@ const requiredFiles = [
   "src/components/sections/CardGrid.astro",
   "src/components/sections/IntegrationEcosystem.astro",
   "src/components/sections/IntegrationIntroduction.astro",
+  "src/components/visuals/BuildAroundYourBusiness.astro",
   "src/components/visuals/IntegrationLogoGroup.astro",
   "src/components/sections/FeatureSteps.astro",
   "src/components/sections/HomepageWorkflows.astro",
   "src/components/sections/HomepageFeatures.astro",
+  "src/components/sections/HomepageShopifyBenefits.astro",
+  "src/components/sections/HomepageComparison.astro",
+  "src/components/visuals/ShopifyNativeAnimation.astro",
   "src/components/sections/FeatureGrid.astro",
   "src/components/sections/Testimonial.astro",
   "src/components/sections/CtaBanner.astro",
@@ -154,7 +158,7 @@ const canonicalContracts = {
   "src/components/sections/CustomerStoryHero.astro": ["peak-customer-story-hero", "section_header84", "header84_card", "heading-style-h1"],
   "src/components/sections/CustomerStoryStats.astro": ["peak-customer-story-stats", "section_stats26", "stats26_list", "stats26_number"],
   "src/components/sections/IntegrationEcosystem.astro": ["CardGrid", "IntegrationLogoGroup", 'id="integration-ecosystem"'],
-  "src/components/sections/IntegrationIntroduction.astro": ["layout1_content", "IntegrationLogoGroup", 'id="integrations"', 'href="/custom-integrations"'],
+  "src/components/sections/IntegrationIntroduction.astro": ["SectionHeading", "BuildAroundYourBusiness", 'id="integrations"', 'href="/custom-integrations"'],
   "src/components/visuals/IntegrationLogoGroup.astro": ["assets.integrationLogos", "Custom integration", "Coming soon", "Native", "data-i18n-skip"],
   "src/components/sections/SocialProofStats.astro": ["peak-social-proof-stats", "peak-social-proof-stats__numbers", "peak-social-proof-stats__logos", "section_stats26", "nofollow noopener"],
   "src/components/sections/CustomerStoryChapter.astro": ["peak-customer-story-chapter", "section_layout358", "layout358_card", "layout358_image-wrapper", "heading-style-h3"],
@@ -680,9 +684,11 @@ if (existsSync(homeFile)) {
   if (featureOrder.join(",") !== "multi-stores,bulk-edit,media,drops,automations") failures.push("Homepage features must showcase Multi-stores, Bulk Edit, Media Management, Drops, and Automations in order");
   if (!featuresHtml.includes("Powerful features") || !featuresHtml.includes("peak-home-features__stage")) failures.push("Homepage features must use the approved heading and large tabbed preview");
   if (!featuresHtml.includes("data-explore-features") || !featuresHtml.includes("Explore all") || !featuresHtml.includes('aria-controls="w-dropdown-list-0"')) failures.push("Homepage features must offer Explore all through the existing Features menu");
-  const shopifyBenefitsIndex = html.indexOf("Built for Shopify, made for the job");
+  const setupHtml = html.match(/<section class="section_layout121[\s\S]*?<\/section>/)?.[0] ?? "";
+  if (!/<a(?=[^>]*href="https:\/\/apps\.shopify\.com\/peak-pim")[^>]*class="button is-secondary w-button"[^>]*>Connect a store<\/a>/.test(setupHtml)) failures.push("Homepage setup must use Connect a store for its Shopify app CTA");
+  const shopifyBenefitsIndex = html.indexOf(">Built for Shopify merchants</h2>");
   if (shopifyBenefitsIndex <= html.indexOf('id="features"') || shopifyBenefitsIndex >= html.indexOf('class="section_layout121')) failures.push("The original Shopify benefits must remain between the feature showcase and setup");
-  for (const title of ["Shopify native", "Made for the job", "Multi-store ready"]) {
+  for (const title of ["One-click connection", "Two-way sync", "All your Shopify data"]) {
     if (!html.includes(title)) failures.push(`The homepage is missing its original Shopify benefit: ${title}`);
   }
   if ((outcomesHtml.match(/class="feature-mega-menu__marker" aria-hidden="true"/g) ?? []).length !== 4) failures.push("Each homepage outcome must use the decorative blue mega-menu marker");
@@ -733,7 +739,9 @@ if (existsSync(homeFile)) {
   const pricingIndex = html.indexOf('<section class="section_pricing2 color-scheme-1">');
   const customerStoryIndex = html.indexOf('<header class="section_header84 peak-customer-story-hero');
   const finalCtaIndex = html.indexOf('<section class="section_cta51 color-scheme-1">', customerStoryIndex);
-  if (!(setupIndex < pricingIndex && pricingIndex < customerStoryIndex && customerStoryIndex < finalCtaIndex)) failures.push("The homepage pricing must follow setup, while the customer story remains between pricing and the final CTA");
+  if (pricingIndex !== -1) failures.push("The homepage must not show the removed pricing section");
+  const comparisonIndex = html.indexOf('id="compare"');
+  if (!(setupIndex < comparisonIndex && comparisonIndex < customerStoryIndex && customerStoryIndex < finalCtaIndex)) failures.push("The homepage comparison must follow setup, then the customer story and final CTA");
   if (html.includes('class="navbar10_link w-nav-link">Help Center</a>')) failures.push("The shared header still contains the standalone Help Center link");
   for (const href of ["https://app.peak-pim.com/demo", "https://help.peak-pim.com/en/", "https://www.linkedin.com/company/peak-pim/posts/", "https://developers.peak-pim.com/"]) {
     if (!html.includes(`href="${href}" target="_blank" rel="noopener" class="resources-mega-menu__link"`)) failures.push(`The shared header Resources menu is missing ${href}`);
@@ -883,6 +891,7 @@ if (existsSync(sitemapFile)) {
   if ((sitemap.match(/<lastmod>/g) ?? []).length !== sitemapUrls.length) failures.push("Sitemap last-modified dates are incomplete");
 
   const approvedCtaSources = [
+    "Connect a store",
     "Explore all",
     "Get Peak PIM",
     "Try for free",

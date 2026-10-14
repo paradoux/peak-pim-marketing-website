@@ -44,6 +44,7 @@ export type CanonicalCtaLabel = (typeof ctaLabels)[keyof typeof ctaLabels];
 export const canonicalCtaLabels = Object.values(ctaLabels);
 
 export const ctaExceptions = {
+  connectStore: "Connect a store",
   exploreAll: "Explore all",
   headerDemo: "Demo with your data",
   liveDemo: "Live demo",
@@ -52,6 +53,7 @@ export const ctaExceptions = {
 } as const;
 
 export const frenchCtaLabels = {
+  connectStore: "Connecter une boutique",
   getPeakPim: "Installer Peak PIM",
   tryFree: "Essayer gratuitement",
   bookDemo: "Réserver une démo",

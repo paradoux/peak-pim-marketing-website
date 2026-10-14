@@ -1,4 +1,15 @@
 export const assets = {
+  appLogos: {
+    shopify: "/assets/app-logos/shopify-bag.svg", // Reused from ShopifyNativeAnimation.astro.
+    // Official Shopify App Store listing icons, retrieved 2026-10-14.
+    matrixify: "/assets/app-logos/matrixify.png", // apps.shopify.com/excel-export-import
+    syncio: "/assets/app-logos/syncio.png", // apps.shopify.com/syncio
+    boosterSeo: "/assets/app-logos/booster-seo.png", // apps.shopify.com/booster-apps-seo-optimizer
+    transcy: "/assets/app-logos/transcy.png", // apps.shopify.com/transcy-multiple-languages
+  },
+  competitorLogos: {
+    akeneo: "/mirror/6a19a1af2be2ae7151d88aab_Shopify-PIM-Alternatives-Akeneo-0eac3c3f10.png",
+  },
   logo: {
     peak: "/assets/logo/peak-logo-large.png",
     peakSmall: "/assets/logo/peak-logo-large-500.png",
