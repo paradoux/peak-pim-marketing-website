@@ -7,7 +7,7 @@ import Hero from "../../../src/components/sections/Hero.astro";
 import ProblemGrid from "../../../src/components/sections/ProblemGrid.astro";
 import CardGrid from "../../../src/components/sections/CardGrid.astro";
 import FeatureSteps from "../../../src/components/sections/FeatureSteps.astro";
-import FeatureGrid from "../../../src/components/sections/FeatureGrid.astro";
+import Button from "../../../src/components/ui/Button.astro";
 import PartnerContact from "../../../src/components/sections/PartnerContact.astro";
 import ProductsVariantsHeroVisual from "../../../src/components/visuals/ProductsVariantsHeroVisual.astro";
 import ProductsVariantsCardVisual from "../../../src/components/visuals/ProductsVariantsCardVisual.astro";
@@ -85,16 +85,17 @@ const sections = [
     <PeakIcon slot="visual-3" name="review" />
   </FeatureSteps>
 
-  <FeatureGrid id="partnership" tagline="What we offer your agency"
+  <CardGrid id="partnership" variant="text" tagline="What we offer your agency"
     title="A partnership that grows with your client work"
     description="Recurring revenue, valuable implementation work, and visibility for your agency. Plus a direct line to Théau and the Peak team for client questions, project scoping, and product feedback."
-    features={[
+    cards={[
       { icon: "clock", title: "Revenue share on monthly plans", description: "Earn a share of the monthly Peak PIM plan on deals you bring in. The percentage depends on the deal and is agreed together." },
       { icon: "review", title: "A best-in-class tool for your clients", description: "Offer a PIM built for Shopify: structured product data, bulk editing, AI-assisted enrichment, and publishing across stores in one workspace." },
       { icon: "grid", title: "A setup service you can invoice", description: "Peak is intuitive. You don’t need to be a specialist PIM agency to offer a paid setup. Charge for the catalog preparation, configuration, training, and handover you deliver to your client." },
       { icon: "publish", title: "Visibility as an implementation partner", description: "We can feature your agency on our partners page and show merchants that your team can implement Peak PIM. Agree the listing and positioning with us as part of the partnership." },
     ]}
-    cta={{ label: ctaLabels.talkToUs, href: "#contact" }}
-  />
+  >
+    <Button slot="footer" href="#contact" variant="secondary">{ctaLabels.talkToUs}</Button>
+  </CardGrid>
   <PartnerContact />
 </LandingPageLayout>

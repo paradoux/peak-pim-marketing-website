@@ -11,7 +11,20 @@ for (const path of ["/", "/axome/"]) {
       await expect(page.locator("h1")).toHaveCount(1);
       await expect(page.locator("h1")).toContainText(path.includes("axome") ? "Axome" : "Shopify clients");
       expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
-      await expect(page.locator(".peak-card-grid__card")).toHaveCount(3);
+      await expect(page.locator("#solution .peak-card-grid__card")).toHaveCount(3);
+      const benefits = page.locator("#partnership .peak-card-grid__card");
+      await expect(benefits).toHaveCount(4);
+      await expect(page.locator("#partnership .peak-card-grid__visual")).toHaveCount(0);
+      const boxes = await benefits.evaluateAll(nodes => nodes.map(node => ({ top: node.getBoundingClientRect().top, left: node.getBoundingClientRect().left, position: getComputedStyle(node).position })));
+      expect(boxes.every(box => box.position !== "sticky")).toBe(true);
+      if (width >= 992) {
+        expect(Math.abs(boxes[0].top - boxes[1].top)).toBeLessThan(2);
+        expect(boxes[1].left).toBeGreaterThan(boxes[0].left);
+        expect(boxes[2].top).toBeGreaterThan(boxes[0].top);
+      } else {
+        expect(boxes[1].left).toBe(boxes[0].left);
+        expect(boxes[1].top).toBeGreaterThan(boxes[0].top);
+      }
       for (const visual of await page.locator(".peak-card-grid__visual").all()) {
         const frame = await visual.boundingBox();
         const illustration = await visual.locator("[role=img]").boundingBox();

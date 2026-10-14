@@ -110,6 +110,7 @@ Feature pages are described as `WebPage` entities about the single canonical Pea
 - `ProblemGrid.astro` exposes `peak-problem-grid` and emits `section_layout237`.
 - `FeatureSteps.astro` exposes `peak-feature-steps` and emits `section_layout239` and its three-item visual grid.
 - `CardGrid.astro` exposes `peak-card-grid` and emits `section_layout395`; every item keeps its visual, tag, heading, and description inside the same bordered card.
+- Its `variant="text"` treatment reuses the homepage outcomes card pattern: optional icons, two static columns above 991px, and one column below. It has no image area or sticky stack. An optional footer slot holds a shared CTA button. The agency-benefits example is shown in `/design-system`.
 - `FeatureGrid.astro` exposes `peak-feature-grid` and emits the original four-card `section_layout353` stack.
 - `Testimonial.astro` exposes `peak-testimonial` and emits `section_testimonial4`.
 - `CtaBanner.astro` exposes `peak-cta-banner` and emits `section_cta51`.
@@ -181,4 +182,4 @@ Do not introduce a new heading scale, generic card system, button treatment, con
 
 `OnePagerHeader.astro` (`peak-one-pager-header`) is the approved section-only header for partner presentations. It accepts hash links only and uses a native disclosure menu below 992px. `PartnerBrand.astro` (`peak-partner-brand`) pairs the registered Peak and partner logos. `PartnerContact.astro` (`peak-partner-contact`) reuses the CTA card for direct email, LinkedIn, and website links. All three render in `/design-system`.
 
-`LandingPageLayout` exposes optional `header` and `footer` slots; ordinary marketing pages retain their shared navigation. `Hero` exposes an optional `brand` slot above its H1. Agency one-pagers use Hero, ProblemGrid, CardGrid, FeatureSteps, FeatureGrid, and PartnerContact in that order.
+`LandingPageLayout` exposes optional `header` and `footer` slots; ordinary marketing pages retain their shared navigation. `Hero` exposes an optional `brand` slot above its H1. Agency one-pagers use Hero, ProblemGrid, visual CardGrid, FeatureSteps, text CardGrid, and PartnerContact in that order.

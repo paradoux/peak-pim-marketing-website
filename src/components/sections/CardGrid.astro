@@ -1,19 +1,21 @@
 ---
 import SectionHeading from "../ui/SectionHeading.astro";
+import PeakIcon from "../ui/PeakIcon.astro";
 
-type Card = { tagline?: string; title: string; description: string };
+type Card = { tagline?: string; title: string; description: string; icon?: Parameters<typeof PeakIcon>[0]["name"] };
 type Props = {
   id?: string;
   tagline?: string;
   title: string;
   description?: string;
   cards: Card[];
+  variant?: "visual" | "text";
 };
 
-const { id, tagline, title, description, cards } = Astro.props;
+const { id, tagline, title, description, cards, variant = "visual" } = Astro.props;
 ---
 
-<section id={id} class="section_layout395 peak-card-grid color-scheme-1">
+<section id={id} class:list={["section_layout395 peak-card-grid color-scheme-1", { "peak-card-grid--text": variant === "text" }]}>
   <div class="padding-global">
     <div class="container-large">
       <div class="padding-section-large">
@@ -25,13 +27,14 @@ const { id, tagline, title, description, cards } = Astro.props;
             <div class="w-layout-grid layout395_row peak-card-grid__list">
               {cards.map((card, index) => (
                 <article class="layout395_card peak-card-grid__card">
-                  <div class="layout395_card-image-wrapper peak-card-grid__visual">
+                  {variant === "visual" && <div class="layout395_card-image-wrapper peak-card-grid__visual">
                     {index === 0 && <slot name="visual-1" />}
                     {index === 1 && <slot name="visual-2" />}
                     {index === 2 && <slot name="visual-3" />}
-                  </div>
+                  </div>}
                   <div class="layout395_card-content peak-card-grid__content">
                     <div class="layout395_card-content-top">
+                      {card.icon && <div class="margin-bottom margin-small"><PeakIcon name={card.icon} /></div>}
                       {card.tagline && <div class="margin-bottom margin-xxsmall"><div class="tag is-text">{card.tagline}</div></div>}
                       <div class="margin-bottom margin-xsmall"><h3 class="heading-style-h4">{card.title}</h3></div>
                       <p>{card.description}</p>
@@ -41,8 +44,17 @@ const { id, tagline, title, description, cards } = Astro.props;
               ))}
             </div>
           </div>
+          {Astro.slots.has("footer") && <div class="margin-top margin-medium"><div class="button-group is-center"><slot name="footer" /></div></div>}
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  .peak-card-grid--text .peak-card-grid__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .peak-card-grid--text .peak-card-grid__content { gap: 2rem; justify-content: flex-start; }
+  @media (max-width: 991px) {
+    .peak-card-grid--text .peak-card-grid__list { grid-template-columns: 1fr; }
+  }
+</style>
