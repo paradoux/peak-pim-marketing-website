@@ -428,8 +428,8 @@ for (const slug of featureSeoSlugs) {
   if (pageSchema?.about?.["@id"] !== "https://peak-pim.com/#software") failures.push(`${slug} is not modeled as a page about Peak PIM`);
   if (softwareSchema?.name !== "Peak PIM") failures.push(`${slug} does not reference the canonical Peak PIM application`);
   if (softwareSchema?.applicationCategory !== "BusinessApplication" || softwareSchema?.operatingSystem !== "Web") failures.push(`${slug} application schema is incomplete`);
-  if (softwareSchema?.offers?.map((offer) => offer.name).join(",") !== "Basic,Core,Elite,Enterprise") failures.push(`${slug} application schema is missing current plans`);
-  if (softwareSchema?.offers?.slice(0, 3).map((offer) => offer.price).join(",") !== "49,99,249") failures.push(`${slug} application schema has outdated public prices`);
+  if (softwareSchema?.offers?.map((offer) => offer.name).join(",") !== "Core,Elite,Enterprise") failures.push(`${slug} application schema is missing current plans`);
+  if (softwareSchema?.offers?.slice(0, 2).map((offer) => offer.price).join(",") !== "99,249") failures.push(`${slug} application schema has outdated public prices`);
   if (softwareSchema?.offers?.[3]?.price !== undefined) failures.push(`${slug} Enterprise offer must not publish a numeric price`);
   if (softwareSchema?.offers?.some((offer) => offer.availability !== "https://schema.org/InStock")) failures.push(`${slug} application schema has unavailable current offers`);
   if (schemas.filter((entry) => entry["@type"] === "SoftwareApplication").length !== 1) failures.push(`${slug} must describe exactly one software application`);
@@ -571,7 +571,7 @@ if (existsSync(rolesPermissionsFile)) {
   const faqSchema = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
     .map((match) => JSON.parse(match[1])).find((entry) => entry["@type"] === "FAQPage");
   if (faqSchema?.mainEntity?.length !== 9) failures.push("Roles and permissions FAQ schema is missing or incomplete");
-  for (const fact of ["Basic is a single-seat plan without Users &amp; Permissions", "Users &amp; Permissions is not included in Basic", "Core includes 2 seats", "Elite includes 5 seats", "Enterprise is custom", "Standard User Roles &amp; Permissions", "Advanced User Roles &amp; Permissions"]) {
+  for (const fact of ["Core includes 2 seats", "Elite includes 5 seats", "Enterprise is custom", "Standard User Roles &amp; Permissions", "Advanced User Roles &amp; Permissions"]) {
     if (!html.includes(fact.replaceAll("&", "&amp;")) && !html.includes(fact)) failures.push(`Roles and permissions page is missing current plan guidance: ${fact}`);
   }
 }
@@ -809,24 +809,17 @@ if (existsSync(pricingFile)) {
     ?.find((offer) => offer.name === planName)
     ?.additionalProperty?.find((property) => property.name === featureName)?.value;
   for (const [planName, featureName, expectedValue] of [
-    ["Basic", "Monthly updates", "2,000"],
     ["Core", "Monthly updates", "10,000"],
-    ["Basic", "Seats", "1"],
     ["Core", "Seats", "2"],
     ["Elite", "Seats", "5"],
     ["Enterprise", "Seats", "Custom"],
-    ["Basic", "Drops", "1 per month"],
-    ["Basic", "SKUs", "5,000"],
-    ["Core", "SKUs", "Unlimited, fair usage"],
+    ["Core", "SKUs", "5,000"],
     ["Elite", "SKUs", "Unlimited, fair usage"],
-    ["Basic", "Connected Shopify stores", "1"],
     ["Core", "Connected Shopify stores", "1"],
     ["Elite", "Connected Shopify stores", "2"],
     ["Enterprise", "Connected Shopify stores", "Custom"],
     ["Core", "Multi-store management", "Not included"],
     ["Elite", "Multi-store management", "Included"],
-    ["Basic", "File storage", "Unlimited, fair usage"],
-    ["Basic", "Users & permissions", "Not included"],
     ["Core", "Drops", "2 per month"],
     ["Elite", "Drops", "Unlimited"],
     ["Enterprise", "Metaobjects", "Included"],
@@ -838,12 +831,11 @@ if (existsSync(pricingFile)) {
     ["Elite", "History", "Included"],
     ["Core", "Backups", "Coming soon"],
     ["Enterprise", "Global search", "Included"],
-    ["Basic", "Inventory", "On request"],
     ["Enterprise", "CMS", "On request"],
   ]) {
     if (schemaFeatureValue(planName, featureName) !== expectedValue) failures.push(`Pricing schema has an incorrect ${planName} value for ${featureName}`);
   }
-  for (const currentPricingFact of ["Basic is $49/month or $490/year", "Core is $99/month or $990/year", "Elite is $249/month or $2,490/year", "SKUs and file storage follow fair usage"]) {
+  for (const currentPricingFact of ["Core is $99/month or $990/year", "Elite is $249/month or $2,490/year", "SKUs and file storage follow fair usage"]) {
     if (!html.includes(currentPricingFact)) failures.push(`Pricing crawler content is missing: ${currentPricingFact}`);
   }
   for (const category of ["Plan limits", "Connect", "Operate", "Manage &amp; Enrich", "Add-ons", "Support"]) {
@@ -1089,7 +1081,7 @@ if (existsSync(bulkEditBuiltFile) && readFileSync(bulkEditBuiltFile, "utf8").inc
 }
 
 const llms = readFileSync(resolve(projectRoot, "public/llms.txt"), "utf8");
-for (const pricingFact of ["Basic: $49 per month or $490 per year", "Core: $99 per month or $990 per year", "10,000 monthly updates", "Elite: $249 per month or $2,490 per year", "unlimited monthly updates", "unlimited SKUs and file storage under fair usage", "Enterprise: Custom pricing", "10-day free trial"]) {
+for (const pricingFact of ["Core: $99 per month or $990 per year", "10,000 monthly updates", "Elite: $249 per month or $2,490 per year", "unlimited monthly updates", "Elite includes unlimited SKUs under fair usage", "Core and Elite include unlimited file storage under fair usage", "Enterprise: Custom pricing", "10-day free trial"]) {
   if (!llms.includes(pricingFact)) failures.push(`llms.txt is missing current pricing guidance: ${pricingFact}`);
 }
 
@@ -1105,10 +1097,10 @@ if (existsSync(multiStoreFile)) {
   }
   if (planCount !== 3) failures.push(`Multi-store pricing teaser has ${planCount} plans; expected three after removing Scale`);
   if (!html.includes("Scale as you grow.")) failures.push("Generic non-plan Scale copy was removed from the multi-store page");
-  for (const currentPlanContent of ["Unlimited SKUs (fair usage)", "Unlimited file storage (fair usage)", "Up to 2 Shopify stores", "Custom Shopify stores", "Custom file storage", "Dedicated support", "Basic and Core include 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.", "1 Shopify store"]) {
+  for (const currentPlanContent of ["Unlimited SKUs (fair usage)", "Unlimited file storage (fair usage)", "Up to 2 Shopify stores", "Custom Shopify stores", "Custom file storage", "Dedicated support", "Core includes 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.", "1 Shopify store"]) {
     if (!html.includes(currentPlanContent)) failures.push(`Multi-store page is missing current pricing content: ${currentPlanContent}`);
   }
-  for (const outdatedPlanContent of ["Up to 1,500 SKUs", "Up to 5,000 SKUs", "20 GB media library", "100GB files", "Up to 5 Shopify stores", "150 GB media library", "500GB files", "Unlimited Shopify stores", "unlimited on Enterprise", "Custom media storage", ">Metaobjects</div>", ">Translations</div>", "Account manager", "Elite supports 5"]) {
+  for (const outdatedPlanContent of ["Up to 1,500 SKUs", "20 GB media library", "100GB files", "Up to 5 Shopify stores", "150 GB media library", "500GB files", "Unlimited Shopify stores", "unlimited on Enterprise", "Custom media storage", ">Metaobjects</div>", ">Translations</div>", "Account manager", "Elite supports 5"]) {
     if (html.includes(outdatedPlanContent)) failures.push(`Multi-store page still contains outdated pricing content: ${outdatedPlanContent}`);
   }
 }

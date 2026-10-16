@@ -259,10 +259,10 @@ function applyContentCorrections(html: string, page: PageDefinition) {
   const enterprisePlanCardStart = '<div class="pricing29_plan"><div class="pricing29_content-top"><div class="margin-bottom margin-xxsmall"><div class="pricing29_content-title"><div class="heading-style-h6">Enterprise</div>';
   const offerListPattern = /"offers": \[[\s\S]*?\n    \],\n    "featureList":/;
   const scalePlanFaqAnswer = "It depends on your plan. Core supports 2 stores, Elite supports 5, Scale supports 8, and Enterprise supports unlimited stores. You can connect additional stores at any time from your Peak PIM dashboard.";
-  const currentPlanFaqAnswer = "Basic and Core include 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.";
+  const currentPlanFaqAnswer = "Core includes 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.";
   const outdatedMultiStorePlanAnswer = "Yes. Every Peak PIM plan supports multiple stores. The number of stores you can connect scales with your plan: from 2 stores on Core up to unlimited on Enterprise.";
   const outdatedVisibleMultiStorePlanAnswer = "Yes. Every Peak PIM plan supports multiple stores. The number of stores you can connect scales with your plan. From 2 stores on Core up to unlimited on Enterprise.";
-  const currentMultiStorePlanAnswer = "Basic and Core include 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.";
+  const currentMultiStorePlanAnswer = "Core includes 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.";
   const scalePlanCardIndex = html.indexOf(scalePlanCardStart);
   const enterprisePlanCardIndex = html.indexOf(enterprisePlanCardStart, scalePlanCardIndex);
 
@@ -288,8 +288,8 @@ function applyContentCorrections(html: string, page: PageDefinition) {
     .replaceAll(outdatedMultiStorePlanAnswer, currentMultiStorePlanAnswer)
     .replaceAll(outdatedVisibleMultiStorePlanAnswer, currentMultiStorePlanAnswer)
     .replace('"description": "Unlimited Shopify stores, Custom SKU limits, Custom media storage, Metaobjects, Translations, Account manager"', '"description": "Custom Shopify stores, Custom SKU limits, Custom file storage, Dedicated support"')
-    .replaceAll("Up to 1,500 SKUs", "Unlimited SKUs (fair usage)")
     .replaceAll("Up to 5,000 SKUs", "Unlimited SKUs (fair usage)")
+    .replaceAll("Up to 1,500 SKUs", "Up to 5,000 SKUs")
     .replaceAll("20 GB media library", "Unlimited file storage (fair usage)")
     .replaceAll("Up to 2 Shopify stores", "1 Shopify store")
     .replaceAll("Up to 5 Shopify stores", "Up to 2 Shopify stores")
@@ -315,17 +315,9 @@ function updateComparisonEntryPricing(html: string, page: PageDefinition) {
   if (!comparisonSlugs.has(page.slug)) return html;
 
   return html
-    .replaceAll("($99/mo vs", "($49/mo vs")
-    .replaceAll("Peak PIM starts at $99 per month ($1,188 per year)", "Peak PIM starts at $49 per month ($490 per year when billed annually)")
-    .replaceAll("Peak PIM starts at $99 per month", "Peak PIM starts at $49 per month")
-    .replaceAll("Shopify-native PIMs connect in minutes for around $99 a month", "Shopify-native PIMs connect in minutes from $49 a month")
-    .replaceAll("Shopify-native PIMs like Peak PIM start at $99 per month", "Shopify-native PIMs like Peak PIM start at $49 per month")
-    .replaceAll('<div class="callout-row peak">$99/mo</div>', '<div class="callout-row peak">$49/mo</div>')
-    .replaceAll('<div>Starting price</div><div class="heading-style-h6">$99/mo</div>', '<div>Starting price</div><div class="heading-style-h6">$49/mo</div>')
-    .replaceAll('<div class="heading-style-h6">Core</div><div class="margin-vertical margin-xsmall"><div class="pricing50_top-row-price-wrapper"><div class="heading-style-h1">$99</div>', '<div class="heading-style-h6">Basic</div><div class="margin-vertical margin-xsmall"><div class="pricing50_top-row-price-wrapper"><div class="heading-style-h1">$49</div>')
-    .replaceAll("Peak PIM's entry tier for Shopify catalogs", "Peak PIM's entry plan for Shopify catalogs")
-    .replaceAll('<div class="pricing50_row-content is-first"><div>$99</div></div>', '<div class="pricing50_row-content is-first"><div>$49</div></div>')
-    .replaceAll('<div class="ppim-stack-peak-cost">$99</div>', '<div class="ppim-stack-peak-cost">$49</div>');
+    .replaceAll("Peak PIM starts at $99 per month ($1,188 per year)", "Peak PIM starts at $99 per month ($990 per year when billed annually)")
+    .replaceAll("Shopify-native PIMs connect in minutes for around $99 a month", "Shopify-native PIMs connect in minutes from $99 a month")
+    .replaceAll("Peak PIM's entry tier for Shopify catalogs", "Peak PIM's entry plan for Shopify catalogs");
 }
 
 function correctMismatchedComparisonSchema(html: string, page: PageDefinition) {
@@ -400,11 +392,11 @@ function improveMissionPage(html: string) {
     .replace(missionSectionPattern, missionSection);
 }
 
-function basicPlanValue(label: string) {
+function corePlanValue(label: string) {
   const feature = pricingFeatureGroups.flatMap((group) => group.features).find((candidate) => candidate.label === label);
 
   if (!feature) {
-    throw new Error(`The Basic plan is missing its ${label} pricing value.`);
+    throw new Error(`The Core plan is missing its ${label} pricing value.`);
   }
 
   return pricingSchemaValue(feature.values[0]);
@@ -430,10 +422,10 @@ function improveHomepagePricingPreview(html: string) {
     "Priority support",
   ];
   const currentPlanLabels = ["Start from", "Included in the $99&nbsp;plan"];
-  const basicFeatureLabels = [
+  const coreFeatureLabels = [
     "1-click setup",
-    `${basicPlanValue("Connected Shopify stores")} connected Shopify store`,
-    `Up to ${basicPlanValue("SKUs")} SKUs`,
+    `${corePlanValue("Connected Shopify stores")} connected Shopify store`,
+    `Up to ${corePlanValue("SKUs")} SKUs`,
     "Unlimited file storage (fair usage)",
     "Bulk edit",
     "Import & export",
@@ -448,36 +440,34 @@ function improveHomepagePricingPreview(html: string) {
     || !currentFeatureLabels.every((label) => pricingSection.includes(`>${label}</div>`))
     || !currentPlanLabels.every((label) => pricingSection.includes(`>${label}</div>`))
   ) {
-    throw new Error("The homepage pricing preview could not be aligned with the Basic plan.");
+    throw new Error("The homepage pricing preview could not be aligned with the Core plan.");
   }
 
   let updatedPricingSection = pricingSection
-    .replace("starting at $99/mo.", "starting at $49/mo.")
-    .replace(">Start from</div>", ">Basic plan</div>")
-    .replace('<div class="heading-style-h1">$99</div>', '<div class="heading-style-h1">$49</div>')
-    .replace(">Included in the $99&nbsp;plan</div>", ">Included in Basic</div>")
+    .replace(">Start from</div>", ">Core plan</div>")
+    .replace(">Included in the $99&nbsp;plan</div>", ">Included in Core</div>")
     .replace(incorrectCta, correctedCta);
 
   updatedPricingSection = updatedPricingSection.replace(
     /<div class="pricing2_feature-list">[\s\S]*?(?=<\/div><div class="margin-top margin-medium">)/,
-    `<div class="pricing2_feature-list">${basicFeatureLabels.map(renderHomepagePricingFeature).join("")}`,
+    `<div class="pricing2_feature-list">${coreFeatureLabels.map(renderHomepagePricingFeature).join("")}`,
   );
 
   const withVisiblePricing = html
     .replace(pricingSectionPattern, updatedPricingSection)
     .replaceAll(
       "Your plan determines store limits. The Starter plan supports up to 5 stores. Higher tiers unlock more stores and advanced features. You can upgrade anytime as your business grows.",
-      "Basic and Core include 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.",
+      "Core includes 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.",
     )
     .replaceAll(
       "We're currently in beta, and beta testers get special pricing. Join the beta to access Peak PIM at a reduced rate while we refine the product.",
       "Yes. Every plan comes with a 10-day free trial. No credit card is required to get started.",
     );
 
-  return improveHomepagePricingStructuredData(withVisiblePricing, basicFeatureLabels.map((label) => label.replace("&amp;", "&")));
+  return improveHomepagePricingStructuredData(withVisiblePricing, coreFeatureLabels.map((label) => label.replace("&amp;", "&")));
 }
 
-function improveHomepagePricingStructuredData(html: string, basicFeatureLabels: string[]) {
+function improveHomepagePricingStructuredData(html: string, coreFeatureLabels: string[]) {
   const schemaPattern = /(<script\b[^>]*type=["']application\/ld\+json["'][^>]*>)([\s\S]*?)(<\/script>)/i;
   const match = html.match(schemaPattern);
 
@@ -505,10 +495,10 @@ function improveHomepagePricingStructuredData(html: string, basicFeatureLabels: 
 
   schema.url = "https://peak-pim.com/";
   schema.offers.availability = "https://schema.org/InStock";
-  schema.offers.name = "Basic";
-  schema.offers.price = "49";
-  if (schema.offers.priceSpecification) schema.offers.priceSpecification.price = "49";
-  schema.featureList = basicFeatureLabels;
+  schema.offers.name = pricingPlans[0].name;
+  schema.offers.price = planPriceNumber(pricingPlans[0].monthlyPrice);
+  if (schema.offers.priceSpecification) schema.offers.priceSpecification.price = planPriceNumber(pricingPlans[0].monthlyPrice);
+  schema.featureList = coreFeatureLabels;
 
   const storeQuestion = schema.mainEntity.mainEntity.find((question) => question.name === "How many stores can I manage?");
   const trialQuestion = schema.mainEntity.mainEntity.find((question) => question.name === "Is there a free trial?");
@@ -517,7 +507,7 @@ function improveHomepagePricingStructuredData(html: string, basicFeatureLabels: 
     throw new Error("The homepage pricing FAQ schema could not be aligned with the current plans.");
   }
 
-  storeQuestion.acceptedAnswer.text = "Basic and Core include 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.";
+  storeQuestion.acceptedAnswer.text = "Core includes 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.";
   trialQuestion.acceptedAnswer.text = "Yes. Every plan comes with a 10-day free trial. No credit card is required to get started.";
 
   return html.replace(schemaPattern, `${match[1]}\n${JSON.stringify(schema, null, 2)}\n${match[3]}`);
@@ -562,12 +552,11 @@ function improvePricingCrawlerContent(html: string) {
     ['Can I change plans later?', 'Can I switch plans later?'],
     ['Yes. You can upgrade or downgrade your plan at any time. Changes take effect on your next billing cycle.', 'Yes. You can upgrade or downgrade at any time. Changes take effect immediately and billing is adjusted accordingly.'],
     ['How does multi-store pricing work?', 'How many stores can I connect?'],
-    ["All plans include multi-store support. Your plan's SKU limit applies to your total catalog across all connected stores.", 'Basic and Core include 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.'],
+    ["All plans include multi-store support. Your plan's SKU limit applies to your total catalog across all connected stores.", 'Core includes 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.'],
     ['Enterprise is custom-priced for large catalogs with advanced needs. It includes free setup and full onboarding for your team, catalog, stores, and workflows.', 'Enterprise plans include custom store, seat, update, SKU, and file limits, plus dedicated support and onboarding. Pricing is tailored to your business.'],
-    ['Core supports 2 stores and Elite supports 3. Need more? Contact us about an Enterprise plan.', 'Basic and Core include 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.'],
-    ['Yes. Paying annually saves you 2 months compared to monthly billing. Core is $990/year and Elite is $2,490/year. Enterprise billing is tailored to your agreement.', 'Yes. Paying annually saves you 2 months compared to monthly billing. Basic is $490/year, Core is $990/year, and Elite is $2,490/year. Enterprise billing is tailored to your agreement.'],
+    ['Core supports 2 stores and Elite supports 3. Need more? Contact us about an Enterprise plan.', 'Core includes 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.'],
     ['What happens if I exceed my SKU limit?', 'Are SKUs and file storage capped?'],
-    ["We'll let you know before you hit the limit. You can upgrade your plan at any time to unlock higher SKU limits without losing any of your data.", 'Basic includes up to 5,000 SKUs. Upgrade to Core or Elite for unlimited SKUs under fair usage. File storage follows fair usage on all self-serve plans.'],
+    ["We'll let you know before you hit the limit. You can upgrade your plan at any time to unlock higher SKU limits without losing any of your data.", 'Core includes up to 5,000 SKUs. Upgrade to Elite for unlimited SKUs under fair usage. File storage follows fair usage on all self-serve plans.'],
     ['Enterprise plans include custom SKU limits, unlimited stores, dedicated support, and onboarding. Pricing is tailored to your business. Contact us to discuss.', 'Enterprise plans include custom store, seat, update, SKU, and file limits, plus dedicated support and onboarding. Pricing is tailored to your business.'],
   ];
 
@@ -582,8 +571,8 @@ function improvePricingCrawlerContent(html: string) {
   }
 
   const withCurrentMetadata = corrected
-    .replaceAll("Peak PIM pricing starts at $99/mo with free setup, a 10-day trial, and 2 months free annually. Core, Elite, and Enterprise plans for Shopify teams.", "Peak PIM pricing starts at $49/mo with free setup, a 10-day trial, and 2 months free annually. Compare Basic, Core, Elite, and Enterprise plans.")
-    .replaceAll("Peak PIM pricing starts at $99/mo with free setup, a 10-day trial, and 2 months free annually. Enterprise includes full onboarding.", "Peak PIM pricing starts at $49/mo with free setup, a 10-day trial, and 2 months free annually. Compare Basic, Core, Elite, and Enterprise plans.")
+    .replaceAll("Peak PIM pricing starts at $99/mo with free setup, a 10-day trial, and 2 months free annually. Core, Elite, and Enterprise plans for Shopify teams.", "Peak PIM pricing starts at $99/mo with free setup, a 10-day trial, and 2 months free annually. Compare Core, Elite, and Enterprise plans.")
+    .replaceAll("Peak PIM pricing starts at $99/mo with free setup, a 10-day trial, and 2 months free annually. Enterprise includes full onboarding.", "Peak PIM pricing starts at $99/mo with free setup, a 10-day trial, and 2 months free annually. Compare Core, Elite, and Enterprise plans.")
     .replaceAll("https://schema.org/PreOrder", "https://schema.org/InStock");
 
   return replacePricingFeatureMatrix(
@@ -623,7 +612,7 @@ function pricingOfferDescription(plan: PricingPlan) {
     return "Enterprise is custom-priced with custom store, seat, update, SKU, and file limits, plus dedicated support and onboarding.";
   }
 
-  return `${plan.name} is ${plan.monthlyPrice}/month or ${plan.annualPrice}/year and includes ${storeCount} connected Shopify ${storeCount === "1" ? "store" : "stores"} and ${updates} monthly updates. ${plan.name === "Basic" ? "Basic includes up to 5,000 SKUs. File storage follows fair usage." : "SKUs and file storage follow fair usage."}`;
+  return `${plan.name} is ${plan.monthlyPrice}/month or ${plan.annualPrice}/year and includes ${storeCount} connected Shopify ${storeCount === "1" ? "store" : "stores"} and ${updates} monthly updates. ${plan.name === "Core" ? "Core includes up to 5,000 SKUs. File storage follows fair usage." : "SKUs and file storage follow fair usage."}`;
 }
 
 function enrichPricingStructuredData(html: string) {
@@ -673,7 +662,7 @@ function enrichPricingStructuredData(html: string) {
     additionalProperty: pricingPlanProperties(planIndex),
   }));
 
-  schema.description = "Peak PIM pricing starts at $49 per month with four plans, free setup, and a 10-day free trial.";
+  schema.description = "Peak PIM pricing starts at $99 per month with three plans, free setup, and a 10-day free trial.";
 
   const faq = (schema as { mainEntity?: { mainEntity?: Array<{ name?: string; acceptedAnswer?: { text?: string } }> } }).mainEntity?.mainEntity;
   if (faq) {
@@ -686,7 +675,7 @@ function enrichPricingStructuredData(html: string) {
       skuQuestion.acceptedAnswer.text = "An update is one saved record in Peak PIM or one synchronization to a connected store. Bulk actions count each affected record, and saving then publishing counts as two updates.";
     }
     if (storeQuestion?.acceptedAnswer) {
-      storeQuestion.acceptedAnswer.text = "Basic and Core include 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.";
+      storeQuestion.acceptedAnswer.text = "Core includes 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.";
     }
     if (enterpriseQuestion?.acceptedAnswer) {
       enterpriseQuestion.acceptedAnswer.text = "Enterprise includes custom store, seat, update, SKU, and file limits, plus dedicated support and onboarding.";
@@ -718,7 +707,7 @@ function replacePricingPlanCards(html: string) {
   const cards = pricingPlans.map(renderPricingPlanCard).join("");
   const section = `<section class="section_layout401 color-scheme-1"><div class="padding-global"><div class="container-large"><div class="padding-section-large"><div class="pricing-billing-toggle-wrap"><div class="pricing-billing-toggle" role="group" aria-label="Billing frequency"><button type="button" class="pricing-billing-option is-active" data-billing-toggle="monthly" aria-pressed="true">Monthly</button><button type="button" class="pricing-billing-option" data-billing-toggle="annual" aria-pressed="false">Annual <span>2 months free</span></button></div></div><div class="layout401_component"><div class="w-layout-grid layout401_grid-list"><div class="w-layout-grid layout401_row">${cards}</div></div></div></div></div></div></section>`;
 
-  if (!pattern.test(html)) throw new Error("The pricing summary cards could not be rebuilt for four plans.");
+  if (!pattern.test(html)) throw new Error("The pricing summary cards could not be rebuilt for three plans.");
   return html.replace(pattern, section);
 }
 
@@ -730,7 +719,7 @@ function renderPricingPlanHeader(plan: PricingPlan) {
   const billingMonthly = isEnterprise ? "Built around your stores and workflows." : "Billed monthly, cancel anytime.";
   const billingAnnual = isEnterprise ? "Built around your stores and workflows." : "Billed annually, 2 months free.";
 
-  return `<div class="pricing54_top-row-content${plan.name === "Basic" ? " is-first" : ""}"><div class="pricing54_top-row-wrapper"><div class="heading-style-h6">${plan.name}</div><div class="margin-vertical margin-xsmall"><div class="pricing54_top-row-price-wrapper"><div class="heading-style-h2" data-pricing-price data-monthly="${plan.monthlyPrice}" data-annual="${plan.annualPrice}">${plan.monthlyPrice}</div><div class="text-weight-bold" data-pricing-unit data-monthly="${unitMonthly}" data-annual="${unitAnnual}">${unitMonthly}</div></div></div><div data-pricing-billing data-monthly="${billingMonthly}" data-annual="${billingAnnual}">${billingMonthly}</div></div><div class="margin-top margin-medium"><a href="${plan.ctaHref}" class="button hide-mobile-landscape is-small w-button"${externalAttributes}>${plan.ctaLabel}</a></div></div>`;
+  return `<div class="pricing54_top-row-content${plan.name === "Core" ? " is-first" : ""}"><div class="pricing54_top-row-wrapper"><div class="heading-style-h6">${plan.name}</div><div class="margin-vertical margin-xsmall"><div class="pricing54_top-row-price-wrapper"><div class="heading-style-h2" data-pricing-price data-monthly="${plan.monthlyPrice}" data-annual="${plan.annualPrice}">${plan.monthlyPrice}</div><div class="text-weight-bold" data-pricing-unit data-monthly="${unitMonthly}" data-annual="${unitAnnual}">${unitMonthly}</div></div></div><div data-pricing-billing data-monthly="${billingMonthly}" data-annual="${billingAnnual}">${billingMonthly}</div></div><div class="margin-top margin-medium"><a href="${plan.ctaHref}" class="button hide-mobile-landscape is-small w-button"${externalAttributes}>${plan.ctaLabel}</a></div></div>`;
 }
 
 function replacePricingPlanHeaders(html: string) {
@@ -739,7 +728,7 @@ function replacePricingPlanHeaders(html: string) {
   const start = html.indexOf(startMarker);
   const end = html.indexOf(endMarker, start);
 
-  if (start === -1 || end === -1) throw new Error("The pricing comparison header could not be rebuilt for four plans.");
+  if (start === -1 || end === -1) throw new Error("The pricing comparison header could not be rebuilt for three plans.");
 
   const header = `${startMarker}<div class="pricing54_empty-space"></div>${pricingPlans.map(renderPricingPlanHeader).join("")}</div>`;
   return html.slice(0, start) + header + html.slice(end);

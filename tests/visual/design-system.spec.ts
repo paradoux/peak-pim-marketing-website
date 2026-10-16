@@ -338,24 +338,26 @@ test("pricing · SKU, seat, and store limits agree across cards, matrix, and bil
   for (const width of [1440, 768, 375]) {
     await prepare(page, "/pricing/", width, 900);
     const cards = page.locator(".pricing-plan-card");
+    await expect(cards).toHaveCount(3);
+    await expect(cards.locator("h3")).toHaveText(["Core", "Elite", "Enterprise"]);
     await expect(cards.locator(".pricing-plan-meta")).toHaveText([
-      "1 store5,000 SKUs1 Drop/mo",
-      "1 storeUnlimited SKUs2 Drops/mo",
+      "1 store5,000 SKUs2 Drops/mo",
       "2 storesUnlimited SKUsUnlimited Drops",
       "3+ storesComplex dataDedicated support",
     ]);
     const row = (label: string) => page.locator(".pricing54_row").filter({
       has: page.locator(".pricing-feature-name > span:first-child", { hasText: new RegExp(`^${label}$`) }),
     });
-    await expect(row("Connected Shopify stores").locator(".pricing54_row-content")).toHaveText(["1", "1", "2", "Custom"]);
-    await expect(row("Seats").locator(".pricing54_row-content")).toHaveText(["1", "2", "5", "Custom"]);
-    await expect(row("SKUs").locator(".pricing54_row-content")).toHaveText(["5,000", "UnlimitedFair usage", "UnlimitedFair usage", "Custom"]);
-    await expect(row("Multi-store management").locator(".pricing-feature-unavailable")).toHaveCount(2);
+    await expect(row("Connected Shopify stores").locator(".pricing54_row-content")).toHaveText(["1", "2", "Custom"]);
+    await expect(row("Monthly updates").locator(".pricing54_row-content")).toHaveText(["10,000", "Unlimited", "Custom"]);
+    await expect(row("Seats").locator(".pricing54_row-content")).toHaveText(["2", "5", "Custom"]);
+    await expect(row("SKUs").locator(".pricing54_row-content")).toHaveText(["5,000", "UnlimitedFair usage", "Custom"]);
+    await expect(row("Multi-store management").locator(".pricing-feature-unavailable")).toHaveCount(1);
     await expect(row("Multi-store management").locator(".pricing-feature-check")).toHaveCount(2);
     await page.locator('[data-billing-toggle="annual"]').click();
-    await expect(cards.locator(".pricing-plan-price")).toHaveText(["$490/yr", "$990/yr", "$2,490/yr", "Custom"]);
+    await expect(cards.locator(".pricing-plan-price")).toHaveText(["$990/yr", "$2,490/yr", "Custom"]);
     await page.locator('[data-billing-toggle="monthly"]').click();
-    await expect(cards.locator(".pricing-plan-price")).toHaveText(["$49/mo", "$99/mo", "$249/mo", "Custom"]);
+    await expect(cards.locator(".pricing-plan-price")).toHaveText(["$99/mo", "$249/mo", "Custom"]);
     expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
   }
 });
@@ -424,7 +426,7 @@ test("pricing · categorized feature matrix and accessible information controls"
       "Markets & catalogs",
     ]);
     await expect(matrix.locator(".pricing-feature-name .feature-status-badge")).toHaveText(["New", "New", "New", "New", "New", "New", "New"]);
-    await expect(matrix.locator(".pricing54_top-row-content .heading-style-h6")).toHaveText(["Basic", "Core", "Elite", "Enterprise"]);
+    await expect(matrix.locator(".pricing54_top-row-content .heading-style-h6")).toHaveText(["Core", "Elite", "Enterprise"]);
     const socialProof = page.locator(".peak-social-proof-stats");
     await expect(socialProof).toContainText("70+");
     await expect(socialProof).toContainText("240+");
@@ -903,7 +905,7 @@ test("multi-store · retired Scale plan is absent at every breakpoint", async ({
     await expect(plans).toHaveCount(3);
     await expect(plans.locator(".heading-style-h6")).toHaveText(["Core", "Elite", "Enterprise"]);
     await expect(plans.nth(0)).toContainText("$99/mo");
-    await expect(plans.nth(0)).toContainText("Unlimited SKUs (fair usage)");
+    await expect(plans.nth(0)).toContainText("Up to 5,000 SKUs");
     await expect(plans.nth(0)).toContainText("1 Shopify store");
     await expect(plans.nth(0)).toContainText("Unlimited file storage (fair usage)");
     await expect(plans.nth(1)).toContainText("$249/mo");
@@ -918,7 +920,7 @@ test("multi-store · retired Scale plan is absent at every breakpoint", async ({
     await expect(plans.nth(2)).not.toContainText("Translations");
     await expect(pricing).not.toContainText("$499");
     expect((await plans.allTextContents()).join(" ")).not.toMatch(/\bScale\b/);
-    await expect(page.locator(".section_faq1")).toContainText("Basic and Core include 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.");
+    await expect(page.locator(".section_faq1")).toContainText("Core includes 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.");
     await expect(page.locator(".section_faq1")).not.toContainText("Scale supports 8");
     await expect(page.locator(".section_faq1")).not.toContainText("unlimited on Enterprise");
     expect(await page.locator('script[type="application/ld+json"]').evaluateAll((scripts) =>

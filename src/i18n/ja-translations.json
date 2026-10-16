@@ -4378,5 +4378,18 @@
   "Your best option": "あなたに最適な選択肢",
   "Compare Peak with the two most common alternatives: an enterprise PIM or a patchwork of apps. See what changes for your team.": "Peakを、代表的な2つの選択肢であるエンタープライズPIMや複数アプリの組み合わせと比較しましょう。チームの業務がどう変わるかをご覧ください。",
   "5 more apps": "さらに5つのアプリ",
-  "Manage data across all your stores & channels from a single dashboard.": "すべてのストアとチャネルのデータを、ひとつのダッシュボードで管理。"
+  "Manage data across all your stores & channels from a single dashboard.": "すべてのストアとチャネルのデータを、ひとつのダッシュボードで管理。",
+  "1 store on Core": "Core に 1 ストア",
+  "5,000 SKUs on Core; unlimited on Elite under fair usage": "Core で 5,000 SKUs;公正な使用の下で Elite で無制限",
+  "Core includes 1 Shopify store, Elite includes 2, and more than 2 stores require an Enterprise plan.": "Core には Shopify ストアが 1 つ含まれ、Elite には 2 つ含まれます。3 つ以上のストアには Enterprise プランが必要です。",
+  "Core includes 1 store and 10,000 monthly updates": "Core には 1 つのストアと 10,000 の毎月の更新が含まれます",
+  "Core includes 2 seats, Elite includes 5 seats, and Enterprise uses a custom seat limit. The pricing page is the source of truth for current plan limits.": "Core には 2 シートが含まれ、Elite には 5 シートが含まれ、Enterprise にはカスタム シート制限が使用されます。現在のプランの制限に関する正確な情報源は、価格ページです。",
+  "Core includes up to 5,000 SKUs. Elite includes unlimited SKUs under fair usage.": "Core には、最大 5,000 の SKUs が含まれます。 Elite には、公正な使用のもとで無制限の SKUs が含まれます。",
+  "Core includes up to 5,000 SKUs. Upgrade to Elite for unlimited SKUs under fair usage. File storage follows fair usage on all self-serve plans.": "Core には、最大 5,000 の SKUs が含まれます。 Elite にアップグレードすると、公正な使用の下で無制限の SKUs が利用できます。ファイル ストレージは、すべてのセルフサービス プランで公正な使用に従っています。",
+  "Core is $99/month or $990/year and includes 1 connected Shopify store and 10,000 monthly updates. Core includes up to 5,000 SKUs. File storage follows fair usage.": "Core は月額 $99 または年額 $990 で、接続された Shopify ストア 1 つと毎月 10,000 件のアップデートが含まれます。 Core には、最大 5,000 の SKUs が含まれます。ファイル ストレージは公正な使用に従っています。",
+  "Enterprise PIMs cost $25,000 a year or more and take three to nine months to implement. Shopify-native PIMs connect in minutes from $99 a month. The right choice depends on your catalog size, your team, and where you actually sell.": "Enterprise PIM の費用は年間 25,000 ドル以上で、実装には 3 ～ 9 か月かかります。 Shopify ネイティブの PIM は、月額 99 ドルから数分で接続できます。正しい選択は、カタログの規模、チーム、実際に販売する場所によって異なります。",
+  "Enterprise PIMs cost $25,000 a year or more and take three to nine months to implement. Shopify-native PIMs connect in minutes from $99 a month. The right choice depends on your catalog size, your team, and where you actually sell. Here is the complete breakdown.": "Enterprise PIM の費用は年間 25,000 ドル以上で、実装には 3 ～ 9 か月かかります。 Shopify ネイティブの PIM は、月額 99 ドルから数分で接続できます。正しい選択は、カタログの規模、チーム、実際に販売する場所によって異なります。完全な内訳は次のとおりです。",
+  "Peak PIM pricing starts at $99 per month with three plans, free setup, and a 10-day free trial.": "Peak PIM の価格は月額 99 ドルから始まり、3 つのプラン、無料セットアップ、10 日間の無料トライアルが含まれます。",
+  "Peak PIM pricing starts at $99/mo with free setup, a 10-day trial, and 2 months free annually. Compare Core, Elite, and Enterprise plans.": "Peak PIM の価格は月額 99 ドルから始まり、無料セットアップ、10 日間の試用期間、年間 2 か月間無料です。 Core、Elite、および Enterprise プランを比較します。",
+  "Yes, by a wide margin. Akeneo Enterprise typically starts around $25,000 to $45,000 per year and scales up from there based on SKU count, channels, and integrations. Peak PIM starts at $99 per month ($990 per year when billed annually) with no setup fees. The gap reflects different markets. Akeneo serves global enterprises across dozens of channels. Peak PIM serves Shopify-first brands.": "はい、大差でです。 Akeneo Enterprise は通常、年間約 25,000 ドルから 45,000 ドルから始まり、そこから SKU の数、チャネル、統合に基づいてスケールアップします。 Peak PIM は月額 99 ドル (毎年請求の場合は年間 990 ドル) から始まり、セットアップ料金はかかりません。このギャップは市場の違いを反映しています。 Akeneo は、数十のチャネルにわたってグローバル企業にサービスを提供しています。 Peak PIM は、Shopify の最初のブランドを提供します。"
 }

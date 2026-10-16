@@ -85,24 +85,17 @@ if (!existsSync(pricingFile)) {
     ?.additionalProperty?.find((property) => property.name === featureName)?.value;
 
   for (const [planName, featureName, expectedValue] of [
-    ["Basic", "Monthly updates", "2,000"],
     ["Core", "Monthly updates", "10,000"],
-    ["Basic", "Seats", "1"],
     ["Core", "Seats", "2"],
     ["Elite", "Seats", "5"],
     ["Enterprise", "Seats", "Custom"],
-    ["Basic", "Drops", "1 per month"],
-    ["Basic", "SKUs", "5,000"],
-    ["Core", "SKUs", "Unlimited, fair usage"],
+    ["Core", "SKUs", "5,000"],
     ["Elite", "SKUs", "Unlimited, fair usage"],
-    ["Basic", "Connected Shopify stores", "1"],
     ["Core", "Connected Shopify stores", "1"],
     ["Elite", "Connected Shopify stores", "2"],
     ["Enterprise", "Connected Shopify stores", "Custom"],
     ["Core", "Multi-store management", "Not included"],
     ["Elite", "Multi-store management", "Included"],
-    ["Basic", "File storage", "Unlimited, fair usage"],
-    ["Basic", "Users & permissions", "Not included"],
     ["Core", "Drops", "2 per month"],
     ["Elite", "Drops", "Unlimited"],
     ["Enterprise", "Translations", "Included"],
@@ -114,14 +107,12 @@ if (!existsSync(pricingFile)) {
     ["Elite", "History", "Included"],
     ["Core", "Backups", "Coming soon"],
     ["Enterprise", "Global search", "Included"],
-    ["Basic", "Inventory", "On request"],
     ["Enterprise", "CMS", "On request"],
   ]) {
     if (schemaFeatureValue(planName, featureName) !== expectedValue) failures.push(`Pricing schema has an incorrect ${planName} value for ${featureName}`);
   }
 
   for (const fact of [
-    "Basic is $49/month or $490/year",
     "Core is $99/month or $990/year",
     "Elite is $249/month or $2,490/year",
     "SKUs and file storage follow fair usage",
@@ -136,11 +127,11 @@ if (existsSync(distDirectory)) {
     const html = readFileSync(file, "utf8");
 
     for (const stalePricingClaim of [
-      "Peak PIM starts at $99",
-      "around $99 a month",
-      "$99/mo vs",
-      "From $99/mo",
-      "starts with the Core plan",
+      "Peak PIM starts at $49",
+      "from $49 a month",
+      "$49/mo vs",
+      "From $49/mo",
+      "starts with the Basic plan",
       "Up to 1,500 SKUs",
       "Core includes 3 seats",
       "Elite includes 15 seats",
@@ -154,6 +145,17 @@ if (existsSync(distDirectory)) {
       "500GB files",
     ]) {
       if (html.includes(stalePricingClaim)) failures.push(`${file} contains outdated pricing guidance: ${stalePricingClaim}`);
+    }
+
+    if (html.includes('class="layout401_card pricing-plan-card')) {
+      const schema = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1] ?? "{}");
+      if (schema.offers?.map((offer) => offer.name).join(",") !== "Core,Elite,Enterprise") {
+        failures.push(`${file} must expose only Core, Elite, and Enterprise`);
+      }
+      const core = schema.offers?.[0];
+      if (core?.price !== "99" || core?.additionalProperty?.[2]?.value !== "10,000" || core?.additionalProperty?.[3]?.value !== "5,000") {
+        failures.push(`${file} must start at $99 with 10,000 monthly updates and 5,000 SKUs`);
+      }
     }
 
     for (const match of html.matchAll(/<link rel="canonical" href="([^"]+)"/g)) {
@@ -221,7 +223,7 @@ if (!existsSync(missionFile)) {
   if (html.includes("<title>Our Mission | Peak PIM</title>")) failures.push("Mission page still contains its retired metadata title");
 }
 if ((llms.match(/^## Current Pricing$/gm) ?? []).length !== 1) failures.push("llms.txt must contain exactly one Current Pricing section");
-for (const fact of ["Basic: $49 per month or $490 per year", "Core: $99 per month or $990 per year", "10,000 monthly updates", "Elite: $249 per month or $2,490 per year", "unlimited monthly updates", "unlimited SKUs and file storage under fair usage", "Enterprise: Custom pricing", "10-day free trial"]) {
+for (const fact of ["Core: $99 per month or $990 per year", "10,000 monthly updates", "Elite: $249 per month or $2,490 per year", "unlimited monthly updates", "Elite includes unlimited SKUs under fair usage", "Core and Elite include unlimited file storage under fair usage", "Enterprise: Custom pricing", "10-day free trial"]) {
   if (!llms.includes(fact)) failures.push(`llms.txt is missing current pricing guidance: ${fact}`);
 }
 

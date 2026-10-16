@@ -104,11 +104,11 @@ html {
 
 .site-main .pricing54_top-row,
 .site-main .pricing54_row {
-  grid-template-columns: minmax(14rem, 1.5fr) repeat(4, minmax(0, 1fr));
+  grid-template-columns: minmax(14rem, 1.5fr) repeat(3, minmax(0, 1fr));
 }
 
 .site-main .section_layout401 .layout401_row {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .site-main .pricing-plan-card {
@@ -1878,7 +1878,7 @@ path[style*="pp-pos-conn-line-pulse"] {
   }
 
   .site-main .pricing54_top-row {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     top: var(--site-header-height);
   }
 
@@ -1887,7 +1887,7 @@ path[style*="pp-pos-conn-line-pulse"] {
   }
 
   .site-main .pricing54_row {
-    grid-template-columns: minmax(12rem, 1.35fr) repeat(4, minmax(0, 1fr));
+    grid-template-columns: minmax(12rem, 1.35fr) repeat(3, minmax(0, 1fr));
   }
 
   .site-header .navbar10_menu[data-nav-menu-open] {
@@ -2094,7 +2094,7 @@ path[style*="pp-pos-conn-line-pulse"] {
   }
 
   .site-main .pricing54_row {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .site-main .pricing54_feature {

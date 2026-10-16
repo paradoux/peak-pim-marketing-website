@@ -57,7 +57,7 @@ for (const width of [1440, 768, 375]) {
     await expect(section.locator("details")).toHaveCount(0);
     await expect(section).not.toContainText("Plytix");
     await expect(section).not.toContainText("$25,000");
-    await expect(section.getByRole("row").filter({ hasText: "Starting price" })).toContainText("$49/mo");
+    await expect(section.getByRole("row").filter({ hasText: "Starting price" })).toContainText("$99/mo");
     expect(await section.evaluate(el => el.nextElementSibling?.classList.contains("peak-customer-story-hero"))).toBe(true);
     for (const image of await section.locator("img").all()) {
       await expect.poll(() => image.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0)).toBe(true);
